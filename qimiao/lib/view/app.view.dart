@@ -91,20 +91,40 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
           new UtilView(),
         ],
       ),
-      bottomNavigationBar: new Container(
-        decoration: new BoxDecoration(
-          border: new Border(
+      bottomNavigationBar: new BottomAppBar(
+        color: Colors.white,
+        shape: new CircularNotchedRectangle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround, //均分底部导航栏横向空间
+          children: <Widget>[
+            IconButton(icon: Icon(Icons.home),),
+            SizedBox(),
+            IconButton(icon: Icon(Icons.home),),
+          ],
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget _widgetTabBars () {
+    return  new Container(
+      decoration: new BoxDecoration(
+        border: new Border(
             top: new BorderSide(
               color: Color(0xffdddddd),
               width: 0.5,
             )
-          ),
         ),
-        child: new Material(
-          color: Colors.white,
-          elevation: 0.0,
-          child: _widgetTabBar(),
-        ),
+      ),
+      child: new Material(
+        color: Colors.white,
+        elevation: 0.0,
+        child: _widgetTabBar(),
       ),
     );
   }
