@@ -62,7 +62,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
-          'WowFlutter',
+          '7S',
           style: new TextStyle(
             fontSize: 16.0,
           ),
