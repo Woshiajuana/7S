@@ -22,7 +22,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
       'icon': Icons.public,
     },
     {
-      'text': '日历',
+      'text': '日记',
       'icon': Icons.calendar_today,
     },
     {
