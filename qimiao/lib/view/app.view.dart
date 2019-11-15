@@ -18,16 +18,16 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
   // Tab页面
   List _arrTab = [
     {
-      'text': '首页',
-      'icon': Icons.face,
+      'text': '世界',
+      'icon': Icons.public,
     },
     {
       'text': '示例',
       'icon': Icons.extension,
     },
     {
-      'text': '工具',
-      'icon': Icons.build,
+      'text': '我的',
+      'icon': Icons.face,
     },
   ];
   // Tab页的控制器，可以用来定义Tab标签和内容页的坐标
@@ -91,40 +91,20 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
           new UtilView(),
         ],
       ),
-      bottomNavigationBar: new BottomAppBar(
-        color: Colors.white,
-        shape: new CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround, //均分底部导航栏横向空间
-          children: <Widget>[
-            IconButton(icon: Icon(Icons.home),),
-            SizedBox(),
-            IconButton(icon: Icon(Icons.home),),
-          ],
+      bottomNavigationBar: new Container(
+        decoration: new BoxDecoration(
+          border: new Border(
+              top: new BorderSide(
+                color: Color(0xffdddddd),
+                width: 0.5,
+              )
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-
-  Widget _widgetTabBars () {
-    return  new Container(
-      decoration: new BoxDecoration(
-        border: new Border(
-            top: new BorderSide(
-              color: Color(0xffdddddd),
-              width: 0.5,
-            )
+        child: new Material(
+          color: Colors.white,
+          elevation: 0.0,
+          child: _widgetTabBar(),
         ),
-      ),
-      child: new Material(
-        color: Colors.white,
-        elevation: 0.0,
-        child: _widgetTabBar(),
       ),
     );
   }
