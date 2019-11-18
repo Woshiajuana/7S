@@ -65,7 +65,32 @@ class _MineViewState extends State<MineView> {
   Widget _widgetHeaderSection () {
     return new Container(
       color: Application.config.style.mainColor,
-      height: 100.0,
+      child: new Column(
+        children: <Widget>[
+          // 头像
+          new Container(
+            decoration: new BoxDecoration(
+              border: new Border.all(color: Colors.white, width: 1.0), // 边色与边宽度
+              color: Color(0xFF9E9E9E), // 底色
+              borderRadius: new BorderRadius.circular((35)), // 圆角度
+//            borderRadius: new BorderRadius.vertical(top: Radius.elliptical(20, 50))
+            ),
+            child: new ClipOval(
+              child: new FadeInImage.assetNetwork(
+                width: 70.0,
+                height: 70.0,
+                placeholder: Application.config.style.srcGoodsNull,
+                image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          // 昵称
+          new Container(
+            child: new Text('我是阿倦啊'),
+          ),
+        ],
+      ),
     );
   }
 

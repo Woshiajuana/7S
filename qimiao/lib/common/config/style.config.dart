@@ -22,7 +22,7 @@ class Style {
   }
 
   String get srcGoodsNull {
-    return 'assets/images/goods-icon-null-bg.png';
+    return 'assets/images/goods-icon-null-bg.jpg';
   }
 
   String get srcDemoUrl {

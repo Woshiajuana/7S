@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'WoosaiMall',
         theme: ThemeData(
+          primaryColor: Application.config.style.mainColor,
 //          primarySwatch: MaterialColor(),
         ),
         routes: Application.router.routes,
