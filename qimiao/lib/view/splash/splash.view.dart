@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:flukit/flukit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
         children: <Widget>[
           new Offstage(
             offstage: false,
-            child: _widgetGuideSection(),
+            child: _widgetAdvertSection(),
           )
         ],
       ),
@@ -110,8 +111,37 @@ class _SplashViewState extends State<SplashView> {
 
   // 广告页
   Widget _widgetAdvertSection () {
+
+    // 广告页面
+    Widget _widgetAdvertItem () {
+      return new InkWell(
+        onTap: () => {},
+        child: new Container(
+          alignment: Alignment.center,
+          child: new CachedNetworkImage(
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
+            imageUrl: 'https://img3.mukewang.com/szimg/5dac3c4309dbc0a812000676-360-202.png',
+            placeholder: (context, url) => _widgetSplashSection(),
+            errorWidget: (context, url, error) => _widgetSplashSection(),
+          ),
+        ),
+      );
+    }
+
+    // 跳过倒计时
+    Widget _widgetCountDownItem () {
+      return new Container();
+    }
+
     return new Container(
-      
+      child: new ListView(
+        children: <Widget>[
+          _widgetAdvertItem(),
+          _widgetCountDownItem(),
+        ],
+      ),
     );
   }
 
