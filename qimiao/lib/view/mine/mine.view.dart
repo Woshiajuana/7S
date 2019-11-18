@@ -182,24 +182,36 @@ class _MineViewState extends State<MineView> {
 
   Widget _widgetMenuItem () {
     return new Container(
+      height: 77.0,
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        border: new Border(
+          bottom: new BorderSide(width: 1.0, color: Color(0xffdddddd))
+        ),
+      ),
       child: new FlatButton(
+        padding: const EdgeInsets.all(0),
         onPressed: () => {},
         child: new Row(
           children: <Widget>[
             new Container(
+              width: 77.0,
+              height: 77.0,
+              color: Colors.blue,
               child: new Icon(Icons.add),
             ),
+            new SizedBox(width: 10.0),
             new Text(
               '左边',
               style: new TextStyle(
-                color: Colors.red,
-                fontSize: 16.0,
+                color: Color(0xff333333),
+                fontSize: 18.0,
               ),
             ),
             new Expanded(flex: 1, child: new Container()),
-            new Icon(Icons.arrow_forward_ios),
+            new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999),),
           ],
-        )
+        ),
       ),
     );
   }
