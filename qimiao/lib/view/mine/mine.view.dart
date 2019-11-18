@@ -70,9 +70,9 @@ class _MineViewState extends State<MineView> {
           // 头像
           new Container(
             decoration: new BoxDecoration(
-              border: new Border.all(color: Colors.white, width: 1.0), // 边色与边宽度
+              border: new Border.all(color: Colors.white, width: 2.0), // 边色与边宽度
               color: Color(0xFF9E9E9E), // 底色
-              borderRadius: new BorderRadius.circular((35)), // 圆角度
+              borderRadius: new BorderRadius.circular((36)), // 圆角度
 //            borderRadius: new BorderRadius.vertical(top: Radius.elliptical(20, 50))
             ),
             child: new ClipOval(
@@ -85,10 +85,52 @@ class _MineViewState extends State<MineView> {
               ),
             ),
           ),
+          new SizedBox(height: 5),
           // 昵称
           new Container(
-            child: new Text('我是阿倦啊'),
+            child: new Text(
+              '我是阿倦啊',
+              style: new TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+              ),
+            ),
           ),
+          // 基本信息
+          new Container(
+            child: new Row(
+              children: <Widget>[
+                new Container(
+                  child: new Row(
+                    children: <Widget>[
+                      new Icon(Icons.add_alert),
+                      new Text(
+                        '979703986@qq.com',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Container(
+                  child: new Row(
+                    children: <Widget>[
+                      new Icon(Icons.email, color: Colors.white),
+                      new Text(
+                        '979703986@qq.com',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
