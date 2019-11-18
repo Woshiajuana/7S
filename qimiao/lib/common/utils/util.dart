@@ -46,4 +46,7 @@ class Util {
     return new Loading();
   }
 
+  // 获取图片
+  
+
 }
