@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:qimiao/view/home/home.view.dart';
 import 'package:qimiao/view/demo/demo.view.dart';
 import 'package:qimiao/view/util/util.view.dart';
+import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/common/application.dart';
 
 class AppView extends StatefulWidget {
@@ -88,7 +89,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
         children: <Widget>[
           new HomeView(),
           new DemoView(),
-          new UtilView(),
+          new MineView(),
         ],
       ),
       bottomNavigationBar: new Container(
