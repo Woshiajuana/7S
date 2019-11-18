@@ -122,7 +122,7 @@ class _SplashViewState extends State<SplashView> {
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.fill,
-            imageUrl: 'https://img3.mukewang.com/szimg/5dac3c4309dbc0a812000676-360-202.png',
+            imageUrl: 'https://img3.mukewang.com/szimg/5d919e87087c044201400140-140-140.jpg',
             placeholder: (context, url) => _widgetSplashSection(),
             errorWidget: (context, url, error) => _widgetSplashSection(),
           ),
@@ -132,11 +132,31 @@ class _SplashViewState extends State<SplashView> {
 
     // 跳过倒计时
     Widget _widgetCountDownItem () {
-      return new Container();
+      return new Positioned(
+        top: 30.0,
+        right: 30.0,
+        child: new Container(
+          width: 80.0,
+          height: 35.0,
+          margin: const EdgeInsets.all(20.0),
+          decoration: new BoxDecoration(
+            border: new Border.all(width: 1.0, color: Colors.red),
+            borderRadius: new BorderRadius.circular(20.0),
+          ),
+          child: new FlatButton(
+            padding: const EdgeInsets.all(0),
+            onPressed: () => {},
+            child: new Text(
+              '跳过 1s',
+              style: new TextStyle(fontSize: 14.0, color: Colors.red),
+            ),
+          ),
+        ),
+      );
     }
 
     return new Container(
-      child: new ListView(
+      child: new Stack(
         children: <Widget>[
           _widgetAdvertItem(),
           _widgetCountDownItem(),
