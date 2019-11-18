@@ -171,7 +171,37 @@ class _MineViewState extends State<MineView> {
 
   // 菜单
   Widget _widgetMenuSection () {
-    return new Column();
+    return new Column(
+      children: <Widget>[
+        _widgetMenuItem(),
+        _widgetMenuItem(),
+        _widgetMenuItem(),
+      ],
+    );
+  }
+
+  Widget _widgetMenuItem () {
+    return new Container(
+      child: new FlatButton(
+        onPressed: () => {},
+        child: new Row(
+          children: <Widget>[
+            new Container(
+              child: new Icon(Icons.add),
+            ),
+            new Text(
+              '左边',
+              style: new TextStyle(
+                color: Colors.red,
+                fontSize: 16.0,
+              ),
+            ),
+            new Expanded(flex: 1, child: new Container()),
+            new Icon(Icons.arrow_forward_ios),
+          ],
+        )
+      ),
+    );
   }
 
 
