@@ -25,13 +25,13 @@ class Router {
   Router._internal();
 
   static Map<String, Map<String, dynamic>> config = {
-    'welcome': {
+    '/': {
       'route': (_) => new WelcomeView(),
       'handle': (params) {
         return new WelcomeView();
       }
     },
-    '/': {
+    'app': {
       'route': (_) => new AppView(),
       'handle': (params) {
         return new AppView();
