@@ -9,8 +9,6 @@ class MineView extends StatefulWidget {
 
 class _MineViewState extends State<MineView> {
 
-
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -44,7 +42,7 @@ class _MineViewState extends State<MineView> {
   Widget _widgetHeaderSection () {
     return new Container(
       color: Application.config.style.mainColor,
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: new Column(
         children: <Widget>[
           // 头像
@@ -105,7 +103,7 @@ class _MineViewState extends State<MineView> {
                     '1000',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   new SizedBox(height: 3.0),
@@ -113,7 +111,7 @@ class _MineViewState extends State<MineView> {
                     '关注',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 12.0,
+                      fontSize: 13.0,
                     ),
                   ),
                 ],
@@ -131,7 +129,7 @@ class _MineViewState extends State<MineView> {
                     '1000',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 14.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   new SizedBox(height: 3.0),
@@ -139,7 +137,7 @@ class _MineViewState extends State<MineView> {
                     '粉丝',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 12.0,
+                      fontSize: 13.0,
                     ),
                   ),
                 ],
