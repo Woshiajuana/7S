@@ -99,12 +99,9 @@ class _MineViewState extends State<MineView> {
                     fontSize: 18.0,
                   ),
                 ),
-                new SizedBox(width: 3.0),
-                new Icon(Icons.pregnant_woman, color: Colors.white, size: 18.0)
               ],
             ),
           ),
-          new SizedBox(height: 3.0),
         ],
       ),
     );
@@ -115,7 +112,59 @@ class _MineViewState extends State<MineView> {
     return new Container(
       color: Application.config.style.mainColor,
       child: new Row(
-
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          new Expanded(
+            flex: 1,
+            child: new FlatButton(
+              onPressed: () => {},
+              child: new Column(
+                children: <Widget>[
+                  new Text(
+                    '1000',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  new SizedBox(height: 3.0),
+                  new Text(
+                    '关注',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              )
+            ),
+          ),
+          new Expanded(
+            flex: 1,
+            child: new FlatButton(
+              onPressed: () => {},
+              child: new Column(
+                children: <Widget>[
+                  new Text(
+                    '1000',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  new SizedBox(height: 3.0),
+                  new Text(
+                    '粉丝',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              )
+            ),
+          ),
+        ],
       ),
     );
   }
