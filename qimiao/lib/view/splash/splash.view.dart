@@ -133,22 +133,21 @@ class _SplashViewState extends State<SplashView> {
     // 跳过倒计时
     Widget _widgetCountDownItem () {
       return new Positioned(
-        top: 30.0,
-        right: 30.0,
+        top: 35.0,
+        right: 20.0,
         child: new Container(
-          width: 80.0,
-          height: 35.0,
-          margin: const EdgeInsets.all(20.0),
+          width: 60.0,
+          height: 26.0,
           decoration: new BoxDecoration(
-            border: new Border.all(width: 1.0, color: Colors.red),
+            border: new Border.all(width: 0.5, color: Colors.red),
             borderRadius: new BorderRadius.circular(20.0),
           ),
           child: new FlatButton(
             padding: const EdgeInsets.all(0),
             onPressed: () => {},
             child: new Text(
-              '跳过 1s',
-              style: new TextStyle(fontSize: 14.0, color: Colors.red),
+              '跳过1s',
+              style: new TextStyle(fontSize: 12.0, color: Colors.red),
             ),
           ),
         ),
