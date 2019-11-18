@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:flukit/flukit.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _SplashViewState extends State<SplashView> {
         children: <Widget>[
           new Offstage(
             offstage: false,
-            child: _widgetSplashSection(),
+            child: _widgetGuideSection(),
           )
         ],
       ),
@@ -41,7 +42,29 @@ class _SplashViewState extends State<SplashView> {
       Application.util.getImgPath('guide3'),
       Application.util.getImgPath('guide4'),
     ];
-    return new Swiper();
+    return new Swiper(
+      autoStart: false,
+      circular: false,
+      indicator: new CircleSwiperIndicator(
+        radius: 4.0,
+        padding: const EdgeInsets.only(bottom: 30.0),
+        itemColor: Colors.black26,
+      ),
+      children: _arrGuide.map((item) {
+        return new Container(
+          child: new Stack(
+            children: <Widget>[
+              new Image.asset(
+                item,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
   }
 
   // 广告页
