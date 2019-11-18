@@ -9,28 +9,7 @@ class MineView extends StatefulWidget {
 
 class _MineViewState extends State<MineView> {
 
-  List _arrMenu = [
-    {
-      'text': '奇妙',
-      'prompt': '拍摄的视频都在这儿哦',
-      'icon': Icons.public,
-    },
-    {
-      'text': '定格',
-      'prompt': '拍摄的照片都在这儿哦',
-      'icon': Icons.public,
-    },
-    {
-      'text': '收藏',
-      'prompt': '',
-      'icon': Icons.public,
-    },
-    {
-      'text': '设置',
-      'prompt': '',
-      'icon': Icons.public,
-    },
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +23,7 @@ class _MineViewState extends State<MineView> {
             child: new FlatButton(
               onPressed: () => {},
               child: new Icon(
-                Icons.settings,
+                Icons.email,
                 color: Colors.white,
               ),
             ),
@@ -111,6 +90,7 @@ class _MineViewState extends State<MineView> {
   Widget _widgetFollowSection () {
     return new Container(
       color: Application.config.style.mainColor,
+      height: 70.0,
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -119,12 +99,13 @@ class _MineViewState extends State<MineView> {
             child: new FlatButton(
               onPressed: () => {},
               child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   new Text(
                     '1000',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                   new SizedBox(height: 3.0),
@@ -144,12 +125,13 @@ class _MineViewState extends State<MineView> {
             child: new FlatButton(
               onPressed: () => {},
               child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   new Text(
                     '1000',
                     style: new TextStyle(
                       color: Colors.white,
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                   new SizedBox(height: 3.0),
@@ -171,22 +153,52 @@ class _MineViewState extends State<MineView> {
 
   // 菜单
   Widget _widgetMenuSection () {
+    List _arrMenu = [
+      {
+        'text': '视频',
+        'icon': Icons.public,
+        'color': Color(0xff43bdbe),
+      },
+      {
+        'text': '相册',
+        'icon': Icons.public,
+        'color': Color(0xffd76c93),
+      },
+      {
+        'text': '收藏',
+        'icon': Icons.public,
+        'color': Color(0xff7c4a7d),
+      },
+      {
+        'text': '设置',
+        'icon': Icons.settings,
+        'color': Color(0xffeacb5f),
+      },
+    ];
     return new Column(
-      children: <Widget>[
-        _widgetMenuItem(),
-        _widgetMenuItem(),
-        _widgetMenuItem(),
-      ],
+      children: _arrMenu.map((item) {
+        return _widgetMenuItem(
+          onPressed: () => {},
+          text: item['text'],
+          icon: item['icon'],
+          color: item['color'],
+        );
+      }).toList(),
     );
   }
 
-  Widget _widgetMenuItem () {
+  Widget _widgetMenuItem ({
+    dynamic onPressed,
+    Color color,
+    String text = '',
+    IconData icon,
+  }) {
     return new Container(
       height: 77.0,
       decoration: new BoxDecoration(
         color: Colors.white,
         border: new Border(
-          bottom: new BorderSide(width: 1.0, color: Color(0xffdddddd))
+          bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
         ),
       ),
       child: new FlatButton(
@@ -197,19 +209,20 @@ class _MineViewState extends State<MineView> {
             new Container(
               width: 77.0,
               height: 77.0,
-              color: Colors.blue,
-              child: new Icon(Icons.add),
+              color: color,
+              child: new Icon(icon, color: Colors.white),
             ),
             new SizedBox(width: 10.0),
             new Text(
-              '左边',
+              text,
               style: new TextStyle(
                 color: Color(0xff333333),
                 fontSize: 18.0,
               ),
             ),
             new Expanded(flex: 1, child: new Container()),
-            new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999),),
+            new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+            new SizedBox(width: 10.0),
           ],
         ),
       ),

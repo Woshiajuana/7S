@@ -38,7 +38,7 @@ class Style {
   }
 
   Color get mainColor {
-    return Color(0xff1296db);
+    return Color(0xffe77366);
   }
 
   Color get unselectedLabelColor {
