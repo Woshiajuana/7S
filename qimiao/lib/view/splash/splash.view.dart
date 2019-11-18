@@ -110,7 +110,9 @@ class _SplashViewState extends State<SplashView> {
 
   // 广告页
   Widget _widgetAdvertSection () {
-    return new Container();
+    return new Container(
+      
+    );
   }
 
 }
