@@ -156,17 +156,17 @@ class _MineViewState extends State<MineView> {
     List _arrMenu = [
       {
         'text': '视频',
-        'icon': Icons.public,
+        'icon': Icons.videocam,
         'color': Color(0xff43bdbe),
       },
       {
         'text': '相册',
-        'icon': Icons.public,
+        'icon': Icons.photo_camera,
         'color': Color(0xffd76c93),
       },
       {
         'text': '收藏',
-        'icon': Icons.public,
+        'icon': Icons.headset,
         'color': Color(0xff7c4a7d),
       },
       {
@@ -195,12 +195,7 @@ class _MineViewState extends State<MineView> {
   }) {
     return new Container(
       height: 77.0,
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        border: new Border(
-          bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
-        ),
-      ),
+      color: Colors.white,
       child: new FlatButton(
         padding: const EdgeInsets.all(0),
         onPressed: () => {},
@@ -212,17 +207,31 @@ class _MineViewState extends State<MineView> {
               color: color,
               child: new Icon(icon, color: Colors.white),
             ),
-            new SizedBox(width: 10.0),
-            new Text(
-              text,
-              style: new TextStyle(
-                color: Color(0xff333333),
-                fontSize: 18.0,
+            new Expanded(
+              flex: 1,
+              child: new Container(
+                decoration: new BoxDecoration(
+                  border: new Border(
+                      bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
+                  ),
+                ),
+                child: new Row(
+                  children: <Widget>[
+                    new SizedBox(width: 16.0),
+                    new Text(
+                      text,
+                      style: new TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    new Expanded(flex: 1, child: new Container()),
+                    new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+                    new SizedBox(width: 10.0),
+                  ],
+                ),
               ),
-            ),
-            new Expanded(flex: 1, child: new Container()),
-            new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
-            new SizedBox(width: 10.0),
+            )
           ],
         ),
       ),
