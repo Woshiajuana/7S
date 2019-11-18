@@ -103,21 +103,8 @@ class _MineViewState extends State<MineView> {
                 new Container(
                   child: new Row(
                     children: <Widget>[
-                      new Icon(Icons.add_alert),
-                      new Text(
-                        '979703986@qq.com',
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                new Container(
-                  child: new Row(
-                    children: <Widget>[
-                      new Icon(Icons.email, color: Colors.white),
+                      new Icon(Icons.email, color: Colors.white, size: 16.0),
+                      new SizedBox(width: 3.0),
                       new Text(
                         '979703986@qq.com',
                         style: new TextStyle(
