@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qimiao/view/app.view.dart';
+import 'package:qimiao/view/splash/splash.view.dart';
 import 'package:qimiao/view/home/home.view.dart';
 import 'package:qimiao/view/demo/demo.view.dart';
 import 'package:qimiao/view/util/util.view.dart';
@@ -26,9 +27,9 @@ class Router {
 
   static Map<String, Map<String, dynamic>> config = {
     '/': {
-      'route': (_) => new WelcomeView(),
+      'route': (_) => new SplashView(),
       'handle': (params) {
-        return new WelcomeView();
+        return new SplashView();
       }
     },
     'app': {
