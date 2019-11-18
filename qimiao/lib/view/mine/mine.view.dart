@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:qimiao/common/application.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -7,8 +8,16 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return new Scaffold(
+      backgroundColor: Application.config.style.backgroundColor,
+      body: new ListView(),
+    );
   }
+
+  
+
 }
