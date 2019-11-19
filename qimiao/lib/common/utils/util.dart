@@ -5,7 +5,6 @@ import 'package:qimiao/common/utils/store.util.dart';
 import 'package:qimiao/common/utils/verify.util.dart';
 import 'package:qimiao/common/utils/modal.util.dart';
 import 'package:qimiao/common/utils/loading.util.dart';
-import 'package:qimiao/common/utils/timer.util.dart';
 
 class Util {
 
@@ -50,10 +49,6 @@ class Util {
   // 获取图片
   String getImgPath (String name, { String format: 'png' } ) {
     return 'assets/images/$name.$format';
-  }
-
-  TimerUtil getTimeUtil ({ mTotalTime, mInterval }) {
-    return new TimerUtil(mTotalTime: mTotalTime, mInterval: mInterval );
   }
 
 }

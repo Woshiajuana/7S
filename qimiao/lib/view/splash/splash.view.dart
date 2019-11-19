@@ -14,6 +14,7 @@ class _SplashViewState extends State<SplashView> {
 
   TimerUtil _timerUtil;
   int _count = 5;
+  int _status = 1;  // 0:启动页  1:引导页  2:广告页
 
   // 倒计时
   void _countDown () {
@@ -23,35 +24,40 @@ class _SplashViewState extends State<SplashView> {
       setState(() {
         _count = _tick.toInt();
       });
+      if (_tick == 0) {
+        Application.router.replace(context, 'app');
+      }
     });
+    _timerUtil.startCountDown();
   }
 
   @override
   void initState() {
     super.initState();
-    _countDown();
+    if (_status == 0) {
+      _countDown();
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    print(1);
     return new Material(
       child: new Stack(
         children: <Widget>[
           // 启动页
           new Offstage(
-            offstage: true,
+            offstage: !(_status == 0),
             child: _widgetSplashSection(),
           ),
           // 引导页
           new Offstage(
-            offstage: true,
+            offstage: !(_status == 1),
             child: _widgetGuideSection(),
           ),
           // 广告业
           new Offstage(
-            offstage: false,
+            offstage: !(_status == 2),
             child: _widgetAdvertSection(),
           ),
         ],
@@ -100,7 +106,7 @@ class _SplashViewState extends State<SplashView> {
             ],
           ),
           child: new FlatButton(
-            onPressed: () => {},
+            onPressed: () => Application.router.replace(context, 'app'),
             child: new Text(
               '立即体验',
               textAlign: TextAlign.center,
@@ -178,9 +184,9 @@ class _SplashViewState extends State<SplashView> {
           ),
           child: new FlatButton(
             padding: const EdgeInsets.all(0),
-            onPressed: () => {},
+            onPressed: () => Application.router.replace(context, 'app'),
             child: new Text(
-              '跳过${_count}s',
+              '跳过 $_count s',
               style: new TextStyle(fontSize: 12.0, color: Colors.red),
             ),
           ),
