@@ -2,21 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qimiao/view/app.view.dart';
+import 'package:qimiao/view/world/world.view.dart';
+import 'package:qimiao/view/calendar/calendar.view.dart';
+import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/view/splash/splash.view.dart';
-import 'package:qimiao/view/home/home.view.dart';
 import 'package:qimiao/view/webview/webview.view.dart';
-import 'package:qimiao/view/demo/demo.view.dart';
-import 'package:qimiao/view/util/util.view.dart';
 import 'package:qimiao/view/about/about.view.dart';
 import 'package:qimiao/view/login/login.view.dart';
 import 'package:qimiao/view/register/register.view.dart';
-import 'package:qimiao/view/welcome/welcome.view.dart';
-import 'package:qimiao/view/demo/nestedScrollView/nestedScrollView.demo.view.dart';
-import 'package:qimiao/view/demo/nestedScrollView/nestedScrollViewParams.demo.view.dart';
-import 'package:qimiao/view/demo/sliverAppBar/sliverAppBar.demo.view.dart';
-import 'package:qimiao/view/demo/sliverAppBar/sliverAppBarParams.demo.view.dart';
-import 'package:qimiao/view/demo/expansionTile/expansionTile.demo.view.dart';
-import 'package:qimiao/view/demo/expansionTile/expansionTileParams.demo.view.dart';
 import 'package:qimiao/view/setting/setting.view.dart';
 
 class Router {
@@ -40,6 +33,24 @@ class Router {
       'route': (_) => new AppView(),
       'handle': (params) {
         return new AppView();
+      }
+    },
+    'word': {
+      'route': (_) => new WorldView(),
+      'handle': (params) {
+        return new WorldView();
+      }
+    },
+    'calendar': {
+      'route': (_) => new CalendarView(),
+      'handle': (params) {
+        return new CalendarView();
+      }
+    },
+    'mine': {
+      'route': (_) => new MineView(),
+      'handle': (params) {
+        return new MineView();
       }
     },
     'setting': {
@@ -69,64 +80,10 @@ class Router {
         );
       }
     },
-    'home': {
-      'route': (_) => new HomeView(),
-      'handle': (params) {
-        return new HomeView();
-      }
-    },
-    'demo': {
-      'route': (_) => new DemoView(),
-      'handle': (params) {
-        return new DemoView();
-      }
-    },
-    'util': {
-      'route': (_) => new UtilView(),
-      'handle': (params) {
-        return new UtilView();
-      }
-    },
     'about': {
       'route': (_) => new AboutView(),
       'handle': (params) {
         return new AboutView();
-      }
-    },
-    'nestedScrollView': {
-      'route': (_) => new NestedScrollViewDemo(),
-      'handle': (params) {
-        return new NestedScrollViewDemo(titleText: params['titleText']);
-      }
-    },
-    'nestedScrollViewParams': {
-      'route': (_) => new NestedScrollViewParams(),
-      'handle': (params) {
-        return new NestedScrollViewParams();
-      }
-    },
-    'sliverAppBar': {
-      'route': (_) => new SliverAppBarDemo(),
-      'handle': (params) {
-        return new SliverAppBarDemo(titleText: params['titleText']);
-      }
-    },
-    'sliverAppBarParams': {
-      'route': (_) => new SliverAppBarParams(),
-      'handle': (params) {
-        return new SliverAppBarParams();
-      }
-    },
-    'expansionTile': {
-      'route': (_) => new ExpansionTileDemo(),
-      'handle': (params) {
-        return new ExpansionTileDemo(titleText: params['titleText']);
-      }
-    },
-    'expansionTileParams': {
-      'route': (_) => new ExpansionTileParams(),
-      'handle': (params) {
-        return new ExpansionTileParams();
       }
     },
   };

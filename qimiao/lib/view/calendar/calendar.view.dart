@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
 
-class HomeView extends StatefulWidget {
+class CalendarView extends StatefulWidget {
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _CalendarViewState createState() => _CalendarViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {

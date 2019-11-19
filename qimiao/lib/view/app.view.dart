@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:qimiao/view/home/home.view.dart';
-import 'package:qimiao/view/demo/demo.view.dart';
-import 'package:qimiao/view/util/util.view.dart';
+import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
+import 'package:qimiao/view/calendar/calendar.view.dart';
 import 'package:qimiao/common/application.dart';
 
 class AppView extends StatefulWidget {
@@ -61,34 +60,12 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-//      appBar: new AppBar(
-//        title: new Text(
-//          '7S',
-//          style: new TextStyle(
-//            fontSize: 16.0,
-//          ),
-//        ),
-//        actions: <Widget>[
-//          new Container(
-//            width: 60.0,
-//            child: new FlatButton(
-//              onPressed: () => {},
-//              padding: const EdgeInsets.all(0),
-//              child: new Icon(
-//                Icons.search,
-//                size: 28.0,
-//                color: Colors.white,
-//              ),
-//            ),
-//          )
-//        ],
-//      ),
       body: new PageView(
         controller: _pageController,
         physics: new NeverScrollableScrollPhysics(),
         children: <Widget>[
-          new HomeView(),
-          new DemoView(),
+          new WorldView(),
+          new CalendarView(),
           new MineView(),
         ],
       ),
