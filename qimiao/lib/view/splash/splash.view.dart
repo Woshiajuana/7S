@@ -11,15 +11,31 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
 
+  // 倒计时
+  void _countDown () {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Material(
       child: new Stack(
         children: <Widget>[
+          // 启动页
+          new Offstage(
+            offstage: true,
+            child: _widgetSplashSection(),
+          ),
+          // 引导页
+          new Offstage(
+            offstage: true,
+            child: _widgetGuideSection(),
+          ),
+          // 广告业
           new Offstage(
             offstage: false,
             child: _widgetAdvertSection(),
-          )
+          ),
         ],
       ),
     );
