@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/utils/timer.util.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -12,6 +13,9 @@ class _RegisterViewState extends State<RegisterView> {
   String _strEmail; // 邮箱
   String _strPassword; // 密码
   String _strCode; // 验证码
+  int _numDefCount = 10;
+  int _numCount = 10;
+  TimerUtil _timerUtil;
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +48,39 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               new Container(
                 padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: new TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: '验证码',
-                  ),
-                  validator: (String value) { return value; },
-                  onSaved: (String value) => _strEmail = value,
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      flex: 1,
+                      child: new TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: '验证码',
+                        ),
+                        validator: (String value) { return value; },
+                        onSaved: (String value) => _strEmail = value,
+                      ),
+                    ),
+                    new SizedBox(width: 20.0),
+                    new Container(
+                      width: 100,
+                      height: 45,
+                      decoration: new BoxDecoration(
+                        color: _numCount == _numDefCount ? Application.config.style.mainColor : Color(0xff999999),
+                        borderRadius: new BorderRadius.circular(6.0),
+                      ),
+                      child: new FlatButton(
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () => _countDown(),
+                        child: new Text(
+                          _numCount == _numDefCount ? '发送验证码' : '$_numCount s',
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               new Container(
@@ -70,6 +101,24 @@ class _RegisterViewState extends State<RegisterView> {
         ],
       )
     );
+  }
+
+  // 倒计时
+  void _countDown () {
+    _timerUtil = new TimerUtil(mTotalTime: _numCount * 1000);
+    _timerUtil.setOnTimerTickCallback((int tick) {
+      double _tick = tick / 1000;
+      setState(() {
+        _numCount = _tick.toInt();
+      });
+      if (_tick == 0) {
+        setState(() {
+          _numCount = _numDefCount;
+        });
+        _timerUtil.cancel();
+      }
+    });
+    _timerUtil.startCountDown();
   }
 
   // 登录
@@ -133,6 +182,11 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
+  @override
+  void dispose() {
+    if (_timerUtil != null) _timerUtil.cancel(); // 记得中dispose里面把timer cancel。
+    super.dispose();
+  }
 
 
 }

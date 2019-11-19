@@ -204,4 +204,10 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 
+  @override
+  void dispose() {
+    if (_timerUtil != null) _timerUtil.cancel(); // 记得中dispose里面把timer cancel。
+    super.dispose();
+  }
+
 }
