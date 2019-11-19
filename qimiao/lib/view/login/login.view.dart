@@ -108,7 +108,7 @@ class _LoginViewState extends State<LoginView> {
             '没有账号？ ',
           ),
           new InkWell(
-            onTap: () => {},
+            onTap: () => Application.router.push(context, 'register'),
             child: new Text(
               '点击注册',
               style: TextStyle(color: Colors.green),
