@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:qimiao/view/app.view.dart';
 import 'package:qimiao/view/splash/splash.view.dart';
 import 'package:qimiao/view/home/home.view.dart';
+import 'package:qimiao/view/webview/webview.view.dart';
 import 'package:qimiao/view/demo/demo.view.dart';
 import 'package:qimiao/view/util/util.view.dart';
 import 'package:qimiao/view/about/about.view.dart';
@@ -57,6 +58,15 @@ class Router {
       'route': (_) => new RegisterView(),
       'handle': (params) {
         return new RegisterView();
+      }
+    },
+    'webview': {
+      'route': (_) => new WebView(),
+      'handle': (params) {
+        return new WebView(
+          title: params['title'],
+          url: params['url'],
+        );
       }
     },
     'home': {

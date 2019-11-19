@@ -161,7 +161,7 @@ class _RegisterViewState extends State<RegisterView> {
             '完成注册即代表您同意',
           ),
           new InkWell(
-            onTap: () => Application.router.push(context, 'register'),
+            onTap: () => Application.router.push(context, 'webview', params: { 'title': '用户协议', 'url': 'https://www.baidu.com' }),
             child: new Text(
               '用户协议',
               style: TextStyle(color: Application.config.style.mainColor),
@@ -171,7 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
             '和',
           ),
           new InkWell(
-            onTap: () => Application.router.push(context, 'register'),
+            onTap: () => Application.router.push(context, 'webview', params: { 'title': '隐私政策', 'url': 'http://www.owulia.com' }),
             child: new Text(
               '隐私政策',
               style: TextStyle(color: Application.config.style.mainColor),
