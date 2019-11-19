@@ -7,6 +7,7 @@ import 'package:qimiao/view/home/home.view.dart';
 import 'package:qimiao/view/demo/demo.view.dart';
 import 'package:qimiao/view/util/util.view.dart';
 import 'package:qimiao/view/about/about.view.dart';
+import 'package:qimiao/view/login/login.view.dart';
 import 'package:qimiao/view/welcome/welcome.view.dart';
 import 'package:qimiao/view/demo/nestedScrollView/nestedScrollView.demo.view.dart';
 import 'package:qimiao/view/demo/nestedScrollView/nestedScrollViewParams.demo.view.dart';
