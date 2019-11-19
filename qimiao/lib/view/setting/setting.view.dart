@@ -39,10 +39,12 @@ class _SettingViewState extends State<SettingView> {
       {
         'useMargin': false,
         'text': '登录设备管理',
+        'routeName': '',
       },
       {
         'useMargin': true,
-        'text': '关于7S',
+        'text': '关于我们',
+        'routeName': 'about',
       },
       {
         'useMargin': false,
@@ -51,10 +53,14 @@ class _SettingViewState extends State<SettingView> {
       {
         'useMargin': true,
         'text': '帮助',
+        'routeName': 'webview',
+        'params': { 'title': '帮助', 'url': 'http://154.8.209.13:23335/fqa.html?application=5db1540c5db6a60c11331963' },
       },
       {
         'useMargin': false,
         'text': '反馈',
+        'routeName': 'webview',
+        'params': { 'title': '帮助', 'url': 'http://154.8.209.13:23335/feedback.html?application=5db1540c5db6a60c11331963' },
       },
     ];
     Widget _widgetMenuItem ({
@@ -92,7 +98,7 @@ class _SettingViewState extends State<SettingView> {
     return new Column(
       children: _arrMenu.map((item) {
         return _widgetMenuItem(
-          onPressed: () => {},
+          onPressed: () => Application.router.push(context, item['routeName'], params: item['params']),
           text: item['text'],
           useMargin: item['useMargin'],
         );

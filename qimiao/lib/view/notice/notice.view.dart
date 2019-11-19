@@ -49,7 +49,7 @@ class _NoticeViewState extends State<NoticeView> {
         ),
       ),
       child: new FlatButton(
-        onPressed: () => {},
+        onPressed: () => Application.router.push(context, 'noticeDetails', params: { 'title': '实名认证' }),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
