@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:flukit/flukit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:qimiao/common/utils/timer.util.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -11,13 +12,30 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
 
+  TimerUtil _timerUtil;
+  int _count = 5;
+
   // 倒计时
   void _countDown () {
-
+    _timerUtil = new TimerUtil(mTotalTime: _count * 1000);
+    _timerUtil.setOnTimerTickCallback((int tick) {
+      double _tick = tick / 1000;
+      setState(() {
+        _count = _tick.toInt();
+      });
+    });
   }
 
   @override
+  void initState() {
+    super.initState();
+    _countDown();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    print(1);
     return new Material(
       child: new Stack(
         children: <Widget>[
@@ -162,7 +180,7 @@ class _SplashViewState extends State<SplashView> {
             padding: const EdgeInsets.all(0),
             onPressed: () => {},
             child: new Text(
-              '跳过1s',
+              '跳过${_count}s',
               style: new TextStyle(fontSize: 12.0, color: Colors.red),
             ),
           ),
