@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class WebviewView extends StatefulWidget {
 
@@ -17,6 +17,7 @@ class WebviewView extends StatefulWidget {
 
 class _WebviewViewState extends State<WebviewView> {
 
+  FlutterWebviewPlugin _flutterWebviewPlugin;
   String _stringTitle;
 
   @override
@@ -24,17 +25,27 @@ class _WebviewViewState extends State<WebviewView> {
     // TODO: implement initState
     super.initState();
     _stringTitle = widget.title;
+    _flutterWebviewPlugin = new FlutterWebviewPlugin();
+    _flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      _getWebTitle();
+    });
   }
 
   @override
   void dispose() {
+    _flutterWebviewPlugin.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return new WebviewScaffold(
+      url: widget.url,
+      withZoom: false,
+      withLocalStorage: true,
+      withJavascript: true,
+      bottomNavigationBar: new Container(color: Color(0x11ffffff), width: 100, height: 100,),
       appBar: new AppBar(
         title: new Text(
           _stringTitle,
@@ -42,13 +53,25 @@ class _WebviewViewState extends State<WebviewView> {
             fontSize: 18.0,
           ),
         ),
+//        centerTitle: true,
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.more_horiz), onPressed: () => _handleShowDialog()),
+//          new GestureDetector(
+//            onTap: () => _flutterWebviewViewPlugin.reload(),
+//            child: new Container(
+//              padding: const EdgeInsets.only(right: 10.0),
+//              child: new Center(
+//                child: new Text(
+//                  '刷新',
+//                  style: new TextStyle(
+//                    fontSize: 14.0,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//              ),
+//            ),
+//          ),
         ],
-      ),
-      body: new WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,///JS执行模式
       ),
     );
   }
@@ -86,5 +109,10 @@ class _WebviewViewState extends State<WebviewView> {
 
 
   //获取h5页面标题
+  void _getWebTitle() async {
+    _stringTitle = await _flutterWebviewPlugin.evalJavascript('window.document.title');
+    _stringTitle = _stringTitle.replaceAll('"', '') ?? widget.title;
+    setState(() {});
+  }
 
 }
