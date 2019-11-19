@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-class WebView extends StatefulWidget {
+class WebviewView extends StatefulWidget {
 
-  const WebView({
+  const WebviewView({
     this.title = '',
     this.url = '',
   });
@@ -12,14 +12,12 @@ class WebView extends StatefulWidget {
   final String url;
 
   @override
-  _WebViewState createState() => new _WebViewState();
+  _WebviewViewState createState() => new _WebviewViewState();
 }
 
-class _WebViewState extends State<WebView> {
+class _WebviewViewState extends State<WebviewView> {
 
   FlutterWebviewPlugin _flutterWebviewPlugin;
-
-
   String _stringTitle;
 
   @override
@@ -59,7 +57,7 @@ class _WebViewState extends State<WebView> {
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.more_horiz), onPressed: () => _handleShowDialog()),
 //          new GestureDetector(
-//            onTap: () => _flutterWebviewPlugin.reload(),
+//            onTap: () => _flutterWebviewViewPlugin.reload(),
 //            child: new Container(
 //              padding: const EdgeInsets.only(right: 10.0),
 //              child: new Center(

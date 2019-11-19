@@ -61,9 +61,9 @@ class Router {
       }
     },
     'webview': {
-      'route': (_) => new WebView(),
+      'route': (_) => new WebviewView(),
       'handle': (params) {
-        return new WebView(
+        return new WebviewView(
           title: params['title'],
           url: params['url'],
         );
