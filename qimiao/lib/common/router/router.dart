@@ -14,6 +14,7 @@ import 'package:qimiao/view/demo/sliverAppBar/sliverAppBar.demo.view.dart';
 import 'package:qimiao/view/demo/sliverAppBar/sliverAppBarParams.demo.view.dart';
 import 'package:qimiao/view/demo/expansionTile/expansionTile.demo.view.dart';
 import 'package:qimiao/view/demo/expansionTile/expansionTileParams.demo.view.dart';
+import 'package:qimiao/view/setting/setting.view.dart';
 
 class Router {
 
@@ -36,6 +37,12 @@ class Router {
       'route': (_) => new AppView(),
       'handle': (params) {
         return new AppView();
+      }
+    },
+    'setting': {
+      'route': (_) => new SettingView(),
+      'handle': (params) {
+        return new SettingView();
       }
     },
     'home': {
@@ -112,6 +119,7 @@ class Router {
   }
 
   push (BuildContext context, routeName, {params}) {
+    print(config[routeName]);
     return navigatorRouter(context, config[routeName]['handle'](params));
   }
 

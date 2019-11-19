@@ -156,83 +156,88 @@ class _MineViewState extends State<MineView> {
         'text': '视频',
         'icon': Icons.videocam,
         'color': Color(0xff43bdbe),
+        'routeName': 'setting',
       },
       {
         'text': '相册',
         'icon': Icons.photo_camera,
         'color': Color(0xffd76c93),
+        'routeName': 'setting',
       },
       {
         'text': '收藏',
         'icon': Icons.headset,
         'color': Color(0xff7c4a7d),
+        'routeName': 'setting',
       },
       {
         'text': '设置',
         'icon': Icons.settings,
         'color': Color(0xffeacb5f),
+        'routeName': 'setting',
       },
     ];
+
+    Widget _widgetMenuItem ({
+      dynamic onPressed,
+      Color color,
+      String text = '',
+      IconData icon,
+    }) {
+      return new Container(
+        height: 77.0,
+        color: Colors.white,
+        child: new FlatButton(
+          padding: const EdgeInsets.all(0),
+          onPressed: onPressed,
+          child: new Row(
+            children: <Widget>[
+              new Container(
+                width: 77.0,
+                height: 77.0,
+                color: color,
+                child: new Icon(icon, color: Colors.white),
+              ),
+              new Expanded(
+                flex: 1,
+                child: new Container(
+                  decoration: new BoxDecoration(
+                    border: new Border(
+                        bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
+                    ),
+                  ),
+                  child: new Row(
+                    children: <Widget>[
+                      new SizedBox(width: 16.0),
+                      new Text(
+                        text,
+                        style: new TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      new Expanded(flex: 1, child: new Container()),
+                      new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+                      new SizedBox(width: 10.0),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
     return new Column(
       children: _arrMenu.map((item) {
         return _widgetMenuItem(
-          onPressed: () => {},
+          onPressed: () => Application.router.push(context, item['routeName']),
           text: item['text'],
           icon: item['icon'],
           color: item['color'],
         );
       }).toList(),
-    );
-  }
-
-  Widget _widgetMenuItem ({
-    dynamic onPressed,
-    Color color,
-    String text = '',
-    IconData icon,
-  }) {
-    return new Container(
-      height: 77.0,
-      color: Colors.white,
-      child: new FlatButton(
-        padding: const EdgeInsets.all(0),
-        onPressed: () => {},
-        child: new Row(
-          children: <Widget>[
-            new Container(
-              width: 77.0,
-              height: 77.0,
-              color: color,
-              child: new Icon(icon, color: Colors.white),
-            ),
-            new Expanded(
-              flex: 1,
-              child: new Container(
-                decoration: new BoxDecoration(
-                  border: new Border(
-                      bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
-                  ),
-                ),
-                child: new Row(
-                  children: <Widget>[
-                    new SizedBox(width: 16.0),
-                    new Text(
-                      text,
-                      style: new TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 18.0,
-                      ),
-                    ),
-                    new Expanded(flex: 1, child: new Container()),
-                    new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
-                    new SizedBox(width: 10.0),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 
