@@ -22,17 +22,31 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           new Container(
-            width: 256.0,
+            width: 300.0,
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: new Column(
+            child: new Stack(
               children: <Widget>[
                 // 输入
                 _widgetContent(),
                 // 按钮
                 _widgetButtonGroup(),
+                
+                // 关闭按钮
+                new Positioned(
+                  child: new Container(
+                    decoration: new BoxDecoration(
+                      border: new Border.all(color: Color(0xff999999), width: 1.0),
+                      borderRadius: new BorderRadius.circular(30.0),
+                    ),
+                    child: new IconButton(
+                      icon: new Icon(Icons.close),
+                      onPressed: null
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
