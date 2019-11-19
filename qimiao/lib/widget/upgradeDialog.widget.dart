@@ -17,38 +17,52 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     // TODO: implement build
     return new Material(
       type: MaterialType.transparency,
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: new Stack(
         children: <Widget>[
-          new Container(
-            width: 300.0,
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: new Stack(
+          new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                // 输入
-                _widgetContent(),
-                // 按钮
-                _widgetButtonGroup(),
-                
-                // 关闭按钮
-                new Positioned(
+                new Container(
+                  width: 300.0,
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: new Column(
+                    children: <Widget>[
+                      // 输入
+                      _widgetContent(),
+                      // 按钮
+                      _widgetButtonSection(),
 
-                  child: new Container(
-                    decoration: new BoxDecoration(
-                      border: new Border.all(color: Color(0xff999999), width: 1.0),
-                      borderRadius: new BorderRadius.circular(30.0),
-                    ),
-                    child: new IconButton(
-                      icon: new Icon(Icons.close),
-                      onPressed: null
-                    ),
+
+                    ],
                   ),
                 ),
               ],
+            ),
+          ),
+          // 关闭按钮
+          new Positioned(
+            left: 0,
+            right: 0,
+            bottom: 100.0,
+            child: new Center(
+              child: new Container(
+                width: 40.0,
+                height: 40.0,
+                decoration: new BoxDecoration(
+                  border: new Border.all(color: Colors.white, width: 1.0),
+                  borderRadius: new BorderRadius.circular(30.0),
+                ),
+                child: new IconButton(
+                  padding: const EdgeInsets.all(0),
+                  icon: new Icon(Icons.close, color: Colors.white),
+                  onPressed: null
+                ),
+              ),
             ),
           ),
         ],
@@ -71,7 +85,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     );
   }
 
-  Widget _widgetButtonGroup () {
+  Widget _widgetButtonSection () {
     return new Container(
       height: 45.0,
       decoration: new BoxDecoration(
