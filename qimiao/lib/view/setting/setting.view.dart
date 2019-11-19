@@ -8,6 +8,8 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -23,9 +25,89 @@ class _SettingViewState extends State<SettingView> {
       ),
       body: new ListView(
         children: <Widget>[
-          new Container()
+          _widgetMenuSection(),
+          _widgetExitButtonSection(),
         ],
       ),
     );
   }
+
+  // 菜单组
+  Widget _widgetMenuSection () {
+    List _arrMenu = [
+      {
+        'useMargin': false,
+        'text': '登录设备管理',
+      },
+      {
+        'useMargin': true,
+        'text': '关于7S',
+      },
+      {
+        'useMargin': false,
+        'text': '检测更新',
+      },
+      {
+        'useMargin': true,
+        'text': '帮助',
+      },
+      {
+        'useMargin': false,
+        'text': '反馈',
+      },
+    ];
+    Widget _widgetMenuItem ({
+      dynamic onPressed,
+      String text,
+      bool useMargin = false,
+    }) {
+      return new Container(
+        height: 60,
+        margin: EdgeInsets.only(top: useMargin ? 10.0 : 0),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          border: new Border(
+            bottom: new BorderSide(color: Color(0xffdddddd), width: 0.5),
+          ),
+        ),
+        child: new FlatButton(
+          onPressed: onPressed,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                text,
+                style: new TextStyle(
+                  color: Color(0xff333333),
+                  fontSize: 16.0,
+                ),
+              ),
+              new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+            ],
+          ),
+        ),
+      );
+    }
+    return new Column(
+      children: _arrMenu.map((item) {
+        return _widgetMenuItem(
+          onPressed: () => {},
+          text: item['text'],
+          useMargin: item['useMargin'],
+        );
+      }).toList(),
+    );
+  }
+
+  // 安全退出
+  Widget _widgetExitButtonSection () {
+    return new Container(
+      height: 70.0,
+      child: new FlatButton(
+        onPressed: () => {},
+        child: null,
+      ),
+    );
+  }
+
 }
