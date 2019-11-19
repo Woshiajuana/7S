@@ -17,12 +17,16 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      body: new ListView(
+      body: new Stack(
         children: <Widget>[
-          _widgetHeaderSection(),
-          _widgetInputSection(),
-          _widgetForgetSection(),
-          _widgetButtonSection(),
+          new ListView(
+            children: <Widget>[
+              _widgetHeaderSection(),
+              _widgetInputSection(),
+              _widgetForgetSection(),
+              _widgetButtonSection(),
+            ],
+          ),
           _widgetRegisterLinkSection(),
         ],
       ),
@@ -32,6 +36,7 @@ class _LoginViewState extends State<LoginView> {
   // 头部 LOGO
   Widget _widgetHeaderSection () {
     return new Container(
+      margin: const EdgeInsets.only(top: 70.0),
       child: new Image.asset(
         Application.util.getImgPath('logo-300'),
         width: 120.0,
@@ -92,7 +97,10 @@ class _LoginViewState extends State<LoginView> {
 
   // 注册
   Widget _widgetRegisterLinkSection () {
-    return new Container(
+    return new Positioned(
+      bottom: 30.0,
+      left: 0,
+      right: 0,
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
