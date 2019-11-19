@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _WorldViewState extends State<WorldView> {
           _widgetHeaderSection(),
           new CellLinkWidget(
             labelText: 'GetHub',
+            onPressed: () => _handleExitOut(),
           ),
           new CellLinkWidget(
             labelText: '关于我们',
@@ -30,6 +32,25 @@ class _WorldViewState extends State<WorldView> {
         ],
       ),
     );
+  }
+
+  void _handleExitOut () async {
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new UpgradeDialog(
+          content: '您确定要退出此账号吗？',
+        );
+      },
+    );
+    if (result != true) return;
+    try {
+//      await Application.util.store.clear();
+    } catch (err) {
+
+    } finally {
+      Application.router.replace(context, 'login');
+    }
   }
 
   Widget _widgetHeaderSection () {

@@ -72,10 +72,10 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
       bottomNavigationBar: new Container(
         decoration: new BoxDecoration(
           border: new Border(
-              top: new BorderSide(
-                color: Color(0xffdddddd),
-                width: 0.5,
-              )
+            top: new BorderSide(
+              color: Color(0xffdddddd),
+              width: 0.5,
+            ),
           ),
         ),
         child: new Material(
