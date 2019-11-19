@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class WebviewView extends StatefulWidget {
 
@@ -17,6 +17,7 @@ class WebviewView extends StatefulWidget {
 
 class _WebviewViewState extends State<WebviewView> {
 
+  FlutterWebviewPlugin _flutterWebviewPlugin;
   String _stringTitle;
 
   @override
@@ -24,17 +25,26 @@ class _WebviewViewState extends State<WebviewView> {
     // TODO: implement initState
     super.initState();
     _stringTitle = widget.title;
+    _flutterWebviewPlugin = new FlutterWebviewPlugin();
+    _flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      _getWebTitle();
+    });
   }
 
   @override
   void dispose() {
+    _flutterWebviewPlugin.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return new WebviewScaffold(
+      url: widget.url,
+      withZoom: false,
+      withLocalStorage: true,
+      withJavascript: true,
       appBar: new AppBar(
         title: new Text(
           _stringTitle,
@@ -43,48 +53,17 @@ class _WebviewViewState extends State<WebviewView> {
           ),
         ),
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.more_horiz), onPressed: () => _handleShowDialog()),
+          new IconButton(icon: new Icon(Icons.refresh), onPressed: () => _flutterWebviewPlugin.reload()),
         ],
       ),
-      body: new WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,///JS执行模式
-      ),
     );
   }
-
-  // 呼出底部弹窗
-  void _handleShowDialog () {
-
-    showDialog(
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      context: context,
-      builder: (BuildContext context) {
-        return new Material(
-          type: MaterialType.transparency,
-          child: new Column(
-            children: <Widget>[
-              new Expanded(flex: 1, child: new Container()),
-              new Container(
-                child: new FlatButton(
-                  onPressed: () => {},
-                  child: new Text(
-                    '取消',
-                    style: new TextStyle(
-                      color: Color(0xff999999),
-                      fontSize: 16.0
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-    );
-  }
-
 
   //获取h5页面标题
+  void _getWebTitle() async {
+    _stringTitle = await _flutterWebviewPlugin.evalJavascript('window.document.title');
+    _stringTitle = _stringTitle.replaceAll('"', '') ?? widget.title;
+    setState(() {});
+  }
 
 }
