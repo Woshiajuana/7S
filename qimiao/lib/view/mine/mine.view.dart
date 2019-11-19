@@ -23,17 +23,19 @@ class _MineViewState extends State<MineView> {
                   icon: new Icon(Icons.email),
                   onPressed: () => {},
                 ),
-                new Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.green,
-                  ),
-                  child: new Text(
-                    '99',
-                    style: new TextStyle(
-                      color: Colors.white,
+                new Positioned(
+                  top: 10.0,
+                  right: 10.0,
+                  child: new Container(
+                    width: 10.0,
+                    height: 10.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: new BorderRadius.circular(6.0),
+                      border: new Border.all(color: Application.config.style.mainColor, width: 2.0),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

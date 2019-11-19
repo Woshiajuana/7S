@@ -34,11 +34,15 @@ class Style {
   }
 
   Color get backgroundColor {
-    return Color(0xfff2f2f2);
+    return Color(0xfff9ffff);
   }
 
   Color get mainColor {
-    return Color(0xffe77366);
+    return Color(0xff45b0a0);
+  }
+
+  Color get subMainColor {
+    return Color(0xff71cdbe);
   }
 
   Color get unselectedLabelColor {
