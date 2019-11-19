@@ -27,15 +27,15 @@ class _WebViewState extends State<WebView> {
     // TODO: implement initState
     super.initState();
     _stringTitle = widget.title;
-//    _flutterWebviewPlugin = new FlutterWebviewPlugin();
-//    _flutterWebviewPlugin.onUrlChanged.listen((String url) {
-//      _getWebTitle();
-//    });
+    _flutterWebviewPlugin = new FlutterWebviewPlugin();
+    _flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      _getWebTitle();
+    });
   }
 
   @override
   void dispose() {
-//    _flutterWebviewPlugin.dispose();
+    _flutterWebviewPlugin.dispose();
     super.dispose();
   }
 
@@ -43,9 +43,36 @@ class _WebViewState extends State<WebView> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new WebviewScaffold(
-      url: "https://www.baidu.com",
+      url: widget.url,
       appBar: new AppBar(
-        title: new Text("Widget webview"),
+//        leading: _isIndex ? new Container() : new FlatButton(
+//          onPressed: () => _flutterWebviewPlugin.goBack(),
+//          child: new Icon(Icons.arrow_back, color: Colors.white),
+//        ),
+        title: new Text(
+          _stringTitle,
+          style: new TextStyle(
+            fontSize: 18.0,
+          ),
+        ),
+//        centerTitle: true,
+        actions: <Widget>[
+          new GestureDetector(
+            onTap: () => _flutterWebviewPlugin.reload(),
+            child: new Container(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: new Center(
+                child: new Text(
+                  '刷新',
+                  style: new TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
