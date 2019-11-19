@@ -17,15 +17,26 @@ class _MineViewState extends State<MineView> {
         elevation: 0,
         actions: <Widget>[
           new Container(
-            width: 60,
-            child: new FlatButton(
-              onPressed: () => {},
-              child: new Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
+            child: new Stack(
+              children: <Widget>[
+                new IconButton(
+                  icon: new Icon(Icons.email),
+                  onPressed: () => {},
+                ),
+                new Container(
+                  decoration: new BoxDecoration(
+                    color: Colors.green,
+                  ),
+                  child: new Text(
+                    '99',
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
+          ),
         ],
       ),
       body: new ListView(
