@@ -36,6 +36,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
                 
                 // 关闭按钮
                 new Positioned(
+
                   child: new Container(
                     decoration: new BoxDecoration(
                       border: new Border.all(color: Color(0xff999999), width: 1.0),
