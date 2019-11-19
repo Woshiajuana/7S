@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class SettingView extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class _SettingViewState extends State<SettingView> {
         ),
       ),
       child: new FlatButton(
-        onPressed: () => {},
+        onPressed: () => _handleExitOut(),
         child: new Text(
           '安全退出',
           style: new TextStyle(
@@ -121,6 +122,25 @@ class _SettingViewState extends State<SettingView> {
         ),
       ),
     );
+  }
+
+  void _handleExitOut () async {
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new ConfirmDialog(
+          content: '您确定要退出此账号吗？',
+        );
+      },
+    );
+    if (result != true) return;
+    try {
+//      await Application.util.store.clear();
+    } catch (err) {
+
+    } finally {
+      Application.router.replace(context, '/');
+    }
   }
 
 }
