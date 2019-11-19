@@ -17,6 +17,8 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
       body: new Stack(
         children: <Widget>[
           new ListView(
@@ -111,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
             onTap: () => Application.router.push(context, 'register'),
             child: new Text(
               '点击注册',
-              style: TextStyle(color: Colors.green),
+              style: TextStyle(color: Application.config.style.mainColor),
             ),
           ),
         ],
