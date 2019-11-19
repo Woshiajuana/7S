@@ -44,11 +44,11 @@ class _WebViewState extends State<WebView> {
     // TODO: implement build
     return new WebviewScaffold(
       url: widget.url,
+      withZoom: false,
+      withLocalStorage: true,
+      withJavascript: true,
+      bottomNavigationBar: new Container(color: Color(0x11ffffff), width: 100, height: 100,),
       appBar: new AppBar(
-//        leading: _isIndex ? new Container() : new FlatButton(
-//          onPressed: () => _flutterWebviewPlugin.goBack(),
-//          child: new Icon(Icons.arrow_back, color: Colors.white),
-//        ),
         title: new Text(
           _stringTitle,
           style: new TextStyle(
@@ -57,25 +57,58 @@ class _WebViewState extends State<WebView> {
         ),
 //        centerTitle: true,
         actions: <Widget>[
-          new GestureDetector(
-            onTap: () => _flutterWebviewPlugin.reload(),
-            child: new Container(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: new Center(
-                child: new Text(
-                  '刷新',
-                  style: new TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          new IconButton(icon: new Icon(Icons.more_horiz), onPressed: () => _handleShowDialog()),
+//          new GestureDetector(
+//            onTap: () => _flutterWebviewPlugin.reload(),
+//            child: new Container(
+//              padding: const EdgeInsets.only(right: 10.0),
+//              child: new Center(
+//                child: new Text(
+//                  '刷新',
+//                  style: new TextStyle(
+//                    fontSize: 14.0,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//              ),
+//            ),
+//          ),
         ],
       ),
     );
   }
+
+  // 呼出底部弹窗
+  void _handleShowDialog () {
+
+    showDialog(
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      context: context,
+      builder: (BuildContext context) {
+        return new Material(
+          type: MaterialType.transparency,
+          child: new Column(
+            children: <Widget>[
+              new Expanded(flex: 1, child: new Container()),
+              new Container(
+                child: new FlatButton(
+                  onPressed: () => {},
+                  child: new Text(
+                    '取消',
+                    style: new TextStyle(
+                      color: Color(0xff999999),
+                      fontSize: 16.0
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
 
   //获取h5页面标题
   void _getWebTitle() async {
