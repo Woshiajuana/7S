@@ -125,7 +125,7 @@ class _LoginViewState extends State<LoginView> {
       height: 45.0,
       margin: const EdgeInsets.only(left: 60.0, right: 60.0, top: 60.0),
       decoration: new BoxDecoration(
-        color: Colors.blue,
+        color: Application.config.style.mainColor,
         borderRadius: new BorderRadius.circular(30.0),
       ),
       child: new FlatButton(
