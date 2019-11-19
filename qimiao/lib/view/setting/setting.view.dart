@@ -102,10 +102,23 @@ class _SettingViewState extends State<SettingView> {
   // 安全退出
   Widget _widgetExitButtonSection () {
     return new Container(
-      height: 70.0,
+      height: 60.0,
+      margin: EdgeInsets.only(top: 30.0),
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        border: new Border(
+          top: new BorderSide(color: Color(0xffdddddd), width: 0.5),
+          bottom: new BorderSide(color: Color(0xffdddddd), width: 0.5),
+        ),
+      ),
       child: new FlatButton(
         onPressed: () => {},
-        child: null,
+        child: new Text(
+          '安全退出',
+          style: new TextStyle(
+            fontSize: 18.0,
+          ),
+        ),
       ),
     );
   }
