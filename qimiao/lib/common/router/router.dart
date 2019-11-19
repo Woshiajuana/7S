@@ -46,6 +46,12 @@ class Router {
         return new SettingView();
       }
     },
+    'login': {
+      'route': (_) => new LoginView(),
+      'handle': (params) {
+        return new LoginView();
+      }
+    },
     'home': {
       'route': (_) => new HomeView(),
       'handle': (params) {

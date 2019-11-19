@@ -5,13 +5,13 @@ import 'package:qimiao/view//login/components/headerGroup.dart';
 import 'package:qimiao/view/login/components/inputGroup.dart';
 import 'package:qimiao/view/login/components/buttonGroup.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginView extends StatefulWidget {
 
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _LoginViewState createState() => new _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginViewState extends State<LoginView> {
 
   String _username = '13127590698';
   String _password = '111111';
