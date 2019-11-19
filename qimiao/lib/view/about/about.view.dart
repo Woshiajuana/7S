@@ -15,7 +15,7 @@ class _AboutViewState extends State<AboutView> {
         title: new Text(
           '关于我们',
           style: new TextStyle(
-            fontSize: 16.0,
+            fontSize: 18.0,
           ),
         ),
       ),
