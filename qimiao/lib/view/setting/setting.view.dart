@@ -39,7 +39,7 @@ class _SettingViewState extends State<SettingView> {
       {
         'useMargin': false,
         'text': '登录设备管理',
-        'routeName': '',
+        'routeName': 'device',
       },
       {
         'useMargin': true,

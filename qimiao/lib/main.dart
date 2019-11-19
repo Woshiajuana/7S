@@ -29,15 +29,9 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key key}) : super(key: key);
 
-  // 判断
-  void _test() {
-    print('Application.common.router.routes1 => ${Application.router.routes == Application.router.routes}');
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    _test();
     return new StoreProvider(
       store: store,
       child: MaterialApp(

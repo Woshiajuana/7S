@@ -7,6 +7,7 @@ import 'package:qimiao/view/calendar/calendar.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/view/notice/notice.view.dart';
 import 'package:qimiao/view/notice/details.view.dart';
+import 'package:qimiao/view/device/device.view.dart';
 import 'package:qimiao/view/splash/splash.view.dart';
 import 'package:qimiao/view/webview/webview.view.dart';
 import 'package:qimiao/view/about/about.view.dart';
@@ -67,6 +68,12 @@ class Router {
         return new NoticeDetailsView(
           title: params['title'] ?? '',
         );
+      }
+    },
+    'device': {
+      'route': (_) => new DeviceView(),
+      'handle': (params) {
+        return new DeviceView();
       }
     },
     'setting': {

@@ -1,19 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:qimiao/common/application.dart';
 
-class AboutView extends StatefulWidget {
+class DeviceView extends StatefulWidget {
   @override
-  _AboutViewState createState() => _AboutViewState();
+  _DeviceViewState createState() => _DeviceViewState();
 }
 
-class _AboutViewState extends State<AboutView> {
+class _DeviceViewState extends State<DeviceView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '关于我们',
+          '登录设备管理',
           style: new TextStyle(
             fontSize: 16.0,
           ),
