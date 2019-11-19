@@ -21,7 +21,7 @@ class _MineViewState extends State<MineView> {
               children: <Widget>[
                 new IconButton(
                   icon: new Icon(Icons.email),
-                  onPressed: () => {},
+                  onPressed: () => Application.router.push(context, 'notice'),
                 ),
                 new Positioned(
                   top: 10.0,

@@ -5,6 +5,8 @@ import 'package:qimiao/view/app.view.dart';
 import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/calendar/calendar.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
+import 'package:qimiao/view/notice/notice.view.dart';
+import 'package:qimiao/view/notice/details.view.dart';
 import 'package:qimiao/view/splash/splash.view.dart';
 import 'package:qimiao/view/webview/webview.view.dart';
 import 'package:qimiao/view/about/about.view.dart';
@@ -51,6 +53,20 @@ class Router {
       'route': (_) => new MineView(),
       'handle': (params) {
         return new MineView();
+      }
+    },
+    'notice': {
+      'route': (_) => new NoticeView(),
+      'handle': (params) {
+        return new NoticeView();
+      }
+    },
+    'noticeDetails': {
+      'route': (_) => new NoticeDetailsView(),
+      'handle': (params) {
+        return new NoticeDetailsView(
+          title: params['title'] ?? '',
+        );
       }
     },
     'setting': {
