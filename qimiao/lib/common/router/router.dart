@@ -27,9 +27,9 @@ class Router {
 
   static Map<String, Map<String, dynamic>> config = {
     '/': {
-      'route': (_) => new SplashView(),
+      'route': (_) => new LoginView(),
       'handle': (params) {
-        return new SplashView();
+        return new LoginView();
       }
     },
     'app': {

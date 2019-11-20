@@ -35,12 +35,6 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-
-  // 背景图片
-
-
-
-
   // 头部 LOGO
   Widget _widgetHeaderSection () {
     return new Container(
