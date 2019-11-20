@@ -13,6 +13,8 @@ class UpgradeDialog extends StatefulWidget {
 
 class _UpgradeDialogState extends State<UpgradeDialog> {
 
+  bool _isUpdate = false;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -37,6 +39,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
       ),
     );
   }
+
   // 头部图片
   Widget _widgetHeaderSection () {
     return new Positioned(
@@ -89,7 +92,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
     List<String> _arrContent = widget.arrContent ?? [];
 
-    // 立即更新 or 进度条
+    // 立即更新
     Widget _widgetButtonItem () {
       return new Container(
         width: 220.0,
@@ -100,13 +103,37 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
           borderRadius: new BorderRadius.circular(20.0),
         ),
         child: new FlatButton(
-          onPressed: () => print(2),
+          onPressed: () => _handleUpdate(),
           child: new Text(
             '立即更新',
             style: new TextStyle(
               color: Colors.white,
               fontSize: 16.0,
             ),
+          ),
+        ),
+      );
+    }
+
+    // 进度条
+    Widget _widgetProgressItem () {
+      return new Container(
+        width: 220.0,
+        height: 40.0,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+        child: new SizedBox(
+          //限制进度条的高度
+          height: 6.0,
+          //限制进度条的宽度
+          width: 220,
+          child: new LinearProgressIndicator(
+            //0~1的浮点数，用来表示进度多少;如果 value 为 null 或空，则显示一个动画，否则显示一个定值
+            value: 0.3,
+            //背景颜色
+            backgroundColor: Color(0xffdddddd),
+            //进度颜色
+            valueColor: new AlwaysStoppedAnimation<Color>(Application.config.style.mainColor)
           ),
         ),
       );
@@ -144,35 +171,18 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
               ),
             ),
           ),
-          new Container(
-            width: 220.0,
-            height: 40.0,
-            margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-            decoration: new BoxDecoration(
-              color: Application.config.style.mainColor,
-              borderRadius: new BorderRadius.circular(20.0),
-            ),
-            child: new FlatButton(
-              onPressed: () => print(2),
-              child: new Text(
-                '立即更新',
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-          )
+          _isUpdate ? _widgetProgressItem() : _widgetButtonItem(),
         ],
       ),
     );
   }
 
-  void _handleSure () async {
-    try {
-      Navigator.of(context).pop(true);
-    } catch (err) {
-    }
+  void _handleUpdate () async {
+
+    setState(() {
+      _isUpdate = true;
+    });
+
   }
 
 }
