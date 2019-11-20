@@ -53,7 +53,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
             borderRadius: new BorderRadius.circular(180.0),
           ),
           child: new Image.asset(
-            Application.util.getImgPath('logo-300'),
+            Application.util.getImgPath('logo-300.png'),
             width: 120.0,
             height: 120.0,
             fit: BoxFit.fill,

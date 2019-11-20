@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
     return new Container(
       margin: const EdgeInsets.only(top: 70.0),
       child: new Image.asset(
-        Application.util.getImgPath('logo-300'),
+        Application.util.getImgPath('logo-300.png'),
         width: 120.0,
         height: 120.0,
       ),

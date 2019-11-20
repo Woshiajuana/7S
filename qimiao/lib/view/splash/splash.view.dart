@@ -68,7 +68,7 @@ class _SplashViewState extends State<SplashView> {
   // 启动页
   Widget _widgetSplashSection () {
     return new Image.asset(
-      Application.util.getImgPath('splash_bg'),
+      Application.util.getImgPath('splash_bg.png'),
       width: double.infinity,
       height: double.infinity,
       fit: BoxFit.fill,
@@ -80,10 +80,10 @@ class _SplashViewState extends State<SplashView> {
 
     // 引导页数据
     List<String> _arrGuide = [
-      Application.util.getImgPath('guide1'),
-      Application.util.getImgPath('guide2'),
-      Application.util.getImgPath('guide3'),
-      Application.util.getImgPath('guide4'),
+      Application.util.getImgPath('guide1.png'),
+      Application.util.getImgPath('guide2.png'),
+      Application.util.getImgPath('guide3.png'),
+      Application.util.getImgPath('guide4.png'),
     ];
 
     // 立即体验按钮
