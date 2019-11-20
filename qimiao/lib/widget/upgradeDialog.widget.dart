@@ -61,21 +61,6 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
   }
 
   // 关闭按钮
-  Widget _widgetCloseSection1 () {
-    return new Container(
-      width: 40.0,
-      height: 40.0,
-      decoration: new BoxDecoration(
-        border: new Border.all(color: Colors.red, width: 1.0),
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
-      child: new IconButton(
-        padding: const EdgeInsets.all(0),
-        icon: new Icon(Icons.close, color: Colors.red),
-        onPressed: () => print(1),
-      ),
-    );
-  }
   Widget _widgetCloseSection () {
     return new Positioned(
       left: 0,
@@ -92,7 +77,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
           child: new IconButton(
             padding: const EdgeInsets.all(0),
             icon: new Icon(Icons.close, color: Color(0xffcccccc)),
-            onPressed: () => print(1),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
       ),
