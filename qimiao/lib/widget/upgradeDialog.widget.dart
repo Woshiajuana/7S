@@ -89,6 +89,29 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
     List<String> _arrContent = widget.arrContent ?? [];
 
+    // 立即更新 or 进度条
+    Widget _widgetButtonItem () {
+      return new Container(
+        width: 220.0,
+        height: 40.0,
+        margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+        decoration: new BoxDecoration(
+          color: Application.config.style.mainColor,
+          borderRadius: new BorderRadius.circular(20.0),
+        ),
+        child: new FlatButton(
+          onPressed: () => print(2),
+          child: new Text(
+            '立即更新',
+            style: new TextStyle(
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+          ),
+        ),
+      );
+    }
+
     return new Container(
       width: 300.0,
       height: 300.0,
