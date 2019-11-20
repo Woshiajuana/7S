@@ -19,42 +19,61 @@ class _LoginViewState extends State<LoginView> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
-      body: new Stack(
-        children: <Widget>[
-          new ListView(
-            children: <Widget>[
-              _widgetHeaderSection(),
-              _widgetInputSection(),
-              _widgetForgetSection(),
-              _widgetButtonSection(),
-            ],
+      body: new Container(
+        decoration: new BoxDecoration(
+          color: Colors.blue,
+          image: new DecorationImage(
+            image: new AssetImage(Application.util.getImgPath('login_bg.jpg')),
+            fit: BoxFit.cover,
           ),
-          _widgetRegisterLinkSection(),
-        ],
+        ),
+        child: new Stack(
+          children: <Widget>[
+            _widgetMaskSection(),
+            new ListView(
+              children: <Widget>[
+                _widgetHeaderSection(),
+                _widgetInputSection(),
+                _widgetForgetSection(),
+                _widgetButtonSection(),
+              ],
+            ),
+            _widgetRegisterLinkSection(),
+          ],
+        ),
       ),
     );
   }
 
 
-  // 背景图片
-
-
-
+  // 背景mask
+  Widget _widgetMaskSection () {
+    return new Container(
+      color: Color.fromRGBO(0, 0, 0, 0.5),
+    );
+  }
 
   // 头部 LOGO
   Widget _widgetHeaderSection () {
     return new Container(
       margin: const EdgeInsets.only(top: 70.0),
       child: new Image.asset(
-        Application.util.getImgPath('logo-300.png'),
-        width: 120.0,
-        height: 120.0,
+        Application.util.getImgPath('login_logo.png'),
+        width: 67.0,
+        height: 115.0,
       ),
     );
   }
 
-  // 输入
+  // 输入框
   Widget _widgetInputSection () {
+    return new Container(
+
+    );
+  }
+
+  // 输入
+  Widget _widgetInputSection1 () {
     String _strEmail;
     String _strPassword;
     bool _isObscure = false;
@@ -82,6 +101,8 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+
+
 
   // 忘记密码
   Widget _widgetForgetSection () {

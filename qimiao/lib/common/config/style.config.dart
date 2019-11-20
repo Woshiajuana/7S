@@ -34,11 +34,11 @@ class Style {
   }
 
   Color get backgroundColor {
-    return Color(0xfff9ffff);
+    return Color(0xfff2f2f2);
   }
 
   Color get mainColor {
-    return Color(0xff45b0a0);
+    return Color(0xffec642f);
   }
 
   Color get subMainColor {
