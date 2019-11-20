@@ -17,52 +17,59 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     // TODO: implement build
     return new Material(
       type: MaterialType.transparency,
-      child: new Stack(
-        children: <Widget>[
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                new Container(
-                  width: 300.0,
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: new Column(
-                    children: <Widget>[
-                      // 输入
-                      _widgetContent(),
-                      // 按钮
-                      _widgetButtonSection(),
+      child: new Container(
+        width: 100.0,
+        height: 100.0,
+        color: Colors.red,
+      ),
+    );
+  }
 
-
-                    ],
-                  ),
-                ),
-              ],
-            ),
+  // 关闭按钮
+  Widget _widgetCloseSection () {
+    return new Positioned(
+      left: 0,
+      right: 0,
+      bottom: 100.0,
+      child: new Center(
+        child: new Container(
+          width: 40.0,
+          height: 40.0,
+          decoration: new BoxDecoration(
+            border: new Border.all(color: Colors.white, width: 1.0),
+            borderRadius: new BorderRadius.circular(30.0),
           ),
-          // 关闭按钮
-          new Positioned(
-            left: 0,
-            right: 0,
-            bottom: 100.0,
-            child: new Center(
-              child: new Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: new BoxDecoration(
-                  border: new Border.all(color: Colors.white, width: 1.0),
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                child: new IconButton(
-                  padding: const EdgeInsets.all(0),
-                  icon: new Icon(Icons.close, color: Colors.white),
-                  onPressed: null
-                ),
-              ),
+          child: new IconButton(
+              padding: const EdgeInsets.all(0),
+              icon: new Icon(Icons.close, color: Colors.white),
+              onPressed: null
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 内容主体
+  Widget _widgetContentSection () {
+    return new Center(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+
+          new Container(
+            width: 300.0,
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: new Column(
+              children: <Widget>[
+                // 输入
+                _widgetContent(),
+                // 按钮
+                _widgetButtonSection(),
+              ],
             ),
           ),
         ],
