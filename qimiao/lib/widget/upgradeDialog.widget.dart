@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qimiao/common/application.dart';
 
 class UpgradeDialog extends StatefulWidget {
 
@@ -17,10 +18,40 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     // TODO: implement build
     return new Material(
       type: MaterialType.transparency,
-      child: new Container(
-        width: 100.0,
-        height: 100.0,
-        color: Colors.red,
+      child: new Align(
+        child: new Container(
+          width: 300.0,
+          child: new Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              _widgetContentSection(),
+              _widgetHeaderSection(),
+              _widgetCloseSection(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  // 头部图片
+  Widget _widgetHeaderSection () {
+    return new Positioned(
+      left: 0,
+      right: 0,
+      top: -30.0,
+      child: new Center(
+        child: new Container(
+          decoration: new BoxDecoration(
+            color: Colors.white,
+            borderRadius: new BorderRadius.circular(180.0),
+          ),
+          child: new Image.asset(
+            Application.util.getImgPath('logo-300'),
+            width: 120.0,
+            height: 120.0,
+            fit: BoxFit.fill,
+          ),
+        ),
       ),
     );
   }
@@ -30,7 +61,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     return new Positioned(
       left: 0,
       right: 0,
-      bottom: 100.0,
+      bottom: -80.0,
       child: new Center(
         child: new Container(
           width: 40.0,
@@ -51,107 +82,60 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
   // 内容主体
   Widget _widgetContentSection () {
-    return new Center(
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-
-          new Container(
-            width: 300.0,
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: new Column(
-              children: <Widget>[
-                // 输入
-                _widgetContent(),
-                // 按钮
-                _widgetButtonSection(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _widgetContent () {
     return new Container(
-      margin: const EdgeInsets.only(top: 25.0, bottom: 25.0, left: 16.0, right: 16.0),
-      child: new Center(
-        child: new Text(
-          widget.content ?? '',
-          style: new TextStyle(
-            color: Color(0xff2d2a34),
-            fontSize: 16.0,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _widgetButtonSection () {
-    return new Container(
-      height: 45.0,
+      width: 300.0,
+      height: 300.0,
+      padding: const EdgeInsets.only(top: 100.0),
       decoration: new BoxDecoration(
-        border: new Border(
-          top: new BorderSide(
-            color: Color(0xfff0f0f0),
-            width: 0.8,
-          ),
-        )
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      child: new Row(
+      child: new Column(
         children: <Widget>[
-          _widgetButtonItem(
-            text: '取消',
-            color: Color(0xff6b6e73),
-            border: true,
-            onPressed: () => Navigator.of(context).pop(),
+          new Text(
+            '发现新版本拉',
+            style: new TextStyle(
+              color: Color(0xff333333),
+              fontSize: 18.0,
+            ),
           ),
-          _widgetButtonItem(
-            text: '确认',
-            color: Color(0xff3896ff),
-            onPressed: () => _handleSure(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _widgetButtonItem ({
-    String text = '',
-    Color color,
-    bool border = false,
-    dynamic onPressed,
-  }) {
-    return new Expanded(
-      flex: 1,
-      child: new FlatButton(
-        padding: const EdgeInsets.all(0),
-        onPressed: onPressed,
-        child: new Container(
-          decoration: new BoxDecoration(
-            border: border ? new Border(
-              right: new BorderSide(
-                color: Color(0xfff0f0f0),
-                width: 0.8,
-              ),
-            ) : null,
-          ),
-          height: 45.0,
-          child: new Center(
-            child: new Text(
-              text,
-              style: new TextStyle(
-                fontSize: 14.0,
-                color: color,
+          new SizedBox(height: 20.0),
+          new Expanded(
+            flex: 1,
+            child: new Container(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: new ListView(
+                children: <Widget>[
+                  new Text(
+                    '1.更新111',
+                    style: new TextStyle(
+                      color: Color(0xff666666),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),
+          new Container(
+            width: 220.0,
+            height: 40.0,
+            margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+            decoration: new BoxDecoration(
+              color: Application.config.style.mainColor,
+              borderRadius: new BorderRadius.circular(20.0),
+            ),
+            child: new FlatButton(
+              onPressed: () => {},
+              child: new Text(
+                '立即更新',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
