@@ -38,8 +38,11 @@ class _WorldViewState extends State<WorldView> {
     var result = await showDialog(
       context: context,
       builder: (BuildContext buildContext) {
-        return new UpgradeDialog(
-          content: '您确定要退出此账号吗？',
+        return new WillPopScope(
+          child: new UpgradeDialog(),
+          onWillPop: () async {
+            return Future.value(false);
+          }
         );
       },
     );

@@ -3,9 +3,9 @@ import 'package:qimiao/common/application.dart';
 
 class UpgradeDialog extends StatefulWidget {
 
-  const UpgradeDialog({Key key, this.content}) : super(key: key);
+  const UpgradeDialog({Key key, this.arrContent}) : super(key: key);
 
-  final String content;
+  final List<String> arrContent;
 
   @override
   _UpgradeDialogState createState() => new _UpgradeDialogState();
@@ -18,18 +18,22 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     // TODO: implement build
     return new Material(
       type: MaterialType.transparency,
-      child: new Align(
-        child: new Container(
-          width: 300.0,
-          child: new Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              _widgetContentSection(),
-              _widgetHeaderSection(),
-              _widgetCloseSection(),
-            ],
+      child: new Stack(
+        children: <Widget>[
+          new Align(
+            child: new Container(
+              width: 300.0,
+              child: new Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  _widgetContentSection(),
+                  _widgetHeaderSection(),
+                ],
+              ),
+            ),
           ),
-        ),
+          _widgetCloseSection(),
+        ],
       ),
     );
   }
@@ -57,23 +61,38 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
   }
 
   // 关闭按钮
+  Widget _widgetCloseSection1 () {
+    return new Container(
+      width: 40.0,
+      height: 40.0,
+      decoration: new BoxDecoration(
+        border: new Border.all(color: Colors.red, width: 1.0),
+        borderRadius: new BorderRadius.circular(30.0),
+      ),
+      child: new IconButton(
+        padding: const EdgeInsets.all(0),
+        icon: new Icon(Icons.close, color: Colors.red),
+        onPressed: () => print(1),
+      ),
+    );
+  }
   Widget _widgetCloseSection () {
     return new Positioned(
       left: 0,
       right: 0,
-      bottom: -80.0,
+      bottom: 70.0,
       child: new Center(
         child: new Container(
           width: 40.0,
           height: 40.0,
           decoration: new BoxDecoration(
-            border: new Border.all(color: Colors.white, width: 1.0),
+            border: new Border.all(color: Color(0xffcccccc), width: 1.0),
             borderRadius: new BorderRadius.circular(30.0),
           ),
           child: new IconButton(
-              padding: const EdgeInsets.all(0),
-              icon: new Icon(Icons.close, color: Colors.white),
-              onPressed: null
+            padding: const EdgeInsets.all(0),
+            icon: new Icon(Icons.close, color: Color(0xffcccccc)),
+            onPressed: () => print(1),
           ),
         ),
       ),
@@ -82,6 +101,9 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
   // 内容主体
   Widget _widgetContentSection () {
+
+    List<String> _arrContent = widget.arrContent ?? [];
+
     return new Container(
       width: 300.0,
       height: 300.0,
@@ -93,7 +115,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
       child: new Column(
         children: <Widget>[
           new Text(
-            '发现新版本拉',
+            '哦豁~发现新版本了...',
             style: new TextStyle(
               color: Color(0xff333333),
               fontSize: 18.0,
@@ -105,14 +127,12 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
             child: new Container(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: new ListView(
-                children: <Widget>[
-                  new Text(
-                    '1.更新111',
-                    style: new TextStyle(
-                      color: Color(0xff666666),
-                    ),
+                children: _arrContent.map((item) => new Text(
+                  item??'',
+                  style: new TextStyle(
+                    color: Color(0xff666666),
                   ),
-                ],
+                )).toList(),
               ),
             ),
           ),
@@ -125,7 +145,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
               borderRadius: new BorderRadius.circular(20.0),
             ),
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => print(2),
               child: new Text(
                 '立即更新',
                 style: new TextStyle(
