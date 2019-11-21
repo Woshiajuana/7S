@@ -122,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
   }) {
     return new Center(
       child: new Container(
-        width: 260.0,
+        width: 280.0,
         height: 46.0,
         decoration: new BoxDecoration(
           color: Color(0xffe4e3e0),
@@ -171,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _widgetForgetSection () {
     return new Center(
       child: new Container(
-        width: 260.0,
+        width: 280.0,
         alignment: Alignment.centerRight,
         child: new InkWell(
           onTap: () => {},
@@ -179,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
             '忘记密码？',
             style: new TextStyle(
               fontSize: 14.0,
-              color: Colors.white,
+              color: Color(0xffdddddd),
             ),
           ),
         ),
@@ -216,7 +216,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _widgetButtonSection () {
     return new Center(
       child: new Container(
-        width: 260.0,
+        width: 280.0,
         height: 46.0,
         decoration: new BoxDecoration(
           color: Application.config.style.mainColor,
@@ -231,7 +231,7 @@ class _LoginViewState extends State<LoginView> {
                 '登录',
                 style: new TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontSize: 18.0,
                 ),
               ),
             ],
