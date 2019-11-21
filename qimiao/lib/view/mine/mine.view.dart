@@ -54,6 +54,19 @@ class _MineViewState extends State<MineView> {
   // 头部
   Widget _widgetHeaderSection () {
     return new Container(
+      height: 311,
+      decoration: new BoxDecoration(
+        color: Colors.blue,
+        image: new DecorationImage(
+          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetHeaderSection1 () {
+    return new Container(
       color: Application.config.style.mainColor,
       padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: new Column(
