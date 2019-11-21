@@ -241,6 +241,6 @@ class _LoginViewState extends State<LoginView> {
 
   // 提交
   void _handleSubmit() async {
-
+    Application.router.replace(context, 'app');
   }
 }

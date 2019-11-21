@@ -14,7 +14,7 @@ class _SplashViewState extends State<SplashView> {
 
   TimerUtil _timerUtil;
   int _count = 5;
-  int _status = 1;  // 0:启动页  1:引导页  2:广告页
+  int _status = 0;  // 0:启动页  1:引导页  2:广告页
 
   // 倒计时
   void _countDown () {
@@ -25,7 +25,7 @@ class _SplashViewState extends State<SplashView> {
         _count = _tick.toInt();
       });
       if (_tick == 0) {
-        Application.router.replace(context, 'app');
+        Application.router.replace(context, 'login');
       }
     });
     _timerUtil.startCountDown();
@@ -106,7 +106,7 @@ class _SplashViewState extends State<SplashView> {
             ],
           ),
           child: new FlatButton(
-            onPressed: () => Application.router.replace(context, 'app'),
+            onPressed: () => Application.router.replace(context, 'login'),
             child: new Text(
               '立即体验',
               textAlign: TextAlign.center,
@@ -184,7 +184,7 @@ class _SplashViewState extends State<SplashView> {
           ),
           child: new FlatButton(
             padding: const EdgeInsets.all(0),
-            onPressed: () => Application.router.replace(context, 'app'),
+            onPressed: () => Application.router.replace(context, 'login'),
             child: new Text(
               '跳过 $_count s',
               style: new TextStyle(fontSize: 12.0, color: Colors.red),
