@@ -31,75 +31,28 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
       ),
-      body: new Stack(
-        children: <Widget>[
-          new ListView(
-            children: <Widget>[
-              new SizedBox(height: 20.0),
-              new Container(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: new TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: '邮箱',
-                  ),
-                  validator: (String value) { return value; },
-                  onSaved: (String value) => _strEmail = value,
-                ),
-              ),
-              new Container(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: new Row(
-                  children: <Widget>[
-                    new Expanded(
-                      flex: 1,
-                      child: new TextFormField(
-                        decoration: new InputDecoration(
-                          labelText: '验证码',
-                        ),
-                        validator: (String value) { return value; },
-                        onSaved: (String value) => _strEmail = value,
-                      ),
-                    ),
-                    new SizedBox(width: 20.0),
-                    new Container(
-                      width: 100,
-                      height: 45,
-                      decoration: new BoxDecoration(
-                        color: _numCount == _numDefCount ? Application.config.style.mainColor : Color(0xff999999),
-                        borderRadius: new BorderRadius.circular(6.0),
-                      ),
-                      child: new FlatButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => _countDown(),
-                        child: new Text(
-                          _numCount == _numDefCount ? '发送验证码' : '$_numCount s',
-                          style: new TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              new Container(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: new TextFormField(
-                  obscureText: true,
-                  decoration: new InputDecoration(
-                    labelText: '密码',
-                  ),
-                  validator: (String value) { return value; },
-                  onSaved: (String value) => _strPassword = value,
-                ),
-              ),
-              _widgetButtonSection(),
-            ],
+      body: new Container(
+        decoration: new BoxDecoration(
+          color: Colors.blue,
+          image: new DecorationImage(
+            image: new AssetImage(Application.util.getImgPath('register_bg.jpg')),
+            fit: BoxFit.cover,
           ),
-          _widgetAgreementSection(),
-        ],
+        ),
+        child: new Stack(
+          children: <Widget>[
+            _widgetMaskSection(),
+
+          ],
+        ),
       )
+    );
+  }
+
+  // 背景mask
+  Widget _widgetMaskSection () {
+    return new Container(
+      color: Color.fromRGBO(255,255,255,0.86),
     );
   }
 
