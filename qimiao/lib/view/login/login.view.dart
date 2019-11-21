@@ -29,8 +29,6 @@ class _LoginViewState extends State<LoginView> {
     // TODO: implement dispose
     _accountController.dispose();
     _passController.dispose();
-    _accountController = null;
-    _passController = null;
     super.dispose();
   }
 
