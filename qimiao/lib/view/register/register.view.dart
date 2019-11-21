@@ -68,6 +68,7 @@ class _RegisterViewState extends State<RegisterView> {
             _widgetMaskSection(),
             new ListView(
               children: <Widget>[
+                new SizedBox(height: 10.0),
                 _widgetInputSection(
                   controller: _emailController,
                   hintText: '邮箱',
@@ -77,6 +78,7 @@ class _RegisterViewState extends State<RegisterView> {
                   onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
                   onEye: () => {},
                 ),
+                new SizedBox(height: 10.0),
                 _widgetInputSection(
                   controller: _codeController,
                   hintText: '验证码',
@@ -86,6 +88,7 @@ class _RegisterViewState extends State<RegisterView> {
                   onClear: () { _codeController.clear(); setState(() => _strCode = ''); },
                   onEye: () => {},
                 ),
+                new SizedBox(height: 10.0),
                 _widgetInputSection(
                   controller: _passController,
                   hintText: '密码',
@@ -96,6 +99,10 @@ class _RegisterViewState extends State<RegisterView> {
                   onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
                   onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
                 ),
+                new SizedBox(height: 16.0),
+                _widgetAgreementSection(),
+                new SizedBox(height: 60.0),
+                _widgetButtonSection(),
               ],
             )
           ],
@@ -141,6 +148,7 @@ class _RegisterViewState extends State<RegisterView> {
             flex: 1,
             child: new TextField(
               controller: controller,
+              obscureText: isObscure,
               keyboardType: keyboardType,
               decoration: new InputDecoration(
                 hintText: hintText,
@@ -173,6 +181,73 @@ class _RegisterViewState extends State<RegisterView> {
     return new Container();
   }
 
+  // 协议
+  Widget _widgetAgreementSection () {
+    return new Container(
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          new Text(
+            '完成注册即代表您同意 ',
+            style: TextStyle(color: Color(0xff999999)),
+          ),
+          new InkWell(
+            onTap: () => Application.router.push(context, 'webview', params: { 'title': '用户协议', 'url': 'https://www.baidu.com' }),
+            child: new Text(
+              '用户协议',
+              style: TextStyle(color: Application.config.style.mainColor),
+            ),
+          ),
+          new Text(
+            ' 和 ',
+            style: TextStyle(color: Color(0xff999999)),
+          ),
+          new InkWell(
+            onTap: () => Application.router.push(context, 'webview', params: { 'title': '隐私政策', 'url': 'http://www.owulia.com' }),
+            child: new Text(
+              '隐私政策',
+              style: TextStyle(color: Application.config.style.mainColor),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _widgetButtonSection () {
+    return new Center(
+      child: new Container(
+        width: 280.0,
+        height: 46.0,
+        decoration: new BoxDecoration(
+          color: Application.config.style.mainColor,
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+        child: new FlatButton(
+          onPressed: () => _handleSubmit(),
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                '注册',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 提交
+  void _handleSubmit() async {
+
+  }
+
   // 倒计时
   void _countDown () {
     _timerUtil = new TimerUtil(mTotalTime: _numCount * 1000);
@@ -190,68 +265,5 @@ class _RegisterViewState extends State<RegisterView> {
     });
     _timerUtil.startCountDown();
   }
-
-  // 登录
-  Widget _widgetButtonSection () {
-    return new Container(
-      height: 45.0,
-      margin: const EdgeInsets.only(left: 60.0, right: 60.0, top: 60.0),
-      decoration: new BoxDecoration(
-        color: Application.config.style.mainColor,
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
-      child: new FlatButton(
-        onPressed: () => {},
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              '注册',
-              style: new TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 协议
-  Widget _widgetAgreementSection () {
-    return new Positioned(
-      bottom: 30.0,
-      left: 0,
-      right: 0,
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Text(
-            '完成注册即代表您同意',
-          ),
-          new InkWell(
-            onTap: () => Application.router.push(context, 'webview', params: { 'title': '用户协议', 'url': 'https://www.baidu.com' }),
-            child: new Text(
-              '用户协议',
-              style: TextStyle(color: Application.config.style.mainColor),
-            ),
-          ),
-          new Text(
-            '和',
-          ),
-          new InkWell(
-            onTap: () => Application.router.push(context, 'webview', params: { 'title': '隐私政策', 'url': 'http://www.owulia.com' }),
-            child: new Text(
-              '隐私政策',
-              style: TextStyle(color: Application.config.style.mainColor),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
 
 }
