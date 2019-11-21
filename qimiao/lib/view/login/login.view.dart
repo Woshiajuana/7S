@@ -10,8 +10,29 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
 
-  String _strEmail;
+  String _strAccount;
   String _strPassword;
+  bool _isPwdObscure = true;
+  TextEditingController _accountController;
+  TextEditingController _passController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _accountController = TextEditingController(text: '');
+    _passController = TextEditingController(text: '');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _accountController.dispose();
+    _passController.dispose();
+    _accountController = null;
+    _passController = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +54,32 @@ class _LoginViewState extends State<LoginView> {
             new ListView(
               children: <Widget>[
                 _widgetHeaderSection(),
-                _widgetInputSection(),
-                _widgetForgetSection(),
+                new SizedBox(height: 55.0),
+                _widgetInputSection(
+                  controller: _accountController,
+                  icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
+                  hintText: '邮箱 / 用户名',
+                  value: _strAccount,
+                  onChanged: (value) => setState(() => _strAccount = value),
+                  onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
+                  onEye: () => {},
+                ),
+                new SizedBox(height: 10.0),
+                _widgetInputSection(
+                  controller: _passController,
+                  icon: new Image.asset(Application.util.getImgPath('pwd_icon.png'), width: 20.0, height: 21.0),
+                  hintText: '密码',
+                  isObscure: _isPwdObscure,
+                  useEye: true,
+                  value: _strPassword,
+                  onChanged: (value) => setState(() => _strPassword = value),
+                  onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
+                  onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
+                ),
+                new SizedBox(height: 10.0),
                 _widgetButtonSection(),
+                new SizedBox(height: 20.0),
+                _widgetForgetSection(),
               ],
             ),
             _widgetRegisterLinkSection(),
@@ -44,7 +88,6 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
-
 
   // 背景mask
   Widget _widgetMaskSection () {
@@ -66,7 +109,17 @@ class _LoginViewState extends State<LoginView> {
   }
 
   // 输入框
-  Widget _widgetInputSection () {
+  Widget _widgetInputSection ({
+    TextEditingController controller,
+    Widget icon,
+    String hintText = '',
+    bool isObscure = false,
+    String value = '',
+    bool useEye = false,
+    dynamic onChanged,
+    dynamic onClear,
+    dynamic onEye,
+  }) {
     return new Center(
       child: new Container(
         width: 260.0,
@@ -81,76 +134,44 @@ class _LoginViewState extends State<LoginView> {
               alignment: Alignment.center,
               width: 46.0,
               height: 46.0,
-              child: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
+              child: icon,
             ),
             new Expanded(
               flex: 1,
-              child: new TextFormField(
+              child: new TextField(
+                controller: controller,
+                obscureText: isObscure,
                 decoration: new InputDecoration(
-                  hintText: '请输入用户名',
+                  hintText: hintText,
                   disabledBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
-                onSaved: (String value) => _strEmail = value,
+                onChanged: onChanged,
               ),
             ),
             new Offstage(
-              offstage: false,
+              offstage: (value == '' || value == null),
               child: new IconButton(
                 icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
-                onPressed: () => print(1),
+                onPressed: onClear,
               ),
             ),
-            new Offstage(
-              offstage: false,
-              child: new IconButton(
-                icon: new Icon(Icons.remove_red_eye, size: 20.0, color: Color(0xff666666)),
-                onPressed: () => print(1),
-              ),
-            ),
+            useEye ? new IconButton(
+              icon: new Icon(Icons.remove_red_eye, size: 20.0, color: isObscure ? Color(0xff666666) : Application.config.style.mainColor),
+              onPressed: onEye,
+            ) : new Container(),
           ],
         ),
       ),
     );
   }
 
-  // 输入
-  Widget _widgetInputSection1 () {
-
-    bool _isObscure = false;
-    return new Container(
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-      child: new Column(
-        children: <Widget>[
-          new TextFormField(
-            decoration: new InputDecoration(
-              labelText: '邮箱',
-            ),
-            validator: (String value) { return value; },
-            onSaved: (String value) => _strEmail = value,
-          ),
-          new SizedBox(height: 20.0),
-          new TextFormField(
-            obscureText: _isObscure,
-            decoration: new InputDecoration(
-              labelText: '密码',
-            ),
-            validator: (String value) { return value; },
-            onSaved: (String value) => _strPassword = value,
-          ),
-        ],
-      ),
-    );
-  }
-
-
-
   // 忘记密码
   Widget _widgetForgetSection () {
-    return new Container(
-      padding: const EdgeInsets.only(right: 30.0, top: 15.0),
-      child: new Align(
+    return new Center(
+      child: new Container(
+        width: 260.0,
         alignment: Alignment.centerRight,
         child: new InkWell(
           onTap: () => {},
@@ -158,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
             '忘记密码？',
             style: new TextStyle(
               fontSize: 14.0,
-              color: Color(0xff333333),
+              color: Colors.white,
             ),
           ),
         ),
@@ -177,6 +198,7 @@ class _LoginViewState extends State<LoginView> {
         children: <Widget>[
           new Text(
             '没有账号？ ',
+            style: TextStyle(color: Colors.white),
           ),
           new InkWell(
             onTap: () => Application.router.push(context, 'register'),
@@ -192,26 +214,28 @@ class _LoginViewState extends State<LoginView> {
 
   // 登录
   Widget _widgetButtonSection () {
-    return new Container(
-      height: 45.0,
-      margin: const EdgeInsets.only(left: 60.0, right: 60.0, top: 60.0),
-      decoration: new BoxDecoration(
-        color: Application.config.style.mainColor,
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
-      child: new FlatButton(
-        onPressed: () => {},
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              '登录',
-              style: new TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
+    return new Center(
+      child: new Container(
+        width: 260.0,
+        height: 46.0,
+        decoration: new BoxDecoration(
+          color: Application.config.style.mainColor,
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+        child: new FlatButton(
+          onPressed: () => _handleSubmit(),
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                '登录',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
