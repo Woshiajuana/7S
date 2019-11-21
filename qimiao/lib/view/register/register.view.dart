@@ -184,12 +184,17 @@ class _RegisterViewState extends State<RegisterView> {
   // 协议
   Widget _widgetAgreementSection () {
     return new Container(
-      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+      margin: const EdgeInsets.only(left: 1.0, right: 16.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          new Checkbox(
+            value: false,
+            activeColor: Application.config.style.mainColor,
+            onChanged: (bool val) {},
+          ),
           new Text(
-            '完成注册即代表您同意 ',
+            '我已阅读并同意 ',
             style: TextStyle(color: Color(0xff999999)),
           ),
           new InkWell(
