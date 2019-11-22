@@ -15,19 +15,46 @@ class _MineViewState extends State<MineView> {
       backgroundColor: Application.config.style.backgroundColor,
       body: new CustomScrollView(
         slivers: <Widget>[
+
           new SliverAppBar(
-            title: new Text(
-              'SliverAppBarParams',
-              style: new TextStyle(
-                fontSize: 16.0,
+            actions: <Widget>[
+              new Container(
+                child: new Stack(
+                  children: <Widget>[
+                    new IconButton(
+                      icon: new Icon(Icons.email),
+                      onPressed: () => Application.router.push(context, 'notice'),
+                    ),
+                    new Positioned(
+                      top: 10.0,
+                      right: 10.0,
+                      child: new Container(
+                        width: 10.0,
+                        height: 10.0,
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: new BorderRadius.circular(6.0),
+                          border: new Border.all(color: Application.config.style.mainColor, width: 2.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
+//            title: new Text(
+//              '我的',
+//              style: new TextStyle(
+//                fontSize: 18.0,
+//              ),
+//            ),
+            elevation: 0,
             // 展开的高度
             expandedHeight: 300.0,
             // 强制显示阴影
-            forceElevated: true,
+            forceElevated: false,
             // 设置该属性，当有下滑手势的时候，就会显示 AppBar
-            floating: true,
+            floating: false,
             // 该属性只有在 floating 为 true 的情况下使用，不然会报错
             // 当下滑到一定比例，会自动把 AppBar 展开
 //            snap: true,
@@ -38,6 +65,8 @@ class _MineViewState extends State<MineView> {
               // 背景折叠动画
               collapseMode: CollapseMode.parallax,
               background: Image.network(Application.config.style.srcDemoUrl, fit: BoxFit.cover),
+              title: new Container(width: 100, height: 100, color: Colors.white,),
+
             ),
           ),
           // 这个部件一般用于最后填充用的，会占有一个屏幕的高度，
