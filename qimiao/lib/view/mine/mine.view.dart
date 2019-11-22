@@ -19,8 +19,8 @@ class _MineViewState extends State<MineView> {
           new SliverPersistentHeader(
             pinned: true,
             delegate: SliverCustomHeaderDelegate(
-                title: '哪吒之魔童降世',
-                collapsedHeight: 40,
+                title: '我的',
+                collapsedHeight: 56,
                 expandedHeight: 300,
                 paddingTop: MediaQuery.of(context).padding.top,
                 coverImgUrl: 'https://img.zcool.cn/community/01c6615d3ae047a8012187f447cfef.jpg@1280w_1l_2o_100sh.jpg'
@@ -29,7 +29,7 @@ class _MineViewState extends State<MineView> {
 
           new SliverFillRemaining(
             child: new Text('CONTENT'),
-          )
+          ),
         ],
       ),
     );
@@ -259,7 +259,6 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double paddingTop;
   final String coverImgUrl;
   final String title;
-//  String statusBarMode = 'dark';
 
   SliverCustomHeaderDelegate({
     this.collapsedHeight,
@@ -282,13 +281,11 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   void updateStatusBarBrightness(shrinkOffset) {
     if(shrinkOffset > 50) {
-//      this.statusBarMode = 'light';
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.light,
       ));
     } else if(shrinkOffset <= 50) {
-//      this.statusBarMode = 'dark';
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark,
@@ -298,7 +295,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   Color makeStickyHeaderBgColor(shrinkOffset) {
     final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
-    return Color.fromARGB(alpha, 255, 255, 255);
+    return Color.fromARGB(alpha, 236, 100, 47);
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
@@ -306,28 +303,28 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       return isIcon ? Colors.white : Colors.transparent;
     } else {
       final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
-      return Color.fromARGB(alpha, 0, 0, 0);
+      return Color.fromARGB(alpha, 255, 255, 255);
     }
   }
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     this.updateStatusBarBrightness(shrinkOffset);
-    return Container(
+    return new Container(
       height: this.maxExtent,
       width: MediaQuery.of(context).size.width,
-      child: Stack(
+      child: new Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Container(child: Image.network(this.coverImgUrl, fit: BoxFit.cover)),
-          Positioned(
+          new Container(child: new Image.network(this.coverImgUrl, fit: BoxFit.cover)),
+          new Positioned(
             left: 0,
             top: this.maxExtent / 2,
             right: 0,
             bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
+            child: new Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
@@ -338,40 +335,50 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
-          Positioned(
+          new Positioned(
             left: 0,
             right: 0,
             top: 0,
-            child: Container(
+            child: new Container(
               color: this.makeStickyHeaderBgColor(shrinkOffset),
-              child: SafeArea(
+              child: new SafeArea(
                 bottom: false,
-                child: Container(
+                child: new Container(
                   height: this.collapsedHeight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: new Row(
                     children: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      Text(
+                      new SizedBox(width: 16.0),
+                      new Text(
                         this.title,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.w500,
                           color: this.makeStickyHeaderTextColor(shrinkOffset, false),
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.share,
-                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
+                      new Expanded(child: new Container(), flex: 1),
+                      new Container(
+                        child: new Stack(
+                          children: <Widget>[
+                            new IconButton(
+                              icon: new Icon(Icons.email),
+                              onPressed: () => Application.router.push(context, 'notice'),
+                            ),
+                            new Positioned(
+                              top: 10.0,
+                              right: 10.0,
+                              child: new Container(
+                                width: 10.0,
+                                height: 10.0,
+                                decoration: new BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: new BorderRadius.circular(6.0),
+                                  border: new Border.all(color: Application.config.style.mainColor, width: 2.0),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        onPressed: () {},
                       ),
                     ],
                   ),
