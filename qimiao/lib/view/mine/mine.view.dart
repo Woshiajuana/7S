@@ -361,7 +361,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                         child: new Stack(
                           children: <Widget>[
                             new IconButton(
-                              icon: new Icon(Icons.email),
+                              icon: new Icon(Icons.email, color: Colors.white,),
                               onPressed: () => Application.router.push(context, 'notice'),
                             ),
                             new Positioned(
@@ -371,7 +371,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                                 width: 10.0,
                                 height: 10.0,
                                 decoration: new BoxDecoration(
-                                  color: Colors.white,
+                                  color: Colors.red,
                                   borderRadius: new BorderRadius.circular(6.0),
                                   border: new Border.all(color: Application.config.style.mainColor, width: 2.0),
                                 ),
