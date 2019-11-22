@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class MineView extends StatelessWidget {
+class MineView extends StatefulWidget {
+  @override
+  _MineViewState createState() => _MineViewState();
+}
+
+class _MineViewState extends State<MineView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

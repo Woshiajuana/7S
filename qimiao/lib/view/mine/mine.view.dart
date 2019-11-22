@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:flutter/services.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -15,87 +16,20 @@ class _MineViewState extends State<MineView> {
       backgroundColor: Application.config.style.backgroundColor,
       body: new CustomScrollView(
         slivers: <Widget>[
-
-          new SliverAppBar(
-            actions: <Widget>[
-              new Container(
-                child: new Stack(
-                  children: <Widget>[
-                    new IconButton(
-                      icon: new Icon(Icons.email),
-                      onPressed: () => Application.router.push(context, 'notice'),
-                    ),
-                    new Positioned(
-                      top: 10.0,
-                      right: 10.0,
-                      child: new Container(
-                        width: 10.0,
-                        height: 10.0,
-                        decoration: new BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: new BorderRadius.circular(6.0),
-                          border: new Border.all(color: Application.config.style.mainColor, width: 2.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-//            title: new Text(
-//              '我的',
-//              style: new TextStyle(
-//                fontSize: 18.0,
-//              ),
-//            ),
-            elevation: 0,
-            // 展开的高度
-            expandedHeight: 310.0,
-            // 强制显示阴影
-            forceElevated: false,
-            // 设置该属性，当有下滑手势的时候，就会显示 AppBar
-            floating: false,
-            // 该属性只有在 floating 为 true 的情况下使用，不然会报错
-            // 当下滑到一定比例，会自动把 AppBar 展开
-//            snap: true,
-            // 设置该属性使 Appbar 折叠后不消失
+          new SliverPersistentHeader(
             pinned: true,
-            // 通过这个属性设置 AppBar 的背景
-            flexibleSpace: new FlexibleSpaceBar(
-              // 背景折叠动画
-              collapseMode: CollapseMode.parallax,
-              background: new Image.asset(Application.util.getImgPath('mine_head_bg.png'), fit: BoxFit.cover),
+            delegate: SliverCustomHeaderDelegate(
+                title: '哪吒之魔童降世',
+                collapsedHeight: 40,
+                expandedHeight: 300,
+                paddingTop: MediaQuery.of(context).padding.top,
+                coverImgUrl: 'https://img.zcool.cn/community/01c6615d3ae047a8012187f447cfef.jpg@1280w_1l_2o_100sh.jpg'
             ),
           ),
-//          SliverPersistentHeader(
-//            floating: false,//floating 与pinned 不能同时为true
-//            pinned: true,
-//            delegate: SliverPersistentHeaderDelegate.ge
-//            ),
-//          ),
-          new SliverToBoxAdapter(
-            child: new Container(
-              height: 311,
-              decoration: new BoxDecoration(
-                color: Colors.blue,
-                image: new DecorationImage(
-                  image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
 
-          ),
-          // 这个部件一般用于最后填充用的，会占有一个屏幕的高度，
-          // 可以在 child 属性加入需要展示的部件
           new SliverFillRemaining(
-            child: new Center(
-                child: new Text(
-                  'content',
-                  style: new TextStyle(fontSize: 30.0),
-                )
-            ),
-          ),
+            child: new Text('CONTENT'),
+          )
         ],
       ),
     );
@@ -171,53 +105,53 @@ class _MineViewState extends State<MineView> {
           new Expanded(
             flex: 1,
             child: new FlatButton(
-              onPressed: () => {},
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    '1000',
-                    style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
+                onPressed: () => {},
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                      '1000',
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
                     ),
-                  ),
-                  new SizedBox(height: 3.0),
-                  new Text(
-                    '关注',
-                    style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.0,
+                    new SizedBox(height: 3.0),
+                    new Text(
+                      '关注',
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.0,
+                      ),
                     ),
-                  ),
-                ],
-              )
+                  ],
+                )
             ),
           ),
           new Expanded(
             flex: 1,
             child: new FlatButton(
-              onPressed: () => {},
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    '1000',
-                    style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
+                onPressed: () => {},
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                      '1000',
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
                     ),
-                  ),
-                  new SizedBox(height: 3.0),
-                  new Text(
-                    '粉丝',
-                    style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.0,
+                    new SizedBox(height: 3.0),
+                    new Text(
+                      '粉丝',
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.0,
+                      ),
                     ),
-                  ),
-                ],
-              )
+                  ],
+                )
             ),
           ),
         ],
@@ -317,6 +251,136 @@ class _MineViewState extends State<MineView> {
     );
   }
 
+}
 
+class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double collapsedHeight;
+  final double expandedHeight;
+  final double paddingTop;
+  final String coverImgUrl;
+  final String title;
+//  String statusBarMode = 'dark';
 
+  SliverCustomHeaderDelegate({
+    this.collapsedHeight,
+    this.expandedHeight,
+    this.paddingTop,
+    this.coverImgUrl,
+    this.title,
+  });
+
+  @override
+  double get minExtent => this.collapsedHeight + this.paddingTop;
+
+  @override
+  double get maxExtent => this.expandedHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  void updateStatusBarBrightness(shrinkOffset) {
+    if(shrinkOffset > 50) {
+//      this.statusBarMode = 'light';
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ));
+    } else if(shrinkOffset <= 50) {
+//      this.statusBarMode = 'dark';
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+      ));
+    }
+  }
+
+  Color makeStickyHeaderBgColor(shrinkOffset) {
+    final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
+    return Color.fromARGB(alpha, 255, 255, 255);
+  }
+
+  Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
+    if(shrinkOffset <= 50) {
+      return isIcon ? Colors.white : Colors.transparent;
+    } else {
+      final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
+      return Color.fromARGB(alpha, 0, 0, 0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    this.updateStatusBarBrightness(shrinkOffset);
+    return Container(
+      height: this.maxExtent,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(child: Image.network(this.coverImgUrl, fit: BoxFit.cover)),
+          Positioned(
+            left: 0,
+            top: this.maxExtent / 2,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00000000),
+                    Color(0x90000000),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              color: this.makeStickyHeaderBgColor(shrinkOffset),
+              child: SafeArea(
+                bottom: false,
+                child: Container(
+                  height: this.collapsedHeight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Text(
+                        this.title,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: this.makeStickyHeaderTextColor(shrinkOffset, false),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.share,
+                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
