@@ -64,11 +64,13 @@ class _NoticeViewState extends State<NoticeView> {
                     fontSize: 12.0,
                   ),
                 ),
+                new SizedBox(height: 5.0),
                 new Text(
                   '实名认证',
                   style: new TextStyle(
                     color: Color(0xff666666),
                     fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],

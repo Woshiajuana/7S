@@ -234,25 +234,25 @@ class _MineViewState extends State<MineView> {
         'text': '视频',
         'icon': Icons.videocam,
         'useMargin': true,
-        'routeName': 'setting',
+        'routeName': 'videoList',
       },
       {
-        'text': '相册',
+        'text': '照片',
         'icon': Icons.photo_camera,
         'useMargin': false,
-        'routeName': 'setting',
-      },
-      {
-        'text': '点赞',
-        'icon': Icons.headset,
-        'useMargin': true,
-        'routeName': 'setting',
+        'routeName': 'photoList',
       },
       {
         'text': '收藏',
-        'icon': Icons.headset,
+        'icon': Icons.favorite,
+        'useMargin': true,
+        'routeName': 'collectList',
+      },
+      {
+        'text': '历史',
+        'icon': Icons.star,
         'useMargin': false,
-        'routeName': 'setting',
+        'routeName': 'historyList',
       },
       {
         'text': '设置',
@@ -285,7 +285,7 @@ class _MineViewState extends State<MineView> {
           child: new Row(
             children: <Widget>[
               new SizedBox(width: 16.0),
-              new Icon(icon, color: Color(0xff333333)),
+              new Icon(icon, color: Color(0xff666666)),
               new SizedBox(width: 16.0),
               new Text(
                 text,
