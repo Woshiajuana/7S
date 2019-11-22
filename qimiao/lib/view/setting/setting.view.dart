@@ -87,6 +87,7 @@ class _SettingViewState extends State<SettingView> {
                 style: new TextStyle(
                   color: Color(0xff333333),
                   fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
@@ -124,6 +125,7 @@ class _SettingViewState extends State<SettingView> {
           '安全退出',
           style: new TextStyle(
             fontSize: 18.0,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),
