@@ -31,6 +31,7 @@ class _MineViewState extends State<MineView> {
           ),
           // 菜单内容
           _widgetMenuSection(),
+          new SizedBox(height: 20.0),
         ],
       ),
     );
@@ -250,7 +251,7 @@ class _MineViewState extends State<MineView> {
       },
       {
         'text': '历史',
-        'icon': Icons.star,
+        'icon': Icons.history,
         'useMargin': false,
         'routeName': 'historyList',
       },

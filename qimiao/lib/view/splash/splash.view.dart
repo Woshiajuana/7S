@@ -14,7 +14,7 @@ class _SplashViewState extends State<SplashView> {
 
   TimerUtil _timerUtil;
   int _count = 5;
-  int _status = 0;  // 0:启动页  1:引导页  2:广告页
+  int _status = 2;  // 0:启动页  1:引导页  2:广告页
 
   // 倒计时
   void _countDown () {
@@ -34,7 +34,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    if (_status == 0) {
+    if (_status == 2) {
       _countDown();
     }
   }
