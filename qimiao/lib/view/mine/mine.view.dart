@@ -291,7 +291,7 @@ class _MineViewState extends State<MineView> {
                 text,
                 style: new TextStyle(
                   color: Color(0xff333333),
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w400,
                 ),
               ),
