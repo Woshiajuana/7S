@@ -124,7 +124,7 @@ class _SettingViewState extends State<SettingView> {
         child: new Text(
           '安全退出',
           style: new TextStyle(
-            fontSize: 18.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.w400,
           ),
         ),
