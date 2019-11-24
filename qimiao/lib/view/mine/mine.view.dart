@@ -172,11 +172,12 @@ class _MineViewState extends State<MineView> {
     Widget _widgetBaseInfoItem ({
       String labelText = '',
       String valueText = '',
+      dynamic onPressed,
     }) {
       return new Expanded(
         flex: 1,
         child: new FlatButton(
-            onPressed: () => {},
+            onPressed: onPressed,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
