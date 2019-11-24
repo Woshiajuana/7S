@@ -94,9 +94,9 @@ class Router {
       }
     },
     'followList': {
-      'route': (_) => new FollowListView(),
+      'route': (_) => new FollowerListView(),
       'handle': (params) {
-        return new FollowListView();
+        return new FollowerListView();
       }
     },
     'historyList': {
