@@ -18,6 +18,7 @@ import 'package:qimiao/view/video/videoList.view.dart';
 import 'package:qimiao/view/photo/photoList.view.dart';
 import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
+import 'package:qimiao/view/follower/followerList.view.dart';
 
 class Router {
 
@@ -90,6 +91,12 @@ class Router {
       'route': (_) => new CollectListView(),
       'handle': (params) {
         return new CollectListView();
+      }
+    },
+    'followList': {
+      'route': (_) => new FollowListView(),
+      'handle': (params) {
+        return new FollowListView();
       }
     },
     'historyList': {
