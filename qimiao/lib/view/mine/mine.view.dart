@@ -219,10 +219,12 @@ class _MineViewState extends State<MineView> {
           _widgetBaseInfoItem(
             labelText: '视频',
             valueText: '228',
+            onPressed: () => Application.router.push(context, 'videoList'),
           ),
           _widgetBaseInfoItem(
             labelText: '作品',
             valueText: '55',
+            onPressed: () => Application.router.push(context, 'photoList'),
           ),
         ],
       ),
