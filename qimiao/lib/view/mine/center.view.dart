@@ -58,6 +58,11 @@ class _MineCenterViewState extends State<MineCenterView> {
         'useMargin': true,
       },
       {
+        'onPressed': () => Application.router.push(context, 'mineSignature'),
+        'labelText': '个性签名',
+        'valueText': '',
+      },
+      {
         'onPressed': () => Application.router.push(context, 'mineQrCode'),
         'labelText': '二维码名片',
         'valueText': '右边',

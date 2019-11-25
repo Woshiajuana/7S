@@ -25,6 +25,7 @@ import 'package:qimiao/view/mine/uid.view.dart';
 import 'package:qimiao/view/mine/qrCode.view.dart';
 import 'package:qimiao/view/password/change.view.dart';
 import 'package:qimiao/view/password/reset.view.dart';
+import 'package:qimiao/view/mine/signature.view.dart';
 
 class Router {
 
@@ -133,6 +134,12 @@ class Router {
       'route': (_) => new MineQrCodeView(),
       'handle': (params) {
         return new MineQrCodeView();
+      }
+    },
+    'mineSignature': {
+      'route': (_) => new MineSignatureView(),
+      'handle': (params) {
+        return new MineSignatureView();
       }
     },
     'passwordChange': {
