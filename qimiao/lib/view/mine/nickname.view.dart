@@ -59,6 +59,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
       body: new ListView(
         children: <Widget>[
           _widgetInputSection(),
+          _widgetPromptSection(),
         ],
       ),
     );
@@ -78,7 +79,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
             ),
             maxLength: 10,
             decoration: new InputDecoration(
-              hintText: '好昵称不赶紧下手，等着被别人抢吗？',
+              hintText: '汉字/字母/数字，符号表情党你奏凯...',
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
             onChanged: (value) => setState(() => _strNickname = value),
@@ -92,6 +93,37 @@ class _MineNicknameViewState extends State<MineNicknameView> {
                 icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
                 onPressed: () { _nicknameController.clear(); setState(() => _strNickname = ''); },
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 提示文案
+  Widget _widgetPromptSection () {
+    return new Container(
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10.0),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Container(
+            padding: const EdgeInsets.only(top: 2.0),
+            child: new Icon(Icons.info, color: Application.config.style.mainColor, size: 15.0),
+          ),
+          new SizedBox(width: 5.0),
+          new Expanded(
+            flex: 1,
+            child: new Wrap(
+              children: <Widget>[
+                new Text(
+                  '好昵称不赶紧下手，等着被别人抢吗？',
+                  style: new TextStyle(
+                    fontSize: 12.0,
+                    color: Color(0xff999999),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
