@@ -25,7 +25,6 @@ class _ActionSheetDialogState extends State<ActionSheetDialog> {
 
   @override
   Widget build(BuildContext context) {
-    
     return new Material(
       type: MaterialType.transparency,
       child: new Container(
@@ -47,7 +46,8 @@ class _ActionSheetDialogState extends State<ActionSheetDialog> {
   }
 
   Widget _widgetButtonGroup () {
-    int _numLen = widget.arrOptions.length;
+    int _numLen = widget.arrOptions?.length??0;
+    if (_numLen == 0) return new Container();
     return new Container(
       decoration: new BoxDecoration(
         color: Colors.white,
@@ -55,9 +55,9 @@ class _ActionSheetDialogState extends State<ActionSheetDialog> {
       ),
       child: new Column(
         children: widget.arrOptions.asMap().keys.map((index) => _widgetButtonItem(
-          onPressed: () => {},
           text: widget.arrOptions[index]['text'],
           child: widget.arrOptions[index]['child'],
+          onPressed: widget.arrOptions[index]['onPressed'],
           color: Color(0xff333333),
           useBorder: _numLen - 1 != index,
         )).toList(),

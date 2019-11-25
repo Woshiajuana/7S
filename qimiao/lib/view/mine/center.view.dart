@@ -163,13 +163,17 @@ class _MineCenterViewState extends State<MineCenterView> {
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.photo, color: Color(0xff666666)),
               ),
+              'onPressed': () {
+                print('相册1');
+              },
             },
             {
-              'text': '拍照',
+              'text': '拍照1',
               'child': new Container(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
               ),
+              'onPressed': () => print('拍照'),
             }
           ],
         );
