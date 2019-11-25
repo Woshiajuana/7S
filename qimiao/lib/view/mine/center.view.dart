@@ -155,7 +155,24 @@ class _MineCenterViewState extends State<MineCenterView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return new ActionSheetDialog();
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '相册',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.photo, color: Color(0xff666666)),
+              ),
+            },
+            {
+              'text': '拍照',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
+              ),
+            }
+          ],
+        );
       },
     );
   }
