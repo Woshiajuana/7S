@@ -8,9 +8,38 @@ class PasswordChangeView extends StatefulWidget {
 }
 
 class _PasswordChangeViewState extends State<PasswordChangeView> {
+
+  String _strEmail; // 邮箱
+  String _strPassword; // 密码
+  String _strOldPassword; // 验证码
+  bool _isPwdObscure = true;
+  bool _isOldPwdObscure = true;
+
+  TextEditingController _emailController;
+  TextEditingController _oldPwdController;
+  TextEditingController _passController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController = TextEditingController(text: '');
+    _oldPwdController = TextEditingController(text: '');
+    _passController = TextEditingController(text: '');
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _oldPwdController.dispose();
+    _passController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,
@@ -21,10 +50,136 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
           ),
         ),
       ),
-      body: new ListView(
+      body:  new ListView(
         children: <Widget>[
+          new SizedBox(height: 10.0),
+          _widgetInputSection(
+            controller: _emailController,
+            hintText: '邮箱',
+            value: _strEmail,
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => setState(() => _strEmail = value),
+            onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
+            onEye: () => {},
+          ),
+          new SizedBox(height: 10.0),
+          _widgetInputSection(
+            controller: _oldPwdController,
+            hintText: '旧密码',
+            isObscure: _isOldPwdObscure,
+            useEye: true,
+            value: _strOldPassword,
+            onChanged: (value) => setState(() => _strOldPassword = value),
+            onClear: () { _oldPwdController.clear(); setState(() => _strOldPassword = ''); },
+            onEye: () => setState(() => _isOldPwdObscure = !_isOldPwdObscure),
+          ),
+          new SizedBox(height: 10.0),
+          _widgetInputSection(
+            controller: _passController,
+            hintText: '新密码',
+            isObscure: _isPwdObscure,
+            useEye: true,
+            value: _strPassword,
+            onChanged: (value) => setState(() => _strPassword = value),
+            onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
+            onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
+          ),
+          new SizedBox(height: 60.0),
+          _widgetButtonSection(),
         ],
       ),
     );
   }
+
+  // input
+  Widget _widgetInputSection ({
+    TextEditingController controller,
+    Widget child,
+    String hintText = '',
+    bool isObscure = false,
+    String value = '',
+    bool useEye = false,
+    TextInputType keyboardType,
+    dynamic onChanged,
+    dynamic onClear,
+    dynamic onEye,
+  }) {
+    return new Container(
+      height: 50.0,
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+      decoration: new BoxDecoration(
+        border: new Border(
+          bottom: new BorderSide(
+            color: Color(0xffcccccc),
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: new Row(
+        children: <Widget>[
+          new Expanded(
+            flex: 1,
+            child: new TextField(
+              controller: controller,
+              obscureText: isObscure,
+              keyboardType: keyboardType,
+              decoration: new InputDecoration(
+                hintText: hintText,
+                disabledBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+              ),
+              onChanged: onChanged,
+            ),
+          ),
+          new Offstage(
+            offstage: (value == '' || value == null),
+            child: new IconButton(
+              icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
+              onPressed: onClear,
+            ),
+          ),
+          useEye ? new IconButton(
+            icon: new Icon(Icons.remove_red_eye, size: 20.0, color: isObscure ? Color(0xff666666) : Application.config.style.mainColor),
+            onPressed: onEye,
+          ) : new Container(),
+          child ?? new Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _widgetButtonSection () {
+    return new Center(
+      child: new Container(
+        width: 280.0,
+        height: 46.0,
+        decoration: new BoxDecoration(
+          color: Application.config.style.mainColor,
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+        child: new FlatButton(
+          onPressed: () => _handleSubmit(),
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                '确认',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 提交
+  void _handleSubmit() async {
+
+  }
+
 }
