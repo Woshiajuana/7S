@@ -10,7 +10,20 @@ class FriendView extends StatefulWidget {
   _FriendViewState createState() => _FriendViewState();
 }
 
-class _FriendViewState extends State<FriendView> {
+class _FriendViewState extends State<FriendView> with SingleTickerProviderStateMixin  {
+
+  TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +37,29 @@ class _FriendViewState extends State<FriendView> {
             fontSize: 18.0,
           ),
         ),
+        bottom: new TabBar(
+          tabs: <Widget>[
+            new Tab(
+              child: new Text(
+                '关注',
+              ),
+            ),
+            new Tab(
+              child: new Text(
+                '粉丝',
+              ),
+            ),
+          ],
+          controller: _tabController,
+          indicatorColor: Colors.white,
+        ),
+      ),
+      body: new TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          new FriendFollowingView(),
+          new FriendFollowerView(),
+        ],
       ),
     );
   }
