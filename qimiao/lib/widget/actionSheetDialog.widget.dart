@@ -25,22 +25,19 @@ class _ActionSheetDialogState extends State<ActionSheetDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      type: MaterialType.transparency,
-      child: new Container(
-        padding: const EdgeInsets.all(10.0),
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            _widgetButtonGroup(),
-            new SizedBox(height: 10.0),
-            _widgetButtonItem(
-              onPressed: () => Navigator.of(context).pop(),
-              text: '取消',
-              color: Color(0xff999999),
-            ),
-          ],
-        ),
+    return new Container(
+      padding: const EdgeInsets.all(10.0),
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          _widgetButtonGroup(),
+          new SizedBox(height: 10.0),
+          _widgetButtonItem(
+            onPressed: () => Navigator.of(context).pop(),
+            text: '取消',
+            color: Color(0xff999999),
+          ),
+        ],
       ),
     );
   }

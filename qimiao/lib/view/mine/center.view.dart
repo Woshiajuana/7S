@@ -154,6 +154,7 @@ class _MineCenterViewState extends State<MineCenterView> {
   void _handleAvatar () {
     showDialog(
       context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
       builder: (BuildContext context) {
         return new ActionSheetDialog(
           arrOptions: [
@@ -168,7 +169,7 @@ class _MineCenterViewState extends State<MineCenterView> {
               },
             },
             {
-              'text': '拍照1',
+              'text': '拍照',
               'child': new Container(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
