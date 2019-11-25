@@ -22,7 +22,6 @@ import 'package:qimiao/view/follower/followerList.view.dart';
 import 'package:qimiao/view/mine/center.view.dart';
 import 'package:qimiao/view/mine/nickname.view.dart';
 import 'package:qimiao/view/mine/uid.view.dart';
-import 'package:qimiao/view/mine/email.view.dart';
 import 'package:qimiao/view/mine/qrCode.view.dart';
 
 class Router {
@@ -126,12 +125,6 @@ class Router {
       'route': (_) => new MineUidView(),
       'handle': (params) {
         return new MineUidView();
-      }
-    },
-    'mineEmail': {
-      'route': (_) => new MineEmailView(),
-      'handle': (params) {
-        return new MineEmailView();
       }
     },
     'mineQrCode': {

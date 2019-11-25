@@ -48,7 +48,6 @@ class _MineCenterViewState extends State<MineCenterView> {
         'valueText': '0000001',
       },
       {
-        'onPressed': () => Application.router.push(context, 'mineEmail'),
         'labelText': '邮箱',
         'valueText': '979703986@qq.com',
       },
@@ -143,7 +142,7 @@ class _MineCenterViewState extends State<MineCenterView> {
               ),
             ),
             new SizedBox(width: 10.0),
-            new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+            new Icon(Icons.arrow_forward_ios, size: 18.0, color: onPressed == null ? Color(0xffffffff) : Color(0xff999999)),
           ],
         ),
       ),
