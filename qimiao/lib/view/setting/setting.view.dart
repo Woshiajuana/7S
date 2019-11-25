@@ -38,6 +38,11 @@ class _SettingViewState extends State<SettingView> {
     List _arrMenu = [
       {
         'useMargin': false,
+        'text': '修改密码',
+        'routeName': 'device',
+      },
+      {
+        'useMargin': false,
         'text': '登录设备管理',
         'routeName': 'device',
       },
