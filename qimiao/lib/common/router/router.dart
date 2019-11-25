@@ -19,6 +19,7 @@ import 'package:qimiao/view/photo/photoList.view.dart';
 import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
 import 'package:qimiao/view/follower/followerList.view.dart';
+import 'package:qimiao/view/mine/center.view.dart';
 
 class Router {
 
@@ -103,6 +104,12 @@ class Router {
       'route': (_) => new HistoryListView(),
       'handle': (params) {
         return new HistoryListView();
+      }
+    },
+    'mineCenter': {
+      'route': (_) => new MineCenterView(),
+      'handle': (params) {
+        return new MineCenterView();
       }
     },
     'device': {
