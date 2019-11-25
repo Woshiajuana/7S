@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class MineCenterView extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _MineCenterViewState extends State<MineCenterView> {
 
     List _arrData = [
       {
-        'onPressed': () => {},
+        'onPressed': () => _handleAvatar(),
         'labelText': '头像',
         'useMargin': true,
         'height': 90.0,
@@ -149,5 +150,15 @@ class _MineCenterViewState extends State<MineCenterView> {
     );
   }
 
-  
+  // 头像
+  void _handleAvatar () {
+    showDialog(
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      context: context,
+      builder: (BuildContext context) {
+        return new ActionSheetDialog();
+      },
+    );
+  }
+
 }
