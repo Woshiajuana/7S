@@ -43,12 +43,12 @@ class _MineCenterViewState extends State<MineCenterView> {
         'useMargin': true,
       },
       {
-        'onPressed': () => {},
+        'onPressed': () => Application.router.push(context, 'mineUid'),
         'labelText': '7S-ID',
         'valueText': '0000001',
       },
       {
-        'onPressed': () => {},
+        'onPressed': () => Application.router.push(context, 'mineEmail'),
         'labelText': '邮箱',
         'valueText': '979703986@qq.com',
       },
@@ -59,7 +59,7 @@ class _MineCenterViewState extends State<MineCenterView> {
         'useMargin': true,
       },
       {
-        'onPressed': () => {},
+        'onPressed': () => Application.router.push(context, 'mineQrCode'),
         'labelText': '二维码名片',
         'valueText': '右边',
         'child': new Container(
