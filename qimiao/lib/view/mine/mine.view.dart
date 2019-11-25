@@ -174,7 +174,7 @@ class _MineViewState extends State<MineView> {
             ),
             child: new FlatButton(
               padding: const EdgeInsets.all(0),
-              onPressed: () => {},
+              onPressed: () => Application.router.push(context, 'mineCenter'),
               child: new Text(
                 '个人中心',
                 style: new TextStyle(
