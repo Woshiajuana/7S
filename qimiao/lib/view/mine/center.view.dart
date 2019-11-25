@@ -37,7 +37,7 @@ class _MineCenterViewState extends State<MineCenterView> {
         ),
       },
       {
-        'onPressed': () => {},
+        'onPressed': () => Application.router.push(context, 'mineNickname'),
         'labelText': '昵称',
         'valueText': '我是阿倦啊',
         'useMargin': true,
@@ -54,7 +54,7 @@ class _MineCenterViewState extends State<MineCenterView> {
       },
       {
         'onPressed': () => {},
-        'labelText': '二维码',
+        'labelText': '二维码名片',
         'valueText': '右边',
         'child': new Container(
           width: 30.0,

@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
 
 class ActionSheetDialog extends StatefulWidget {
 

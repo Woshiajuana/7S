@@ -20,6 +20,7 @@ import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
 import 'package:qimiao/view/follower/followerList.view.dart';
 import 'package:qimiao/view/mine/center.view.dart';
+import 'package:qimiao/view/mine/nickname.view.dart';
 
 class Router {
 
@@ -110,6 +111,12 @@ class Router {
       'route': (_) => new MineCenterView(),
       'handle': (params) {
         return new MineCenterView();
+      }
+    },
+    'mineNickname': {
+      'route': (_) => new MineNicknameView(),
+      'handle': (params) {
+        return new MineNicknameView();
       }
     },
     'device': {
