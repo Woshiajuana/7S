@@ -44,13 +44,19 @@ class _MineCenterViewState extends State<MineCenterView> {
       },
       {
         'onPressed': () => {},
+        'labelText': '7S-ID',
+        'valueText': '0000001',
+      },
+      {
+        'onPressed': () => {},
         'labelText': '邮箱',
         'valueText': '979703986@qq.com',
       },
       {
         'onPressed': () => {},
-        'labelText': '7S-ID',
-        'valueText': '0000001',
+        'labelText': '性别',
+        'valueText': '保密',
+        'useMargin': true,
       },
       {
         'onPressed': () => {},
@@ -77,12 +83,6 @@ class _MineCenterViewState extends State<MineCenterView> {
             fontSize: 18.0,
           ),
         ),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.info),
-            onPressed: () => {},
-          ),
-        ],
       ),
       body: new ListView(
         children: _arrData.map((item) => _widgetCellItem(
