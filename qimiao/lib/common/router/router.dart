@@ -18,7 +18,7 @@ import 'package:qimiao/view/video/videoList.view.dart';
 import 'package:qimiao/view/photo/photoList.view.dart';
 import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
-import 'package:qimiao/view/follower/followerList.view.dart';
+import 'package:qimiao/view/follower/follower.view.dart';
 import 'package:qimiao/view/mine/center.view.dart';
 import 'package:qimiao/view/mine/nickname.view.dart';
 import 'package:qimiao/view/mine/uid.view.dart';
@@ -100,9 +100,9 @@ class Router {
       }
     },
     'followList': {
-      'route': (_) => new FollowerListView(),
+      'route': (_) => new FollowerView(),
       'handle': (params) {
-        return new FollowerListView();
+        return new FollowerView();
       }
     },
     'historyList': {

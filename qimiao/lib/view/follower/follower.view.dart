@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 
-class FollowerListView extends StatefulWidget {
+class FollowerView extends StatefulWidget {
   @override
-  _FollowerListViewState createState() => _FollowerListViewState();
+  _FollowerViewState createState() => _FollowerViewState();
 }
 
-class _FollowerListViewState extends State<FollowerListView> {
+class _FollowerViewState extends State<FollowerView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -24,3 +24,4 @@ class _FollowerListViewState extends State<FollowerListView> {
     );
   }
 }
+
