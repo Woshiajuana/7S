@@ -17,17 +17,17 @@ class _MineCenterViewState extends State<MineCenterView> {
         'onPressed': () => {},
         'labelText': '头像',
         'useMargin': true,
-        'height': 100.0,
+        'height': 90.0,
         'child': new Container(
           decoration: new BoxDecoration(
-            border: new Border.all(color: Colors.white, width: 2.0), // 边色与边宽度
+            border: new Border.all(color: Color(0xFF9E9E9E), width: 0.5), // 边色与边宽度
             color: Color(0xFF9E9E9E), // 底色
             borderRadius: new BorderRadius.circular((41)), // 圆角度
           ),
           child: new ClipOval(
             child: new FadeInImage.assetNetwork(
-              width: 80.0,
-              height: 80.0,
+              width: 70.0,
+              height: 70.0,
               placeholder: Application.config.style.srcGoodsNull,
               image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
               fit: BoxFit.fill,
@@ -38,18 +38,31 @@ class _MineCenterViewState extends State<MineCenterView> {
       {
         'onPressed': () => {},
         'labelText': '昵称',
-        'valueText': '右边',
+        'valueText': '我是阿倦啊',
+        'useMargin': true,
+      },
+      {
+        'onPressed': () => {},
+        'labelText': '邮箱',
+        'valueText': '979703986@qq.com',
       },
       {
         'onPressed': () => {},
         'labelText': '7S-ID',
-        'valueText': '右边',
+        'valueText': '0000001',
       },
       {
         'onPressed': () => {},
         'labelText': '二维码',
         'valueText': '右边',
-
+        'child': new Container(
+          width: 30.0,
+          height: 30.0,
+          child: new Image.asset(
+            Application.util.getImgPath('qr-code-icon.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
       },
     ];
 
@@ -63,6 +76,12 @@ class _MineCenterViewState extends State<MineCenterView> {
             fontSize: 18.0,
           ),
         ),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.info),
+            onPressed: () => {},
+          ),
+        ],
       ),
       body: new ListView(
         children: _arrData.map((item) => _widgetCellItem(
@@ -129,4 +148,6 @@ class _MineCenterViewState extends State<MineCenterView> {
       ),
     );
   }
+
+  
 }
