@@ -52,7 +52,7 @@ class _MineCenterViewState extends State<MineCenterView> {
         'valueText': '979703986@qq.com',
       },
       {
-        'onPressed': () => _handleSex,
+        'onPressed': () => _handleSex(),
         'labelText': '性别',
         'valueText': '保密',
         'useMargin': true,
@@ -172,6 +172,58 @@ class _MineCenterViewState extends State<MineCenterView> {
               'child': new Container(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
+              ),
+              'onPressed': () => print('拍照'),
+            }
+          ],
+        );
+      },
+    );
+  }
+
+  // 性别
+  void _handleSex () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '男生',
+              'child': new Container(
+                child: new Radio(
+                  value: true,
+                  groupValue: false,
+                  activeColor: Application.config.style.mainColor,
+                  onChanged: (value) => print('2'),
+                ),
+              ),
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '女生',
+              'child': new Container(
+                child: new Radio(
+                  value: true,
+                  groupValue: false,
+                  activeColor: Application.config.style.mainColor,
+                  onChanged: (value) => print('2'),
+                ),
+              ),
+              'onPressed': () => print('拍照'),
+            },
+            {
+              'text': '保密',
+              'child': new Container(
+                child: new Radio(
+                  value: true,
+                  groupValue: true,
+                  activeColor: Application.config.style.mainColor,
+                  onChanged: (value) => print('2'),
+                ),
               ),
               'onPressed': () => print('拍照'),
             }
