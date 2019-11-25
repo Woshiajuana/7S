@@ -56,7 +56,7 @@ class _LoginViewState extends State<LoginView> {
                 _widgetInputSection(
                   controller: _accountController,
                   icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
-                  hintText: '邮箱 / 用户名',
+                  hintText: '邮箱 / 7S-ID',
                   value: _strAccount,
                   onChanged: (value) => setState(() => _strAccount = value),
                   onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
@@ -172,7 +172,7 @@ class _LoginViewState extends State<LoginView> {
         width: 280.0,
         alignment: Alignment.centerRight,
         child: new InkWell(
-          onTap: () => {},
+          onTap: () => Application.router.push(context, 'passwordReset'),
           child: new Text(
             '忘记密码？',
             style: new TextStyle(

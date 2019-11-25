@@ -87,6 +87,7 @@ class _RegisterViewState extends State<RegisterView> {
                   onChanged: (value) => setState(() => _strCode = value),
                   onClear: () { _codeController.clear(); setState(() => _strCode = ''); },
                   onEye: () => {},
+                  child: _widgetCodeSection(),
                 ),
                 new SizedBox(height: 10.0),
                 _widgetInputSection(
@@ -178,7 +179,38 @@ class _RegisterViewState extends State<RegisterView> {
 
   // 发送验证码
   Widget _widgetCodeSection () {
-    return new Container();
+    return new Container(
+      width: 70.0,
+      height: 30.0,
+      decoration: new BoxDecoration(
+        borderRadius: new BorderRadius.circular(36.0),
+        border: new Border.all(
+            color:  _numCount == _numDefCount ? Application.config.style.mainColor : Color(0xffcccccc),
+            width: 1.0
+        ),
+      ),
+      child: _numCount == _numDefCount ? new FlatButton(
+        onPressed: () => _countDown(),
+        padding: const EdgeInsets.all(0),
+        child: new Text(
+          '获取',
+          style: new TextStyle(
+            color: Application.config.style.mainColor,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ) : new Center(
+        child: new Text(
+          '$_numCount s',
+          style: new TextStyle(
+            color: Color(0xffcccccc),
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    );
   }
 
   // 协议

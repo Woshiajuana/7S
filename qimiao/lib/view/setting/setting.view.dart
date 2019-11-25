@@ -39,7 +39,7 @@ class _SettingViewState extends State<SettingView> {
       {
         'useMargin': false,
         'text': '修改密码',
-        'routeName': 'device',
+        'routeName': 'passwordChange',
       },
       {
         'useMargin': false,
