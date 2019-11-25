@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/view/friend/follower.view.dart';
+import 'package:qimiao/view/friend/following.view.dart';
+
 
 class FriendView extends StatefulWidget {
   @override
@@ -8,6 +11,7 @@ class FriendView extends StatefulWidget {
 }
 
 class _FriendViewState extends State<FriendView> {
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -23,4 +27,6 @@ class _FriendViewState extends State<FriendView> {
       ),
     );
   }
+
+
 }

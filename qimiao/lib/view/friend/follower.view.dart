@@ -2,26 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 
-class FollowerView extends StatefulWidget {
+class FriendFollowerView extends StatefulWidget {
   @override
-  _FollowerViewState createState() => _FollowerViewState();
+  _FriendFollowerViewState createState() => _FriendFollowerViewState();
 }
 
-class _FollowerViewState extends State<FollowerView> {
+class _FriendFollowerViewState extends State<FriendFollowerView> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      appBar: new AppBar(
-        elevation: 0,
-        title: new Text(
-          '关注',
-          style: new TextStyle(
-            fontSize: 18.0,
-          ),
-        ),
-      ),
+    return Container(
+      child: new Text('粉丝'),
     );
   }
 }
-
