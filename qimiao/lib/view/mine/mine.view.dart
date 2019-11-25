@@ -128,27 +128,9 @@ class _MineViewState extends State<MineView> {
 
   Widget _widgetUserInfoSection () {
     return new Container(
-      padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child:  new Column(
         children: <Widget>[
-//          // 头像
-//          new Container(
-//            decoration: new BoxDecoration(
-//              border: new Border.all(color: Colors.white, width: 2.0), // 边色与边宽度
-//              color: Color(0xFF9E9E9E), // 底色
-//              borderRadius: new BorderRadius.circular((41)), // 圆角度
-//            ),
-//            child: new ClipOval(
-//              child: new FadeInImage.assetNetwork(
-//                width: 80.0,
-//                height: 80.0,
-//                placeholder: Application.config.style.srcGoodsNull,
-//                image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
-//                fit: BoxFit.fill,
-//              ),
-//            ),
-//          ),
-//          new SizedBox(height: 5.0),
           // 昵称
           new Container(
             child: new Row(
@@ -162,6 +144,14 @@ class _MineViewState extends State<MineView> {
                   ),
                 ),
               ],
+            ),
+          ),
+          new SizedBox(height: 3.0),
+          new Text(
+            '这个家伙什么都没留下...',
+            style: new TextStyle(
+              color: Color(0xffbbbbbb),
+              fontSize: 12.0,
             ),
           ),
           new SizedBox(height: 12.0),
@@ -227,7 +217,7 @@ class _MineViewState extends State<MineView> {
       );
     }
     return new Container(
-      height: 70.0,
+      margin: const EdgeInsets.only(bottom: 5.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
