@@ -52,7 +52,7 @@ class _MineCenterViewState extends State<MineCenterView> {
         'valueText': '979703986@qq.com',
       },
       {
-        'onPressed': () => {},
+        'onPressed': () => _handleSex,
         'labelText': '性别',
         'valueText': '保密',
         'useMargin': true,
