@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flukit/flukit.dart';
+import 'package:flutter/widgets.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -18,38 +19,14 @@ class _WorldViewState extends State<WorldView> {
       body: new SafeArea(
         bottom: false,
         child: new DefaultTabController(
-          length: 2,
+          length: 3,
           child: new NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 // 搜索
                 _widgetSearchSection(),
                 // tab 切换条
-                new SliverPersistentHeader(
-                  pinned: true,
-                  delegate: new StickyWidgetDelegate(
-                    height: 50.0,
-                    child: new Container(
-                      height: 50.0,
-                      color: Colors.white,
-                      child: TabBar(
-                        labelColor: Theme.of(context).primaryColor,
-                        labelStyle: TextStyle(fontSize: 16.5),
-                        unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
-                        indicatorColor: Theme.of(context).primaryColor,
-                        indicatorWeight: 2.0,
-                        tabs: <Widget>[
-                          new Tab(
-                            child: new Text('1'),
-                          ),
-                          new Tab(
-                            child: new Text('2'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                _widgetTabSection(),
               ];
             },
             body: TabBarView(
@@ -57,7 +34,7 @@ class _WorldViewState extends State<WorldView> {
                 new RefreshIndicator(
                   child: new ListView(
                     children: <Widget>[
-                      new Container(height: 100, color: Colors.red),
+                      new Container(height: 100, color: Colors.white10),
                       new Container(height: 100, color: Colors.blue),
                       new Container(height: 100, color: Colors.red),
                       new Container(height: 100, color: Colors.blue),
@@ -67,7 +44,15 @@ class _WorldViewState extends State<WorldView> {
                 ),
                 new ListView(
                   children: <Widget>[
+                    new Container(height: 100, color: Colors.white10),
+                    new Container(height: 100, color: Colors.yellow),
                     new Container(height: 100, color: Colors.green),
+                    new Container(height: 100, color: Colors.yellow),
+                  ],
+                ),
+                new ListView(
+                  children: <Widget>[
+                    new Container(height: 100, color: Colors.white10),
                     new Container(height: 100, color: Colors.yellow),
                     new Container(height: 100, color: Colors.green),
                     new Container(height: 100, color: Colors.yellow),
@@ -148,11 +133,61 @@ class _WorldViewState extends State<WorldView> {
 
   // tab 切换
   Widget _widgetTabSection () {
-    return new Container(
-
+    return new SliverPersistentHeader(
+      pinned: true,
+      delegate: new StickyWidgetDelegate(
+        height: 40.0,
+        child: new Container(
+          height: 40.0,
+          decoration: new BoxDecoration(
+            color: Colors.white,
+            border: new Border(
+              bottom: new BorderSide(
+                color: Color(0xffdddddd),
+                width: 0.5,
+              )
+            )
+          ),
+          child: new TabBar(
+            labelColor: Theme.of(context).primaryColor,
+            labelStyle: TextStyle(fontSize: 16.5),
+            unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
+            indicatorColor: Theme.of(context).primaryColor,
+            indicatorWeight: 1.0,
+            tabs: <Widget>[
+              new Tab(
+                child: new Text(
+                  '推荐',
+                  style: new TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              new Tab(
+                child: new Text(
+                  '视频一瞬',
+                   style: new TextStyle(
+                     fontSize: 16.0,
+                     fontWeight: FontWeight.w400,
+                   ),
+                ),
+              ),
+              new Tab(
+                child: new Text(
+                  '精彩一刻',
+                  style: new TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-
 
   // appbar
   Widget _widgetAppBarSection () {
