@@ -62,19 +62,19 @@ class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProvid
             ),
           ),
 
-//          new SliverPersistentHeader(
-//            pinned: true,
-//            delegate: new StickyTabBarDelegate(
-//              child: TabBar(
-//                labelColor: Colors.black,
-//                controller: this.tabController,
-//                tabs: <Widget>[
-//                  Tab(text: 'Home'),
-//                  Tab(text: 'Profile'),
-//                ],
-//              ),
-//            ),
-//          ),
+          new SliverPersistentHeader(
+            pinned: true,
+            delegate: new StickyTabBarDelegate(
+              child: TabBar(
+                labelColor: Colors.black,
+                controller: this.tabController,
+                tabs: <Widget>[
+                  Tab(text: 'Home'),
+                  Tab(text: 'Profile'),
+                ],
+              ),
+            ),
+          ),
           SliverGrid.count(
             crossAxisCount: 3,
             children: colorList.map((color) => Container(color: color)).toList(),
