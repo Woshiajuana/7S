@@ -30,22 +30,6 @@ class _WorldViewState extends State<WorldView> {
                   ),
                 ),
               ),
-//              new SliverPersistentHeader(
-//                pinned: true,
-//                delegate: new SliverCustomHeaderDelegate(
-//                    collapsedHeight: 0,
-//                    expandedHeight: 310,
-//                    paddingTop: MediaQuery.of(context).padding.top,
-//                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-//                      return <Widget> [
-//                        _widgetHeaderBgSection(),
-//                        _widgetHeaderSection(),
-//                        _widgetSearchSection(),
-//                      ];
-//                    }
-//                ),
-//              ),
-//              // Tab
               new SliverPersistentHeader(
                 pinned: true,
                 delegate: new StickyWidgetDelegate(
@@ -75,13 +59,16 @@ class _WorldViewState extends State<WorldView> {
           },
           body: TabBarView(
             children: <Widget>[
-              new ListView(
-                children: <Widget>[
-                  new Container(height: 100, color: Colors.red),
-                  new Container(height: 100, color: Colors.blue),
-                  new Container(height: 100, color: Colors.red),
-                  new Container(height: 100, color: Colors.blue),
-                ],
+              new RefreshIndicator(
+                child: new ListView(
+                  children: <Widget>[
+                    new Container(height: 100, color: Colors.red),
+                    new Container(height: 100, color: Colors.blue),
+                    new Container(height: 100, color: Colors.red),
+                    new Container(height: 100, color: Colors.blue),
+                  ],
+                ),
+                onRefresh: _onRefresh,
               ),
               new ListView(
                 children: <Widget>[
@@ -96,6 +83,14 @@ class _WorldViewState extends State<WorldView> {
         ),
       ),
     );
+  }
+
+  // 下拉刷新方法,为list重新赋值
+  Future<Null> _onRefresh() async {
+    await Future.delayed(Duration(seconds: 1), () {
+      print('refresh');
+
+    });
   }
 
   // 搜索
