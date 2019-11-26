@@ -38,21 +38,26 @@ class _WorldViewState extends State<WorldView> {
               // Tab
               new SliverPersistentHeader(
                 pinned: true,
-                delegate: new StickyTabBarDelegate(
-                  child: TabBar(
-                    labelColor: Theme.of(context).primaryColor,
-                    labelStyle: TextStyle(fontSize: 16.5),
-                    unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
-                    indicatorColor: Theme.of(context).primaryColor,
-                    indicatorWeight: 2.0,
-                    tabs: <Widget>[
-                      new Tab(
-                        child: new Text('1'),
-                      ),
-                      new Tab(
-                        child: new Text('2'),
-                      ),
-                    ],
+                delegate: new StickyWidgetDelegate(
+                  height: 50.0,
+                  child: new Container(
+                    height: 50.0,
+                    color: Colors.white,
+                    child: TabBar(
+                      labelColor: Theme.of(context).primaryColor,
+                      labelStyle: TextStyle(fontSize: 16.5),
+                      unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
+                      indicatorColor: Theme.of(context).primaryColor,
+                      indicatorWeight: 2.0,
+                      tabs: <Widget>[
+                        new Tab(
+                          child: new Text('1'),
+                        ),
+                        new Tab(
+                          child: new Text('2'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
