@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:flukit/flukit.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -13,26 +14,122 @@ class _WorldViewState extends State<WorldView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new ListView(
-        children: <Widget>[
-          _widgetHeaderSection(),
-          new CellLinkWidget(
-            labelText: 'GetHub',
-            onPressed: () => _handleExitOut(),
+      body: new CustomScrollView(
+        slivers: <Widget>[
+          new SliverPersistentHeader(
+            pinned: true,
+            delegate: new SliverCustomHeaderDelegate(
+              collapsedHeight: 56,
+              expandedHeight: 200,
+              paddingTop: MediaQuery.of(context).padding.top,
+              buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                return <Widget> [
+                  _widgetCarouselSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                  _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                ];
+              }
+            ),
           ),
-          new CellLinkWidget(
-            labelText: '关于我们',
-            onPressed: () => Application.router.push(context, 'about'),
-          ),
-          new CellLinkWidget(
-            labelText: '更新记录',
+          new SliverList(
+            delegate: new SliverChildListDelegate(
+              <Widget>[
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+
+  // 轮播图
+  Widget _widgetCarouselSection ({
+    double shrinkOffset,
+    int alpha,
+  }) {
+
+    // 引导页数据
+    List<String> _arrGuide = [
+      Application.util.getImgPath('guide1.png'),
+      Application.util.getImgPath('guide2.png'),
+      Application.util.getImgPath('guide3.png'),
+      Application.util.getImgPath('guide4.png'),
+    ];
+
+    // 引导页轮播
+    return new Swiper(
+      autoStart: false,
+      circular: false,
+      indicator: new CircleSwiperIndicator(
+        radius: 4.0,
+        padding: const EdgeInsets.only(bottom: 40.0),
+        itemColor: Colors.black26,
+      ),
+      children: _arrGuide.map((item) {
+        return new Container(
+          child: new Image.asset(
+            item,
+            fit: BoxFit.fill,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+        );
+      }).toList(),
+    );
+
+  }
+
+  // 导航条
+  Widget _widgetAppBarSection ({
+    double shrinkOffset,
+    int alpha,
+  }) {
+
+    return new Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: new Container(
+        color: Color.fromARGB(alpha, 236, 100, 47),
+        child: new SafeArea(
+          bottom: false,
+          child: new Container(
+            height: 56.0,
+            child: new Row(
+              children: <Widget>[
+                new IconButton(
+                  icon: new Icon(
+                    Icons.arrow_back,
+                    color: shrinkOffset <= 50 ? Colors.white : Color.fromARGB(alpha, 255, 255, 255),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                new SizedBox(width: 24.0),
+                new Text(
+                  '我是阿倦啊',
+                  style: new TextStyle(
+                    color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+  }
+
+
 
   void _handleExitOut () async {
     var result = await showDialog(
@@ -56,26 +153,5 @@ class _WorldViewState extends State<WorldView> {
     }
   }
 
-  Widget _widgetHeaderSection () {
-    return new Container(
-      margin: const EdgeInsets.only(top: 100.0, bottom: 50.0),
-      child: new Column(
-        children: <Widget>[
-          new Icon(
-            Icons.face,
-            size: 100,
-            color: Application.config.style.mainColor,
-          ),
-          new Text(
-            'WowFlutter v0.0.1',
-            style: new TextStyle(
-              color: Application.config.style.mainColor,
-              fontSize: 18.0,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
 }

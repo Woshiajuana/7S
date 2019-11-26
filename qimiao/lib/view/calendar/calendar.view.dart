@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class CalendarView extends StatefulWidget {
   @override
@@ -12,13 +13,14 @@ class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       body: new ListView(
         children: <Widget>[
           _widgetHeaderSection(),
           new CellLinkWidget(
             labelText: 'GetHub',
+            onPressed: () => _handleExitOut(),
           ),
           new CellLinkWidget(
             labelText: '关于我们',
@@ -30,6 +32,28 @@ class _CalendarViewState extends State<CalendarView> {
         ],
       ),
     );
+  }
+
+  void _handleExitOut () async {
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new WillPopScope(
+            child: new UpgradeDialog(),
+            onWillPop: () async {
+              return Future.value(false);
+            }
+        );
+      },
+    );
+    if (result != true) return;
+    try {
+//      await Application.util.store.clear();
+    } catch (err) {
+
+    } finally {
+      Application.router.replace(context, 'login');
+    }
   }
 
   Widget _widgetHeaderSection () {
@@ -53,5 +77,6 @@ class _CalendarViewState extends State<CalendarView> {
       ),
     );
   }
+
 
 }
