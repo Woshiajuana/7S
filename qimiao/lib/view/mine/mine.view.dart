@@ -286,7 +286,7 @@ class _MineViewState extends State<MineView> {
       },
       {
         'text': '收藏',
-        'icon': Icons.favorite,
+        'icon': Icons.star,
         'useMargin': true,
         'routeName': 'collectList',
       },
