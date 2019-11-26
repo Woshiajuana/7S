@@ -8,7 +8,7 @@ class FriendInfoView extends StatefulWidget {
   _FriendInfoViewState createState() => _FriendInfoViewState();
 }
 
-class _FriendInfoViewState extends State<FriendInfoView> {
+class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
