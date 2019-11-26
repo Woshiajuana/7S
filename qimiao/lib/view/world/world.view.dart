@@ -36,23 +36,25 @@ class _WorldViewState extends State<WorldView> {
                 ),
               ),
               // Tab
-              SliverPersistentHeader(
+              new SliverPersistentHeader(
                 pinned: true,
-                delegate: SliverAppBarDelegate(TabBar(
-                  labelColor: Theme.of(context).primaryColor,
-                  labelStyle: TextStyle(fontSize: 16.5),
-                  unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
-                  indicatorColor: Theme.of(context).primaryColor,
-                  indicatorWeight: 2.0,
-                  tabs: <Widget>[
-                    new Tab(
-                      child: new Text('1'),
-                    ),
-                    new Tab(
-                      child: new Text('2'),
-                    ),
-                  ],
-                )),
+                delegate: new StickyTabBarDelegate(
+                  child: TabBar(
+                    labelColor: Theme.of(context).primaryColor,
+                    labelStyle: TextStyle(fontSize: 16.5),
+                    unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
+                    indicatorColor: Theme.of(context).primaryColor,
+                    indicatorWeight: 2.0,
+                    tabs: <Widget>[
+                      new Tab(
+                        child: new Text('1'),
+                      ),
+                      new Tab(
+                        child: new Text('2'),
+                      ),
+                    ],
+                  ),
+                ),
               )
             ];
           },
@@ -398,36 +400,4 @@ class _WorldViewState extends State<WorldView> {
     );
   }
 
-}
-
-
-class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-
-  final TabBar _tabBar;
-  SliverAppBarDelegate(this._tabBar);
-
-  /**
-   * minExtent 与 maxExtent 相同, Header不会有收缩效果，类似普通Header。
-   */
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-        color: Colors.white,
-        child: _tabBar
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return false;
-    // return maxHeight != oldDelegate.maxHeight ||
-    //   minHeight != oldDelegate.minHeight ||
-    //   child != oldDelegate.child;
-  }
 }
