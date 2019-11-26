@@ -374,26 +374,6 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           background ?? new Container(),
 
           child ?? new Container(),
-//
-//          // mask
-//          new Positioned(
-//            left: 0,
-//            top: this.maxExtent / 2,
-//            right: 0,
-//            bottom: 0,
-//            child: new Container(
-//              decoration: new BoxDecoration(
-//                gradient: new LinearGradient(
-//                  begin: Alignment.topCenter,
-//                  end: Alignment.bottomCenter,
-//                  colors: [
-//                    Color(0x00000000),
-//                    Color(0x90000000),
-//                  ],
-//                ),
-//              ),
-//            ),
-//          ),
 
           // 头部导航条
           new Positioned(
