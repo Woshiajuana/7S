@@ -19,55 +19,15 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           new SliverPersistentHeader(
             pinned: true,
             delegate: new SliverCustomHeaderDelegate(
-              title: new Text(
-                '我是阿倦啊',
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
               collapsedHeight: 56,
               expandedHeight: 310,
               paddingTop: MediaQuery.of(context).padding.top,
-              background: _widgetHeaderBgSection(),
-              child: _widgetHeaderSection(),
-              buildAppBar: (BuildContext context, bgColor, iconColor, textColor) {
-                return  new Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: new Container(
-                    color: bgColor,
-                    child: new SafeArea(
-                      bottom: false,
-                      child: new Container(
-                        height: 56.0,
-                        child: new Row(
-                          children: <Widget>[
-                            new IconButton(
-                              icon: new Icon(
-                                Icons.arrow_back,
-                                color: iconColor,
-                              ),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            new SizedBox(width: 24.0),
-                            new Text(
-                              '我是阿倦啊1',
-                              style: new TextStyle(
-                                color: textColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            new Expanded(child: new Container(), flex: 1),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+              buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                return <Widget> [
+                  _widgetHeaderBgSection(),
+                  _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                  _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                ];
               }
             ),
           ),
@@ -86,23 +46,81 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     );
   }
 
+  // 导航条
+  Widget _widgetAppBarSection ({
+    double shrinkOffset,
+    int alpha,
+  }) {
+    return new Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: new Container(
+        color: Color.fromARGB(alpha, 236, 100, 47),
+        child: new SafeArea(
+          bottom: false,
+          child: new Container(
+            height: 56.0,
+            child: new Row(
+              children: <Widget>[
+                new IconButton(
+                  icon: new Icon(
+                    Icons.arrow_back,
+                    color: shrinkOffset <= 50 ? Colors.white : Color.fromARGB(alpha, 255, 255, 255),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                new SizedBox(width: 24.0),
+                new Text(
+                  '我是阿倦啊',
+                  style: new TextStyle(
+                    color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   // 头部内容
-  Widget _widgetHeaderSection () {
+  Widget _widgetHeaderSection ({
+    double shrinkOffset,
+    int alpha,
+  }) {
     return new Container(
       height: 310,
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: new ListView(
+        reverse: true,
         children: <Widget>[
-          // 用户信息
-          _widgetUserInfoSection(),
-          // 用户基本信息
-          _widgetFollowGroup(),
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              // 用户信息
+              _widgetUserInfoSection(
+                shrinkOffset: shrinkOffset,
+                alpha: alpha,
+              ),
+              // 用户基本信息
+              _widgetFollowGroup(
+                shrinkOffset: shrinkOffset,
+                alpha: alpha,
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _widgetUserInfoSection () {
+  Widget _widgetUserInfoSection ({
+    double shrinkOffset,
+    int alpha,
+  }) {
     return new Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       child:  new Column(
@@ -115,7 +133,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 new Text(
                   '我是阿倦啊',
                   style: new TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255 - alpha, 255, 255, 255),
                     fontSize: 18.0,
                   ),
                 ),
@@ -126,7 +144,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           new Text(
             '这个家伙什么都没留下...',
             style: new TextStyle(
-              color: Color(0xffbbbbbb),
+              color: Color.fromARGB(255 - alpha, 187, 187, 187),
               fontSize: 12.0,
             ),
           ),
@@ -177,7 +195,10 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   }
 
   // 粉丝 or 关注
-  Widget _widgetFollowGroup () {
+  Widget _widgetFollowGroup ({
+    double shrinkOffset,
+    int alpha,
+  }) {
     Widget _widgetBaseInfoItem ({
       String labelText = '',
       String valueText = '',
@@ -193,7 +214,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 new Text(
                   valueText,
                   style: new TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255 - alpha, 255, 255, 255),
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                   ),
@@ -202,7 +223,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 new Text(
                   labelText,
                   style: new TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255 - alpha, 255, 255, 255),
                     fontSize: 10.0,
                     fontWeight: FontWeight.w100,
                   ),
@@ -220,22 +241,18 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           _widgetBaseInfoItem(
             labelText: '粉丝',
             valueText: '1240',
-            onPressed: () => Application.router.push(context, 'friend'),
           ),
           _widgetBaseInfoItem(
             labelText: '关注',
             valueText: '228',
-            onPressed: () => Application.router.push(context, 'friend'),
           ),
           _widgetBaseInfoItem(
             labelText: '视频',
             valueText: '228',
-            onPressed: () => Application.router.push(context, 'videoList'),
           ),
           _widgetBaseInfoItem(
             labelText: '照片',
             valueText: '55',
-            onPressed: () => Application.router.push(context, 'photoList'),
           ),
         ],
       ),
@@ -340,24 +357,12 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
   final double expandedHeight;
   final double paddingTop;
-
-  final Widget title; // 标题
-  final Widget leading; // 返回
-  final List<Widget> actions; // 右边图标
-  final Widget background;
-  final Widget child;
-  final buildAppBar;
-
+  final buildContent;
   SliverCustomHeaderDelegate({
     this.collapsedHeight,
     this.expandedHeight,
     this.paddingTop,
-    this.title,
-    this.actions,
-    this.leading,
-    this.background,
-    this.child,
-    this.buildAppBar,
+    this.buildContent,
   });
 
   @override
@@ -399,6 +404,15 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     }
   }
 
+  Color makeStickyContentTextColor(shrinkOffset, isIcon) {
+    if(shrinkOffset <= 50) {
+      return isIcon ? Colors.white : Colors.transparent;
+    } else {
+      final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
+      return Color.fromARGB(1-alpha, 255, 255, 255);
+    }
+  }
+
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     this.updateStatusBarBrightness(shrinkOffset);
@@ -407,21 +421,11 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       width: MediaQuery.of(context).size.width,
       child: new Stack(
         fit: StackFit.expand,
-        children: <Widget>[
-
-          // 背景图
-          background ?? new Container(),
-
-          child ?? new Container(),
-
-          this.buildAppBar(
-            context,
-            this.makeStickyHeaderBgColor(shrinkOffset),
-            this.makeStickyHeaderTextColor(shrinkOffset, true),
-            this.makeStickyHeaderTextColor(shrinkOffset, false),
-          ),
-
-        ],
+        children: this.buildContent(
+          context,
+          shrinkOffset,
+          (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt(),
+        ),
       ),
     );
   }
