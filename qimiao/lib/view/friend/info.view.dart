@@ -31,6 +31,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
               expandedHeight: 310,
               paddingTop: MediaQuery.of(context).padding.top,
               background: _widgetHeaderBgSection(),
+              child: _widgetHeaderSection(),
             ),
           ),
           new SliverList(
@@ -43,6 +44,56 @@ class _FriendInfoViewState extends State<FriendInfoView> {
               ]
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  // 头部内容
+  Widget _widgetHeaderSection () {
+    return new Container(
+      height: 310,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          // 用户信息
+          _widgetUserInfoSection(),
+          // 用户基本信息
+          _widgetFollowGroup(),
+        ],
+      ),
+    );
+  }
+
+  Widget _widgetUserInfoSection () {
+    return new Container(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child:  new Column(
+        children: <Widget>[
+          // 昵称
+          new Container(
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  '我是阿倦啊',
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new SizedBox(height: 3.0),
+          new Text(
+            '这个家伙什么都没留下...',
+            style: new TextStyle(
+              color: Color(0xffbbbbbb),
+              fontSize: 12.0,
+            ),
+          ),
+          new SizedBox(height: 12.0),
         ],
       ),
     );
@@ -89,64 +140,65 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   }
 
   // 粉丝 or 关注
-  Widget _widgetFollowSection () {
+  Widget _widgetFollowGroup () {
+    Widget _widgetBaseInfoItem ({
+      String labelText = '',
+      String valueText = '',
+      dynamic onPressed,
+    }) {
+      return new Expanded(
+        flex: 1,
+        child: new FlatButton(
+            onPressed: onPressed,
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  valueText,
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                new SizedBox(height: 3.0),
+                new Text(
+                  labelText,
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+              ],
+            )
+        ),
+      );
+    }
     return new Container(
-      color: Application.config.style.mainColor,
-      height: 70.0,
+      margin: const EdgeInsets.only(bottom: 5.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          new Expanded(
-            flex: 1,
-            child: new FlatButton(
-                onPressed: () => {},
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Text(
-                      '1000',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                    new SizedBox(height: 3.0),
-                    new Text(
-                      '关注',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                  ],
-                )
-            ),
+          _widgetBaseInfoItem(
+            labelText: '粉丝',
+            valueText: '1240',
+            onPressed: () => Application.router.push(context, 'friend'),
           ),
-          new Expanded(
-            flex: 1,
-            child: new FlatButton(
-                onPressed: () => {},
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Text(
-                      '1000',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                    new SizedBox(height: 3.0),
-                    new Text(
-                      '粉丝',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                  ],
-                )
-            ),
+          _widgetBaseInfoItem(
+            labelText: '关注',
+            valueText: '228',
+            onPressed: () => Application.router.push(context, 'friend'),
+          ),
+          _widgetBaseInfoItem(
+            labelText: '视频',
+            valueText: '228',
+            onPressed: () => Application.router.push(context, 'videoList'),
+          ),
+          _widgetBaseInfoItem(
+            labelText: '照片',
+            valueText: '55',
+            onPressed: () => Application.router.push(context, 'photoList'),
           ),
         ],
       ),
