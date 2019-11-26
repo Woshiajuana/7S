@@ -18,12 +18,18 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         slivers: <Widget>[
           new SliverPersistentHeader(
             pinned: true,
-            delegate: SliverCustomHeaderDelegate(
-                title: '我的',
+            delegate: new SliverCustomHeaderDelegate(
+                title: new Text(
+                  '我是阿倦啊',
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 collapsedHeight: 56,
                 expandedHeight: 300,
                 paddingTop: MediaQuery.of(context).padding.top,
-                coverImgUrl: 'https://img.zcool.cn/community/01c6615d3ae047a8012187f447cfef.jpg@1280w_1l_2o_100sh.jpg'
             ),
           ),
           new SliverList(
@@ -204,15 +210,22 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
   final double expandedHeight;
   final double paddingTop;
-  final String coverImgUrl;
-  final String title;
+
+  final Widget title; // 标题
+  final Widget leading; // 返回
+  final List<Widget> actions; // 右边图标
+  final Widget background;
+  final Widget child;
 
   SliverCustomHeaderDelegate({
     this.collapsedHeight,
     this.expandedHeight,
     this.paddingTop,
-    this.coverImgUrl,
     this.title,
+    this.actions,
+    this.leading,
+    this.background,
+    this.child,
   });
 
   @override
@@ -263,25 +276,33 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: new Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          new Container(child: new Image.network(this.coverImgUrl, fit: BoxFit.cover)),
-          new Positioned(
-            left: 0,
-            top: this.maxExtent / 2,
-            right: 0,
-            bottom: 0,
-            child: new Container(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00000000),
-                    Color(0x90000000),
-                  ],
-                ),
-              ),
-            ),
-          ),
+
+          // 背景图
+          background ?? new Container(),
+
+          child ?? new Container(),
+//
+//          // mask
+//          new Positioned(
+//            left: 0,
+//            top: this.maxExtent / 2,
+//            right: 0,
+//            bottom: 0,
+//            child: new Container(
+//              decoration: new BoxDecoration(
+//                gradient: new LinearGradient(
+//                  begin: Alignment.topCenter,
+//                  end: Alignment.bottomCenter,
+//                  colors: [
+//                    Color(0x00000000),
+//                    Color(0x90000000),
+//                  ],
+//                ),
+//              ),
+//            ),
+//          ),
+
+          // 头部导航条
           new Positioned(
             left: 0,
             right: 0,
@@ -294,44 +315,21 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   height: this.collapsedHeight,
                   child: new Row(
                     children: <Widget>[
-                      new IconButton(
+                      leading ?? new IconButton(
                         icon: new Icon(
                           Icons.arrow_back,
                           color: this.makeStickyHeaderTextColor(shrinkOffset, true),
                         ),
                         onPressed: () => Navigator.pop(context),
                       ),
-                      new SizedBox(width: 16.0),
-                      new Text(
-                        this.title,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                          color: this.makeStickyHeaderTextColor(shrinkOffset, false),
-                        ),
-                      ),
+                      new SizedBox(width: 24.0),
+                      title ?? new Container(),
                       new Expanded(child: new Container(), flex: 1),
                       new Container(
+                        width: 100,
+                        height: this.maxExtent,
                         child: new Stack(
-                          children: <Widget>[
-                            new IconButton(
-                              icon: new Icon(Icons.email, color: Colors.white,),
-                              onPressed: () => Application.router.push(context, 'notice'),
-                            ),
-                            new Positioned(
-                              top: 10.0,
-                              right: 10.0,
-                              child: new Container(
-                                width: 10.0,
-                                height: 10.0,
-                                decoration: new BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: new BorderRadius.circular(6.0),
-                                  border: new Border.all(color: this.makeStickyHeaderBgColor(shrinkOffset), width: 2.0),
-                                ),
-                              ),
-                            ),
-                          ],
+                          children: actions ?? <Widget>[],
                         ),
                       ),
                     ],
