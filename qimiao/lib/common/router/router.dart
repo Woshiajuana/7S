@@ -27,7 +27,6 @@ import 'package:qimiao/view/password/change.view.dart';
 import 'package:qimiao/view/password/reset.view.dart';
 import 'package:qimiao/view/mine/signature.view.dart';
 import 'package:qimiao/view/friend/info.view.dart';
-import 'package:qimiao/view/about/test.view.dart';
 
 class Router {
 

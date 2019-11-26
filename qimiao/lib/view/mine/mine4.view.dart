@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
-import 'package:qimiao/widget/widget.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -9,34 +8,30 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new SliverCustomHeaderDelegate(
-                collapsedHeight: 56,
-                expandedHeight: 310,
-                paddingTop: MediaQuery.of(context).padding.top,
-                buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                  return <Widget> [
-                    _widgetHeaderBgSection(),
-                    _widgetHeaderSection(),
-                    _widgetAppBarSection(),
-                  ];
-                }
+      body: new ListView(
+        padding: const EdgeInsets.only(top: 0),
+        children: <Widget>[
+          new Container(
+            height: 310,
+            child: new Stack(
+              children: <Widget>[
+                // 头部背景
+                _widgetHeaderBgSection(),
+                // 头部 appbar
+                _widgetAppBarSection(),
+                // 头部内容
+                _widgetHeaderSection(),
+              ],
             ),
           ),
-          new SliverList(
-            delegate: new SliverChildListDelegate(
-              <Widget>[
-                _widgetMenuSection(),
-              ]
-            ),
-          ),
+          // 菜单内容
+          _widgetMenuSection(),
+          new SizedBox(height: 20.0),
         ],
       ),
     );
@@ -44,47 +39,34 @@ class _MineViewState extends State<MineView> {
 
   // appbar
   Widget _widgetAppBarSection () {
-    return new Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      child: new Container(
-        color: Colors.transparent,
-        child: new SafeArea(
-          bottom: false,
-          child: new Container(
-            height: 56.0,
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                new Container(
-                  child: new Stack(
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.email, color: Colors.white),
-                        onPressed: () => Application.router.push(context, 'notice'),
-                      ),
-                      new Positioned(
-                        top: 10.0,
-                        right: 10.0,
-                        child: new Container(
-                          width: 10.0,
-                          height: 10.0,
-                          decoration: new BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: new BorderRadius.circular(6.0),
-                            border: new Border.all(color: Colors.transparent, width: 2.0),
-                          ),
-                        ),
-                      ),
-                    ],
+    return new AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      actions: <Widget>[
+        new Container(
+          child: new Stack(
+            children: <Widget>[
+              new IconButton(
+                icon: new Icon(Icons.email),
+                onPressed: () => Application.router.push(context, 'notice'),
+              ),
+              new Positioned(
+                top: 10.0,
+                right: 10.0,
+                child: new Container(
+                  width: 10.0,
+                  height: 10.0,
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: new BorderRadius.circular(6.0),
+                    border: new Border.all(color: Colors.transparent, width: 2.0),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -132,18 +114,13 @@ class _MineViewState extends State<MineView> {
   Widget _widgetHeaderSection () {
     return new Container(
       height: 310,
-      child: new ListView(
-        reverse: true,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          new Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              // 用户信息
-              _widgetUserInfoSection(),
-              // 用户基本信息
-              _widgetFollowGroup(),
-            ],
-          ),
+          // 用户信息
+          _widgetUserInfoSection(),
+          // 用户基本信息
+          _widgetFollowGroup(),
         ],
       ),
     );
