@@ -51,7 +51,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
             child: new Container(
               height: 60.0,
               child: new FlatButton(
-                onPressed: () => {},
+                onPressed: () => Application.router.push(context, 'friendInfo'),
                 padding: const EdgeInsets.only(right: 0, left: 16.0),
                 child: new Row(
                   children: <Widget>[
@@ -83,6 +83,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
                             style: new TextStyle(
                               color: Color(0xff666666),
                               fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                           new SizedBox(height: 4.0),
@@ -93,6 +94,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
                             style: new TextStyle(
                               color: Color(0xff999999),
                               fontSize: 10.0,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],
