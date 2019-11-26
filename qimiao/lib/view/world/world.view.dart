@@ -14,71 +14,66 @@ class _WorldViewState extends State<WorldView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      body: new DefaultTabController(
-        length: 2,
-        child: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    '搜搜搜索',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-              ),
-              new SliverPersistentHeader(
-                pinned: true,
-                delegate: new StickyWidgetDelegate(
-                  height: 50.0,
-                  child: new Container(
+      backgroundColor: Colors.white,
+      body: new SafeArea(
+        bottom: false,
+        child: new DefaultTabController(
+          length: 2,
+          child: new NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                // 搜索
+                _widgetSearchSection(),
+                new SliverPersistentHeader(
+                  pinned: true,
+                  delegate: new StickyWidgetDelegate(
                     height: 50.0,
-                    color: Colors.white,
-                    child: TabBar(
-                      labelColor: Theme.of(context).primaryColor,
-                      labelStyle: TextStyle(fontSize: 16.5),
-                      unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
-                      indicatorColor: Theme.of(context).primaryColor,
-                      indicatorWeight: 2.0,
-                      tabs: <Widget>[
-                        new Tab(
-                          child: new Text('1'),
-                        ),
-                        new Tab(
-                          child: new Text('2'),
-                        ),
-                      ],
+                    child: new Container(
+                      height: 50.0,
+                      color: Colors.white,
+                      child: TabBar(
+                        labelColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(fontSize: 16.5),
+                        unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
+                        indicatorColor: Theme.of(context).primaryColor,
+                        indicatorWeight: 2.0,
+                        tabs: <Widget>[
+                          new Tab(
+                            child: new Text('1'),
+                          ),
+                          new Tab(
+                            child: new Text('2'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                )
+              ];
+            },
+            body: TabBarView(
+              children: <Widget>[
+                new RefreshIndicator(
+                  child: new ListView(
+                    children: <Widget>[
+                      new Container(height: 100, color: Colors.red),
+                      new Container(height: 100, color: Colors.blue),
+                      new Container(height: 100, color: Colors.red),
+                      new Container(height: 100, color: Colors.blue),
+                    ],
+                  ),
+                  onRefresh: _onRefresh,
                 ),
-              )
-            ];
-          },
-          body: TabBarView(
-            children: <Widget>[
-              new RefreshIndicator(
-                child: new ListView(
+                new ListView(
                   children: <Widget>[
-                    new Container(height: 100, color: Colors.red),
-                    new Container(height: 100, color: Colors.blue),
-                    new Container(height: 100, color: Colors.red),
-                    new Container(height: 100, color: Colors.blue),
+                    new Container(height: 100, color: Colors.green),
+                    new Container(height: 100, color: Colors.yellow),
+                    new Container(height: 100, color: Colors.green),
+                    new Container(height: 100, color: Colors.yellow),
                   ],
                 ),
-                onRefresh: _onRefresh,
-              ),
-              new ListView(
-                children: <Widget>[
-                  new Container(height: 100, color: Colors.green),
-                  new Container(height: 100, color: Colors.yellow),
-                  new Container(height: 100, color: Colors.green),
-                  new Container(height: 100, color: Colors.yellow),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -95,22 +90,14 @@ class _WorldViewState extends State<WorldView> {
 
   // 搜索
   Widget _widgetSearchSection () {
-    return new Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
+    return new SliverToBoxAdapter(
       child: new Container(
-        color: Colors.white,
-        child: new SafeArea(
-          bottom: false,
-          child: new Container(
-            height: 60,
-            child: new Row(
-              children: <Widget>[
-                new Text('1111'),
-              ],
-            ),
-          ),
+        height: 60.0,
+        color: Colors.yellow,
+        child: Text(
+          '搜搜搜索',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
         ),
       ),
     );
