@@ -24,6 +24,7 @@ class _WorldViewState extends State<WorldView> {
               return <Widget>[
                 // 搜索
                 _widgetSearchSection(),
+                // tab 切换条
                 new SliverPersistentHeader(
                   pinned: true,
                   delegate: new StickyWidgetDelegate(
@@ -129,7 +130,7 @@ class _WorldViewState extends State<WorldView> {
               height: 40.0,
               child: new FlatButton(
                 onPressed: () => {},
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(8.0),
                 child: new Image.asset(
                   Application.util.getImgPath('scan-icon.png'),
                   width: double.infinity,
@@ -142,6 +143,13 @@ class _WorldViewState extends State<WorldView> {
           ],
         ),
       ),
+    );
+  }
+
+  // tab 切换
+  Widget _widgetTabSection () {
+    return new Container(
+
     );
   }
 
