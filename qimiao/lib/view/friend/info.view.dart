@@ -32,6 +32,43 @@ class _FriendInfoViewState extends State<FriendInfoView> {
               paddingTop: MediaQuery.of(context).padding.top,
               background: _widgetHeaderBgSection(),
               child: _widgetHeaderSection(),
+              buildAppBar: (BuildContext context, bgColor, iconColor, textColor) {
+                return  new Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: new Container(
+                    color: bgColor,
+                    child: new SafeArea(
+                      bottom: false,
+                      child: new Container(
+                        height: 56.0,
+                        child: new Row(
+                          children: <Widget>[
+                            new IconButton(
+                              icon: new Icon(
+                                Icons.arrow_back,
+                                color: iconColor,
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            new SizedBox(width: 24.0),
+                            new Text(
+                              '我是阿倦啊1',
+                              style: new TextStyle(
+                                color: textColor,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            new Expanded(child: new Container(), flex: 1),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
             ),
           ),
           new SliverList(
@@ -309,6 +346,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final List<Widget> actions; // 右边图标
   final Widget background;
   final Widget child;
+  final buildAppBar;
 
   SliverCustomHeaderDelegate({
     this.collapsedHeight,
@@ -319,6 +357,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     this.leading,
     this.background,
     this.child,
+    this.buildAppBar,
   });
 
   @override
@@ -375,42 +414,13 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
           child ?? new Container(),
 
-          // 头部导航条
-          new Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            child: new Container(
-              color: this.makeStickyHeaderBgColor(shrinkOffset),
-              child: new SafeArea(
-                bottom: false,
-                child: new Container(
-                  height: this.collapsedHeight,
-                  child: new Row(
-                    children: <Widget>[
-                      leading ?? new IconButton(
-                        icon: new Icon(
-                          Icons.arrow_back,
-                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      new SizedBox(width: 24.0),
-                      title ?? new Container(),
-                      new Expanded(child: new Container(), flex: 1),
-                      new Container(
-                        width: 100,
-                        height: this.maxExtent,
-                        child: new Stack(
-                          children: actions ?? <Widget>[],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          this.buildAppBar(
+            context,
+            this.makeStickyHeaderBgColor(shrinkOffset),
+            this.makeStickyHeaderTextColor(shrinkOffset, true),
+            this.makeStickyHeaderTextColor(shrinkOffset, false),
           ),
+
         ],
       ),
     );
