@@ -18,8 +18,30 @@ class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProvid
     this.tabController = TabController(length: 2, vsync: this);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    final List<Color> colorList = [
+      Colors.red,
+      Colors.orange,
+      Colors.green,
+      Colors.purple,
+      Colors.blue,
+      Colors.yellow,
+      Colors.pink,
+      Colors.teal,
+      Colors.deepPurpleAccent,
+      Colors.red,
+      Colors.orange,
+      Colors.green,
+      Colors.purple,
+      Colors.blue,
+      Colors.yellow,
+      Colors.pink,
+      Colors.teal,
+      Colors.deepPurpleAccent,
+    ];
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       body: new CustomScrollView(
@@ -40,29 +62,24 @@ class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProvid
             ),
           ),
 
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new StickyTabBarDelegate(
-              child: TabBar(
-                labelColor: Colors.black,
-                controller: this.tabController,
-                tabs: <Widget>[
-                  Tab(text: 'Home'),
-                  Tab(text: 'Profile'),
-                ],
-              ),
-            ),
+//          new SliverPersistentHeader(
+//            pinned: true,
+//            delegate: new StickyTabBarDelegate(
+//              child: TabBar(
+//                labelColor: Colors.black,
+//                controller: this.tabController,
+//                tabs: <Widget>[
+//                  Tab(text: 'Home'),
+//                  Tab(text: 'Profile'),
+//                ],
+//              ),
+//            ),
+//          ),
+          SliverGrid.count(
+            crossAxisCount: 3,
+            children: colorList.map((color) => Container(color: color)).toList(),
           ),
 
-          new SliverFillRemaining(
-            child: TabBarView(
-              controller: this.tabController,
-              children: <Widget>[
-                Center(child: Text('Content of Home')),
-                Center(child: Text('Content of Profile')),
-              ],
-            ),
-          ),
         ],
       ),
     );
