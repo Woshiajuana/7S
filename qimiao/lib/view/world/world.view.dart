@@ -4,6 +4,7 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -11,6 +12,16 @@ class WorldView extends StatefulWidget {
 }
 
 class _WorldViewState extends State<WorldView> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
