@@ -34,6 +34,12 @@ class _WorldViewState extends State<WorldView> {
                 new RefreshIndicator(
                   child: new ListView(
                     children: <Widget>[
+                      new Container(height: 100, color: Colors.blue),
+                      new Container(height: 100, color: Colors.white10),
+                      new Container(height: 100, color: Colors.white10),
+                      new Container(height: 100, color: Colors.white10),
+                      new Container(height: 100, color: Colors.white10),
+                      new Container(height: 100, color: Colors.white10),
                       new Container(height: 100, color: Colors.white10),
                       new Container(height: 100, color: Colors.blue),
                       new Container(height: 100, color: Colors.red),
@@ -44,6 +50,7 @@ class _WorldViewState extends State<WorldView> {
                 ),
                 new ListView(
                   children: <Widget>[
+                    new Container(height: 100, color: Colors.blue),
                     new Container(height: 100, color: Colors.white10),
                     new Container(height: 100, color: Colors.yellow),
                     new Container(height: 100, color: Colors.green),
@@ -52,6 +59,11 @@ class _WorldViewState extends State<WorldView> {
                 ),
                 new ListView(
                   children: <Widget>[
+                    new Container(height: 100, color: Colors.blue),
+                    new Container(height: 100, color: Colors.white10),
+                    new Container(height: 100, color: Colors.white10),
+                    new Container(height: 100, color: Colors.white10),
+                    new Container(height: 100, color: Colors.white10),
                     new Container(height: 100, color: Colors.white10),
                     new Container(height: 100, color: Colors.yellow),
                     new Container(height: 100, color: Colors.green),
