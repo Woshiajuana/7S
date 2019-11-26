@@ -26,6 +26,7 @@ import 'package:qimiao/view/mine/qrCode.view.dart';
 import 'package:qimiao/view/password/change.view.dart';
 import 'package:qimiao/view/password/reset.view.dart';
 import 'package:qimiao/view/mine/signature.view.dart';
+import 'package:qimiao/view/friend/info.view.dart';
 
 class Router {
 
@@ -104,6 +105,12 @@ class Router {
       'route': (_) => new FriendView(),
       'handle': (params) {
         return new FriendView();
+      }
+    },
+    'friendInfo': {
+      'route': (_) => new FriendInfoView(),
+      'handle': (params) {
+        return new FriendInfoView();
       }
     },
     'historyList': {
