@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
-import 'package:qimiao/widget/cellLink.widget.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flukit/flukit.dart';
 
@@ -16,106 +15,109 @@ class _WorldViewState extends State<WorldView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new SliverCustomHeaderDelegate(
-              collapsedHeight: 56,
-              expandedHeight: 240,
-              paddingTop: MediaQuery.of(context).padding.top,
-              buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                return <Widget> [
-                  _widgetCarouselSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                  _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                ];
-              }
-            ),
+      body: new DefaultTabController(
+        length: 2,
+        child: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: new SliverCustomHeaderDelegate(
+                    collapsedHeight: 0,
+                    expandedHeight: 310,
+                    paddingTop: MediaQuery.of(context).padding.top,
+                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                      return <Widget> [
+                        _widgetHeaderBgSection(),
+                        _widgetHeaderSection(),
+                        _widgetAppBarSection(),
+                      ];
+                    }
+                ),
+              ),
+              // Tab
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(TabBar(
+                  labelColor: Theme.of(context).primaryColor,
+                  labelStyle: TextStyle(fontSize: 16.5),
+                  unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
+                  indicatorColor: Theme.of(context).primaryColor,
+                  indicatorWeight: 2.0,
+                  tabs: <Widget>[
+                    new Tab(
+                      child: new Text('1'),
+                    ),
+                    new Tab(
+                      child: new Text('2'),
+                    ),
+                  ],
+                )),
+              )
+            ];
+          },
+          body: TabBarView(
+            children: <Widget>[
+              new ListView(
+                children: <Widget>[
+                  new Container(height: 100, color: Colors.red),
+                  new Container(height: 100, color: Colors.blue),
+                  new Container(height: 100, color: Colors.red),
+                  new Container(height: 100, color: Colors.blue),
+                ],
+              ),
+              new ListView(
+                children: <Widget>[
+                  new Container(height: 100, color: Colors.green),
+                  new Container(height: 100, color: Colors.yellow),
+                  new Container(height: 100, color: Colors.green),
+                  new Container(height: 100, color: Colors.yellow),
+                ],
+              ),
+            ],
           ),
-          new SliverList(
-            delegate: new SliverChildListDelegate(
-              <Widget>[
-                new Container(height: 200.0, color: Colors.blue),
-                new Container(height: 200.0, color: Colors.red),
-                new Container(height: 200.0, color: Colors.blue),
-                new Container(height: 200.0, color: Colors.red),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  // 轮播图
-  Widget _widgetCarouselSection ({
-    double shrinkOffset,
-    int alpha,
-  }) {
 
-    // 引导页数据
-    List<String> _arrGuide = [
-      Application.util.getImgPath('guide1.png'),
-      Application.util.getImgPath('guide2.png'),
-      Application.util.getImgPath('guide3.png'),
-      Application.util.getImgPath('guide4.png'),
-    ];
-
-    // 引导页轮播
-    return new Swiper(
-      autoStart: false,
-      circular: false,
-      indicator: new CircleSwiperIndicator(
-        radius: 4.0,
-        padding: const EdgeInsets.only(bottom: 40.0),
-        itemColor: Colors.black26,
-      ),
-      children: _arrGuide.map((item) {
-        return new Container(
-          child: new Image.asset(
-            item,
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        );
-      }).toList(),
-    );
-
-  }
-
-  // 导航条
-  Widget _widgetAppBarSection ({
-    double shrinkOffset,
-    int alpha,
-  }) {
-
+  // appbar
+  Widget _widgetAppBarSection () {
     return new Positioned(
       left: 0,
       right: 0,
       top: 0,
       child: new Container(
-        color: Color.fromARGB(alpha, 236, 100, 47),
+        color: Colors.transparent,
         child: new SafeArea(
           bottom: false,
           child: new Container(
             height: 56.0,
             child: new Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                new IconButton(
-                  icon: new Icon(
-                    Icons.arrow_back,
-                    color: shrinkOffset <= 50 ? Colors.white : Color.fromARGB(alpha, 255, 255, 255),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                new SizedBox(width: 24.0),
-                new Text(
-                  '我是阿倦啊',
-                  style: new TextStyle(
-                    color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
+                new Container(
+                  child: new Stack(
+                    children: <Widget>[
+                      new IconButton(
+                        icon: new Icon(Icons.email, color: Colors.white),
+                        onPressed: () => Application.router.push(context, 'notice'),
+                      ),
+                      new Positioned(
+                        top: 10.0,
+                        right: 10.0,
+                        child: new Container(
+                          width: 10.0,
+                          height: 10.0,
+                          decoration: new BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: new BorderRadius.circular(6.0),
+                            border: new Border.all(color: Colors.transparent, width: 2.0),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -124,32 +126,308 @@ class _WorldViewState extends State<WorldView> {
         ),
       ),
     );
-
   }
 
-
-
-  void _handleExitOut () async {
-    var result = await showDialog(
-      context: context,
-      builder: (BuildContext buildContext) {
-        return new WillPopScope(
-          child: new UpgradeDialog(),
-          onWillPop: () async {
-            return Future.value(false);
-          }
-        );
-      },
+  // 头部背景
+  Widget _widgetHeaderBgSection () {
+    return new Container(
+      height: 310.0,
+      alignment: Alignment.bottomCenter,
+      decoration: new BoxDecoration(
+        color: Color(0xffdddddd),
+        image: new DecorationImage(
+          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: new Stack(
+        children: <Widget>[
+          new Container(
+            color: Color.fromRGBO(0, 0, 0, 0.2),
+          ),
+          new Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: new Container(
+              height: 150.0,
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00000000),
+                    Color(0x90000000),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
-    if (result != true) return;
-    try {
-//      await Application.util.store.clear();
-    } catch (err) {
-
-    } finally {
-      Application.router.replace(context, 'login');
-    }
   }
 
+  // 头部内容
+  Widget _widgetHeaderSection () {
+    return new Container(
+      height: 310,
+      child: new ListView(
+        reverse: true,
+        children: <Widget>[
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              // 用户信息
+              _widgetUserInfoSection(),
+              // 用户基本信息
+              _widgetFollowGroup(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _widgetUserInfoSection () {
+    return new Container(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child:  new Column(
+        children: <Widget>[
+          // 昵称
+          new Container(
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  '我是阿倦啊',
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new SizedBox(height: 3.0),
+          new Text(
+            '这个家伙什么都没留下...',
+            style: new TextStyle(
+              color: Color(0xffbbbbbb),
+              fontSize: 12.0,
+            ),
+          ),
+          new SizedBox(height: 12.0),
+          new Container(
+            height: 20.0,
+            width: 70.0,
+            decoration: new BoxDecoration(
+              color: Application.config.style.mainColor,
+              borderRadius: new BorderRadius.circular(20.0),
+            ),
+            child: new FlatButton(
+              padding: const EdgeInsets.all(0),
+              onPressed: () => Application.router.push(context, 'mineCenter'),
+              child: new Text(
+                '个人中心',
+                style: new TextStyle(
+                  fontWeight: FontWeight.w100,
+                  fontSize: 10.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 粉丝 or 关注
+  Widget _widgetFollowGroup () {
+    Widget _widgetBaseInfoItem ({
+      String labelText = '',
+      String valueText = '',
+      dynamic onPressed,
+    }) {
+      return new Expanded(
+        flex: 1,
+        child: new FlatButton(
+            onPressed: onPressed,
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  valueText,
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                new SizedBox(height: 3.0),
+                new Text(
+                  labelText,
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+              ],
+            )
+        ),
+      );
+    }
+    return new Container(
+      margin: const EdgeInsets.only(bottom: 5.0),
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _widgetBaseInfoItem(
+            labelText: '粉丝',
+            valueText: '1240',
+            onPressed: () => Application.router.push(context, 'friend'),
+          ),
+          _widgetBaseInfoItem(
+            labelText: '关注',
+            valueText: '228',
+            onPressed: () => Application.router.push(context, 'friend'),
+          ),
+          _widgetBaseInfoItem(
+            labelText: '视频',
+            valueText: '228',
+            onPressed: () => Application.router.push(context, 'videoList'),
+          ),
+          _widgetBaseInfoItem(
+            labelText: '照片',
+            valueText: '55',
+            onPressed: () => Application.router.push(context, 'photoList'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 菜单
+  Widget _widgetMenuSection () {
+    List _arrMenu = [
+      {
+        'text': '视频',
+        'icon': Icons.videocam,
+        'useMargin': true,
+        'routeName': 'videoList',
+      },
+      {
+        'text': '照片',
+        'icon': Icons.photo,
+        'useMargin': false,
+        'routeName': 'photoList',
+      },
+      {
+        'text': '收藏',
+        'icon': Icons.star,
+        'useMargin': true,
+        'routeName': 'collectList',
+      },
+      {
+        'text': '历史',
+        'icon': Icons.history,
+        'useMargin': false,
+        'routeName': 'historyList',
+      },
+      {
+        'text': '设置',
+        'icon': Icons.settings,
+        'useMargin': true,
+        'routeName': 'setting',
+      },
+    ];
+
+    Widget _widgetMenuItem ({
+      dynamic onPressed,
+      Color color,
+      String text = '',
+      IconData icon,
+      bool useMargin = false,
+    }) {
+      return new Container(
+        height: 60.0,
+        margin: EdgeInsets.only(top: useMargin ? 10.0 : 0),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          border: new Border(
+              bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd)),
+              top: new BorderSide(width: useMargin ? 0.5 : 0, color: Color(0xffdddddd))
+          ),
+        ),
+        child: new FlatButton(
+          padding: const EdgeInsets.all(0),
+          onPressed: onPressed,
+          child: new Row(
+            children: <Widget>[
+              new SizedBox(width: 16.0),
+              new Icon(icon, color: Color(0xff666666)),
+              new SizedBox(width: 16.0),
+              new Text(
+                text,
+                style: new TextStyle(
+                  color: Color(0xff333333),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              new Expanded(flex: 1, child: new Container()),
+              new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
+              new SizedBox(width: 10.0),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return new Column(
+      children: _arrMenu.map((item) {
+        return _widgetMenuItem(
+          onPressed: () => Application.router.push(context, item['routeName']),
+          text: item['text'],
+          icon: item['icon'],
+          useMargin: item['useMargin'],
+        );
+      }).toList(),
+    );
+  }
+
+}
+
+
+class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+
+  final TabBar _tabBar;
+  SliverAppBarDelegate(this._tabBar);
+
+  /**
+   * minExtent 与 maxExtent 相同, Header不会有收缩效果，类似普通Header。
+   */
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+        color: Colors.white,
+        child: _tabBar
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
+    return false;
+    // return maxHeight != oldDelegate.maxHeight ||
+    //   minHeight != oldDelegate.minHeight ||
+    //   child != oldDelegate.child;
+  }
 }
