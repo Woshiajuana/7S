@@ -257,7 +257,7 @@ class _MineViewState extends State<MineView> {
       },
       {
         'text': '照片',
-        'icon': Icons.photo_camera,
+        'icon': Icons.photo,
         'useMargin': false,
         'routeName': 'photoList',
       },
