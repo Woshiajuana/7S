@@ -92,12 +92,54 @@ class _WorldViewState extends State<WorldView> {
   Widget _widgetSearchSection () {
     return new SliverToBoxAdapter(
       child: new Container(
-        height: 60.0,
-        color: Colors.yellow,
-        child: Text(
-          '搜搜搜索',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20),
+        height: 50.0,
+        child: new Row(
+          children: <Widget>[
+            new SizedBox(width: 16.0),
+            new Expanded(
+              flex: 1,
+              child: new Container(
+                height: 30,
+                decoration: new BoxDecoration(
+                  color: Color(0xfff2f2f2),
+                  borderRadius: new BorderRadius.circular(20.0),
+                ),
+                child: new FlatButton(
+                  onPressed: () => {},
+                  padding: const EdgeInsets.all(0),
+                  child: new Row(
+                    children: <Widget>[
+                      new SizedBox(width: 12.0),
+                      new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
+                      new SizedBox(width: 10.0),
+                      new Text(
+                        '什么？找不到你想要的？试试我吧...',
+                        style: new TextStyle(
+                          color: Color(0xff999999),
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            new Container(
+              width: 40.0,
+              height: 40.0,
+              child: new FlatButton(
+                onPressed: () => {},
+                padding: const EdgeInsets.all(5.0),
+                child: new Image.asset(
+                  Application.util.getImgPath('scan-icon.png'),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                  color: Application.config.style.mainColor,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

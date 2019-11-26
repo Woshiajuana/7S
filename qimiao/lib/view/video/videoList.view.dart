@@ -109,7 +109,7 @@ class _VideoListViewState extends State<VideoListView> {
                   children: <Widget>[
                     new Row(
                       children: <Widget>[
-                        new Icon(Icons.play_circle_outline, size: 14.0, color: Color(0xffdddddd)),
+                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
                         new SizedBox(width: 2.0),
                         new Text(
                           '100',
