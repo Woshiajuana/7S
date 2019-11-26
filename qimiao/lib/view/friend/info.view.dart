@@ -19,27 +19,68 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           new SliverPersistentHeader(
             pinned: true,
             delegate: new SliverCustomHeaderDelegate(
-                title: new Text(
-                  '我是阿倦啊',
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+              title: new Text(
+                '我是阿倦啊',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
                 ),
-                collapsedHeight: 56,
-                expandedHeight: 300,
-                paddingTop: MediaQuery.of(context).padding.top,
+              ),
+              collapsedHeight: 56,
+              expandedHeight: 310,
+              paddingTop: MediaQuery.of(context).padding.top,
+              background: _widgetHeaderBgSection(),
             ),
           ),
           new SliverList(
             delegate: new SliverChildListDelegate(
-                <Widget>[
-                  _widgetMenuSection(),
-                  _widgetMenuSection(),
-                  _widgetMenuSection(),
-                  _widgetMenuSection(),
-                ]
+              <Widget>[
+                _widgetMenuSection(),
+                _widgetMenuSection(),
+                _widgetMenuSection(),
+                _widgetMenuSection(),
+              ]
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 头部背景
+  Widget _widgetHeaderBgSection () {
+    return new Container(
+      height: 310.0,
+      alignment: Alignment.bottomCenter,
+      decoration: new BoxDecoration(
+        color: Color(0xffdddddd),
+        image: new DecorationImage(
+          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: new Stack(
+        children: <Widget>[
+          new Container(
+            color: Color.fromRGBO(0, 0, 0, 0.2),
+          ),
+          new Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: new Container(
+              height: 150.0,
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00000000),
+                    Color(0x90000000),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
