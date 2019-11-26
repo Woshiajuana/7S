@@ -20,22 +20,32 @@ class _WorldViewState extends State<WorldView> {
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              new SliverPersistentHeader(
-                pinned: true,
-                delegate: new SliverCustomHeaderDelegate(
-                    collapsedHeight: 0,
-                    expandedHeight: 310,
-                    paddingTop: MediaQuery.of(context).padding.top,
-                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                      return <Widget> [
-                        _widgetHeaderBgSection(),
-                        _widgetHeaderSection(),
-                        _widgetSearchSection(),
-                      ];
-                    }
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    '搜搜搜索',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ),
-              // Tab
+//              new SliverPersistentHeader(
+//                pinned: true,
+//                delegate: new SliverCustomHeaderDelegate(
+//                    collapsedHeight: 0,
+//                    expandedHeight: 310,
+//                    paddingTop: MediaQuery.of(context).padding.top,
+//                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+//                      return <Widget> [
+//                        _widgetHeaderBgSection(),
+//                        _widgetHeaderSection(),
+//                        _widgetSearchSection(),
+//                      ];
+//                    }
+//                ),
+//              ),
+//              // Tab
               new SliverPersistentHeader(
                 pinned: true,
                 delegate: new StickyWidgetDelegate(
