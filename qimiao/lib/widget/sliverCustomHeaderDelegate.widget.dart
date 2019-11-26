@@ -6,11 +6,14 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double paddingTop;
   final buildContent;
+  final updateStatusBarBrightness;
+
   SliverCustomHeaderDelegate({
     this.collapsedHeight,
     this.expandedHeight,
     this.paddingTop,
     this.buildContent,
+    this.updateStatusBarBrightness,
   });
 
   @override
@@ -24,19 +27,19 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return true;
   }
 
-  void updateStatusBarBrightness(shrinkOffset) {
-    if(shrinkOffset > 50) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-      ));
-    } else if(shrinkOffset <= 50) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark,
-      ));
-    }
-  }
+//  void updateStatusBarBrightness(shrinkOffset) {
+//    if(shrinkOffset > 50) {
+//      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//        statusBarBrightness: Brightness.light,
+//        statusBarIconBrightness: Brightness.light,
+//      ));
+//    } else if(shrinkOffset <= 50) {
+//      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//        statusBarBrightness: Brightness.dark,
+//        statusBarIconBrightness: Brightness.dark,
+//      ));
+//    }
+//  }
 
   Color makeStickyHeaderBgColor(shrinkOffset) {
     final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255).clamp(0, 255).toInt();
@@ -63,7 +66,8 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    this.updateStatusBarBrightness(shrinkOffset);
+    if (this.updateStatusBarBrightness != null)
+      this.updateStatusBarBrightness(shrinkOffset);
     return new Container(
       height: this.maxExtent,
       width: MediaQuery.of(context).size.width,

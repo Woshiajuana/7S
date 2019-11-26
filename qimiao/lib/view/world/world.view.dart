@@ -30,7 +30,7 @@ class _WorldViewState extends State<WorldView> {
                       return <Widget> [
                         _widgetHeaderBgSection(),
                         _widgetHeaderSection(),
-                        _widgetAppBarSection(),
+                        _widgetSearchSection(),
                       ];
                     }
                 ),
@@ -82,6 +82,29 @@ class _WorldViewState extends State<WorldView> {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 搜索
+  Widget _widgetSearchSection () {
+    return new Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: new Container(
+        color: Colors.white,
+        child: new SafeArea(
+          bottom: false,
+          child: new Container(
+            height: 60,
+            child: new Row(
+              children: <Widget>[
+                new Text('1111'),
+              ],
+            ),
           ),
         ),
       ),
