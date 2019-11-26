@@ -294,6 +294,13 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   height: this.collapsedHeight,
                   child: new Row(
                     children: <Widget>[
+                      new IconButton(
+                        icon: new Icon(
+                          Icons.arrow_back,
+                          color: this.makeStickyHeaderTextColor(shrinkOffset, true),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
                       new SizedBox(width: 16.0),
                       new Text(
                         this.title,
