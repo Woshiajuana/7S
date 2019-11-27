@@ -32,41 +32,44 @@ class _WorldViewState extends State<WorldView> {
                   _widgetTabSection(),
                 ];
               },
-              body: TabBarView(
-                children: <Widget>[
-                  new RefreshIndicator(
-                    child: new ListView(
-                      padding: const EdgeInsets.all(0),
+              body: new Container(
+                padding: const EdgeInsets.only(top: 40.0),
+                child: TabBarView(
+                  children: <Widget>[
+                    new RefreshIndicator(
+                      child: new ListView(
+                        padding: const EdgeInsets.all(0),
+                        children: <Widget>[
+                          new Container(height: 100, color: Colors.blue),
+                          _widgetCarouselCell(),
+                        ],
+                      ),
+                      onRefresh: _onRefresh,
+                    ),
+                    new ListView(
                       children: <Widget>[
                         new Container(height: 100, color: Colors.blue),
-                        _widgetCarouselCell(),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.yellow),
+                        new Container(height: 100, color: Colors.green),
+                        new Container(height: 100, color: Colors.yellow),
                       ],
                     ),
-                    onRefresh: _onRefresh,
-                  ),
-                  new ListView(
-                    children: <Widget>[
-                      new Container(height: 100, color: Colors.blue),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.yellow),
-                      new Container(height: 100, color: Colors.green),
-                      new Container(height: 100, color: Colors.yellow),
-                    ],
-                  ),
-                  new ListView(
-                    children: <Widget>[
-                      new Container(height: 100, color: Colors.blue),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.yellow),
-                      new Container(height: 100, color: Colors.green),
-                      new Container(height: 100, color: Colors.yellow),
-                    ],
-                  ),
-                ],
+                    new ListView(
+                      children: <Widget>[
+                        new Container(height: 100, color: Colors.blue),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.yellow),
+                        new Container(height: 100, color: Colors.green),
+                        new Container(height: 100, color: Colors.yellow),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -151,7 +154,7 @@ class _WorldViewState extends State<WorldView> {
         child: new Container(
           height: 40.0,
           decoration: new BoxDecoration(
-            color: Application.config.style.mainColor,
+//            color: Application.config.style.mainColor,
             border: new Border(
               bottom: new BorderSide(
                 color: Color(0xffdddddd),
