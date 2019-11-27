@@ -48,24 +48,14 @@ class _WorldViewState extends State<WorldView> {
                     ),
                     new ListView(
                       children: <Widget>[
-                        new Container(height: 100, color: Colors.blue),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.yellow),
-                        new Container(height: 100, color: Colors.green),
-                        new Container(height: 100, color: Colors.yellow),
+                        _widgetVideoGroup(),
+                        new SizedBox(height: 10.0),
                       ],
                     ),
                     new ListView(
                       children: <Widget>[
-                        new Container(height: 100, color: Colors.blue),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.yellow),
-                        new Container(height: 100, color: Colors.green),
-                        new Container(height: 100, color: Colors.yellow),
+                        _widgetVideoGroup(),
+                        new SizedBox(height: 10.0),
                       ],
                     ),
                   ],
@@ -211,15 +201,15 @@ class _WorldViewState extends State<WorldView> {
     ];
     return new Container(
       height: 160.0,
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.circular(6.0),
         boxShadow: [
           new BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              offset: Offset(0.0, 0.0), //阴影xy轴偏移量
-              blurRadius: 1.0, //阴影模糊程度
-              spreadRadius: 1.0 //阴影扩散程度
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+            blurRadius: 1.0, //阴影模糊程度
+            spreadRadius: 1.0 //阴影扩散程度
           )
         ],
       ),
@@ -256,7 +246,7 @@ class _WorldViewState extends State<WorldView> {
       double width = (MediaQuery.of(context).size.width - 30) / 2;
       return new Container(
         width: width,
-//        height: 200.0,
+        margin: const EdgeInsets.only(top: 10.0),
         decoration: new BoxDecoration(
           color: Colors.white,
           borderRadius: new BorderRadius.circular(6.0),
@@ -289,7 +279,10 @@ class _WorldViewState extends State<WorldView> {
                     ),
                   ),
                   new Container(
-                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                    decoration: new BoxDecoration(
+                      color: Color.fromRGBO(0, 0, 0, 0.3),
+                      borderRadius: new BorderRadius.circular(6.0),
+                    ),
                   ),
                   new Positioned(
                     bottom: 0,
@@ -367,14 +360,36 @@ class _WorldViewState extends State<WorldView> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
+            new SizedBox(height: 3.0),
             new Container(
+              padding: const EdgeInsets.only(left: 10.0, right: 5.0),
               child: new Row(
                 children: <Widget>[
-
+                  new Expanded(
+                    child: new Text(
+                      '我是阿倦啊',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: new TextStyle(
+                        fontSize: 12.0,
+                        color: Color(0xff999999),
+                      ),
+                    ),
+                    flex: 1,
+                  ),
+                  new Container(
+                    height: 20.0,
+                    width: 20.0,
+                    child: new FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      onPressed: () => _handleOperate(),
+                      child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                    ),
+                  ),
                 ],
               ),
             ),
-            new SizedBox(height: 5.0),
+            new SizedBox(height: 8.0),
           ],
         ),
       );
@@ -395,6 +410,31 @@ class _WorldViewState extends State<WorldView> {
           _widgetVideoItem(),
         ],
       ),
+    );
+  }
+
+
+  // 操作
+  void _handleOperate () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '分享',
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '举报',
+              'onPressed': () => print('拍照'),
+            },
+          ],
+        );
+      },
     );
   }
 
