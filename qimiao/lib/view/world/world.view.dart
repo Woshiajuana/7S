@@ -16,11 +16,11 @@ class _WorldViewState extends State<WorldView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      body: new Container(
-        color: Application.config.style.mainColor,
-        child: new SafeArea(
-          bottom: false,
+      backgroundColor: Application.config.style.mainColor,
+      body:  new SafeArea(
+        bottom: false,
+        child: new Container(
+          color: Application.config.style.backgroundColor,
           child: new DefaultTabController(
             length: 3,
             child: new NestedScrollView(
@@ -36,17 +36,10 @@ class _WorldViewState extends State<WorldView> {
                 children: <Widget>[
                   new RefreshIndicator(
                     child: new ListView(
+                      padding: const EdgeInsets.all(0),
                       children: <Widget>[
-                        new Container(height: 200, color: Colors.blue),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
-                        new Container(height: 100, color: Colors.white10),
                         new Container(height: 100, color: Colors.blue),
-                        new Container(height: 100, color: Colors.red),
-                        new Container(height: 100, color: Colors.blue),
+                        _widgetCarouselCell(),
                       ],
                     ),
                     onRefresh: _onRefresh,
@@ -95,6 +88,7 @@ class _WorldViewState extends State<WorldView> {
     return new SliverToBoxAdapter(
       child: new Container(
         height: 50.0,
+        color: Application.config.style.mainColor,
         child: new Row(
           children: <Widget>[
             new SizedBox(width: 16.0),
@@ -151,6 +145,7 @@ class _WorldViewState extends State<WorldView> {
   Widget _widgetTabSection () {
     return new SliverPersistentHeader(
       pinned: true,
+      floating: true,
       delegate: new StickyWidgetDelegate(
         height: 40.0,
         child: new Container(
@@ -205,320 +200,52 @@ class _WorldViewState extends State<WorldView> {
     );
   }
 
-  // appbar
-  Widget _widgetAppBarSection () {
-    return new Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      child: new Container(
-        color: Colors.transparent,
-        child: new SafeArea(
-          bottom: false,
-          child: new Container(
-            height: 56.0,
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                new Container(
-                  child: new Stack(
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.email, color: Colors.white),
-                        onPressed: () => Application.router.push(context, 'notice'),
-                      ),
-                      new Positioned(
-                        top: 10.0,
-                        right: 10.0,
-                        child: new Container(
-                          width: 10.0,
-                          height: 10.0,
-                          decoration: new BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: new BorderRadius.circular(6.0),
-                            border: new Border.all(color: Colors.transparent, width: 2.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  // 头部背景
-  Widget _widgetHeaderBgSection () {
-    return new Container(
-      height: 310.0,
-      alignment: Alignment.bottomCenter,
-      decoration: new BoxDecoration(
-        color: Color(0xffdddddd),
-        image: new DecorationImage(
-          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: new Stack(
-        children: <Widget>[
-          new Container(
-            color: Color.fromRGBO(0, 0, 0, 0.2),
-          ),
-          new Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: new Container(
-              height: 150.0,
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00000000),
-                    Color(0x90000000),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 头部内容
-  Widget _widgetHeaderSection () {
-    return new Container(
-      height: 310,
-      child: new ListView(
-        reverse: true,
-        children: <Widget>[
-          new Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              // 用户信息
-              _widgetUserInfoSection(),
-              // 用户基本信息
-              _widgetFollowGroup(),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _widgetUserInfoSection () {
-    return new Container(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child:  new Column(
-        children: <Widget>[
-          // 昵称
-          new Container(
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(
-                  '我是阿倦啊',
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          new SizedBox(height: 3.0),
-          new Text(
-            '这个家伙什么都没留下...',
-            style: new TextStyle(
-              color: Color(0xffbbbbbb),
-              fontSize: 12.0,
-            ),
-          ),
-          new SizedBox(height: 12.0),
-          new Container(
-            height: 20.0,
-            width: 70.0,
-            decoration: new BoxDecoration(
-              color: Application.config.style.mainColor,
-              borderRadius: new BorderRadius.circular(20.0),
-            ),
-            child: new FlatButton(
-              padding: const EdgeInsets.all(0),
-              onPressed: () => Application.router.push(context, 'mineCenter'),
-              child: new Text(
-                '个人中心',
-                style: new TextStyle(
-                  fontWeight: FontWeight.w100,
-                  fontSize: 10.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 粉丝 or 关注
-  Widget _widgetFollowGroup () {
-    Widget _widgetBaseInfoItem ({
-      String labelText = '',
-      String valueText = '',
-      dynamic onPressed,
-    }) {
-      return new Expanded(
-        flex: 1,
-        child: new FlatButton(
-            onPressed: onPressed,
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(
-                  valueText,
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                new SizedBox(height: 3.0),
-                new Text(
-                  labelText,
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w100,
-                  ),
-                ),
-              ],
-            )
-        ),
-      );
-    }
-    return new Container(
-      margin: const EdgeInsets.only(bottom: 5.0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          _widgetBaseInfoItem(
-            labelText: '粉丝',
-            valueText: '1240',
-            onPressed: () => Application.router.push(context, 'friend'),
-          ),
-          _widgetBaseInfoItem(
-            labelText: '关注',
-            valueText: '228',
-            onPressed: () => Application.router.push(context, 'friend'),
-          ),
-          _widgetBaseInfoItem(
-            labelText: '视频',
-            valueText: '228',
-            onPressed: () => Application.router.push(context, 'videoList'),
-          ),
-          _widgetBaseInfoItem(
-            labelText: '照片',
-            valueText: '55',
-            onPressed: () => Application.router.push(context, 'photoList'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 菜单
-  Widget _widgetMenuSection () {
-    List _arrMenu = [
-      {
-        'text': '视频',
-        'icon': Icons.videocam,
-        'useMargin': true,
-        'routeName': 'videoList',
-      },
-      {
-        'text': '照片',
-        'icon': Icons.photo,
-        'useMargin': false,
-        'routeName': 'photoList',
-      },
-      {
-        'text': '收藏',
-        'icon': Icons.star,
-        'useMargin': true,
-        'routeName': 'collectList',
-      },
-      {
-        'text': '历史',
-        'icon': Icons.history,
-        'useMargin': false,
-        'routeName': 'historyList',
-      },
-      {
-        'text': '设置',
-        'icon': Icons.settings,
-        'useMargin': true,
-        'routeName': 'setting',
-      },
+  // 轮播图
+  Widget _widgetCarouselCell () {
+    // 引导页数据
+    List<String> _arrGuide = [
+      Application.util.getImgPath('guide1.png'),
+      Application.util.getImgPath('guide2.png'),
+      Application.util.getImgPath('guide3.png'),
+      Application.util.getImgPath('guide4.png'),
     ];
 
-    Widget _widgetMenuItem ({
-      dynamic onPressed,
-      Color color,
-      String text = '',
-      IconData icon,
-      bool useMargin = false,
-    }) {
-      return new Container(
-        height: 60.0,
-        margin: EdgeInsets.only(top: useMargin ? 10.0 : 0),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          border: new Border(
-              bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd)),
-              top: new BorderSide(width: useMargin ? 0.5 : 0, color: Color(0xffdddddd))
-          ),
+    return new Container(
+      height: 160.0,
+      margin: const EdgeInsets.all(10.0),
+      decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xffdddddd), width: 0.5),
+        borderRadius: new BorderRadius.circular(6.0),
+      ),
+      child: new Swiper(
+        autoStart: true,
+        circular: true,
+        indicator: new CircleSwiperIndicator(
+          radius: 4.0,
+          padding: const EdgeInsets.only(bottom: 10.0),
+          itemColor: Colors.black26,
+          itemActiveColor: Application.config.style.mainColor,
         ),
-        child: new FlatButton(
-          padding: const EdgeInsets.all(0),
-          onPressed: onPressed,
-          child: new Row(
-            children: <Widget>[
-              new SizedBox(width: 16.0),
-              new Icon(icon, color: Color(0xff666666)),
-              new SizedBox(width: 16.0),
-              new Text(
-                text,
-                style: new TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
-                ),
+        children:_arrGuide.map((item) {
+          return new Container(
+            child: new ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: new Image.asset(
+                item,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
               ),
-              new Expanded(flex: 1, child: new Container()),
-              new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
-              new SizedBox(width: 10.0),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return new Column(
-      children: _arrMenu.map((item) {
-        return _widgetMenuItem(
-          onPressed: () => Application.router.push(context, item['routeName']),
-          text: item['text'],
-          icon: item['icon'],
-          useMargin: item['useMargin'],
-        );
-      }).toList(),
+            ),
+          );
+        }).toList(),
+      ),
     );
+
   }
+
+  // 视频内容
+
 
 }
