@@ -29,7 +29,7 @@ class _WorldViewState extends State<WorldView> {
                   // 搜索
                   _widgetSearchSection(),
                   // tab 切换条
-                  _widgetTabSection(),
+                  _widgetTabSection(context),
                 ];
               },
               body: new Container(
@@ -40,7 +40,6 @@ class _WorldViewState extends State<WorldView> {
                       child: new ListView(
                         padding: const EdgeInsets.all(0),
                         children: <Widget>[
-                          new Container(height: 100, color: Colors.blue),
                           _widgetCarouselCell(),
                         ],
                       ),
@@ -116,6 +115,7 @@ class _WorldViewState extends State<WorldView> {
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 12.0,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -145,64 +145,59 @@ class _WorldViewState extends State<WorldView> {
   }
 
   // tab 切换
-  Widget _widgetTabSection () {
-    return new SliverPersistentHeader(
-      pinned: true,
-      floating: true,
-      delegate: new StickyWidgetDelegate(
-        height: 40.0,
-        child: new Container(
+  Widget _widgetTabSection (BuildContext context) {
+    return new SliverOverlapAbsorber(
+      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+      child: new SliverPersistentHeader(
+        pinned: true,
+        floating: true,
+        delegate: new StickyWidgetDelegate(
           height: 40.0,
-          decoration: new BoxDecoration(
-//            color: Application.config.style.mainColor,
-            border: new Border(
-              bottom: new BorderSide(
-                color: Color(0xffdddddd),
-                width: 0.5,
-              )
-            )
-          ),
-          child: new TabBar(
-            labelColor: Colors.white,
-            labelStyle: new TextStyle(fontSize: 16.5),
-            unselectedLabelColor: Color(0xffdddddd),
-            indicatorColor: Colors.white,
-            indicatorWeight: 1.0,
-            tabs: <Widget>[
-              new Tab(
-                child: new Text(
-                  '推荐',
-                  style: new TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w400,
+          child: new Container(
+            height: 40.0,
+            decoration: new BoxDecoration(
+            color: Application.config.style.mainColor,
+              border: new Border(
+                bottom: new BorderSide(
+                  color: Color(0xffdddddd),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: new TabBar(
+              labelColor: Colors.white,
+              labelStyle: new TextStyle(
+                fontSize: 18.0,
+              ),
+              unselectedLabelStyle: new TextStyle(
+                fontSize: 14.0,
+              ),
+              unselectedLabelColor: Color(0xffdddddd),
+              indicatorColor: Application.config.style.mainColor,
+              indicatorWeight: 0.1,
+              tabs: <Widget>[
+                new Tab(
+                  child: new Text(
+                    '推荐',
                   ),
                 ),
-              ),
-              new Tab(
-                child: new Text(
-                  '视频一瞬',
-                   style: new TextStyle(
-                     fontSize: 16.0,
-                     fontWeight: FontWeight.w400,
-                   ),
-                ),
-              ),
-              new Tab(
-                child: new Text(
-                  '精彩一刻',
-                  style: new TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w400,
+                new Tab(
+                  child: new Text(
+                    '视频一瞬',
                   ),
                 ),
-              ),
-            ],
+                new Tab(
+                  child: new Text(
+                    '精彩一刻',
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
 
   // 轮播图
   Widget _widgetCarouselCell () {
