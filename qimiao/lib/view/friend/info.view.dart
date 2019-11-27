@@ -100,6 +100,23 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             padding: const EdgeInsets.only(top: 56.0),
             child: new TabBarView(
               children: <Widget>[
+                Builder(
+                  builder: (context) =>  new CustomScrollView(
+                    slivers: <Widget>[
+                      // 将子部件同 `SliverAppBar` 重叠部分顶出来，否则会被遮挡
+                      SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                      new SliverList(
+                        delegate: SliverChildListDelegate(
+                            <Widget> [
+                              _widgetVideoGroup(),
+                              _widgetVideoGroup(),
+
+                            ]
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 new RefreshIndicator(
                   child: new ListView(
                     children: <Widget>[
@@ -109,13 +126,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                   ),
                   onRefresh: _onRefresh,
                 ),
-                new ListView(
-                  children: <Widget>[
-                    _widgetVideoGroup(),
-                    _widgetVideoGroup(),
-                    new SizedBox(height: 10.0),
-                  ],
-                ),
+
               ],
             ),
           ),
