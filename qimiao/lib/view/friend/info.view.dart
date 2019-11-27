@@ -41,57 +41,58 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              new SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child:  new SliverPersistentHeader(
-                  pinned: true,
-                  delegate: new SliverCustomHeaderDelegate(
-                      collapsedHeight: 56,
-                      expandedHeight: 310,
-                      paddingTop: MediaQuery.of(context).padding.top,
-                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                        return <Widget> [
-                          _widgetHeaderBgSection(),
-                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        ];
-                      }
-                  ),
-                ),
-              ),
-//              new SliverPersistentHeader(
-//                pinned: true,
-//                delegate: new SliverCustomHeaderDelegate(
-//                    collapsedHeight: 56,
-//                    expandedHeight: 310,
-//                    paddingTop: MediaQuery.of(context).padding.top,
-//                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-//                      return <Widget> [
-//                        _widgetHeaderBgSection(),
-//                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-//                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-//                      ];
-//                    }
-//                ),
-//              ),
-
 //              new SliverOverlapAbsorber(
 //                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-//                child: new SliverPersistentHeader(
+//                child:  new SliverPersistentHeader(
 //                  pinned: true,
-//                  delegate: new StickyTabBarDelegate(
-//                    child: new TabBar(
-//                      unselectedLabelColor: Color(0xff999999),
-//                      labelColor: Application.config.style.mainColor,
-//                      indicatorColor: Application.config.style.mainColor,
-//                      tabs: <Widget>[
-//                        Tab(text: '视频'),
-//                        Tab(text: '照片'),
-//                      ],
-//                    ),
+//                  delegate: new SliverCustomHeaderDelegate(
+//                      collapsedHeight: 56,
+//                      expandedHeight: 310,
+//                      paddingTop: MediaQuery.of(context).padding.top,
+//                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+//                        return <Widget> [
+//                          _widgetHeaderBgSection(),
+//                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                        ];
+//                      }
 //                  ),
 //                ),
 //              ),
+
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: new SliverCustomHeaderDelegate(
+                    collapsedHeight: 56,
+                    expandedHeight: 310,
+                    paddingTop: MediaQuery.of(context).padding.top,
+                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                      return <Widget> [
+                        _widgetHeaderBgSection(),
+                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                      ];
+                    }
+                ),
+              ),
+
+              new SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child: new SliverPersistentHeader(
+                  pinned: true,
+                  delegate: new StickyTabBarDelegate(
+                    child: new TabBar(
+                      unselectedLabelColor: Color(0xff999999),
+                      labelColor: Application.config.style.mainColor,
+                      indicatorColor: Application.config.style.mainColor,
+                      tabs: <Widget>[
+                        Tab(text: '视频'),
+                        Tab(text: '照片'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
 
             ];
           },
