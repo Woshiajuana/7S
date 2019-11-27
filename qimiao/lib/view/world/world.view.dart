@@ -17,7 +17,7 @@ class _WorldViewState extends State<WorldView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.mainColor,
-      body:  new SafeArea(
+      body: new SafeArea(
         bottom: false,
         child: new Container(
           color: Application.config.style.backgroundColor,
@@ -34,7 +34,7 @@ class _WorldViewState extends State<WorldView> {
               },
               body: new Container(
                 padding: const EdgeInsets.only(top: 40.0),
-                child: TabBarView(
+                child: new TabBarView(
                   children: <Widget>[
                     new RefreshIndicator(
                       child: new ListView(

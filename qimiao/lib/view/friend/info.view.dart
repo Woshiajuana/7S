@@ -8,17 +8,9 @@ class FriendInfoView extends StatefulWidget {
   _FriendInfoViewState createState() => _FriendInfoViewState();
 }
 
-class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProviderStateMixin {
+class _FriendInfoViewState extends State<FriendInfoView> {
 
   TabController tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    this.tabController = TabController(length: 2, vsync: this);
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +18,11 @@ class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProvid
       Colors.red,
       Colors.orange,
       Colors.green,
-      Colors.purple,
-      Colors.blue,
-      Colors.yellow,
-      Colors.pink,
-      Colors.teal,
+//      Colors.purple,
+//      Colors.blue,
+//      Colors.yellow,
+//      Colors.pink,
+//      Colors.teal,
 //      Colors.deepPurpleAccent,
 //      Colors.red,
 //      Colors.orange,
@@ -44,44 +36,297 @@ class _FriendInfoViewState extends State<FriendInfoView> with SingleTickerProvid
     ];
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new SliverCustomHeaderDelegate(
-              collapsedHeight: 56,
-              expandedHeight: 310,
-              paddingTop: MediaQuery.of(context).padding.top,
-              buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                return <Widget> [
-                  _widgetHeaderBgSection(),
-                  _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                  _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                ];
-              }
+      body: new DefaultTabController(
+        length: 2,
+        child: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child:  new SliverPersistentHeader(
+                  pinned: true,
+                  delegate: new SliverCustomHeaderDelegate(
+                      collapsedHeight: 56,
+                      expandedHeight: 310,
+                      paddingTop: MediaQuery.of(context).padding.top,
+                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                        return <Widget> [
+                          _widgetHeaderBgSection(),
+                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        ];
+                      }
+                  ),
+                ),
+              ),
+//              new SliverPersistentHeader(
+//                pinned: true,
+//                delegate: new SliverCustomHeaderDelegate(
+//                    collapsedHeight: 56,
+//                    expandedHeight: 310,
+//                    paddingTop: MediaQuery.of(context).padding.top,
+//                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+//                      return <Widget> [
+//                        _widgetHeaderBgSection(),
+//                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                      ];
+//                    }
+//                ),
+//              ),
+
+//              new SliverOverlapAbsorber(
+//                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+//                child: new SliverPersistentHeader(
+//                  pinned: true,
+//                  delegate: new StickyTabBarDelegate(
+//                    child: new TabBar(
+//                      unselectedLabelColor: Color(0xff999999),
+//                      labelColor: Application.config.style.mainColor,
+//                      indicatorColor: Application.config.style.mainColor,
+//                      tabs: <Widget>[
+//                        Tab(text: '视频'),
+//                        Tab(text: '照片'),
+//                      ],
+//                    ),
+//                  ),
+//                ),
+//              ),
+
+            ];
+          },
+          body: new Container(
+            padding: const EdgeInsets.only(top: 56.0),
+            child: new TabBarView(
+              children: <Widget>[
+                new RefreshIndicator(
+                  child: new ListView(
+                    children: <Widget>[
+                      _widgetVideoGroup(),
+                      new SizedBox(height: 10.0),
+                    ],
+                  ),
+                  onRefresh: _onRefresh,
+                ),
+                new ListView(
+                  children: <Widget>[
+                    _widgetVideoGroup(),
+                    _widgetVideoGroup(),
+                    new SizedBox(height: 10.0),
+                  ],
+                ),
+              ],
             ),
           ),
+        )
+      ),
+    );
+  }
 
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new StickyTabBarDelegate(
-              child: TabBar(
-                labelColor: Colors.black,
-                controller: this.tabController,
-                tabs: <Widget>[
-                  Tab(text: 'Home'),
-                  Tab(text: 'Profile'),
+  // 下拉刷新方法,为list重新赋值
+  Future<Null> _onRefresh() async {
+    await Future.delayed(Duration(seconds: 1), () {
+      print('refresh');
+
+    });
+  }
+
+  // 视频内容
+  Widget _widgetVideoGroup () {
+
+    Widget _widgetVideoItem () {
+      double width = (MediaQuery.of(context).size.width - 30) / 2;
+      return new Container(
+        width: width,
+        margin: const EdgeInsets.only(top: 10.0),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.circular(6.0),
+          boxShadow: [
+            new BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+                blurRadius: 1.0, //阴影模糊程度
+                spreadRadius: 1.0 //阴影扩散程度
+            )
+          ],
+        ),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              width: width,
+              height: width * 0.6,
+              child: new Stack(
+                children: <Widget>[
+                  new Container(
+                    child: new ClipRRect(
+                      borderRadius: BorderRadius.circular(6.0),
+                      child: new Image.asset(
+                        Application.util.getImgPath('guide1.png'),
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  ),
+                  new Container(
+                    decoration: new BoxDecoration(
+                      color: Color.fromRGBO(0, 0, 0, 0.3),
+                      borderRadius: new BorderRadius.circular(6.0),
+                    ),
+                  ),
+                  new Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: new Container(
+                      height: 30.0,
+                      decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0x00000000),
+                            Color(0x90000000),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  new Container(
+                    padding: const EdgeInsets.only(bottom: 5.0, left: 10.0),
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xffdddddd),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new SizedBox(width: 16.0),
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xffdddddd),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Expanded(child: new Container(), flex: 1),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-          SliverGrid.count(
-            crossAxisCount: 3,
-            children: colorList.map((color) => Container(color: color)).toList(),
-          ),
-
+            new SizedBox(height: 5.0),
+            new Container(
+              height: 34.0,
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              child: new Text(
+                '你打扫第几啊宋迪你你打扫第几啊宋迪你迪迪',
+                style: new TextStyle(
+                  color: Color(0xff333333),
+                  fontSize: 12.0,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            new SizedBox(height: 3.0),
+            new Container(
+              padding: const EdgeInsets.only(left: 10.0, right: 5.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Text(
+                      '我是阿倦啊',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: new TextStyle(
+                        fontSize: 12.0,
+                        color: Color(0xff999999),
+                      ),
+                    ),
+                    flex: 1,
+                  ),
+                  new Container(
+                    height: 20.0,
+                    width: 20.0,
+                    child: new FlatButton(
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () => _handleOperate(),
+                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new SizedBox(height: 8.0),
+          ],
+        ),
+      );
+    }
+    return new Container(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      child: new Wrap(
+        spacing: 10.0, // gap between adjacent chips
+        runSpacing: 10.0,
+        children: <Widget>[
+//          _widgetVideoItem(),
+//          _widgetVideoItem(),
+//          _widgetVideoItem(),
+//          _widgetVideoItem(),
+//          _widgetVideoItem(),
+//          _widgetVideoItem(),
+          _widgetVideoItem(),
+          _widgetVideoItem(),
         ],
       ),
+    );
+  }
+
+
+  // 操作
+  void _handleOperate () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '分享',
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '举报',
+              'onPressed': () => print('拍照'),
+            },
+          ],
+        );
+      },
     );
   }
 
