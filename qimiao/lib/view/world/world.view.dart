@@ -14,36 +14,53 @@ class WorldView extends StatefulWidget {
 class _WorldViewState extends State<WorldView> {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Colors.white,
-      body: new SafeArea(
-        bottom: false,
-        child: new DefaultTabController(
-          length: 3,
-          child: new NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                // 搜索
-                _widgetSearchSection(),
-                // tab 切换条
-                _widgetTabSection(),
-              ];
-            },
-            body: TabBarView(
-              children: <Widget>[
-                new RefreshIndicator(
-                  child: new ListView(
+      backgroundColor: Application.config.style.backgroundColor,
+      body: new Container(
+        color: Application.config.style.mainColor,
+        child: new SafeArea(
+          bottom: false,
+          child: new DefaultTabController(
+            length: 3,
+            child: new NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  // 搜索
+                  _widgetSearchSection(),
+                  // tab 切换条
+                  _widgetTabSection(),
+                ];
+              },
+              body: TabBarView(
+                children: <Widget>[
+                  new RefreshIndicator(
+                    child: new ListView(
+                      children: <Widget>[
+                        new Container(height: 200, color: Colors.blue),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.white10),
+                        new Container(height: 100, color: Colors.blue),
+                        new Container(height: 100, color: Colors.red),
+                        new Container(height: 100, color: Colors.blue),
+                      ],
+                    ),
+                    onRefresh: _onRefresh,
+                  ),
+                  new ListView(
+                    children: <Widget>[
+                      new Container(height: 100, color: Colors.blue),
+                      new Container(height: 100, color: Colors.white10),
+                      new Container(height: 100, color: Colors.yellow),
+                      new Container(height: 100, color: Colors.green),
+                      new Container(height: 100, color: Colors.yellow),
+                    ],
+                  ),
+                  new ListView(
                     children: <Widget>[
                       new Container(height: 100, color: Colors.blue),
                       new Container(height: 100, color: Colors.white10),
@@ -51,37 +68,13 @@ class _WorldViewState extends State<WorldView> {
                       new Container(height: 100, color: Colors.white10),
                       new Container(height: 100, color: Colors.white10),
                       new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.white10),
-                      new Container(height: 100, color: Colors.blue),
-                      new Container(height: 100, color: Colors.red),
-                      new Container(height: 100, color: Colors.blue),
+                      new Container(height: 100, color: Colors.yellow),
+                      new Container(height: 100, color: Colors.green),
+                      new Container(height: 100, color: Colors.yellow),
                     ],
                   ),
-                  onRefresh: _onRefresh,
-                ),
-                new ListView(
-                  children: <Widget>[
-                    new Container(height: 100, color: Colors.blue),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.yellow),
-                    new Container(height: 100, color: Colors.green),
-                    new Container(height: 100, color: Colors.yellow),
-                  ],
-                ),
-                new ListView(
-                  children: <Widget>[
-                    new Container(height: 100, color: Colors.blue),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.white10),
-                    new Container(height: 100, color: Colors.yellow),
-                    new Container(height: 100, color: Colors.green),
-                    new Container(height: 100, color: Colors.yellow),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -144,7 +137,7 @@ class _WorldViewState extends State<WorldView> {
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.fill,
-                  color: Application.config.style.mainColor,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -163,7 +156,7 @@ class _WorldViewState extends State<WorldView> {
         child: new Container(
           height: 40.0,
           decoration: new BoxDecoration(
-            color: Colors.white,
+            color: Application.config.style.mainColor,
             border: new Border(
               bottom: new BorderSide(
                 color: Color(0xffdddddd),
@@ -172,10 +165,10 @@ class _WorldViewState extends State<WorldView> {
             )
           ),
           child: new TabBar(
-            labelColor: Theme.of(context).primaryColor,
-            labelStyle: TextStyle(fontSize: 16.5),
-            unselectedLabelColor: Color.fromARGB(255, 192, 193, 195),
-            indicatorColor: Theme.of(context).primaryColor,
+            labelColor: Colors.white,
+            labelStyle: new TextStyle(fontSize: 16.5),
+            unselectedLabelColor: Color(0xffdddddd),
+            indicatorColor: Colors.white,
             indicatorWeight: 1.0,
             tabs: <Widget>[
               new Tab(
