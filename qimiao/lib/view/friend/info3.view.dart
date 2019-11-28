@@ -19,29 +19,26 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-
-              new SliverPersistentHeader(
-                pinned: true,
-                delegate: new SliverCustomHeaderDelegate(
-                    collapsedHeight: 106,
-                    expandedHeight: 360,
-                    paddingTop: MediaQuery.of(context).padding.top,
-                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                      return <Widget> [
-                        _widgetHeaderBgSection(),
-                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                      ];
-                    }
+              new SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child:  new SliverPersistentHeader(
+                  pinned: true,
+                  delegate: new SliverCustomHeaderDelegate(
+                      collapsedHeight: 106,
+                      expandedHeight: 360,
+                      paddingTop: MediaQuery.of(context).padding.top,
+                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                        return <Widget> [
+                          _widgetHeaderBgSection(),
+                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        ];
+                      }
+                  ),
                 ),
               ),
-              
             ];
-
-
           },
-
-
           body: new Container(
             padding: const EdgeInsets.only(top: 116.0),
             child: new TabBarView(
@@ -339,33 +336,38 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   }) {
     return new Container(
       height: 310,
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: new ListView(
+        reverse: true,
         children: <Widget>[
-          // 用户信息
-          _widgetUserInfoSection(
-            shrinkOffset: shrinkOffset,
-            alpha: alpha,
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              // 用户信息
+              _widgetUserInfoSection(
+                shrinkOffset: shrinkOffset,
+                alpha: alpha,
+              ),
+              // 用户基本信息
+              _widgetFollowGroup(
+                shrinkOffset: shrinkOffset,
+                alpha: alpha,
+              ),
+              // 导航条
+              new Container(
+                height: 50.0,
+                color: Colors.red,
+                child: new TabBar(
+                  unselectedLabelColor: Color(0xff999999),
+                  labelColor: Application.config.style.mainColor,
+                  indicatorColor: Application.config.style.mainColor,
+                  tabs: <Widget>[
+                    Tab(text: '视频'),
+                    Tab(text: '照片'),
+                  ],
+                ),
+              )
+            ],
           ),
-          // 用户基本信息
-          _widgetFollowGroup(
-            shrinkOffset: shrinkOffset,
-            alpha: alpha,
-          ),
-          // 导航条
-          new Container(
-            height: 50.0,
-            color: Colors.red,
-            child: new TabBar(
-              unselectedLabelColor: Color(0xff999999),
-              labelColor: Application.config.style.mainColor,
-              indicatorColor: Application.config.style.mainColor,
-              tabs: <Widget>[
-                Tab(text: '视频'),
-                Tab(text: '照片'),
-              ],
-            ),
-          )
         ],
       ),
     );
