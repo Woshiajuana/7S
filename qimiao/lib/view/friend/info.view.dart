@@ -40,7 +40,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             ];
           },
           body: new Container(
-            padding: const EdgeInsets.only(top: 106.0),
+            padding: const EdgeInsets.only(top: 116.0),
             child: new TabBarView(
               children: <Widget>[
                 new RefreshIndicator(
