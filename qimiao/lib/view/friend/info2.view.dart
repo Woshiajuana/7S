@@ -10,8 +10,30 @@ class FriendInfoView extends StatefulWidget {
 
 class _FriendInfoViewState extends State<FriendInfoView> {
 
+  TabController tabController;
+
   @override
   Widget build(BuildContext context) {
+    final List<Color> colorList = [
+      Colors.red,
+      Colors.orange,
+      Colors.green,
+//      Colors.purple,
+//      Colors.blue,
+//      Colors.yellow,
+//      Colors.pink,
+//      Colors.teal,
+//      Colors.deepPurpleAccent,
+//      Colors.red,
+//      Colors.orange,
+//      Colors.green,
+//      Colors.purple,
+//      Colors.blue,
+//      Colors.yellow,
+//      Colors.pink,
+//      Colors.teal,
+//      Colors.deepPurpleAccent,
+    ];
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       body: new DefaultTabController(
@@ -19,41 +41,73 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
+//              new SliverOverlapAbsorber(
+//                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+//                child:  new SliverPersistentHeader(
+//                  pinned: true,
+//                  delegate: new SliverCustomHeaderDelegate(
+//                      collapsedHeight: 56,
+//                      expandedHeight: 310,
+//                      paddingTop: MediaQuery.of(context).padding.top,
+//                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+//                        return <Widget> [
+//                          _widgetHeaderBgSection(),
+//                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                        ];
+//                      }
+//                  ),
+//                ),
+//              ),
+
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: new SliverCustomHeaderDelegate(
+                    collapsedHeight: 56,
+                    expandedHeight: 310,
+                    paddingTop: MediaQuery.of(context).padding.top,
+                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                      return <Widget> [
+                        _widgetHeaderBgSection(),
+                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                      ];
+                    }
+                ),
+              ),
+
               new SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child:  new SliverPersistentHeader(
+                child: new SliverPersistentHeader(
                   pinned: true,
-                  delegate: new SliverCustomHeaderDelegate(
-                      collapsedHeight: 106,
-                      expandedHeight: 360,
-                      paddingTop: MediaQuery.of(context).padding.top,
-                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                        return <Widget> [
-                          _widgetHeaderBgSection(),
-                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        ];
-                      }
+                  delegate: new StickyTabBarDelegate(
+                    child: new TabBar(
+                      unselectedLabelColor: Color(0xff999999),
+                      labelColor: Application.config.style.mainColor,
+                      indicatorColor: Application.config.style.mainColor,
+                      tabs: <Widget>[
+                        Tab(text: '视频'),
+                        Tab(text: '照片'),
+                      ],
+                    ),
                   ),
                 ),
               ),
+
             ];
           },
           body: new Container(
-            padding: const EdgeInsets.only(top: 106.0),
+            padding: const EdgeInsets.only(top: 56.0),
             child: new TabBarView(
               children: <Widget>[
-                new RefreshIndicator(
-                  child: new CustomScrollView(
-
+                Builder(
+                  builder: (context) =>  new CustomScrollView(
                     slivers: <Widget>[
+                      // 将子部件同 `SliverAppBar` 重叠部分顶出来，否则会被遮挡
+                      SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
                       new SliverList(
                         delegate: SliverChildListDelegate(
                             <Widget> [
-
-                              _widgetVideoGroup(),
-                              _widgetVideoGroup(),
-                              new SizedBox(height: 10.0),
                               _widgetVideoGroup(),
                               _widgetVideoGroup(),
 
@@ -62,7 +116,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                       ),
                     ],
                   ),
-                  onRefresh: _onRefresh,
                 ),
                 new RefreshIndicator(
                   child: new ListView(
@@ -86,6 +139,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   Future<Null> _onRefresh() async {
     await Future.delayed(Duration(seconds: 1), () {
       print('refresh');
+
     });
   }
 
@@ -102,10 +156,10 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           borderRadius: new BorderRadius.circular(6.0),
           boxShadow: [
             new BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              offset: Offset(0.0, 0.0), //阴影xy轴偏移量
-              blurRadius: 1.0, //阴影模糊程度
-              spreadRadius: 1.0 //阴影扩散程度
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+                blurRadius: 1.0, //阴影模糊程度
+                spreadRadius: 1.0 //阴影扩散程度
             )
           ],
         ),
@@ -352,20 +406,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 shrinkOffset: shrinkOffset,
                 alpha: alpha,
               ),
-              // 导航条
-              new Container(
-                height: 50.0,
-                color: Colors.red,
-                child: new TabBar(
-                  unselectedLabelColor: Color(0xff999999),
-                  labelColor: Application.config.style.mainColor,
-                  indicatorColor: Application.config.style.mainColor,
-                  tabs: <Widget>[
-                    Tab(text: '视频'),
-                    Tab(text: '照片'),
-                  ],
-                ),
-              )
             ],
           ),
         ],
