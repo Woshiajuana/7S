@@ -40,6 +40,7 @@ class _VideoListViewState extends State<VideoListView> {
     );
   }
 
+  // 视频
   Widget _widgetVideoCellItem () {
     return new Container(
       child: new Column(
