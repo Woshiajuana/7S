@@ -25,140 +25,137 @@ class _VideoListViewState extends State<VideoListView> {
       ),
       body: new ListView(
         children: <Widget>[
-          _widgetCellItem(),
-          _widgetCellItem(),
-          _widgetCellItem(),
-          _widgetCellItem(),
-          _widgetCellItem(),
-          _widgetCellItem(),
-          _widgetCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
+          _widgetVideoCellItem(),
         ],
       ),
     );
   }
 
-  // 视频
-  Widget _widgetCellItem () {
+  Widget _widgetVideoCellItem () {
     return new Container(
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-      height: 180.0,
-      color: Colors.red,
-      child: new Stack(
+      child: new Column(
         children: <Widget>[
-          new Image.asset(
-            Application.util.getImgPath('splash_bg.png'),
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fill,
-          ),
           new Container(
-            color: Color.fromRGBO(0, 0, 0, 0.3),
-          ),
-          new Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: new Container(
-              height: 100.0,
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00000000),
-                    Color(0x90000000),
-                  ],
-                ),
+            height: 30.0,
+            padding: const EdgeInsets.only(left: 10.0),
+            alignment: Alignment.centerLeft,
+            child: new Text(
+              '2019-11-18',
+              style: new TextStyle(
+                fontSize: 12.0,
+                color: Color(0xff666666),
               ),
             ),
           ),
           new Container(
-            alignment: Alignment.center,
-            child: new FlatButton(
-              child: new Icon(Icons.play_circle_filled, size: 60.0, color: Colors.white),
-              onPressed: () => {},
-            ),
-          ),
-          new Container(
             padding: const EdgeInsets.all(10.0),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Text(
-                      '今天的雪下得大',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    new Text(
-                      '2019-10-10',
-                      style: new TextStyle(
-                        color: Color(0xffdddddd),
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ],
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              border: new Border(
+                top: new BorderSide(
+                  color: Color(0xffdddddd),
+                  width: 0.5,
                 ),
-                new SizedBox(height: 5.0),
-                new Row(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
+                bottom: new BorderSide(
+                  color: Color(0xffdddddd),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: new Row(
+              children: <Widget>[
+                new Container(
+                  width: 120.0,
+                  height: 77.0,
+                  child: new Stack(
+                    children: <Widget>[
+                      new ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
+                        child: new Image.asset(
+                          Application.util.getImgPath('guide1.png'),
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
-                      ],
-                    ),
-                    new SizedBox(width: 16.0),
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new SizedBox(width: 16.0),
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.star_border, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Expanded(child: new Container(), flex: 1),
-                    new Container(
-                      height: 20.0,
-                      width: 20.0,
-                      child: new FlatButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => _handleOperate(),
-                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xffdddddd))
                       ),
+                      new Container(
+                        decoration: new BoxDecoration(
+                          color: Color.fromRGBO(0, 0, 0, 0.3),
+                          borderRadius: new BorderRadius.circular(6.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new SizedBox(width: 10.0),
+                new Expanded(
+                  flex: 1,
+                  child: new Container(
+                    height: 77.0,
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text(
+                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: new TextStyle(
+                            fontSize: 14.0,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xff999999)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xff999999),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xff999999),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Container(
+                              height: 20.0,
+                              width: 20.0,
+                              child: new FlatButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () => _handleOperate(),
+                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
