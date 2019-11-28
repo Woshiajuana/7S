@@ -37,21 +37,21 @@ class _FriendViewState extends State<FriendView> with SingleTickerProviderStateM
             fontSize: 18.0,
           ),
         ),
-        bottom: new TabBar(
-          tabs: <Widget>[
-            new Tab(
-              child: new Text(
-                '关注',
-              ),
+        bottom: new PreferredSize(
+          child: new Material(
+            color: Colors.white,
+            child: new TabBar(
+              controller: _tabController,
+              unselectedLabelColor: Color(0xff999999),
+              labelColor: Application.config.style.mainColor,
+              indicatorColor: Application.config.style.mainColor,
+              tabs: <Widget>[
+                Tab(text: '视频'),
+                Tab(text: '照片'),
+              ],
             ),
-            new Tab(
-              child: new Text(
-                '粉丝',
-              ),
-            ),
-          ],
-          controller: _tabController,
-          indicatorColor: Colors.white,
+          ),
+          preferredSize: new Size(double.infinity, 44.0),
         ),
       ),
       body: new TabBarView(

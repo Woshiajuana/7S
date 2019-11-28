@@ -24,7 +24,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 child:  new SliverPersistentHeader(
                   pinned: true,
                   delegate: new SliverCustomHeaderDelegate(
-                      collapsedHeight: 106,
+                      collapsedHeight: 100,
                       expandedHeight: 360,
                       paddingTop: MediaQuery.of(context).padding.top,
                       buildContent: (BuildContext context, double shrinkOffset, int alpha) {
@@ -40,7 +40,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             ];
           },
           body: new Container(
-            padding: const EdgeInsets.only(top: 116.0),
+            padding: const EdgeInsets.only(top: 110.0),
             child: new TabBarView(
               children: <Widget>[
                 new ListView(
@@ -61,13 +61,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         )
       ),
     );
-  }
-
-  // 下拉刷新方法,为list重新赋值
-  Future<Null> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1), () {
-      print('refresh');
-    });
   }
 
   // 视频内容
@@ -244,7 +237,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     );
   }
 
-
   // 操作
   void _handleOperate () {
     showDialog(
@@ -332,20 +324,33 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             shrinkOffset: shrinkOffset,
             alpha: a,
           ) : new Container(),
-          // 导航条
-          new Container(
-            height: 50.0,
-            color: Colors.red,
-            child: new TabBar(
-              unselectedLabelColor: Color(0xff999999),
-              labelColor: Application.config.style.mainColor,
-              indicatorColor: Application.config.style.mainColor,
-              tabs: <Widget>[
-                Tab(text: '视频'),
-                Tab(text: '照片'),
-              ],
-            ),
-          )
+          // tab 切换
+          _widgetTabSection(),
+        ],
+      ),
+    );
+  }
+
+  // tab 切换
+  Widget _widgetTabSection () {
+    return new Container(
+      height: 44.0,
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        border: new Border(
+          bottom: new BorderSide(
+            color: Color(0xffdddddd),
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: new TabBar(
+        unselectedLabelColor: Color(0xff999999),
+        labelColor: Application.config.style.mainColor,
+        indicatorColor: Application.config.style.mainColor,
+        tabs: <Widget>[
+          Tab(text: '视频'),
+          Tab(text: '照片'),
         ],
       ),
     );
@@ -493,118 +498,4 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     );
   }
 
-  // 菜单
-  Widget _widgetMenuSection () {
-    List _arrMenu = [
-      {
-        'text': '视频',
-        'icon': Icons.videocam,
-        'color': Color(0xff43bdbe),
-        'routeName': 'setting',
-      },
-      {
-        'text': '相册',
-        'icon': Icons.photo_camera,
-        'color': Color(0xffd76c93),
-        'routeName': 'setting',
-      },
-      {
-        'text': '收藏',
-        'icon': Icons.headset,
-        'color': Color(0xff7c4a7d),
-        'routeName': 'setting',
-      },
-      {
-        'text': '设置',
-        'icon': Icons.settings,
-        'color': Color(0xffeacb5f),
-        'routeName': 'setting',
-      },
-    ];
-
-    Widget _widgetMenuItem ({
-      dynamic onPressed,
-      Color color,
-      String text = '',
-      IconData icon,
-    }) {
-      return new Container(
-        height: 77.0,
-        color: Colors.white,
-        child: new FlatButton(
-          padding: const EdgeInsets.all(0),
-          onPressed: onPressed,
-          child: new Row(
-            children: <Widget>[
-              new Container(
-                width: 77.0,
-                height: 77.0,
-                color: color,
-                child: new Icon(icon, color: Colors.white),
-              ),
-              new Expanded(
-                flex: 1,
-                child: new Container(
-                  decoration: new BoxDecoration(
-                    border: new Border(
-                        bottom: new BorderSide(width: 0.5, color: Color(0xffdddddd))
-                    ),
-                  ),
-                  child: new Row(
-                    children: <Widget>[
-                      new SizedBox(width: 16.0),
-                      new Text(
-                        text,
-                        style: new TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 18.0,
-                        ),
-                      ),
-                      new Expanded(flex: 1, child: new Container()),
-                      new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
-                      new SizedBox(width: 10.0),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-    }
-
-    return new Column(
-      children: _arrMenu.map((item) {
-        return _widgetMenuItem(
-          onPressed: () => Application.router.push(context, item['routeName']),
-          text: item['text'],
-          icon: item['icon'],
-          color: item['color'],
-        );
-      }).toList(),
-    );
-  }
-
-}
-
-class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar child;
-
-  StickyTabBarDelegate({@required this.child});
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return this.child;
-  }
-
-  @override
-  double get maxExtent => this.child.preferredSize.height;
-
-  @override
-  double get minExtent => this.child.preferredSize.height;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
 }
