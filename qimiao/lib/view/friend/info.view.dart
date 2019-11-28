@@ -19,64 +19,42 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-
-              new SliverPersistentHeader(
-                pinned: true,
-                delegate: new SliverCustomHeaderDelegate(
-                    collapsedHeight: 106,
-                    expandedHeight: 360,
-                    paddingTop: MediaQuery.of(context).padding.top,
-                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                      return <Widget> [
-                        _widgetHeaderBgSection(),
-                        _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                      ];
-                    }
+              new SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child:  new SliverPersistentHeader(
+                  pinned: true,
+                  delegate: new SliverCustomHeaderDelegate(
+                      collapsedHeight: 106,
+                      expandedHeight: 360,
+                      paddingTop: MediaQuery.of(context).padding.top,
+                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                        return <Widget> [
+                          _widgetHeaderBgSection(),
+                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        ];
+                      }
+                  ),
                 ),
               ),
-              
             ];
-
-
           },
-
-
           body: new Container(
             padding: const EdgeInsets.only(top: 116.0),
             child: new TabBarView(
               children: <Widget>[
-                new RefreshIndicator(
-                  child: new CustomScrollView(
-
-                    slivers: <Widget>[
-                      new SliverList(
-                        delegate: SliverChildListDelegate(
-                            <Widget> [
-
-                              _widgetVideoGroup(),
-                              _widgetVideoGroup(),
-                              new SizedBox(height: 10.0),
-                              _widgetVideoGroup(),
-                              _widgetVideoGroup(),
-
-                            ]
-                        ),
-                      ),
-                    ],
-                  ),
-                  onRefresh: _onRefresh,
+                new ListView(
+                  children: <Widget>[
+                    _widgetVideoGroup(),
+                    new SizedBox(height: 10.0),
+                  ],
                 ),
-                new RefreshIndicator(
-                  child: new ListView(
-                    children: <Widget>[
-                      _widgetVideoGroup(),
-                      new SizedBox(height: 10.0),
-                    ],
-                  ),
-                  onRefresh: _onRefresh,
+                new ListView(
+                  children: <Widget>[
+                    _widgetVideoGroup(),
+                    new SizedBox(height: 10.0),
+                  ],
                 ),
-
               ],
             ),
           ),
@@ -337,21 +315,23 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     double shrinkOffset,
     int alpha,
   }) {
+    int a = (alpha * 1.3).toInt();
+    if (a > 255) a = 255;
     return new Container(
       height: 310,
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           // 用户信息
-          _widgetUserInfoSection(
+          alpha < 200 ? _widgetUserInfoSection(
             shrinkOffset: shrinkOffset,
-            alpha: alpha,
-          ),
+            alpha: a,
+          ) : new Container(),
           // 用户基本信息
-          _widgetFollowGroup(
+          alpha < 200 ? _widgetFollowGroup(
             shrinkOffset: shrinkOffset,
-            alpha: alpha,
-          ),
+            alpha: a,
+          ) : new Container(),
           // 导航条
           new Container(
             height: 50.0,
