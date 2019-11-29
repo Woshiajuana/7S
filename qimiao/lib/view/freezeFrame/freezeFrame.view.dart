@@ -120,7 +120,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
             ),
             child: new FlatButton(
               onPressed: () => {},
-              child: new Icon(Icons.add, size: 60.0, color: Colors.white)
+              child: new Icon(Icons.add, size: 40.0, color: Colors.white)
             ),
           ),
           new Positioned(
@@ -216,7 +216,10 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
             },
             {
               'text': '编辑',
-              'onPressed': () => Application.router.push(context, 'freezeFrameDetails'),
+              'onPressed': () {
+                Navigator.of(context).pop();
+                Application.router.push(context, 'freezeFrameDetails');
+              },
             },
           ],
         );
@@ -261,7 +264,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
             ),
             child: new FlatButton(
                 onPressed: () => {},
-                child: new Icon(Icons.add, size: 60.0, color: Colors.white)
+                child: new Icon(Icons.add, size: 40.0, color: Colors.white)
             ),
           ),
           new Positioned(

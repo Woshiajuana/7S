@@ -16,7 +16,9 @@ import 'package:qimiao/view/login/login.view.dart';
 import 'package:qimiao/view/register/register.view.dart';
 import 'package:qimiao/view/setting/setting.view.dart';
 import 'package:qimiao/view/video/videoList.view.dart';
+import 'package:qimiao/view/video/details.dart';
 import 'package:qimiao/view/photo/photoList.view.dart';
+import 'package:qimiao/view/photo/details.dart';
 import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
 import 'package:qimiao/view/friend/friend.view.dart';
@@ -96,10 +98,22 @@ class Router {
         return new VideoListView();
       }
     },
+    'videoDetails': {
+      'route': (_) => new VideoDetailsView(),
+      'handle': (params) {
+        return new VideoDetailsView();
+      }
+    },
     'photoList': {
       'route': (_) => new PhotoListView(),
       'handle': (params) {
         return new PhotoListView();
+      }
+    },
+    'photoDetails': {
+      'route': (_) => new PhotoDetailsView(),
+      'handle': (params) {
+        return new PhotoDetailsView();
       }
     },
     'collectList': {
