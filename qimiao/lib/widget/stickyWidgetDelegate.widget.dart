@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class StickyWidgetDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
-  final double height;
+  final double maxExtentHeight;
+  final double minExtentHeight;
 
   StickyWidgetDelegate({
     @required this.child,
-    @required this.height
+    @required this.maxExtentHeight,
+    @required this.minExtentHeight
   });
 
   @override
@@ -17,10 +19,10 @@ class StickyWidgetDelegate extends SliverPersistentHeaderDelegate {
 
   // minExtent 与 maxExtent 相同, Header不会有收缩效果，类似普通Header。
   @override
-  double get maxExtent => this.height;
+  double get maxExtent => this.maxExtentHeight;
 
   @override
-  double get minExtent => this.height;
+  double get minExtent => this.minExtentHeight;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

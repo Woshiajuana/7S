@@ -143,11 +143,12 @@ class _WorldViewState extends State<WorldView> {
         pinned: true,
         floating: true,
         delegate: new StickyWidgetDelegate(
-          height: 40.0,
+          maxExtentHeight: 40.0,
+          minExtentHeight: 40.0,
           child: new Container(
             height: 40.0,
             decoration: new BoxDecoration(
-            color: Application.config.style.mainColor,
+              color: Application.config.style.mainColor,
               border: new Border(
                 bottom: new BorderSide(
                   color: Color(0xffdddddd),
@@ -206,10 +207,10 @@ class _WorldViewState extends State<WorldView> {
         borderRadius: new BorderRadius.circular(6.0),
         boxShadow: [
           new BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.1),
-            offset: Offset(0.0, 0.0), //阴影xy轴偏移量
-            blurRadius: 1.0, //阴影模糊程度
-            spreadRadius: 1.0 //阴影扩散程度
+              color: Color.fromRGBO(0, 0, 0, 0.1),
+              offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+              blurRadius: 1.0, //阴影模糊程度
+              spreadRadius: 1.0 //阴影扩散程度
           )
         ],
       ),
@@ -252,10 +253,10 @@ class _WorldViewState extends State<WorldView> {
           borderRadius: new BorderRadius.circular(6.0),
           boxShadow: [
             new BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              offset: Offset(0.0, 0.0), //阴影xy轴偏移量
-              blurRadius: 1.0, //阴影模糊程度
-              spreadRadius: 1.0 //阴影扩散程度
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+                blurRadius: 1.0, //阴影模糊程度
+                spreadRadius: 1.0 //阴影扩散程度
             )
           ],
         ),
@@ -381,9 +382,9 @@ class _WorldViewState extends State<WorldView> {
                     height: 20.0,
                     width: 20.0,
                     child: new FlatButton(
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () => _handleOperate(),
-                      child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () => _handleOperate(),
+                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
                     ),
                   ),
                 ],
