@@ -43,6 +43,8 @@ class _WowCalendarState extends State<WowCalendar> {
   String displayMonth;
   DateTime get selectedDate => _selectedDate;
 
+  final List<String> weekdays = const [ '日', '一', '二', '三', '四', '五', '六' ];
+
   void initState() {
     super.initState();
     if (widget.initialCalendarDateOverride != null)
@@ -79,16 +81,14 @@ class _WowCalendarState extends State<WowCalendar> {
     List<DateTime> calendarDays =
     isExpanded ? selectedMonthsDays : selectedWeeksDays;
 
-    Utils.weekdays.forEach(
-          (day) {
-        dayWidgets.add(
-          new CalendarTile(
-            isDayOfWeek: true,
-            dayOfWeek: day,
-          ),
-        );
-      },
-    );
+    weekdays.forEach((day) {
+      dayWidgets.add(
+        new CalendarTile(
+          isDayOfWeek: true,
+          dayOfWeek: day,
+        ),
+      );
+    });
 
     bool monthStarted = false;
     bool monthEnded = false;

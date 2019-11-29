@@ -39,7 +39,7 @@ class _CalendarViewState extends State<CalendarView> {
               ),
               new IconButton(
                 icon: new Icon(Icons.arrow_forward_ios, size: 18.0),
-                onPressed: () => c.createState().resetToToday(),
+                onPressed: () => {},
               ),
             ],
           ),
