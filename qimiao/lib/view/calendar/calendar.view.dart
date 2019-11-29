@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:date_utils/date_utils.dart';
 
 class CalendarView extends StatefulWidget {
   @override
@@ -11,7 +12,14 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
 
-
+  DateTime _dateTime;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dateTime = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,7 @@ class _CalendarViewState extends State<CalendarView> {
                 onPressed: () => {},
               ),
               new Text(
-                '2019-10-12',
+                Utils.apiDayFormat(_dateTime),
                 style: new TextStyle(
                   fontSize: 18.0,
                 ),
@@ -50,34 +58,7 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       body: new ListView(
         children: <Widget>[
-          new WowCalendar(
-            isExpandable: true,
-            onSelectedRangeChange: (x) {
-              print('onSelectedRangeChange=>$x');
-            },
-            onDateSelected: (x) {
-              print('onDateSelected=>$x');
-            },
-            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-              return new Container(
-                color: isSelected ? Colors.blue : Colors.red,
-                child: new Text(day.day.toString()),
-              );
-            },
-          ),
           _widgetCalendarSection(),
-          _widgetHeaderSection(),
-          new CellLinkWidget(
-            labelText: 'GetHub',
-            onPressed: () => _handleExitOut(),
-          ),
-          new CellLinkWidget(
-            labelText: '关于我们',
-            onPressed: () => Application.router.push(context, 'about'),
-          ),
-          new CellLinkWidget(
-            labelText: '更新记录',
-          ),
         ],
       ),
     );
@@ -85,10 +66,38 @@ class _CalendarViewState extends State<CalendarView> {
 
   // 日历
   Widget _widgetCalendarSection () {
+    int _millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
     return new Container(
-//        showChevronsToChangeRange: false,
-//      isExpandable: true,
-//      showCalendarPickerIcon: true,
+      child: new WowCalendar(
+        isExpandable: true,
+        onSelectedRangeChange: (x) {
+          print('onSelectedRangeChange=>$x');
+        },
+        onDateSelected: (d) => setState(() => _dateTime = d),
+        dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+          return new Container(
+            child: new Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                new Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: new BoxDecoration(
+                    color: isSelected ? Application.config.style.mainColor :  _millisecondsSinceEpoch < day.millisecondsSinceEpoch ? Colors.transparent : Color(0xffdddddd) ,
+                    borderRadius: new BorderRadius.all(new Radius.circular(40.0)),
+                  ),
+                ),
+                new Text(
+                  day?.day?.toString()??'',
+                  style: new TextStyle(
+                    color: isSelected ? Colors.white :  _millisecondsSinceEpoch < day.millisecondsSinceEpoch ? Color(0xff999999) : Colors.white
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

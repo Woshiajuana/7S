@@ -61,6 +61,8 @@ class _WowCalendarState extends State<WowCalendar> {
 
   Widget get calendarGridView {
     return new Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(bottom: 10.0),
       child: new GestureDetector(
         onHorizontalDragStart: (gestureDetails) => beginSwipe(gestureDetails),
         onHorizontalDragUpdate: (gestureDetails) =>
