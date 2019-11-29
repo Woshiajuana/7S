@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
-import 'package:qimiao/widget/cellLink.widget.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
 
@@ -102,6 +101,17 @@ class _CalendarViewState extends State<CalendarView> {
       child: new Stack(
         children: <Widget>[
           new Container(
+            child: new ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+          ),
+          new Container(
             width: double.infinity,
             height: double.infinity,
             decoration: new BoxDecoration(
@@ -113,9 +123,100 @@ class _CalendarViewState extends State<CalendarView> {
               child: new Icon(Icons.add, size: 60.0, color: Colors.white)
             ),
           ),
-
+          new Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: new Container(
+              height: 60.0,
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
+                gradient: new LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00000000),
+                    Color(0x90000000),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          new Container(
+            padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 6.0),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Row(
+                      children: <Widget>[
+                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
+                        new SizedBox(width: 2.0),
+                        new Text(
+                          '100',
+                          style: new TextStyle(
+                            color: Color(0xffdddddd),
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Row(
+                      children: <Widget>[
+                        new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
+                        new SizedBox(width: 2.0),
+                        new Text(
+                          '100',
+                          style: new TextStyle(
+                            color: Color(0xffdddddd),
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      height: 20.0,
+                      width: 20.0,
+                      child: new FlatButton(
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () => _handleOperate(),
+                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xffdddddd))
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+
+  // 操作
+  void _handleOperate () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '分享',
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '举报',
+              'onPressed': () => print('拍照'),
+            },
+          ],
+        );
+      },
     );
   }
 
@@ -136,7 +237,96 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       child: new Stack(
         children: <Widget>[
-
+          new Container(
+            child: new ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+          ),
+          new Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: new BoxDecoration(
+              color: Color.fromRGBO(0, 0, 0, .2),
+              borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
+            ),
+            child: new FlatButton(
+                onPressed: () => {},
+                child: new Icon(Icons.add, size: 60.0, color: Colors.white)
+            ),
+          ),
+          new Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: new Container(
+              height: 60.0,
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
+                gradient: new LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00000000),
+                    Color(0x90000000),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          new Container(
+            padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 6.0),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Row(
+                      children: <Widget>[
+                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
+                        new SizedBox(width: 2.0),
+                        new Text(
+                          '100',
+                          style: new TextStyle(
+                            color: Color(0xffdddddd),
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Row(
+                      children: <Widget>[
+                        new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
+                        new SizedBox(width: 2.0),
+                        new Text(
+                          '100',
+                          style: new TextStyle(
+                            color: Color(0xffdddddd),
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      height: 20.0,
+                      width: 20.0,
+                      child: new FlatButton(
+                          padding: const EdgeInsets.all(0),
+                          onPressed: () => _handleOperate(),
+                          child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xffdddddd))
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
