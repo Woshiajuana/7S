@@ -214,6 +214,10 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
               'text': '举报',
               'onPressed': () => print('拍照'),
             },
+            {
+              'text': '编辑',
+              'onPressed': () => Application.router.push(context, 'freezeFrameDetails'),
+            },
           ],
         );
       },
