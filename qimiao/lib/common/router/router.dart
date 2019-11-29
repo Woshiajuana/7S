@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qimiao/view/app.view.dart';
 import 'package:qimiao/view/world/world.view.dart';
-import 'package:qimiao/view/calendar/calendar.view.dart';
+import 'package:qimiao/view/freezeFrame/freezeFrame.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/view/notice/notice.view.dart';
 import 'package:qimiao/view/notice/details.view.dart';
@@ -57,10 +57,10 @@ class Router {
         return new WorldView();
       }
     },
-    'calendar': {
-      'route': (_) => new CalendarView(),
+    'freezeFrame': {
+      'route': (_) => new FreezeFrameView(),
       'handle': (params) {
-        return new CalendarView();
+        return new FreezeFrameView();
       }
     },
     'mine': {

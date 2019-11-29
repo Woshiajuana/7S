@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
-import 'package:qimiao/view/calendar/calendar.view.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qimiao/view/freezeFrame/freezeFrame.view.dart';
+
 
 class AppView extends StatefulWidget {
 
@@ -69,7 +70,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
           physics: new NeverScrollableScrollPhysics(),
           children: <Widget>[
             new WorldView(),
-            new CalendarView(),
+            new FreezeFrameView(),
             new MineView(),
           ],
         ),

@@ -4,12 +4,12 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
 
-class CalendarView extends StatefulWidget {
+class FreezeFrameView extends StatefulWidget {
   @override
-  _CalendarViewState createState() => _CalendarViewState();
+  _FreezeFrameViewState createState() => _FreezeFrameViewState();
 }
 
-class _CalendarViewState extends State<CalendarView> {
+class _FreezeFrameViewState extends State<FreezeFrameView> {
 
   DateTime _dateTime;
   
