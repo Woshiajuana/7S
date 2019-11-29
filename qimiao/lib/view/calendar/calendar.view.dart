@@ -101,6 +101,18 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       child: new Stack(
         children: <Widget>[
+          new Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: new BoxDecoration(
+              color: Color.fromRGBO(0, 0, 0, .2),
+              borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
+            ),
+            child: new FlatButton(
+              onPressed: () => {},
+              child: new Icon(Icons.add, size: 60.0, color: Colors.white)
+            ),
+          ),
 
         ],
       ),
@@ -111,8 +123,17 @@ class _CalendarViewState extends State<CalendarView> {
   Widget _widgetPhotoSection () {
     return new Container(
       margin: const EdgeInsets.all(16.0),
-      color: Colors.red,
       height: 160.0,
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
+        boxShadow: [
+          new BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            offset: Offset(0.0, 1.0), //阴影xy轴偏移量
+          ),
+        ],
+      ),
       child: new Stack(
         children: <Widget>[
 
