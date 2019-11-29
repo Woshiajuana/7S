@@ -34,6 +34,7 @@ class _MineViewState extends State<MineView> {
             delegate: new SliverChildListDelegate(
               <Widget>[
                 _widgetMenuSection(),
+                new SizedBox(height: 10.0),
               ]
             ),
           ),
