@@ -35,7 +35,7 @@ class _CalendarViewState extends State<CalendarView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.help, color: Colors.white),
-            onPressed: () => {},
+            onPressed: () => _handleHelp(),
           )
         ],
       ),
@@ -397,6 +397,17 @@ class _CalendarViewState extends State<CalendarView> {
     } finally {
       Application.router.replace(context, 'login');
     }
+  }
+
+  void _handleHelp () {
+    showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new AlertToastDialog(
+          content: '视频、图片作品一天只能保存一个哦...',
+        );
+      },
+    );
   }
 
 
