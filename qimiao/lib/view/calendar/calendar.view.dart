@@ -16,9 +16,6 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   Widget build(BuildContext context) {
 
-
-    var c = new WowCalendar();
-
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
@@ -53,7 +50,15 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       body: new ListView(
         children: <Widget>[
-          c,
+          new WowCalendar(
+            isExpandable: true,
+            onSelectedRangeChange: (x) {
+              print('onSelectedRangeChange=>$x');
+            },
+            onDateSelected: (x) {
+              print('onDateSelected=>$x');
+            },
+          ),
           _widgetCalendarSection(),
           _widgetHeaderSection(),
           new CellLinkWidget(

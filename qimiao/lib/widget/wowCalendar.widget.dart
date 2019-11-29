@@ -135,6 +135,50 @@ class _WowCalendarState extends State<WowCalendar> {
     return dateStyles;
   }
 
+  Widget get _widgetExpansionButtonRow {
+    if (widget.isExpandable) {
+      return new Container(
+        alignment: Alignment.center,
+        decoration: new BoxDecoration(
+          border: new Border(
+            top: new BorderSide(
+              color: Color(0xffdddddd),
+              width: 0.5,
+            ),
+          ),
+        ),
+        child: new Container(
+          width: 100.0,
+          height: 16.0,
+          decoration: new BoxDecoration(
+            color: Colors.white,
+            borderRadius: new BorderRadius.only(
+              bottomLeft: new Radius.circular(6.0),
+              bottomRight: new Radius.circular(6.0),
+            ),
+            boxShadow: [
+              new BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                offset: Offset(0.0, 1.0), //阴影xy轴偏移量
+              ),
+            ],
+          ),
+          child: new FlatButton(
+            onPressed: toggleExpanded,
+            padding: const EdgeInsets.all(0),
+            child: new Icon(
+              isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              color: Color(0xff999999),
+              size: 16.0,
+            ),
+          ),
+        ),
+      );
+    } else {
+      return new Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -147,6 +191,7 @@ class _WowCalendarState extends State<WowCalendar> {
             expanded: calendarGridView,
             isExpanded: isExpanded,
           ),
+          _widgetExpansionButtonRow,
         ],
       ),
     );
