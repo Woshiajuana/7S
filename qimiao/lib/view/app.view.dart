@@ -6,6 +6,7 @@ import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/view/calendar/calendar.view.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AppView extends StatefulWidget {
 
@@ -14,6 +15,7 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
+  static int lastExitTime = 0;
 
   // Tab页面
   List _arrTab = [
@@ -59,32 +61,49 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
   // 生命周期方法构建Widget时调用
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new PageView(
-        controller: _pageController,
-        physics: new NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          new WorldView(),
-          new CalendarView(),
-          new MineView(),
-        ],
-      ),
-      bottomNavigationBar: new Container(
-        decoration: new BoxDecoration(
-          border: new Border(
-            top: new BorderSide(
-              color: Color(0xffdddddd),
-              width: 0.5,
+    return new WillPopScope(
+      onWillPop: _onBackPressed,
+      child: new Scaffold(
+        body: new PageView(
+          controller: _pageController,
+          physics: new NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            new WorldView(),
+            new CalendarView(),
+            new MineView(),
+          ],
+        ),
+        bottomNavigationBar: new Container(
+          decoration: new BoxDecoration(
+            border: new Border(
+              top: new BorderSide(
+                color: Color(0xffdddddd),
+                width: 0.5,
+              ),
             ),
           ),
-        ),
-        child: new Material(
-          color: Colors.white,
-          elevation: 0.0,
-          child: _widgetTabBar(),
+          child: new Material(
+            color: Colors.white,
+            elevation: 0.0,
+            child: _widgetTabBar(),
+          ),
         ),
       ),
     );
+  }
+
+  // 自定义返回键事件 一定时间内点击两次退出，反之提示
+  Future<bool> _onBackPressed() async {
+    int nowExitTime = DateTime.now().millisecondsSinceEpoch;
+    if(nowExitTime - lastExitTime > 2000) {
+      lastExitTime = nowExitTime;
+      Fluttertoast.showToast(
+          msg: '再按一次退出程序',
+          gravity: ToastGravity.BOTTOM,
+      );
+      return await Future.value(false);
+    }
+    return await Future.value(true);
   }
 
   Widget _widgetTabBar () {
