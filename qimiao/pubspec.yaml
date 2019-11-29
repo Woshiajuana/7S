@@ -31,8 +31,9 @@ dependencies:
   flukit: ^1.0.0                          # ui 组件
   cached_network_image: ^0.8.0            # 缓存过渡网络图片
   groovin_material_icons: ^1.1.5
-  flutter_webview_plugin: ^0.3.9+1          # webview
+  flutter_webview_plugin: ^0.3.9+1        # webview
   webview_flutter: ^0.3.15
+  flutter_calendar: ^0.0.1                # 日历
 
 dev_dependencies:
   flutter_test:
