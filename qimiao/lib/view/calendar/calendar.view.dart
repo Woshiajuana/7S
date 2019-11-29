@@ -32,20 +32,20 @@ class _CalendarViewState extends State<CalendarView> {
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new IconButton(
-                icon: new Icon(Icons.arrow_back_ios, size: 18.0),
-                onPressed: () => {},
-              ),
+//              new IconButton(
+//                icon: new Icon(Icons.arrow_back_ios, size: 18.0),
+//                onPressed: () => {},
+//              ),
               new Text(
                 Utils.apiDayFormat(_dateTime),
                 style: new TextStyle(
                   fontSize: 18.0,
                 ),
               ),
-              new IconButton(
-                icon: new Icon(Icons.arrow_forward_ios, size: 18.0),
-                onPressed: () => {},
-              ),
+//              new IconButton(
+//                icon: new Icon(Icons.arrow_forward_ios, size: 18.0),
+//                onPressed: () => {},
+//              ),
             ],
           ),
         ),
