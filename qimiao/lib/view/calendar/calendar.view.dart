@@ -10,10 +10,15 @@ class CalendarView extends StatefulWidget {
 }
 
 class _CalendarViewState extends State<CalendarView> {
-  
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+    var c = new WowCalendar();
+
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
@@ -34,7 +39,7 @@ class _CalendarViewState extends State<CalendarView> {
               ),
               new IconButton(
                 icon: new Icon(Icons.arrow_forward_ios, size: 18.0),
-                onPressed: () => {},
+                onPressed: () => c.createState().resetToToday(),
               ),
             ],
           ),
@@ -48,6 +53,7 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       body: new ListView(
         children: <Widget>[
+          c,
           _widgetCalendarSection(),
           _widgetHeaderSection(),
           new CellLinkWidget(
@@ -68,10 +74,10 @@ class _CalendarViewState extends State<CalendarView> {
 
   // 日历
   Widget _widgetCalendarSection () {
-    return new Calendar(
+    return new Container(
 //        showChevronsToChangeRange: false,
-      isExpandable: true,
-      showCalendarPickerIcon: true,
+//      isExpandable: true,
+//      showCalendarPickerIcon: true,
     );
   }
 

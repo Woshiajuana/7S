@@ -37,10 +37,10 @@ class _CalendarViewState extends State<CalendarView> {
 
   // 日历
   Widget _widgetCalendarSection () {
-    return new Calendar(
+    return new Container(
 //        showChevronsToChangeRange: false,
-        isExpandable: true,
-        showCalendarPickerIcon: true,
+//        isExpandable: true,
+//        showCalendarPickerIcon: true,
     );
   }
 

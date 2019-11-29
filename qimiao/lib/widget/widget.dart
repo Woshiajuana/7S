@@ -7,5 +7,5 @@ export 'actionSheetDialog.widget.dart';
 export 'sliverCustomHeaderDelegate.widget.dart';
 export 'stickyTabBarDelegate.widget.dart';
 export 'stickyWidgetDelegate.widget.dart';
-export 'wowCalendar1.widget.dart';
+//export 'wowCalendar1.widget.dart';
 export 'wowCalendar.widget.dart';
