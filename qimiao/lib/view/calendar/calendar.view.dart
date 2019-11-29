@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/cellLink.widget.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:flutter_calendar/flutter_calendar.dart';
 
 class CalendarView extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _CalendarViewState extends State<CalendarView> {
       backgroundColor: Application.config.style.backgroundColor,
       body: new ListView(
         children: <Widget>[
+          _widgetCalendarSection(),
           _widgetHeaderSection(),
           new CellLinkWidget(
             labelText: 'GetHub',
@@ -31,6 +33,15 @@ class _CalendarViewState extends State<CalendarView> {
           ),
         ],
       ),
+    );
+  }
+
+  // 日历
+  Widget _widgetCalendarSection () {
+    return new Calendar(
+//        showChevronsToChangeRange: false,
+        isExpandable: true,
+        showCalendarPickerIcon: true,
     );
   }
 
