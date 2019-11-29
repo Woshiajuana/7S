@@ -58,6 +58,12 @@ class _CalendarViewState extends State<CalendarView> {
             onDateSelected: (x) {
               print('onDateSelected=>$x');
             },
+            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+              return new Container(
+                color: isSelected ? Colors.blue : Colors.red,
+                child: new Text(day.day.toString()),
+              );
+            },
           ),
           _widgetCalendarSection(),
           _widgetHeaderSection(),

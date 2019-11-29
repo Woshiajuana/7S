@@ -4,7 +4,7 @@ import 'package:tuple/tuple.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:qimiao/widget/wowCalendarTile.widget.dart';
 
-typedef DayBuilder(BuildContext context, DateTime day);
+typedef DayBuilder(BuildContext context, DateTime day, bool isSelected);
 
 class WowCalendar extends StatefulWidget {
 
@@ -100,10 +100,11 @@ class _WowCalendarState extends State<WowCalendar> {
       if (Utils.isFirstDayOfMonth(day)) {
         monthStarted = true;
       }
+      bool isSelected = Utils.isSameDay(selectedDate, day);
       if (this.widget.dayBuilder != null) {
         dayWidgets.add(
           new CalendarTile(
-            child: this.widget.dayBuilder(context, day),
+            child: this.widget.dayBuilder(context, day, isSelected),
             date: day,
             onDateSelected: () => handleSelectedDateAndUserCallback(day),
           ),
@@ -114,7 +115,7 @@ class _WowCalendarState extends State<WowCalendar> {
             onDateSelected: () => handleSelectedDateAndUserCallback(day),
             date: day,
             dateStyles: configureDateStyle(monthStarted, monthEnded),
-            isSelected: Utils.isSameDay(selectedDate, day),
+            isSelected: isSelected,
           ),
         );
       }
