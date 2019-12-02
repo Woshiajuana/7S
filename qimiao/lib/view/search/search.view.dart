@@ -35,7 +35,7 @@ class _SearchViewState extends State<SearchView> {
         color: Application.config.style.mainColor,
         child: _widgetSearchSection(
           controller: _keywordController,
-          icon: new Icon(Icons.search, color: Color(0xff999999)),
+          icon: new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
           hintText: '邮箱 / 7S-ID',
           value: _strKeyword,
           onChanged: (value) => setState(() => _strKeyword = value),
@@ -73,7 +73,7 @@ class _SearchViewState extends State<SearchView> {
           new Expanded(
             flex: 1,
             child: new Container(
-              height: 36.0,
+              height: 30.0,
               decoration: new BoxDecoration(
                 color: Color(0xffe4e3e0),
                 borderRadius: new BorderRadius.circular(30.0),
@@ -84,32 +84,36 @@ class _SearchViewState extends State<SearchView> {
                   new Container(
                     alignment: Alignment.center,
                     width: 46.0,
-                    height: 36.0,
+                    height: 30.0,
                     child: icon,
                   ),
                   new Expanded(
                     flex: 1,
-                    child: new Container(
-                      child: new TextField(
-                        controller: controller,
-                        obscureText: isObscure,
-                        decoration: new InputDecoration(
-                          hintText: hintText,
-                          disabledBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                        ),
-                        onChanged: onChanged,
+                    child: new TextField(
+                      controller: controller,
+                      obscureText: isObscure,
+                      style: new TextStyle(
+                        color: Color(0xff999999),
+                        fontSize: 12.0,
                       ),
+                      decoration: new InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                        hintText: hintText,
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                      onChanged: onChanged,
                     ),
                   ),
                   new Offstage(
                     offstage: (value == '' || value == null),
-                    child: new IconButton(
-                      icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
-                      onPressed: onClear,
+                    child: new InkWell(
+                      child: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
+                      onTap: onClear,
                     ),
                   ),
+                  new SizedBox(width: 10.0),
                 ],
               ),
             ),

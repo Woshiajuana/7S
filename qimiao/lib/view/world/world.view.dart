@@ -80,7 +80,7 @@ class _WorldViewState extends State<WorldView> {
   Widget _widgetSearchSection () {
     return new SliverToBoxAdapter(
       child: new Container(
-        height: 50.0,
+        height: 56.0,
         color: Application.config.style.mainColor,
         child: new Row(
           children: <Widget>[
