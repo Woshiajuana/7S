@@ -54,14 +54,23 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Application.config.style.mainColor,
+      backgroundColor: Application.config.style.backgroundColor,
       body: new WowScrollerInfo(
+        maxExtent: 300.0,
         builder: (BuildContext context, double shrinkOffset, int alpha) {
           return new Stack(
             children: <Widget>[
               new ListView(
+                padding: const EdgeInsets.all(0),
                 children: <Widget>[
-
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
                 ],
               ),
               _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),

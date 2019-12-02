@@ -8,7 +8,7 @@ class WowScrollerInfo extends StatefulWidget {
 
   WowScrollerInfo({
     this.builder,
-    this.maxExtent,
+    @required this.maxExtent,
   });
 
   @override
