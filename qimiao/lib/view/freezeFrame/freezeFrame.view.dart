@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class FreezeFrameView extends StatefulWidget {
   @override
@@ -119,7 +121,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
               borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
             ),
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => this._handleAddConfirm(),
               child: new Icon(Icons.add, size: 40.0, color: Colors.white)
             ),
           ),
@@ -196,36 +198,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
   }
 
 
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-            {
-              'text': '编辑',
-              'onPressed': () {
-                Navigator.of(context).pop();
-                Application.router.push(context, 'freezeFrameDetails');
-              },
-            },
-          ],
-        );
-      },
-    );
-  }
 
   // 照片
   Widget _widgetPhotoSection () {
@@ -412,6 +384,79 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
       builder: (BuildContext buildContext) {
         return new AlertToastDialog(
           content: '视频、图片作品一天只能保存一个哦...',
+        );
+      },
+    );
+  }
+
+  // 操作
+  void _handleOperate () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '分享',
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '举报',
+              'onPressed': () => print('拍照'),
+            },
+            {
+              'text': '编辑',
+              'onPressed': () {
+                Navigator.of(context).pop();
+                Application.router.push(context, 'freezeFrameDetails');
+              },
+            },
+          ],
+        );
+      },
+    );
+  }
+
+  // 操作
+  void _handleAddConfirm () async {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '从相册中获取',
+              'onPressed': () async {
+                var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                print('相册返回：' + image.toString());
+              },
+            },
+            {
+              'text': '直接拍照',
+              'onPressed': () async {
+                var image = await ImagePicker.pickImage(source: ImageSource.camera);
+                print('拍照返回：' + image.toString());
+              },
+            },
+            {
+              'text': '拍摄视频',
+              'onPressed': () async {
+                var image = await ImagePicker.pickVideo(source: ImageSource.camera);
+                print('拍摄视频：' + image.toString());
+              },
+            },
+            {
+              'text': '选取视频',
+              'onPressed': () async {
+                var image = await ImagePicker.pickVideo(source: ImageSource.gallery);
+                print('选取视频：' + image.toString());
+              },
+            },
+          ],
         );
       },
     );
