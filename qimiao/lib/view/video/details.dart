@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoDetailsView extends StatefulWidget {
   @override
@@ -10,7 +11,79 @@ class VideoDetailsView extends StatefulWidget {
 
 class _VideoDetailsViewState extends State<VideoDetailsView> {
 
-  // 导航条
+  VideoPlayerController _controller;
+  bool _isPlaying = false;
+  String url = 'http://vd3.bdstatic.com/mda-ifvqu9yp3eaqueep/mda-ifvqu9yp3eaqueep.mp4';
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(this.url)
+    // 播放状态
+      ..addListener(() {
+        final bool isPlaying = _controller.value.isPlaying;
+        if (isPlaying != _isPlaying) {
+          setState(() { _isPlaying = isPlaying; });
+        }
+      })
+    // 在初始化完成后必须更新界面
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  // 播放器
+  Widget _widgetVideoPlaySection () {
+    return new Center(
+      child: _controller.value.initialized
+      // 加载成功
+          ? new AspectRatio(
+        aspectRatio: _controller.value.aspectRatio,
+        child: VideoPlayer(_controller),
+      ) : new Container(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      backgroundColor: Application.config.style.backgroundColor,
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _controller.value.isPlaying
+            ? _controller.pause
+            : _controller.play,
+        child: new Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
+      ),
+      body: new WowScrollerInfo(
+        maxExtent: 300.0,
+        builder: (BuildContext context, double shrinkOffset, int alpha) {
+          return new Stack(
+            children: <Widget>[
+              new ListView(
+                padding: const EdgeInsets.all(0),
+                children: <Widget>[
+                  _widgetVideoPlaySection(),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                  new Container(color: Colors.blue, height: 200),
+                  new SizedBox(height: 100.0),
+                ],
+              ),
+              _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+// 导航条
   Widget _widgetAppBarSection ({
     double shrinkOffset,
     int alpha,
@@ -51,34 +124,5 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      body: new WowScrollerInfo(
-        maxExtent: 300.0,
-        builder: (BuildContext context, double shrinkOffset, int alpha) {
-          return new Stack(
-            children: <Widget>[
-              new ListView(
-                padding: const EdgeInsets.all(0),
-                children: <Widget>[
-                  new Container(color: Colors.blue, height: 200),
-                  new SizedBox(height: 100.0),
-                  new Container(color: Colors.blue, height: 200),
-                  new SizedBox(height: 100.0),
-                  new Container(color: Colors.blue, height: 200),
-                  new SizedBox(height: 100.0),
-                  new Container(color: Colors.blue, height: 200),
-                  new SizedBox(height: 100.0),
-                ],
-              ),
-              _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-            ],
-          );
-        },
-      ),
-    );
-  }
 
 }
