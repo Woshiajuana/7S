@@ -81,12 +81,14 @@ class _SearchViewState extends State<SearchView> {
               child: new Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  new SizedBox(width: 6.0),
                   new Container(
                     alignment: Alignment.center,
-                    width: 46.0,
+                    width: 30.0,
                     height: 30.0,
                     child: icon,
                   ),
+                  new SizedBox(width: 3.0),
                   new Expanded(
                     flex: 1,
                     child: new TextField(
@@ -94,7 +96,7 @@ class _SearchViewState extends State<SearchView> {
                       obscureText: isObscure,
                       style: new TextStyle(
                         color: Color(0xff999999),
-                        fontSize: 12.0,
+                        fontSize: 13.0,
                       ),
                       decoration: new InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
