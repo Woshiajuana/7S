@@ -13,7 +13,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
 
   VideoPlayerController _controller;
   bool _isPlaying = false;
-  String url = 'http://vd3.bdstatic.com/mda-ifvqu9yp3eaqueep/mda-ifvqu9yp3eaqueep.mp4';
+  String url = 'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4';
 
   @override
   void initState() {
@@ -30,6 +30,12 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
       ..initialize().then((_) {
         setState(() {});
       });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   // 播放器
