@@ -12,22 +12,14 @@ class VideoDetailsView extends StatefulWidget {
 class _VideoDetailsViewState extends State<VideoDetailsView> {
 
   VideoPlayerController _controller;
-  bool _isPlaying = false;
-  String url = 'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4';
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(this.url)
-    // 播放状态
-      ..addListener(() {
-        final bool isPlaying = _controller.value.isPlaying;
-        if (isPlaying != _isPlaying) {
-          setState(() { _isPlaying = isPlaying; });
-        }
-      })
-    // 在初始化完成后必须更新界面
+    _controller = VideoPlayerController.network(
+        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
       ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
   }
@@ -42,11 +34,11 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
   Widget _widgetVideoPlaySection () {
     return new Center(
       child: _controller.value.initialized
-      // 加载成功
-          ? new AspectRatio(
+          ? AspectRatio(
         aspectRatio: _controller.value.aspectRatio,
         child: VideoPlayer(_controller),
-      ) : new Container(),
+      )
+          : Container(),
     );
   }
 
@@ -54,11 +46,15 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _controller.value.isPlaying
-            ? _controller.pause
-            : _controller.play,
-        child: new Icon(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
+        },
+        child: Icon(
           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
