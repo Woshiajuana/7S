@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:qimiao/common/application.dart';
 
 class VideoDetailsView extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class VideoDetailsView extends StatefulWidget {
 class _VideoDetailsViewState extends State<VideoDetailsView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return new Scaffold(
+
+    );
   }
 }

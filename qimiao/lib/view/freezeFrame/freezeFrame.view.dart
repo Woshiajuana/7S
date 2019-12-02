@@ -400,7 +400,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
             {
               'text': '分享',
               'onPressed': () {
-                print('相册1');
+                Navigator.of(context).pop();
+                Application.router.push(context, 'videoDetails');
               },
             },
             {
