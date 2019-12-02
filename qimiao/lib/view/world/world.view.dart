@@ -90,7 +90,7 @@ class _WorldViewState extends State<WorldView> {
               child: new Container(
                 height: 30,
                 decoration: new BoxDecoration(
-                  color: Color(0xfff2f2f2),
+                  color: Colors.white,
                   borderRadius: new BorderRadius.circular(20.0),
                 ),
                 child: new FlatButton(
@@ -105,7 +105,7 @@ class _WorldViewState extends State<WorldView> {
                         '什么？找不到你想要的？试试我吧...',
                         style: new TextStyle(
                           color: Color(0xff999999),
-                          fontSize: 12.0,
+                          fontSize: 13.0,
                           fontWeight: FontWeight.w400,
                         ),
                       ),

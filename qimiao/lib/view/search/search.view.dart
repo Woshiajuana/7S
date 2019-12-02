@@ -77,7 +77,7 @@ class _SearchViewState extends State<SearchView> {
             child: new Container(
               height: 30.0,
               decoration: new BoxDecoration(
-                color: Color(0xffe4e3e0),
+                color: Colors.white,
                 borderRadius: new BorderRadius.circular(30.0),
               ),
               child: new Row(
@@ -146,14 +146,20 @@ class _SearchViewState extends State<SearchView> {
 
     Widget _widgetKeywordItem () {
       return new Container(
-        color: Color(0xfff2f2f2),
-        margin: const EdgeInsets.only(right: 10.0),
-        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-        child: new Text(
-          '按钮',
-          style: new TextStyle(
-            color: Color(0xff333333),
-            fontSize: 14.0,
+        decoration: new BoxDecoration(
+          color: Color(0xffeeeeee),
+          borderRadius: new BorderRadius.circular(2.0),
+        ),
+        margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 5.0),
+        child: new InkWell(
+          onTap: () => {},
+          child: new Text(
+            '按钮按钮',
+            style: new TextStyle(
+              color: Color(0xff333333),
+              fontSize: 14.0,
+            ),
           ),
         ),
       );
@@ -163,16 +169,27 @@ class _SearchViewState extends State<SearchView> {
     Widget _widgetKeywordCell () {
       return new Container(
         child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Container(
-              child: new Text(
-                '标题',
-                style: new TextStyle(
-                  fontSize: 12.0,
-                  color: Color(0xff333333),
-                ),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Text(
+                    '标题',
+                    style: new TextStyle(
+                      fontSize: 12.0,
+                      color: Color(0xff333333),
+                    ),
+                  ),
+                  new InkWell(
+                    onTap: () => {},
+                    child: new Icon(Icons.delete, size: 18.0, color: Color(0xff999999)),
+                  ),
+                ],
               ),
             ),
+            new SizedBox(height: 12.0),
             new Wrap(
               children: <Widget>[
                 _widgetKeywordItem(),
@@ -187,10 +204,17 @@ class _SearchViewState extends State<SearchView> {
       );
     }
 
-    return new Column(
-      children: <Widget>[
-        _widgetKeywordCell(),
-      ],
+    return new Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 16.0, right: 16.0),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _widgetKeywordCell(),
+          _widgetKeywordCell(),
+          _widgetKeywordCell(),
+        ],
+      ),
     );
   }
 }
