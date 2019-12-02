@@ -10,3 +10,4 @@ export 'stickyWidgetDelegate.widget.dart';
 export 'wowCalendar.widget.dart';
 export 'alertToastDialog.widget.dart';
 export 'wowScrollerInfo.widget.dart';
+export 'wowAppBar.widget.dart';

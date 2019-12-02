@@ -94,7 +94,7 @@ class _WorldViewState extends State<WorldView> {
                   borderRadius: new BorderRadius.circular(20.0),
                 ),
                 child: new FlatButton(
-                  onPressed: () => {},
+                  onPressed: () => Application.router.push(context, 'search'),
                   padding: const EdgeInsets.all(0),
                   child: new Row(
                     children: <Widget>[
