@@ -14,6 +14,13 @@ module.exports = app => {
             required: true,
         },
 
+        // 7S-ID
+        uid: {
+            type: String,
+            maxlength: 7,
+            default: '',
+        },
+
         // 预留字段
         phone: {
             type: String,
@@ -38,33 +45,18 @@ module.exports = app => {
             default: null,
         },
 
-
-
-
-
-
-
-        // 应用名称
-        name: {
+        // 性别 [ 0: 保密, 1: 男, 2: 女  ]
+        sex: {
             type: String,
             trim: true,
-            maxlength: 30,
-            required: true,
+            default: '0',
         },
 
-        // logo
-        logo: {
+        // 个性签名
+        signature: {
             type: String,
-            trim: true,
-            required: true,
-        },
-
-        // 备注
-        remark: {
-            type: String,
-            trim: true,
-            maxlength: 100,
-            default: '',
+            trim: '',
+            maxlength: 40,
         },
 
         // 创建时间
