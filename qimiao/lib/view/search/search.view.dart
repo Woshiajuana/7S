@@ -35,7 +35,7 @@ class _SearchViewState extends State<SearchView> {
         color: Application.config.style.mainColor,
         child: _widgetSearchSection(
           controller: _keywordController,
-          icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
+          icon: new Icon(Icons.search, color: Color(0xff999999)),
           hintText: '邮箱 / 7S-ID',
           value: _strKeyword,
           onChanged: (value) => setState(() => _strKeyword = value),
@@ -69,53 +69,60 @@ class _SearchViewState extends State<SearchView> {
       height: 56,
       child: new Row(
         children: <Widget>[
-          new Container(
-            width: 280.0,
-            height: 46.0,
-            decoration: new BoxDecoration(
-              color: Color(0xffe4e3e0),
-              borderRadius: new BorderRadius.circular(30.0),
-            ),
-            child: new Row(
-              children: <Widget>[
-                new Container(
-                  alignment: Alignment.center,
-                  width: 46.0,
-                  height: 46.0,
-                  child: icon,
-                ),
-                new Expanded(
-                  flex: 1,
-                  child: new TextField(
-                    controller: controller,
-                    obscureText: isObscure,
-                    decoration: new InputDecoration(
-                      hintText: hintText,
-                      disabledBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
+          new SizedBox(width: 16.0),
+          new Expanded(
+            flex: 1,
+            child: new Container(
+              height: 36.0,
+              decoration: new BoxDecoration(
+                color: Color(0xffe4e3e0),
+                borderRadius: new BorderRadius.circular(30.0),
+              ),
+              child: new Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Container(
+                    alignment: Alignment.center,
+                    width: 46.0,
+                    height: 36.0,
+                    child: icon,
+                  ),
+                  new Expanded(
+                    flex: 1,
+                    child: new Container(
+                      child: new TextField(
+                        controller: controller,
+                        obscureText: isObscure,
+                        decoration: new InputDecoration(
+                          hintText: hintText,
+                          disabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                        onChanged: onChanged,
+                      ),
                     ),
-                    onChanged: onChanged,
                   ),
-                ),
-                new Offstage(
-                  offstage: (value == '' || value == null),
-                  child: new IconButton(
-                    icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
-                    onPressed: onClear,
+                  new Offstage(
+                    offstage: (value == '' || value == null),
+                    child: new IconButton(
+                      icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
+                      onPressed: onClear,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           new Container(
+            width: 70.0,
             child: new FlatButton(
               onPressed: () => Navigator.of(context).pop(),
               child: new Text(
                 '取消',
                 style: new TextStyle(
-                  color: Color(0xff999999),
-                  fontSize: 18.0,
+                  color: Colors.white,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w400,
                 ),
               ),
