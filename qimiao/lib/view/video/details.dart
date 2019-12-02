@@ -256,22 +256,28 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
           ),
           new SizedBox(width: 16.0),
           new Container(
-            width: 50.0,
-            height: 24.0,
+            width: 70.0,
+            height: 30.0,
             decoration: new BoxDecoration(
               color: Application.config.style.mainColor,
-              borderRadius: new BorderRadius.circular(4.0),
+              borderRadius: new BorderRadius.circular(2.0),
             ),
             child: new FlatButton(
               onPressed: () => {},
               padding: const EdgeInsets.all(0),
-              child: new Text(
-                '关注',
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12.0,
-                ),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Icon(Icons.add, size: 18.0, color: Colors.white),
+                  new Text(
+                    '关注',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -314,32 +320,12 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                 ],
               ),
               new SizedBox(width: 20.0),
-              new Row(
-                children: <Widget>[
-                  new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffbbbbbb)),
-                  new SizedBox(width: 2.0),
-                  new Text(
-                    '100',
-                    style: new TextStyle(
-                      color: Color(0xffbbbbbb),
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-              new SizedBox(width: 20.0),
-              new Row(
-                children: <Widget>[
-                  new Icon(Icons.favorite, size: 14.0, color: Color(0xffbbbbbb)),
-                  new SizedBox(width: 2.0),
-                  new Text(
-                    '100',
-                    style: new TextStyle(
-                      color: Color(0xffbbbbbb),
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
+              new Text(
+                '7S-00001',
+                style: new TextStyle(
+                  color: Color(0xffbbbbbb),
+                  fontSize: 12.0,
+                ),
               ),
               new Expanded(flex: 1, child: new Container()),
               new Row(
