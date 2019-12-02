@@ -256,8 +256,8 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
           ),
           new SizedBox(width: 16.0),
           new Container(
-            width: 70.0,
-            height: 30.0,
+            width: 60.0,
+            height: 26.0,
             decoration: new BoxDecoration(
               color: Application.config.style.mainColor,
               borderRadius: new BorderRadius.circular(2.0),
@@ -274,7 +274,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                     ),
                   ),
                 ],
