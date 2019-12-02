@@ -168,6 +168,7 @@ class _SearchViewState extends State<SearchView> {
     //
     Widget _widgetKeywordCell () {
       return new Container(
+        padding: const EdgeInsets.only(top: 10.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
