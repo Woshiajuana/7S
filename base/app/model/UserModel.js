@@ -6,6 +6,40 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const postSchema = new Schema({
 
+        // 邮箱
+        email: {
+            type: String,
+            trim: true,
+            maxlength: 50,
+            required: true,
+        },
+
+        // 预留字段
+        phone: {
+            type: String,
+            trim: true,
+            maxlength: 11,
+            default: '',
+        },
+
+        // 昵称
+        nickname: {
+            type: String,
+            trim: true,
+            maxlength: 20,
+            default: '',
+        },
+
+        // 头像
+        avatar: {
+            type: String,
+            trim: true,
+            default: '',
+        },
+
+
+
+
         // 应用名称
         name: {
             type: String,
@@ -42,5 +76,5 @@ module.exports = app => {
         },
 
     });
-    return mongoose.model('application', postSchema);
+    return mongoose.model('user', postSchema);
 };
