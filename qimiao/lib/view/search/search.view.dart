@@ -36,7 +36,7 @@ class _SearchViewState extends State<SearchView> {
         child: _widgetSearchSection(
           controller: _keywordController,
           icon: new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
-          hintText: '邮箱 / 7S-ID',
+          hintText: '搜索你想要的吧...',
           value: _strKeyword,
           onChanged: (value) => setState(() => _strKeyword = value),
           onClear: () { _keywordController.clear(); setState(() => _strKeyword = ''); },
@@ -46,6 +46,8 @@ class _SearchViewState extends State<SearchView> {
         children: <Widget>[
           new ListView(
             children: <Widget>[
+              // 默认推荐 历史搜索等
+              _widgetRecommendSection(),
 
             ],
           ),
@@ -139,4 +141,56 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
+  // 推荐
+  Widget _widgetRecommendSection () {
+
+    Widget _widgetKeywordItem () {
+      return new Container(
+        color: Color(0xfff2f2f2),
+        margin: const EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: new Text(
+          '按钮',
+          style: new TextStyle(
+            color: Color(0xff333333),
+            fontSize: 14.0,
+          ),
+        ),
+      );
+    }
+
+    //
+    Widget _widgetKeywordCell () {
+      return new Container(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              child: new Text(
+                '标题',
+                style: new TextStyle(
+                  fontSize: 12.0,
+                  color: Color(0xff333333),
+                ),
+              ),
+            ),
+            new Wrap(
+              children: <Widget>[
+                _widgetKeywordItem(),
+                _widgetKeywordItem(),
+                _widgetKeywordItem(),
+                _widgetKeywordItem(),
+                _widgetKeywordItem(),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    return new Column(
+      children: <Widget>[
+        _widgetKeywordCell(),
+      ],
+    );
+  }
 }
