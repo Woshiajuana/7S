@@ -32,10 +32,14 @@ module.exports = app => {
 
         // 头像
         avatar: {
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'file',
             trim: true,
-            default: '',
+            default: null,
         },
+
+
+
 
 
 

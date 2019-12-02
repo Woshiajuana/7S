@@ -6,6 +6,51 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const postSchema = new Schema({
 
+        // 用户
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'user',
+            trim: true,
+            required: true,
+        },
+
+        // ip
+        ip: {
+            type: String,
+            trim: '',
+            maxlength: 20,
+            default: '',
+        },
+
+        // 类型
+        type: {
+            type: String,
+            trim: '',
+            required: true,
+        },
+
+        // 路径
+        path: {
+            type: String,
+            trim: '',
+            required: true,
+        },
+
+        // 服务器
+        base: {
+            type: String,
+            trim: '',
+            required: true,
+        },
+
+        // 文件名
+        filename: {
+            type: String,
+            trim: '',
+            required: true,
+            maxlength: 30,
+        },
+
         // 应用名称
         name: {
             type: String,
@@ -42,5 +87,5 @@ module.exports = app => {
         },
 
     });
-    return mongoose.model('application', postSchema);
+    return mongoose.model('file', postSchema);
 };
