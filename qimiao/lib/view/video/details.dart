@@ -49,6 +49,9 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                   _widgetUserSection(),
                   // 标题
                   _widgetInfoSection(),
+                  new SizedBox(height: 10.0),
+                  // 推荐
+                  _widgetRecommendSection(),
                 ],
               ),
               _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
@@ -203,10 +206,11 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
           new Expanded(
             flex: 1,
             child: new Container(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 16.0, right: 16.0),
+              height: 60.0,
+//              padding: const EdgeInsets.only(),
               child: new FlatButton(
-                padding: const EdgeInsets.all(0),
-                onPressed: () => {},
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
+                onPressed: () => Application.router.push(context, 'friendInfo'),
                 child: new Row(
                   children: <Widget>[
                     new Container(
@@ -225,13 +229,22 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                     new SizedBox(width: 16.0),
                     new Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         new Text(
                           '我是阿倦啊',
                           style: new TextStyle(
                             color: Color(0xff333333),
-//                    fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w400,
                             fontSize: 14.0,
+                          ),
+                        ),
+                        new Text(
+                          '粉丝：1000',
+                          style: new TextStyle(
+                            color: Color(0xff999999),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12.0,
                           ),
                         ),
                       ],
@@ -241,6 +254,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
               ),
             ),
           ),
+          new SizedBox(width: 16.0),
           new Container(
             width: 50.0,
             height: 24.0,
@@ -260,7 +274,8 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                 ),
               ),
             ),
-          )
+          ),
+          new SizedBox(width: 16.0),
         ],
       ),
     );
@@ -268,7 +283,318 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
 
   // 标题
   Widget _widgetInfoSection () {
-    return new Container();
+    return new Container(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
+      color: Colors.white,
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Text(
+            '我是阿倦啊我是阿倦啊我是阿倦啊我是阿倦啊我是阿倦啊',
+            style: new TextStyle(
+              color: Color(0xff333333),
+              fontWeight: FontWeight.w400,
+              fontSize: 16.0,
+            ),
+          ),
+          new SizedBox(height: 10.0),
+          new Row(
+            children: <Widget>[
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.live_tv, size: 14.0, color: Color(0xffbbbbbb)),
+                  new SizedBox(width: 2.0),
+                  new Text(
+                    '100',
+                    style: new TextStyle(
+                      color: Color(0xffbbbbbb),
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+              new SizedBox(width: 20.0),
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffbbbbbb)),
+                  new SizedBox(width: 2.0),
+                  new Text(
+                    '100',
+                    style: new TextStyle(
+                      color: Color(0xffbbbbbb),
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+              new SizedBox(width: 20.0),
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.favorite, size: 14.0, color: Color(0xffbbbbbb)),
+                  new SizedBox(width: 2.0),
+                  new Text(
+                    '100',
+                    style: new TextStyle(
+                      color: Color(0xffbbbbbb),
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+              new Expanded(flex: 1, child: new Container()),
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.av_timer, size: 14.0, color: Color(0xffbbbbbb)),
+                  new SizedBox(width: 2.0),
+                  new Text(
+                    '2019-10-10 10:00:00',
+                    style: new TextStyle(
+                      color: Color(0xffbbbbbb),
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          new SizedBox(height: 20.0),
+          new Row(
+            children: <Widget>[
+              new Container(
+                width: 50.0,
+                height: 50.0,
+                margin: const EdgeInsets.only(right: 20.0),
+                child: new FlatButton(
+                  onPressed: () => {},
+                  padding: const EdgeInsets.all(0),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.thumb_up,
+                        color: Color(0xff999999),
+                      ),
+                      new SizedBox(height: 3.0),
+                      new Text(
+                        '100',
+                        style: new TextStyle(
+                          color: Color(0xff999999),
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              new Container(
+                width: 50.0,
+                height: 50.0,
+                margin: const EdgeInsets.only(right: 20.0),
+                child: new FlatButton(
+                  onPressed: () => {},
+                  padding: const EdgeInsets.all(0),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.thumb_down,
+                        color: Color(0xff999999),
+                      ),
+                      new SizedBox(height: 3.0),
+                      new Text(
+                        '不喜欢',
+                        style: new TextStyle(
+                          color: Color(0xff999999),
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              new Container(
+                width: 50.0,
+                height: 50.0,
+                margin: const EdgeInsets.only(right: 20.0),
+                child: new FlatButton(
+                  onPressed: () => {},
+                  padding: const EdgeInsets.all(0),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Icon(
+                        Icons.favorite,
+                        color: Color(0xff999999),
+                      ),
+                      new SizedBox(height: 3.0),
+                      new Text(
+                        '100',
+                        style: new TextStyle(
+                          color: Color(0xff999999),
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
+  // 推荐
+  Widget _widgetRecommendSection () {
+    return new Column(
+      children: <Widget>[
+        _widgetVideoCellItem(),
+        _widgetVideoCellItem(),
+        _widgetVideoCellItem(),
+        _widgetVideoCellItem(),
+        _widgetVideoCellItem(),
+      ],
+    );
+  }
+
+  Widget _widgetVideoCellItem () {
+    return new Container(
+      child: new Column(
+        children: <Widget>[
+          new Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              border: new Border(
+                top: new BorderSide(
+                  color: Color(0xffdddddd),
+                  width: 0.5,
+                ),
+                bottom: new BorderSide(
+                  color: Color(0xffdddddd),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: new Row(
+              children: <Widget>[
+                new Container(
+                  width: 120.0,
+                  height: 77.0,
+                  child: new Stack(
+                    children: <Widget>[
+                      new ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
+                        child: new Image.asset(
+                          Application.util.getImgPath('guide1.png'),
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                      new Container(
+                        decoration: new BoxDecoration(
+                          color: Color.fromRGBO(0, 0, 0, 0.3),
+                          borderRadius: new BorderRadius.circular(6.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new SizedBox(width: 10.0),
+                new Expanded(
+                  flex: 1,
+                  child: new Container(
+                    height: 77.0,
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text(
+                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: new TextStyle(
+                            fontSize: 14.0,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xff999999)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xff999999),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Row(
+                              children: <Widget>[
+                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
+                                new SizedBox(width: 2.0),
+                                new Text(
+                                  '100',
+                                  style: new TextStyle(
+                                    color: Color(0xff999999),
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Container(
+                              height: 20.0,
+                              width: 20.0,
+                              child: new FlatButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () => _handleOperate(),
+                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 操作
+  void _handleOperate () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '分享',
+              'onPressed': () {
+                print('相册1');
+              },
+            },
+            {
+              'text': '举报',
+              'onPressed': () => print('拍照'),
+            },
+          ],
+        );
+      },
+    );
+  }
 }
