@@ -22,7 +22,7 @@ module.exports = app => {
             default: '',
         },
 
-        // 类型 [ AVATAR: 头像, VIDEO: 视频, IMAGE: 图片 ]
+        // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片 ]
         type: {
             type: String,
             trim: '',
@@ -55,7 +55,7 @@ module.exports = app => {
         device: {
             type: String,
             trim: true,
-            required: true,
+            default: '',
         },
 
         // 创建时间
