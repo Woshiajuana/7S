@@ -59,6 +59,18 @@ module.exports = app => {
             default: '0',
         },
 
+        // 禁用
+        disabled: {
+            type: Boolean,
+            trim: true,
+            default: false,
+        },
+
+        // 锁定
+        lock: {
+
+        },
+
         // 个性签名
         signature: {
             type: String,

@@ -25,10 +25,10 @@ module.exports = class HandleServer extends Service {
         return await ctx.model.UserModel.findById(id).lean();
     }
 
-    // 查询
-    async findOne (data) {
-        const { ctx } = this;
-        return await ctx.model.UserModel.findOne(data).lean();
+    // 删除
+    async del (id) {
+        const { ctx, app } = this;
+        await ctx.model.UserModel.remove({ _id: app.mongoose.Types.ObjectId(id) });
     }
 
     // 列表
@@ -58,11 +58,5 @@ module.exports = class HandleServer extends Service {
             numIndex,
             numSize,
         }
-    }
-
-    // 删除
-    async del (id) {
-        const { ctx, app } = this;
-        await ctx.model.UserModel.remove({ _id: app.mongoose.Types.ObjectId(id) });
     }
 };
