@@ -11,6 +11,14 @@ module.exports = class HandleServer extends Service {
         await ctx.model.UserModel.create(data);
     }
 
+    // 更新
+    async update (data) {
+        const { ctx, app } = this;
+        const { id } = data;
+        delete data.id;
+        await ctx.model.UserModel.update({ _id: app.mongoose.Types.ObjectId(id) }, data);
+    }
+
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
@@ -61,13 +69,5 @@ module.exports = class HandleServer extends Service {
     async del (id) {
         const { ctx, app } = this;
         await ctx.model.ApplicationModel.remove({ _id: app.mongoose.Types.ObjectId(id) });
-    }
-
-    // 更新
-    async update (data) {
-        const { ctx, app } = this;
-        const { id } = data;
-        delete data.id;
-        await ctx.model.ApplicationModel.update({ _id: app.mongoose.Types.ObjectId(id) }, data);
     }
 };
