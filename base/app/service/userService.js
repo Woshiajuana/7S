@@ -3,8 +3,10 @@
 
 const { Service } = require('egg');
 
-
 module.exports = class HandleServer extends Service {
+
+
+    // 注册
 
     // 创建
     async create (data) {
