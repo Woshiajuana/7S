@@ -22,7 +22,7 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        return await ctx.model.ApplicationModel.findById(id).lean();
+        return await ctx.model.UserModel.findById(id).lean();
     }
 
     // 查询
