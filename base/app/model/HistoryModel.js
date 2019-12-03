@@ -6,27 +6,20 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const postSchema = new Schema({
 
-        // 应用名称
-        name: {
-            type: String,
-            trim: true,
-            maxlength: 30,
-            required: true,
-        },
-
-        // logo
-        logo: {
-            type: String,
+        // 用户
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'user',
             trim: true,
             required: true,
         },
 
-        // 备注
-        remark: {
-            type: String,
+        // 收藏
+        video: {
+            type: Schema.Types.ObjectId,
+            ref: 'video',
             trim: true,
-            maxlength: 100,
-            default: '',
+            required: true,
         },
 
         // 创建时间
@@ -42,5 +35,5 @@ module.exports = app => {
         },
 
     });
-    return mongoose.model('application', postSchema);
+    return mongoose.model('history', postSchema);
 };
