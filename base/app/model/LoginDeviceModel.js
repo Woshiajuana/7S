@@ -21,9 +21,11 @@ module.exports = app => {
             default: '',
         },
 
-        // ip
-        ip: {
-            
+        // 备注
+        remark: {
+            type: String,
+            trim: '',
+            default: '',
         },
 
         // 创建时间
