@@ -6,7 +6,8 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/user/create', controller.create)
+        app.router.mount('/api/v1/user/create', controller.create),
+        app.router.mount('/api/v1/user/update', controller.update)
         ;
     }
 
@@ -33,6 +34,8 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
+
+
 
 
 };

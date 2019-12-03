@@ -1,5 +1,5 @@
 {
-    "name": "faq-base-service",
+    "name": "qimiao-base-service",
     "version": "1.0.0",
     "description": "",
     "private": true,
@@ -29,8 +29,8 @@
         "node": ">=10.0.0"
     },
     "scripts": {
-        "start": "egg-scripts start --daemon --title=faq-base-service --framework=egg-wow-admin-framework --ignore-stderr",
-        "stop": "egg-scripts stop --title=faq-base-service",
+        "start": "egg-scripts start --daemon --title=qimiao-base-service --framework=egg-wow-admin-framework --ignore-stderr",
+        "stop": "egg-scripts stop --title=qimiao-base-service",
         "dev": "npm run apidoc && egg-bin dev --framework=egg-wow-admin-framework",
         "debug": "egg-bin debug",
         "test": "npm run lint -- --fix && npm run test-local",
