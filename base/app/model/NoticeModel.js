@@ -6,27 +6,33 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const postSchema = new Schema({
 
-        // 应用名称
-        name: {
-            type: String,
-            trim: true,
-            maxlength: 30,
-            required: true,
-        },
-
-        // logo
-        logo: {
-            type: String,
+        // 用户
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'user',
             trim: true,
             required: true,
         },
 
-        // 备注
-        remark: {
+        // 消息标题
+        title: {
             type: String,
-            trim: true,
-            maxlength: 100,
-            default: '',
+            trim: '',
+            required: true,
+        },
+
+        // 消息类型 [ LINK: 链接, TEXT: 文案 ]
+        type: {
+            type: String,
+            trim: '',
+            required: true,
+        },
+
+        // 消息内容
+        content: {
+            type: String,
+            trim: '',
+            required: true,
         },
 
         // 创建时间
@@ -42,5 +48,5 @@ module.exports = app => {
         },
 
     });
-    return mongoose.model('application', postSchema);
+    return mongoose.model('notice', postSchema);
 };
