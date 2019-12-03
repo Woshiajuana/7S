@@ -14,34 +14,12 @@ module.exports = app => {
             required: true,
         },
 
-        // 照片
-        photo: {
+        // 收藏
+        video: {
             type: Schema.Types.ObjectId,
-            ref: 'file',
+            ref: 'video',
             trim: true,
             required: true,
-        },
-
-        // 标题
-        title: {
-            type: String,
-            maxlength: 100,
-            trim: '',
-            required: true,
-        },
-
-        // 观看量
-        volume: {
-            type: Number,
-            default: 0,
-        },
-
-        // 性质 [ PRIVACY: 隐私  PUBLIC: 公开 ]
-        nature: {
-            type: String,
-            maxlength: 100,
-            trim: '',
-            default: ''
         },
 
         // 创建时间
@@ -57,5 +35,5 @@ module.exports = app => {
         },
 
     });
-    return mongoose.model('photo', postSchema);
+    return mongoose.model('dislike', postSchema);
 };

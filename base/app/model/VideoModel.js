@@ -44,24 +44,6 @@ module.exports = app => {
             default: 0,
         },
 
-        // 点赞数
-        thumb: {
-            type: Number,
-            default: 0,
-        },
-
-        // 不喜欢数
-        dislike: {
-            type: Number,
-            default: 0,
-        },
-
-        // 收藏数
-        collect: {
-            type: Number,
-            default: 0,
-        },
-
         // 性质 [ PRIVACY: 隐私  PUBLIC: 公开 ]
         nature: {
             type: String,
