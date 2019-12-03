@@ -22,7 +22,7 @@ module.exports = app => {
             default: '',
         },
 
-        // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片 ]
+        // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
         type: {
             type: String,
             trim: '',

@@ -35,6 +35,12 @@ module.exports = app => {
             required: true,
         },
 
+        // 已读未读
+        unread: {
+            type: Boolean,
+            default: false,
+        },
+
         // 创建时间
         created_at: {
             type: Date,
