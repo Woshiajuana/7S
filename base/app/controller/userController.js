@@ -100,8 +100,7 @@ module.exports = class HandleController extends Controller {
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
-     * @apiParam  {String} [keyword] 名称 / 路径
-     * @apiParam  {String} [method] 请求方法
+     * @apiParam  {String} [keyword] 邮箱 / 昵称 / uid
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/list
      */
@@ -109,10 +108,9 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             const objParams = await ctx.validateBody({
-                numIndex: [],
-                numSize: [],
+                numIndex: [ 'nonempty' ],
+                numSize: [ 'nonempty' ],
                 keyword: [],
-                method: [],
             });
             const data = await service.userService.list(objParams);
             ctx.respSuccess(data);
