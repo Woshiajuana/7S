@@ -21,6 +21,13 @@ module.exports = app => {
             default: '',
         },
 
+        // 密码
+        password: {
+            type: String,
+            maxlength: 32,
+            required: true,
+        },
+
         // 预留字段
         phone: {
             type: String,

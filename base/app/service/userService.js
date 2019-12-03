@@ -5,13 +5,10 @@ const { Service } = require('egg');
 
 module.exports = class HandleServer extends Service {
 
-
-    // 注册
-
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.ApplicationModel.create(data);
+        await ctx.model.UserModel.create(data);
     }
 
     // 根据 id 查询
