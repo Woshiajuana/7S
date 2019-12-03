@@ -10,14 +10,14 @@ module.exports = appInfo => {
     config.cluster = {
         listen: {
             path: '',
-            port: 10001,
+            port: 10002,
             hostname: '0.0.0.0',
         }
     };
 
     // add mongoose
     config.mongoose = {
-        url: 'mongodb://154.8.209.13:37017/fqa_base',
+        url: 'mongodb://154.8.209.13:37017/qimiao',
         options: {
             user: '',
             pass: '',
@@ -27,7 +27,7 @@ module.exports = appInfo => {
     // add log
     config.logger = {
         level: 'INFO',
-        dir: '/workspace-logs/fqa-base-service/' // 保存路径为工程路径下`logs/prod/app`
+        dir: '/workspace-logs/7S/base-service/' // 保存路径为工程路径下`logs/prod/app`
     };
 
     return config;

@@ -27,7 +27,7 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
             });
-            await service.apiRouteService.create(objParams);
+            await service.userService.create(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);

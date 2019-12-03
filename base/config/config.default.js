@@ -12,7 +12,7 @@ module.exports = appInfo => {
     config.cluster = {
         listen: {
             path: '',
-            port: 10001,
+            port: 10002,
             hostname: '0.0.0.0',
         }
     };
@@ -31,7 +31,7 @@ module.exports = appInfo => {
 
     // add mongoose
     config.mongoose = {
-        url: 'mongodb://154.8.209.13:37017/fqa_base',
+        url: 'mongodb://154.8.209.13:37017/qimiao',
         options: {
             user: '',
             pass: '',
