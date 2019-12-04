@@ -6,19 +6,18 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/user/create', controller.create)
-            .mount('/api/v1/user/update', controller.update)
-            .mount('/api/v1/user/info', controller.info)
-            .mount('/api/v1/user/one', controller.one)
-            .mount('/api/v1/user/list', controller.list)
+        app.router.mount('/api/v1/video/create', controller.create)
+            .mount('/api/v1/video/update', controller.update)
+            .mount('/api/v1/video/info', controller.info)
+            .mount('/api/v1/video/list', controller.list)
         ;
     }
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/create 创建用户
-     * @apiDescription 创建用户
-     * @apiGroup 用户
+     * @api {get} /api/v1/user/create 创建视频
+     * @apiDescription 创建视频
+     * @apiGroup 视频
      * @apiParam  {String} [email] 邮箱
      * @apiParam  {String} [password] 密码
      * @apiSuccess (成功) {Object} data
@@ -31,9 +30,9 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
             });
-            ctx.logger.info(`创建用户：请求参数=> ${JSON.stringify({email: objParams.email})} `);
+            ctx.logger.info(`创建视频：请求参数=> ${JSON.stringify({email: objParams.email})} `);
             await service.userService.create(objParams);
-            ctx.logger.info(`创建用户：返回结果=> 成功`);
+            ctx.logger.info(`创建视频：返回结果=> 成功`);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -42,10 +41,10 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/update 更新用户
-     * @apiDescription 更新用户
-     * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
+     * @api {get} /api/v1/user/update 更新视频
+     * @apiDescription 更新视频
+     * @apiGroup 视频
+     * @apiParam  {String} [id] 视频 id
      * @apiParam  {String} [nickname] 昵称
      * @apiParam  {String} [password] 密码
      * @apiParam  {String} [avatar] 头像
@@ -76,10 +75,12 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/info  查询用户信息
-     * @apiDescription 更新用户
-     * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
+     * @api {get} /api/v1/user/info  查询视频
+     * @apiDescription 更新视频
+     * @apiGroup 视频
+     * @apiParam  {String} [id] 视频 id
+     * @apiParam  {String} [email] 视频邮箱
+     * @apiParam  {String} [uid] 7S-ID
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/info
      */
@@ -87,39 +88,13 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                id: [ 'nonempty' ],
-            });
-            ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(objParams)} `);
-            const data = await service.userService.findOne(objParams);
-            ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(data)} `);
-            ctx.respSuccess(data);
-        } catch (err) {
-            ctx.respError(err);
-        }
-    }
-
-    /**
-     * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/one  查询用户基本信息
-     * @apiDescription 更新用户
-     * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
-     * @apiParam  {String} [email] 查询用户基本信息
-     * @apiParam  {String} [uid] 7S-ID
-     * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/user/one
-     */
-    async one () {
-        const { ctx, service, app } = this;
-        try {
-            let objParams = await ctx.validateBody({
                 id: [ ],
                 email: [ ],
                 uid: [ ],
             });
-            ctx.logger.info(`查询用户基本信息：请求参数=> ${JSON.stringify(objParams)} `);
+            ctx.logger.info(`查询视频信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.userService.findOne(objParams);
-            ctx.logger.info(`查询用户基本信息：返回结果=> ${JSON.stringify(data)} `);
+            ctx.logger.info(`查询视频信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -128,8 +103,8 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/list 查询用户列表
-     * @apiDescription 查询用户列表
+     * @api {get} /api/v1/user/list 查询视频列表
+     * @apiDescription 查询视频列表
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
