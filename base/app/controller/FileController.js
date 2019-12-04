@@ -19,10 +19,12 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 创建文件
      * @apiGroup 文件
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [file] 文件文件 id
-     * @apiParam  {String} [cover] 文件封面文件 id
-     * @apiParam  {String} [title] 文件标题 id
-     * @apiParam  {String} [nature] 文件性质
+     * @apiParam  {String} [ip] ip
+     * @apiParam  {String} [type] 文件类型
+     * @apiParam  {String} [path] 路径
+     * @apiParam  {String} [base] 服务器路径
+     * @apiParam  {String} [filename] 文件名
+     * @apiParam  {String} [device] 设备信息
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/file/create
      */
