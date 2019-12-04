@@ -81,6 +81,7 @@ module.exports = {
         const { app, logger } = this;
         const token = new Token(this, data, Object.assign({}, app.config.token, options));
         await token.save();
+        console.log('111111111111111111')
         return token;
     },
 

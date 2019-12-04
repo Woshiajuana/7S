@@ -16,6 +16,7 @@ module.exports = class TransFormService extends Service {
         captchaPng.color(80, 80, 80, 255);
         const data = captchaPng.getBase64();
         await redis.set(`${key} captcha`, strCaptcha, 'PX', ms('5m'));
+        this.logger.info(`生成图形验证码=> key: ${key} 验证码：${strCaptcha}`);
         return data;
     }
 
@@ -23,6 +24,7 @@ module.exports = class TransFormService extends Service {
     async validate (key, captcha) {
         const { redis } = this.app;
         let strCaptcha = await redis.get(`${key} captcha`);
+        this.logger.info(`生成图形验证码=> key: ${key} 请求验证码：${captcha} 验证码：${strCaptcha}`);
         return strCaptcha === captcha;
     }
 
