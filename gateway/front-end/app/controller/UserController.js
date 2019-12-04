@@ -23,7 +23,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                email: [ 'nonempty' ],
+                account: [ 'nonempty' ],
                 password: [ 'nonempty' ],
             });
             await service.userService.create(objParams);
