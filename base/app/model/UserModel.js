@@ -68,7 +68,9 @@ module.exports = app => {
 
         // 锁定
         lock: {
-
+            type: Boolean,
+            trim: true,
+            default: false,
         },
 
         // 个性签名

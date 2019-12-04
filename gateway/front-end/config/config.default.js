@@ -25,7 +25,7 @@ module.exports = appInfo => {
         client: {
             host: '154.8.209.13',
             port: '36379',
-            db: '5',
+            db: '1',
             family: 'IPv4',
             password: '123456',
         },
@@ -97,7 +97,7 @@ module.exports = appInfo => {
     config.curl = {
         TransFormService: {
             name: '转发 DEMO 服务器示例',
-            baseUrl: 'http://127.0.0.1:7001/',
+            baseUrl: 'http://127.0.0.1:10002/',
         }
     };
 
