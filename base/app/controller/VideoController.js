@@ -99,6 +99,7 @@ module.exports = class HandleController extends Controller {
             });
             ctx.logger.info(`查询视频信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.videoService.findById(objParams);
+            await service.videoService.update({ ...data, volume: data.volume + 1 });
             ctx.logger.info(`查询视频信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {
