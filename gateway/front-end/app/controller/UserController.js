@@ -26,17 +26,26 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let {
+                redis,
+                config,
+            } = app;
+            let {
+                maxTimes,
+            } = config.auth;
+            let {
                 account,
                 password,
+                captcha,
             } = await ctx.validateBody({
                 account: [ 'nonempty' ],
                 password: [ 'nonempty' ],
+                captcha: [ ],
             });
             ctx.logger.info(`用户登录，查询是否有该用户：请求参数=> ${account}`);
-            let objUser = await service.userService.curl('/api/v1/user/info', {
+            let objUser = await service.userService.curl('api/v1/user/info', {
                 data: { email: account },
             });
-            if (!objUser) objUser = await service.userService.curl('/api/v1/user/info', {
+            if (!objUser) objUser = await service.userService.curl('api/v1/user/info', {
                 data: { uid: account },
             });
             if (!objUser) {
@@ -51,6 +60,11 @@ module.exports = class HandleController extends Controller {
             if (disabled) {
                 ctx.logger.info(`用户登录，账号已锁定：用户账号=> ${account}`);
                 throw '账号已锁定';
+            }
+            let numTimes = +(await redis.get(`${_id} auth password times`) || 0);
+            // 首先进行图形验证码验证
+            if (numTimes > maxTimes) {
+
             }
             if (password !== pwd) {
                 ctx.logger.info(`用户登录，密码错误：用户账号=> ${account}`);

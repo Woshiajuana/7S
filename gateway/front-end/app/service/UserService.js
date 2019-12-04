@@ -28,7 +28,6 @@ module.exports = class TransFormService extends CurlService {
 
     // 验证账号
     async auth ({ account, password, captcha }) {
-        
         const { app, logger } = this;
         const { redis } = app;
         const { maxTimes, capTimes } = app.config.auth;
