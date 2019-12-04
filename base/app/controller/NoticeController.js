@@ -144,6 +144,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiParam  {String} [user] 用户
+     * @apiParam  {String} [keyword] 关键字
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/list
      */
@@ -154,6 +155,7 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [],
+                keyword: [],
             });
             const data = await service.noticeService.list(objParams);
             ctx.respSuccess(data);

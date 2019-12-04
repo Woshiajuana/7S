@@ -9,9 +9,22 @@ module.exports = class HandleServer extends Service {
     async unreadCount (data) {
         const { ctx } = this;
         const { user } = data;
-        return await ctx.model.NoticeModel.count({
+        let numPrivate = 0;
+        if (user) {
+            numPrivate = await ctx.model.NoticeModel.count({
+                user: app.mongoose.Types.ObjectId(user),
+                unread: false,
+                nature: 'PRIVATE',
+                push: true,
+            });
+        }
+        let numPublic = await ctx.model.NoticeModel.count({
             user: app.mongoose.Types.ObjectId(user),
+            unread: false,
+            nature: 'PUBLIC',
+            push: true,
         });
+        return numPrivate + numPublic;
     }
 
     // 创建
@@ -25,10 +38,11 @@ module.exports = class HandleServer extends Service {
         const { ctx, app } = this;
         const { id, user } = data;
         delete data.id;
-        await ctx.model.NoticeModel.update({
-            _id: app.mongoose.Types.ObjectId(id),
-            user: app.mongoose.Types.ObjectId(user),
-        }, data);
+        let objFilter = { _id: app.mongoose.Types.ObjectId(id) };
+        if (user) {
+            objFilter.user = app.mongoose.Types.ObjectId(user);
+        }
+        await ctx.model.NoticeModel.update(objFilter, data);
     }
 
     // 根据 id 查询
@@ -40,10 +54,11 @@ module.exports = class HandleServer extends Service {
     // 删除
     async del ({ id, user }) {
         const { ctx, app } = this;
-        await ctx.model.NoticeModel.remove({
-            _id: app.mongoose.Types.ObjectId(id),
-            user: app.mongoose.Types.ObjectId(user),
-        });
+        let objFilter = { _id: app.mongoose.Types.ObjectId(id) };
+        if (user) {
+            objFilter.user = app.mongoose.Types.ObjectId(user);
+        }
+        await ctx.model.NoticeModel.remove(objFilter);
     }
 
     // 列表
