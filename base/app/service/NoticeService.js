@@ -5,11 +5,11 @@ const { Service } = require('egg');
 
 module.exports = class HandleServer extends Service {
 
-    // 数量
-    async count (data) {
+    // 未读
+    async unreadCount (data) {
         const { ctx } = this;
         const { user } = data;
-        return await ctx.model.FileModel.count({
+        return await ctx.model.NoticeModel.count({
             user: app.mongoose.Types.ObjectId(user),
         });
     }
@@ -17,7 +17,7 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.FileModel.create(data);
+        await ctx.model.NoticeModel.create(data);
     }
 
     // 更新
@@ -25,7 +25,7 @@ module.exports = class HandleServer extends Service {
         const { ctx, app } = this;
         const { id, user } = data;
         delete data.id;
-        await ctx.model.FileModel.update({
+        await ctx.model.NoticeModel.update({
             _id: app.mongoose.Types.ObjectId(id),
             user: app.mongoose.Types.ObjectId(user),
         }, data);
@@ -34,13 +34,13 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        return await ctx.model.FileModel.findById(id).lean();
+        return await ctx.model.NoticeModel.findById(id).lean();
     }
 
     // 删除
     async del ({ id, user }) {
         const { ctx, app } = this;
-        await ctx.model.FileModel.remove({
+        await ctx.model.NoticeModel.remove({
             _id: app.mongoose.Types.ObjectId(id),
             user: app.mongoose.Types.ObjectId(user),
         });
@@ -60,8 +60,8 @@ module.exports = class HandleServer extends Service {
             filter.$or.push({ filename: { $regex: keyword, $options: '$i' } });
         }
         if (!filter.$or.length) delete filter.$or;
-        const total = await ctx.model.FileModel.count(filter);
-        const list = await ctx.model.FileModel
+        const total = await ctx.model.NoticeModel.count(filter);
+        const list = await ctx.model.NoticeModel
             .find(filter)
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
