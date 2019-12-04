@@ -14,7 +14,7 @@ module.exports = app => {
             required: true,
         },
 
-        // 收藏
+        // 不喜欢
         video: {
             type: Schema.Types.ObjectId,
             ref: 'video',
