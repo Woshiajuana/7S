@@ -8,6 +8,15 @@ module.exports = appInfo => {
 
     const config = exports = {};
 
+    // 端口
+    config.cluster = {
+        listen: {
+            path: '',
+            port: 90002,
+            hostname: '0.0.0.0',
+        }
+    };
+
     // use for cookie sign key, should change to your own and keep security
     config.keys = appInfo.name + '_1557904782826_8085';
 
@@ -25,7 +34,7 @@ module.exports = appInfo => {
         client: {
             host: '154.8.209.13',
             port: '36379',
-            db: '1',
+            db: '2',
             family: 'IPv4',
             password: '123456',
         },

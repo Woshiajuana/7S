@@ -6,11 +6,13 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount(
-            { name: 'DEMO 分发路由', path: '/api/demo/*' },
-            controller.transform,
-        );
+        app.router.mount('/api/app/user/login', controller.login)
+        ;
+
     }
+
+
+
 
     /**
      * @apiVersion 1.0.0
