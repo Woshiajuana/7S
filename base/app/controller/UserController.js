@@ -45,7 +45,7 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/user/update 更新用户
      * @apiDescription 更新用户
      * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [uid] 用户 uid
      * @apiParam  {String} [nickname] 昵称
      * @apiParam  {String} [password] 密码
      * @apiParam  {String} [avatar] 头像
@@ -58,7 +58,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                id: [],
+                uid: ['nonempty'],
                 nickname: [],
                 password: [],
                 avatar: [],
@@ -79,7 +79,7 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/user/info  查询用户信息
      * @apiDescription 更新用户
      * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [uid] 用户 uid
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/info
      */
@@ -87,7 +87,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                id: [ 'nonempty' ],
+                uid: [ 'nonempty' ],
             });
             ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.userService.findOne(objParams);
@@ -103,9 +103,8 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/user/one  查询用户基本信息
      * @apiDescription 更新用户
      * @apiGroup 用户
-     * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [uid] 用户 uid
      * @apiParam  {String} [email] 查询用户基本信息
-     * @apiParam  {String} [uid] 7S-ID
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/one
      */
@@ -113,9 +112,8 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                id: [ ],
-                email: [ ],
                 uid: [ ],
+                email: [ ],
             });
             ctx.logger.info(`查询用户基本信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.userService.findOne(objParams);

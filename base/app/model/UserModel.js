@@ -14,13 +14,6 @@ module.exports = app => {
             required: true,
         },
 
-        // 7S-ID
-        uid: {
-            type: String,
-            maxlength: 7,
-            default: '',
-        },
-
         // 密码
         password: {
             type: String,
