@@ -72,7 +72,8 @@ module.exports = class HandleServer extends Service {
             filter.user = app.mongoose.Types.ObjectId(user);
         }
         if (keyword) {
-            filter.$or.push({ filename: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ title: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ content: { $regex: keyword, $options: '$i' } });
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.NoticeModel.count(filter);
