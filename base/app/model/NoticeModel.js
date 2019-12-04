@@ -48,9 +48,10 @@ module.exports = app => {
             default: false,
         },
 
-        // 发送状态
+        // 推送状态
         push: {
-
+            type: Boolean,
+            default: false,
         },
 
         // 创建时间
