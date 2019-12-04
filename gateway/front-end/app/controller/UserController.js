@@ -6,8 +6,8 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/app/user/login', controller.login)
-            .mount('/api/app/user/register', controller.register)
+        app.router.mount('/api/v1/app/user/login', controller.login)
+            .mount('/api/v1/app/user/register', controller.register)
         ;
 
     }
@@ -63,11 +63,11 @@ module.exports = class HandleController extends Controller {
                 password: [ 'nonempty' ],
                 code: [ ],
             });
-            const data = await service.userService.curl('/api/v1/user/info', {
+            const data = await service.userService.curl('api/v1/user/info', {
                 data: { email },
             });
             if (data) throw '该邮箱已注册';
-            await service.userService.curl('/api/v1/user/create', {
+            await service.userService.curl('api/v1/user/create', {
                 data: { email, password },
             });
             ctx.respSuccess(data);

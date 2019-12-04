@@ -56,8 +56,8 @@ class CurlService extends egg.Service {
         if (response.status >= 300 || response.status < 200) {
             this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求失败结果:${JSON.stringify(response)}`);
         }
-        response = await this.afterRequest(response);
         this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求成功结果:${JSON.stringify(response)}`);
+        response = await this.afterRequest(response);
         return response;
     }
 }
