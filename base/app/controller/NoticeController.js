@@ -15,16 +15,16 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/notice/create 创建文件
-     * @apiDescription 创建文件
-     * @apiGroup 文件
+     * @api {get} /api/v1/notice/create 创建消息
+     * @apiDescription 创建消息
+     * @apiGroup 消息
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [ip] ip
-     * @apiParam  {String} [type] 文件类型
-     * @apiParam  {String} [path] 路径
-     * @apiParam  {String} [base] 服务器路径
-     * @apiParam  {String} [noticename] 文件名
-     * @apiParam  {String} [device] 设备信息
+     * @apiParam  {String} [title] 消息标题
+     * @apiParam  {String} [nature] 消息性质
+     * @apiParam  {String} [type] 消息类型
+     * @apiParam  {String} [content] 消息内容
+     * @apiParam  {String} [unread] 已读未读
+     * @apiParam  {String} [push]  推送状态
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/create
      */
@@ -32,17 +32,16 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                user: [ 'nonempty' ],
-                ip: [ 'nonempty' ],
+                user: [ ],
+                title: [ 'nonempty' ],
+                nature: [ 'nonempty' ],
                 type: [ 'nonempty' ],
-                path: [ 'nonempty' ],
-                base: [ 'nonempty' ],
-                noticename: [ 'nonempty' ],
-                device: [ 'nonempty' ],
+                content: [ 'nonempty' ],
+                push: [ 'nonempty' ],
             });
-            ctx.logger.info(`创建文件：请求参数=> ${JSON.stringify(objParams)} `);
+            ctx.logger.info(`创建消息：请求参数=> ${JSON.stringify(objParams)} `);
             await service.noticeService.create(objParams);
-            ctx.logger.info(`创建文件：返回结果=> 成功`);
+            ctx.logger.info(`创建消息：返回结果=> 成功`);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -51,10 +50,48 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/notice/info 查询文件
-     * @apiDescription 更新文件
-     * @apiGroup 文件
-     * @apiParam  {String} [id] 文件 id
+     * @api {get} /api/v1/video/update 更新消息
+     * @apiDescription 更新消息
+     * @apiGroup 消息
+     * @apiParam  {String} [id] 消息 id
+     * @apiParam  {String} [user] 用户 id
+     * @apiParam  {String} [title] 消息标题
+     * @apiParam  {String} [nature] 消息性质
+     * @apiParam  {String} [type] 消息类型
+     * @apiParam  {String} [content] 消息内容
+     * @apiParam  {String} [unread] 已读未读
+     * @apiParam  {String} [push]  推送状态
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/video/update
+     */
+    async update () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                id: [ 'nonempty' ],
+                user: [],
+                video: [],
+                title: [],
+                nature: [],
+                type: [],
+                content: [],
+                push: [],
+            });
+            ctx.logger.info(`更新消息信息：请求参数=> ${JSON.stringify(objParams)} `);
+            await service.videoService.update(objParams);
+            ctx.logger.info(`更新消息信息：返回结果=> 成功 `);
+            ctx.respSuccess();
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/notice/info 查询消息
+     * @apiDescription 更新消息
+     * @apiGroup 消息
+     * @apiParam  {String} [id] 消息 id
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/info
      */
@@ -64,9 +101,9 @@ module.exports = class HandleController extends Controller {
             let objParams = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            ctx.logger.info(`查询文件信息：请求参数=> ${JSON.stringify(objParams)} `);
+            ctx.logger.info(`查询消息信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.noticeService.findById(objParams);
-            ctx.logger.info(`查询文件信息：返回结果=> ${JSON.stringify(data)} `);
+            ctx.logger.info(`查询消息信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -75,10 +112,10 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/notice/del 删除文件
-     * @apiDescription 删除文件
-     * @apiGroup 文件
-     * @apiParam  {String} [id] 文件 id
+     * @api {get} /api/v1/notice/del 删除消息
+     * @apiDescription 删除消息
+     * @apiGroup 消息
+     * @apiParam  {String} [id] 消息 id
      * @apiParam  {String} [user] 用户
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/del
@@ -90,9 +127,9 @@ module.exports = class HandleController extends Controller {
                 id: [ 'nonempty' ],
                 user: [ 'nonempty' ],
             });
-            ctx.logger.info(`删除文件信息：请求参数=> ${JSON.stringify(objParams)} `);
+            ctx.logger.info(`删除消息信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.noticeService.del(objParams);
-            ctx.logger.info(`删除文件信息：返回结果=> 成功 `);
+            ctx.logger.info(`删除消息信息：返回结果=> 成功 `);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -101,12 +138,12 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/notice/list 查询文件列表
-     * @apiDescription 查询文件列表
+     * @api {get} /api/v1/notice/list 查询消息列表
+     * @apiDescription 查询消息列表
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
-     * @apiParam  {String} [keyword] 标题 / 时间
+     * @apiParam  {String} [user] 用户
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/list
      */
@@ -117,7 +154,6 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [],
-                keyword: [],
             });
             const data = await service.noticeService.list(objParams);
             ctx.respSuccess(data);
