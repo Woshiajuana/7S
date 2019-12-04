@@ -27,18 +27,8 @@ module.exports = class HandleController extends Controller {
                 password: [ 'nonempty' ],
             });
             await service.userService.create(objParams);
-            ctx.respSuccess();
-
-            const {
-                params,
-                method = '',
-                query = '',
-                body = '',
-            } = ctx;
-            const strTargetUrl = params[0] || '';
-            const data = await service.userService.curl(strTargetUrl, {
-                method,
-                data: method === 'get' ? query : body,
+            const data = await service.userService.curl('/api/v1/user/info', {
+                data: method === 'get' ? query : body
             });
             ctx.respSuccess(data);
         } catch (err) {

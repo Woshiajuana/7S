@@ -33,7 +33,7 @@
         "node": ">=10.0.0"
     },
     "scripts": {
-        "start": "egg-scripts start --daemon --title=qimiao-gateway-front-service --framework=egg-wow-admin-framework",
+        "start": "egg-scripts start --daemon --title=qimiao-gateway-front-service --framework=./lib/egg-wow-admin-framework",
         "stop": "egg-scripts stop --title=qimiao-gateway-front-service",
         "dev": "npm run apidoc && egg-bin dev --framework=egg-wow-admin-framework",
         "debug": "egg-bin debug",
