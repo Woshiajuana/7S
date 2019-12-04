@@ -96,7 +96,7 @@ module.exports = class HandleController extends Controller {
     /**
      * @apiVersion 1.0.0
      * @api {get} /api/v1/user/list 查询用户列表
-     * @apiDescription 查询API路由列表
+     * @apiDescription 查询用户列表
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
