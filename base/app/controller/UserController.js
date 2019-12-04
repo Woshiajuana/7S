@@ -30,7 +30,9 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
             });
+            app.logger.info(`创建用户：请求参数=> ${JSON.stringify({email: objParams.email})} `);
             await service.userService.create(objParams);
+            app.logger.info(`创建用户：返回结果=> 成功`);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -90,8 +92,10 @@ module.exports = class HandleController extends Controller {
                 email: [ ],
                 uid: [ ],
             });
-            await service.userService.findOne(objParams);
-            ctx.respSuccess();
+            app.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(objParams)} `);
+            const data = await service.userService.findOne(objParams);
+            app.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(data)} `);
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
