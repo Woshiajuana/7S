@@ -5,9 +5,13 @@ const { Service } = require('egg');
 
 module.exports = class HandleServer extends Service {
 
-    // 总视频数量
-    async count () {
-
+    // 视频数量
+    async count (data) {
+        const { ctx } = this;
+        const { user } = data;
+        return await ctx.model.VideoModel.count({
+            user: app.mongoose.Types.ObjectId(user),
+        });
     }
 
     // 创建
