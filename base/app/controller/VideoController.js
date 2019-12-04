@@ -15,23 +15,24 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/create 创建视频
+     * @api {get} /api/v1/video/create 创建视频
      * @apiDescription 创建视频
      * @apiGroup 视频
-     * @apiParam  {String} [email] 邮箱
-     * @apiParam  {String} [password] 密码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/user/create
+     * @apiSampleRequest /api/v1/video/create
      */
     async create () {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                email: [ 'nonempty' ],
-                password: [ 'nonempty' ],
+                user: [ 'nonempty' ],
+                video: [ 'nonempty' ],
+                cover: [ 'nonempty' ],
+                title: [ 'nonempty' ],
+                nature: [ 'nonempty' ],
             });
-            ctx.logger.info(`创建视频：请求参数=> ${JSON.stringify({email: objParams.email})} `);
-            await service.userService.create(objParams);
+            ctx.logger.info(`创建视频：请求参数=> ${JSON.stringify(objParams)} `);
+            await service.videoService.create(objParams);
             ctx.logger.info(`创建视频：返回结果=> 成功`);
             ctx.respSuccess();
         } catch (err) {
@@ -41,7 +42,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/update 更新视频
+     * @api {get} /api/v1/video/update 更新视频
      * @apiDescription 更新视频
      * @apiGroup 视频
      * @apiParam  {String} [id] 视频 id
@@ -51,7 +52,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [sex] 性别
      * @apiParam  {String} [signature] 个性签名
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/user/update
+     * @apiSampleRequest /api/v1/video/update
      */
     async update () {
         const { ctx, service, app } = this;

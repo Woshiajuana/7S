@@ -49,7 +49,7 @@ module.exports = app => {
             type: String,
             maxlength: 100,
             trim: '',
-            default: ''
+            default: 'PRIVACY'
         },
 
         // 创建时间
