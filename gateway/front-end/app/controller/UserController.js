@@ -82,6 +82,4 @@ module.exports = class HandleController extends Controller {
         }
     }
 
-
-
 };
