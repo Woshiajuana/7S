@@ -14,20 +14,20 @@ module.exports = class HandleServer extends Service {
         if (video) {
             filter.video = app.mongoose.Types.ObjectId(video);
         }
-        return await ctx.model.CollectModel.count(filter);
+        return await ctx.model.FollowerModel.count(filter);
     }
 
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.CollectModel.create(data);
+        await ctx.model.FollowerModel.create(data);
     }
 
     // 根据 id 查询
     async findOne (data) {
         const { ctx } = this;
         let { user, video } = data;
-        return await ctx.model.CollectModel.findOne({
+        return await ctx.model.FollowerModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
             video: app.mongoose.Types.ObjectId(video),
         }).lean();
@@ -36,7 +36,7 @@ module.exports = class HandleServer extends Service {
     // 删除
     async del ({ user, video }) {
         const { ctx, app } = this;
-        await ctx.model.CollectModel.remove({
+        await ctx.model.FollowerModel.remove({
             user: app.mongoose.Types.ObjectId(user),
             video: app.mongoose.Types.ObjectId(video),
         });
@@ -56,8 +56,8 @@ module.exports = class HandleServer extends Service {
             filter.video = app.mongoose.Types.ObjectId(video);
         }
         if (!filter.$or.length) delete filter.$or;
-        const total = await ctx.model.CollectModel.count(filter);
-        const list = await ctx.model.CollectModel
+        const total = await ctx.model.FollowerModel.count(filter);
+        const list = await ctx.model.FollowerModel
             .find(filter)
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
