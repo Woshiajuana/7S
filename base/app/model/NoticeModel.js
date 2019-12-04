@@ -11,11 +11,18 @@ module.exports = app => {
             type: Schema.Types.ObjectId,
             ref: 'user',
             trim: true,
-            required: true,
+            default: null,
         },
 
         // 消息标题
         title: {
+            type: String,
+            trim: '',
+            required: true,
+        },
+
+        // 性质 [ PRIVATE 私有   PUBLIC 公共  ]
+        nature: {
             type: String,
             trim: '',
             required: true,
@@ -39,6 +46,11 @@ module.exports = app => {
         unread: {
             type: Boolean,
             default: false,
+        },
+
+        // 发送状态
+        push: {
+
         },
 
         // 创建时间

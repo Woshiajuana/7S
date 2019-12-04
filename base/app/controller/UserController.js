@@ -130,7 +130,7 @@ module.exports = class HandleController extends Controller {
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
-     * @apiParam  {String} [keyword] 邮箱 / 昵称 
+     * @apiParam  {String} [keyword] 邮箱 / 昵称
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/list
      */
