@@ -22,13 +22,15 @@ module.exports = class HandleController extends Controller {
     async login () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                account,
+                password,
+            } = await ctx.validateBody({
                 account: [ 'nonempty' ],
                 password: [ 'nonempty' ],
             });
-            await service.userService.create(objParams);
             const data = await service.userService.curl('/api/v1/user/info', {
-                data: method === 'get' ? query : body
+                data: { email: account, password },
             });
             ctx.respSuccess(data);
         } catch (err) {

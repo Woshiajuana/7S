@@ -25,4 +25,7 @@ module.exports = class TransFormService extends CurlService {
         return options;
     }
 
+
+    // 生成
+
 };

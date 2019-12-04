@@ -56,11 +56,13 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 id: [],
-                nickname: [] ,
-                password: [] ,
-                avatar: [] ,
-                sex: [] ,
-                signature: [] ,
+                nickname: [],
+                password: [],
+                avatar: [],
+                sex: [],
+                signature: [],
+                disabled: [],
+                lock: [],
             });
             await service.userService.update(objParams);
             ctx.respSuccess();
