@@ -81,7 +81,6 @@ module.exports = {
         const { app, logger } = this;
         const token = new Token(this, data, Object.assign({}, app.config.token, options));
         await token.save();
-        console.log('111111111111111111')
         return token;
     },
 
@@ -149,7 +148,6 @@ module.exports = {
                 logger.info(`预踢掉在线用户:【${token.id}】token:【${token.accessToken}】.`);
             }
         });
-        arrOtherToken = await this.getTokenByUserId(id) || [];
     },
 };
 

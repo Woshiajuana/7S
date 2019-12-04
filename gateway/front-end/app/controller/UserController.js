@@ -74,9 +74,10 @@ module.exports = class HandleController extends Controller {
                 await redis.set(`${account} auth password times`, ++numTimes);
                 throw numTimes >= maxTimes ? { code: 'F50001', data: await service.captchaService.generate(account), msg: '密码错误次数过多，请输入图形验证码' } : '密码输入错误';
             }
-            objUser.accessToken = await ctx.generateToken({ id: _id, user: objUser });
-            await ctx.kickOutUserById(_id);
             delete objUser.password;
+            const { accessToken } = await ctx.generateToken({ id: _id, user: objUser });
+            objUser.accessToken = accessToken;
+            await ctx.kickOutUserById(_id);
             ctx.respSuccess(objUser);
         } catch (err) {
             ctx.respError(err);
