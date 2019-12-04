@@ -53,7 +53,7 @@ module.exports = class HandleController extends Controller {
      * @apiSampleRequest /api/app/user/register
      * */
     async register () {
-        const { ctx, service, app } = this;
+        const { ctx, service } = this;
         try {
             let {
                 email,
@@ -63,13 +63,19 @@ module.exports = class HandleController extends Controller {
                 password: [ 'nonempty' ],
                 code: [ ],
             });
+            ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
             const data = await service.userService.curl('api/v1/user/info', {
                 data: { email },
             });
-            if (data) throw '该邮箱已注册';
+            if (data) {
+                ctx.logger.info(`用户注册，查询邮箱是否已注册：请求结果=> 已注册 ${JSON.stringify(data)}`);
+                throw '该邮箱已注册';
+            }
+            ctx.logger.info(`用户注册：请求参数=> ${email}`);
             await service.userService.curl('api/v1/user/create', {
                 data: { email, password },
             });
+            ctx.logger.info(`用户注册：请求返回=> 注册成功`);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
