@@ -11,20 +11,24 @@ module.exports = class HandleController extends Controller {
 
     }
 
-
-
-
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/demo/* DEMO 分发路由
-     * @apiDescription DEMO 分发路由
-     * @apiGroup APP基础
+     * @api {get} /api/app/user/login 用户登录
+     * @apiDescription  User 用户模块
+     * @apiGroup 用户
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/demo/*
+     * @apiSampleRequest /api/app/user/login
      */
-    async transform () {
+    async login () {
         const { ctx, service, app } = this;
         try {
+            let objParams = await ctx.validateBody({
+                email: [ 'nonempty' ],
+                password: [ 'nonempty' ],
+            });
+            await service.userService.create(objParams);
+            ctx.respSuccess();
+
             const {
                 params,
                 method = '',
@@ -32,7 +36,7 @@ module.exports = class HandleController extends Controller {
                 body = '',
             } = ctx;
             const strTargetUrl = params[0] || '';
-            const data = await service.demo.transformService.curl(strTargetUrl,  {
+            const data = await service.userService.curl(strTargetUrl, {
                 method,
                 data: method === 'get' ? query : body,
             });

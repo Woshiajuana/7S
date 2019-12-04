@@ -75,18 +75,20 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 更新用户
      * @apiGroup 用户
      * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [email] 用户邮箱
+     * @apiParam  {String} [uid] 7S-ID
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/user/info
      */
     async info () {
         const { ctx, service, app } = this;
         try {
-            let {
-                id,
-            } = await ctx.validateBody({
-                id: [ 'nonempty' ],
+            let objParams = await ctx.validateBody({
+                id: [ ],
+                email: [ ],
+                uid: [ ],
             });
-            await service.userService.findById(id);
+            await service.userService.findOne(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);

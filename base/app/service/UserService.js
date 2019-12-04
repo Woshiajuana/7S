@@ -20,9 +20,12 @@ module.exports = class HandleServer extends Service {
     }
 
     // 根据 id 查询
-    async findById (id) {
+    async findOne (data) {
         const { ctx } = this;
-        return await ctx.model.UserModel.findById(id).lean();
+        let { id, email, uid } = data;
+        if (id) return await ctx.model.UserModel.findById(id).lean();
+        if (email) return await ctx.model.UserModel.findOne({ email }).lean();
+        if (uid) return await ctx.model.UserModel.findOne({ uid }).lean();
     }
 
     // 删除
