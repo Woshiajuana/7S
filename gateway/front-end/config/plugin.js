@@ -14,12 +14,6 @@ exports.cors = {
     package: 'egg-cors',
 };
 
-// 数据库mongoose
-exports.mongoose = {
-    enable: true,
-    package: 'egg-mongoose',
-};
-
 // token
 exports.token = {
     enable: true,
