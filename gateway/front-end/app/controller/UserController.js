@@ -51,11 +51,8 @@ module.exports = class HandleController extends Controller {
                 await redis.del(`${account} auth password times`);
             }
             ctx.logger.info(`用户登录，查询是否有该用户：请求参数=> ${account}`);
-            let objUser = await service.userService.curl('api/v1/user/info', {
+            let objUser = await service.userService.curl('api/v1/user/one', {
                 data: { email: account },
-            });
-            if (!objUser) objUser = await service.userService.curl('api/v1/user/info', {
-                data: { uid: account },
             });
             if (!objUser) {
                 ctx.logger.info(`用户登录，查询是否有该用户：返回结果=> 无该账号`);

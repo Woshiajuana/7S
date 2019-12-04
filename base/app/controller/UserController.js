@@ -112,8 +112,9 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                uid: [ ],
+                id: [ ],
                 email: [ ],
+                uid: [ ],
             });
             ctx.logger.info(`查询用户基本信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.userService.findOne(objParams);
