@@ -14,7 +14,7 @@ module.exports = class TransFormService extends Service {
         let captchaPng = new CaptchaPng(80, 30, strCaptcha);
         captchaPng.color(255, 255, 255, 0);
         captchaPng.color(80, 80, 80, 255);
-        let data = captchaPng.getBase64();
+        const data = captchaPng.getBase64();
         await redis.set(`${key} captcha`, strCaptcha, 'PX', ms('5m'));
         return data;
     }

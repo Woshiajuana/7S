@@ -41,9 +41,17 @@ module.exports = class HandleController extends Controller {
                 password: [ 'nonempty' ],
                 captcha: [ ],
             });
-            //
-            let numTimes = +(await redis.get(`${_id} auth password times`) || 0);
-
+            // 首先判断密码验证次数
+            let numTimes = +(await redis.get(`${account} auth password times`) || 0);
+            if (numTimes >= maxTimes) {
+                if (!captcha) {
+                    throw { code: 'F50001', data: await service.captchaService.generate(account), msg: '错误次数过多，请输入图形验证码' }
+                }
+                let isResult = await service.captchaService.validate(account, captcha);
+                if (!isResult) {
+                    throw { code: 'F50001', data: await service.captchaService.generate(account), msg: '图形验证码错误' }
+                }
+            }
             ctx.logger.info(`用户登录，查询是否有该用户：请求参数=> ${account}`);
             let objUser = await service.userService.curl('api/v1/user/info', {
                 data: { email: account },
@@ -64,11 +72,7 @@ module.exports = class HandleController extends Controller {
                 ctx.logger.info(`用户登录，账号已锁定：用户账号=> ${account}`);
                 throw '账号已锁定';
             }
-            if (numTimes >= maxTimes) {
-                if (!captcha) {
-                    throw { code: 'F50001', data: await ctx.generate() }
-                }
-            }
+
             if (password !== pwd) {
                 ctx.logger.info(`用户登录，密码错误：用户账号=> ${account}`);
                 throw '密码输入错误';
