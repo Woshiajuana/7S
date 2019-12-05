@@ -19,12 +19,23 @@ module.exports = class HandleServer extends Service {
             });
         }
         let numPublic = await ctx.model.NoticeModel.count({
-            user: app.mongoose.Types.ObjectId(user),
             unread: false,
             nature: 'PUBLIC',
             push: true,
         });
         return numPrivate + numPublic;
+    }
+
+    // 数量
+    async count (data) {
+        const { ctx } = this;
+        const { user } = data;
+        let filter = {};
+        if (user) {
+            delete data.user;
+            filter.user = app.mongoose.Types.ObjectId(user);
+        }
+        return await ctx.model.NoticeModel.count(Object.assign(filter, data));
     }
 
     // 创建

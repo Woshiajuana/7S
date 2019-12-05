@@ -93,10 +93,21 @@ module.exports = class HandleController extends Controller {
             });
             ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(id)} `);
             const objUser = await service.userService.findById(id);
-            ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(objUser)} `);
             // 查询视频数量
             const numVideo = await service.videoService.count({ user: id });
-
+            // 查询照片数量
+            const numPhoto = await service.photoService.count({ user: id });
+            // 查询粉丝数量
+            const numFollower = await service.followerService.count({ user: id });
+            // 查询关注数量
+            const numFollowing = await service.followingService.count({ user: id });
+            // 查询私有未读消息
+            const numPrivateNotice = await service.noticeService.count({ user: id, unread: false, push: true, nature: 'PRIVATE' });
+            // 查询公共未读消息
+            const numPublicNotice = await service.noticeService.count({ user: id, unread: false, push: true, nature: 'PUBLIC' });
+            delete objUser.password;
+            Object.assign(objUser, { numVideo, numPhoto, numFollower, numFollowing, numPrivateNotice, numPublicNotice });
+            ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(objUser)} `);
             ctx.respSuccess(objUser);
         } catch (err) {
             ctx.respError(err);

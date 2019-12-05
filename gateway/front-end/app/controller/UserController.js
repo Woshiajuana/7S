@@ -8,7 +8,7 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/user/login', controller.login)
             .mount('/api/v1/app/user/register', controller.register)
-            .mount('/api/v1/app/user/info', controller.info)
+            .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
         ;
 
     }
@@ -105,7 +105,7 @@ module.exports = class HandleController extends Controller {
                 code: [ ],
             });
             ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
-            const data = await service.userService.curl('api/v1/user/info', {
+            const data = await service.userService.curl('api/v1/user/one', {
                 data: { email },
             });
             if (data) {
@@ -134,27 +134,12 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service } = this;
         try {
-            let {
-                email,
-                password,
-            } = await ctx.validateBody({
-                email: [ 'nonempty' ],
-                password: [ 'nonempty' ],
-                code: [ ],
-            });
-            ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
+            const { id } = ctx.state.token;
+            ctx.logger.info(`用户信息：请求参数=> ${id}`);
             const data = await service.userService.curl('api/v1/user/info', {
-                data: { email },
+                data: { id },
             });
-            if (data) {
-                ctx.logger.info(`用户注册，查询邮箱是否已注册：请求结果=> 已注册 ${JSON.stringify(data)}`);
-                throw '该邮箱已注册';
-            }
-            ctx.logger.info(`用户注册：请求参数=> ${email}`);
-            await service.userService.curl('api/v1/user/create', {
-                data: { email, password },
-            });
-            ctx.logger.info(`用户注册：请求返回=> 注册成功`);
+            ctx.logger.info(`用户信息：请求返回=> ${data}`);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

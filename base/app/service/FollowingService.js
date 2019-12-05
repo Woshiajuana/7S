@@ -7,12 +7,9 @@ module.exports = class HandleServer extends Service {
 
     // 数量
     async count (data) {
-        let { user, video } = data;
+        let { user } = data;
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
-        }
-        if (video) {
-            filter.video = app.mongoose.Types.ObjectId(video);
         }
         return await ctx.model.FollowingModel.count(filter);
     }
