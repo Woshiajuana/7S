@@ -28,21 +28,15 @@ module.exports = class HandleController extends Controller {
     async upload () {
         const { ctx, service, app } = this;
         try {
-            let file = ctx.request.files;
-            console.log(`ctx.request =>`, ctx.request);
-            console.log(`file1 =>`, file);
-            let arrFile = await ctx.validateFiles([
+            let [
+                file,
+            ] = await ctx.validateFiles([
                 [
                     'nonempty',
-                    {
-                        rule: (file) => {
-                            return file.size < 2 * 1000 * 1000;
-                        },
-                        prompt: '文件不能超过2M'
-                    },
                 ]
             ]);
-            console.log(`arrFile =>`, arrFile);
+            console.log(`file =>`, file);
+            console.log(`file.size =>`, file.size);
             let {
                 ip,
                 userAgent = {},
@@ -64,13 +58,7 @@ module.exports = class HandleController extends Controller {
             let {
                 type,
             } = await ctx.validateBody({
-                // user: [ 'nonempty' ],
-                // ip: [ 'nonempty' ],
                 type: [ 'nonempty' ],
-                // path: [ 'nonempty' ],
-                // base: [ 'nonempty' ],
-                // filename: [ 'nonempty' ],
-                // device: [ 'nonempty' ],
             });
             console.log(`type =>`, type);
             ctx.respSuccess({
