@@ -106,7 +106,7 @@ module.exports = appInfo => {
             accessKeyId: 'LTAI4FvEhVK64GMNLnHprJfj',
             accessKeySecret: 'sTLXiroBfc0qyIs8Il69ascip2vRcj',
             bucket: 'h5-mk',
-            endpoint: 'oss-cn-shanghai.aliyun.com',
+            endpoint: 'oss-cn-shanghai.aliyuncs.com',
             timeout: '60s',
             rootDir: 'qimiao',
         },

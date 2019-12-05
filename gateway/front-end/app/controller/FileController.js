@@ -72,6 +72,9 @@ module.exports = class HandleController extends Controller {
             let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.split('.')[1]}`;
             try {
                 result = await ctx.oss.put(`${strPath}/${strName}`, filepath);
+            } catch (e) {
+                console.log('上出出错啦');
+                console.log(e);
             } finally {
                 await fs.unlink(filepath);
             }
