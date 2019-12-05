@@ -2,7 +2,6 @@
 'use strict';
 
 const { Controller } = require('egg');
-const path = require('path');
 const fs = require('mz/fs');
 const moment = require('moment');
 
@@ -34,57 +33,53 @@ module.exports = class HandleController extends Controller {
             ] = await ctx.validateFiles([
                 [ 'nonempty' ]
             ]);
-            console.log(`file =>`, file);
             let {
                 ip,
                 userAgent = {},
             } = ctx;
-            console.log(`ip =>`, ip);
-            console.log(`userAgent =>`, userAgent);
             let {
                 bucket,
                 endpoint,
                 rootDir,
             } = app.config.oss.client;
-            console.log(`bucket =>`, bucket);
-            console.log(`endpoint =>`, endpoint);
-            console.log(`rootDir =>`, rootDir);
-
-            // user: [ 'nonempty' ],
-            //     ip: [ 'nonempty' ],
-            //     type: [ 'nonempty' ],
-            //     path: [ 'nonempty' ],
-            //     base: [ 'nonempty' ],
-            //     filename: [ 'nonempty' ],
-            //     device: [ 'nonempty' ],
             let {
                 id,
             } = ctx.state.token;
-            console.log(`id =>`, id);
             let {
                 type,
             } = await ctx.validateBody({
-                type: [ 'nonempty' ],
+                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
+                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
             });
             let result;
             let { filepath, filename } = file;
-            let strPath = `${rootDir}/${id}/${type}`;
+            let strPath = `${rootDir}/${id}/${type}/`;
             let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.split('.')[1]}`;
             try {
-                result = await ctx.oss.put(`${strPath}/${strName}`, filepath);
+                result = await ctx.oss.put(`${strPath}${strName}`, filepath);
             } catch (e) {
-                console.log('上出出错啦');
-                console.log(e);
+                this.logger.info(`上传OSS失败=> ${result.toString()}`);
             } finally {
                 await fs.unlink(filepath);
             }
             if (!result) throw '文件上传失败';
-            // const data = await service.transformService.curl('api/v1/file/create', {
-            //     data: { user: id, },
-            // });
-            console.log(`type =>`, type);
+            const {
+                _id
+            } = await service.transformService.curl('api/v1/file/create', {
+                data: {
+                    user: id,
+                    type,
+                    ip,
+                    base: `https://${bucket}.${endpoint}/`,
+                    path: strPath,
+                    filename: strName,
+                    device: JSON.stringify(userAgent),
+                    source: filename,
+                },
+            });
             ctx.respSuccess({
-                path: `https://${bucket}.${endpoint}/${strPath}/${strName}`,
+                url: `https://${bucket}.${endpoint}/${strPath}${strName}`,
+                file: _id,
             });
         } catch (err) {
             ctx.respError(err);
