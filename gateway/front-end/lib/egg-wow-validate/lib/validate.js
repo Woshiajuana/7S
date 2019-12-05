@@ -23,8 +23,6 @@ class Validate {
         if (typeof expect === 'function') {
             expect = expect(this.regular);
         }
-        console.log('source => ', source);
-        console.log('expect => ', expect);
         this.initResult(expect);
         try {
             let isValidate = true;
