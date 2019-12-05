@@ -29,26 +29,22 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let file = ctx.files;
-            let objFile = await ctx.validateFiles([
-                {
-                    nonempty: true,
-                    prompt: '缺少必要参数',
-                },
-                {
-                    rule: (value) => {
-                        // return regular.isImage(value.type);
+            let arrFile = await ctx.validateFiles([
+                [
+                    {
+                        nonempty: true,
+                        prompt: '缺少必要参数',
                     },
-                    prompt: '图片格式不支持'
-                },
-                {
-                    rule: ({size}) => {
-                        return size < 2 * 1000 * 1000;
+                    {
+                        rule: (file) => {
+                            return file.size < 2 * 1000 * 1000;
+                        },
+                        prompt: '文件不能超过2M'
                     },
-                    prompt: '图片不能超过2M'
-                },
+                ]
             ]);
             console.log(`file =>`, file);
-            console.log(`objFile =>`, objFile);
+            console.log(`arrFile =>`, arrFile);
             let {
                 ip,
                 userAgent = {},

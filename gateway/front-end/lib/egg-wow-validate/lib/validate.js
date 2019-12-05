@@ -18,12 +18,14 @@ class Validate {
         this.errResult = [];
     }
     async check(source, expect, config = {}) {
-        this.initResult();
         let { mode, errPrompt, trim } = Object.assign({}, this.config, config);
         delete config.regular;
         if (typeof expect === 'function') {
             expect = expect(this.regular);
         }
+        console.log('source => ', source);
+        console.log('expect => ', expect);
+        this.initResult(expect);
         try {
             let isValidate = true;
             forEach(expect, (uses, key) => {
