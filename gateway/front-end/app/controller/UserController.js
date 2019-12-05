@@ -9,7 +9,6 @@ module.exports = class HandleController extends Controller {
         app.router.mount('/api/v1/app/user/login', controller.login)
             .mount('/api/v1/app/user/register', controller.register)
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
         ;
 
     }
