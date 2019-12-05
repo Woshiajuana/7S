@@ -10,6 +10,8 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/user/register', controller.register)
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
             .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
+            .mount('/api/v1/app/user/update/password', middleware.tokenMiddleware(), controller.updatePassword)
+            .mount('/api/v1/app/user/reset/password', middleware.tokenMiddleware(), controller.resetPassword)
         ;
 
     }
@@ -90,7 +92,7 @@ module.exports = class HandleController extends Controller {
      * @apiGroup 用户
      * @apiParam  {String} [email] 账号
      * @apiParam  {String} [password] 密码
-     * @apiParam  {String} [code] 验证码
+     * @apiParam  {String} [captcha] 验证码
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/app/user/register
      * */
@@ -156,7 +158,6 @@ module.exports = class HandleController extends Controller {
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [nickname] nickname
-     * @apiParam  {String} [password] password
      * @apiParam  {String} [avatar] avatar
      * @apiParam  {String} [sex] sex
      * @apiParam  {String} [signature] signature
@@ -168,7 +169,6 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 nickname: [],
-                password: [],
                 avatar: [],
                 sex: [],
                 signature: [],
@@ -184,5 +184,67 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/app/user/update/password 用户修改密码
+     * @apiDescription  User 用户模块
+     * @apiGroup 用户
+     * @apiParam  {String} [password]  新密码
+     * @apiParam  {String} [oldPassword] 旧密码
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/app/user/update/password
+     * */
+    async updatePassword () {
+        const { ctx, service } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                nickname: [],
+                avatar: [],
+                sex: [],
+                signature: [],
+            });
+            const { id } = ctx.state.token;
+            await service.transformService.curl('api/v1/user/update', {
+                data: { ...objParams, id },
+            });
+            ctx.respSuccess();
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/app/user/reset/password 用户重置密码
+     * @apiDescription  User 用户模块
+     * @apiGroup 用户
+     * @apiParam  {String} [password] 密码
+     * @apiParam  {String} [captcha] 验证码
+     * @apiParam  {String} [email]  邮箱
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/app/user/reset/password
+     * */
+    async resetPassword () {
+        const { ctx, service } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                email: [ 'nonempty' ],
+                password: [ 'nonempty' ],
+                captcha: [ 'nonempty' ],
+            });
+            const { id } = ctx.state.token;
+            ctx.logger.info(`用户修改信息：请求参数=> ${JSON.stringify(objParams)}`);
+            await service.transformService.curl('api/v1/user/update', {
+                data: { ...objParams, id },
+            });
+            ctx.logger.info(`用户修改信息：请求返回=> 修改成功`);
+            ctx.respSuccess();
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+
 
 };
