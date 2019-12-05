@@ -23,7 +23,9 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        return await ctx.model.UserModel.findById(id).lean();
+        return await ctx.model.UserModel.findById(id).populate([
+            { path: 'avatar', select: 'base path filename'},
+        ]).lean();
     }
 
     // 根据条件查
