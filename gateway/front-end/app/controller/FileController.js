@@ -84,7 +84,7 @@ module.exports = class HandleController extends Controller {
             // });
             console.log(`type =>`, type);
             ctx.respSuccess({
-                path: `https://${bucket}.${endpoint}/${rootDir}/${strPath}/${strName}`,
+                path: `https://${bucket}.${endpoint}/${strPath}/${strName}`,
             });
         } catch (err) {
             ctx.respError(err);
