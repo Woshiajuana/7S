@@ -102,7 +102,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
-                code: [ ],
+                code: [ 'nonempty' ],
             });
             ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
             const data = await service.userService.curl('api/v1/user/one', {
