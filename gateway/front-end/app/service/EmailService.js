@@ -15,7 +15,7 @@ module.exports = class TransFormService extends Service {
             '2': '7S-重置密码',
         };
         let strCaptcha = randomNum(6);
-        await this.send({ email, subject: objTemplate[template], html: `您的验证码：${ strCaptcha }` });
+        await this.send({ to: email, subject: objTemplate[template], html: `您的验证码：${ strCaptcha }` });
         await redis.set(`${email} ${template} captcha`, strCaptcha, 'PX', ms('5m'));
         this.logger.info(`生成验证码=> email: ${email} 验证码：${strCaptcha}`);
         return data;
