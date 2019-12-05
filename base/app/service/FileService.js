@@ -17,7 +17,7 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.FileModel.create(data);
+        return await ctx.model.FileModel.create(data);
     }
 
     // 更新

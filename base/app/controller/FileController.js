@@ -43,9 +43,9 @@ module.exports = class HandleController extends Controller {
                 source: [ 'nonempty' ],
             });
             ctx.logger.info(`创建文件：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.fileService.create(objParams);
+            let data = await service.fileService.create(objParams);
             ctx.logger.info(`创建文件：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
