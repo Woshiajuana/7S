@@ -101,7 +101,7 @@ module.exports = appInfo => {
     };
 
     // normal oss bucket
-    exports.oss = {
+    config.oss = {
         client: {
             accessKeyId: 'LTAI4FvEhVK64GMNLnHprJfj',
             accessKeySecret: 'sTLXiroBfc0qyIs8Il69ascip2vRcj',
@@ -110,6 +110,43 @@ module.exports = appInfo => {
             timeout: '60s',
             root: '/qimiao',
         },
+    };
+
+    // 文件
+    config.multipart = {
+        mode: 'file',
+        fileExtensions: [
+            '.jpg',
+            '.jpeg',
+            '.png',
+            '.gif',
+            '.xls',
+            '.xlsx',
+            '.txt',
+            '.7z',
+            '.rar',
+            '.zip',
+
+            '.apk',
+            '.js',
+            '.crx',
+
+            /* 公钥私钥文件格式*/
+            '.cer',
+            '.crt',
+            '.key',
+            '.csr',
+            '.der',
+            '.store',
+            '.pfx',
+            '.pem',
+            '.p12',
+            '.properties',
+            '.json',
+            '.crl',
+            '.jks',
+            '.csv',
+        ],
     };
 
     // add log

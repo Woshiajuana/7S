@@ -28,7 +28,9 @@ module.exports = class HandleController extends Controller {
     async upload () {
         const { ctx, service, app } = this;
         try {
-            let file = ctx.files;
+            let file = ctx.request.files;
+            console.log(`ctx.request =>`, ctx.request);
+            console.log(`file1 =>`, file);
             let arrFile = await ctx.validateFiles([
                 [
                     'nonempty',
@@ -40,7 +42,6 @@ module.exports = class HandleController extends Controller {
                     },
                 ]
             ]);
-            console.log(`file =>`, file);
             console.log(`arrFile =>`, arrFile);
             let {
                 ip,
