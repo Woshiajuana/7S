@@ -8,10 +8,9 @@ module.exports = class HandleServer extends Service {
     // 数量
     async count (data) {
         let { user, app } = data;
-        if (user) {
-            filter.user = app.mongoose.Types.ObjectId(user);
-        }
-        return await ctx.model.FollowerModel.count(filter);
+        return await ctx.model.FollowerModel.count({
+            user: app.mongoose.Types.ObjectId(user),
+        });
     }
 
     // 创建
