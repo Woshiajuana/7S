@@ -14,6 +14,12 @@ exports.cors = {
     package: 'egg-cors',
 };
 
+// OSS
+exports.oss = {
+    enable: true,
+    package: 'egg-oss',
+};
+
 // token
 exports.token = {
     enable: true,

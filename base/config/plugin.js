@@ -25,9 +25,3 @@ exports.response = {
     enable: true,
     package: 'egg-wow-response',
 };
-
-// OSS
-exports.oss = {
-    enable: true,
-    package: 'egg-oss',
-};
