@@ -9,6 +9,7 @@ module.exports = class HandleController extends Controller {
         app.router.mount('/api/v1/app/user/login', controller.login)
             .mount('/api/v1/app/user/register', controller.register)
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
         ;
 
     }
@@ -51,7 +52,7 @@ module.exports = class HandleController extends Controller {
                 await redis.del(`${account} auth password times`);
             }
             ctx.logger.info(`用户登录，查询是否有该用户：请求参数=> ${account}`);
-            let objUser = await service.userService.curl('api/v1/user/one', {
+            let objUser = await service.transformService.curl('api/v1/user/one', {
                 data: { email: account },
             });
             if (!objUser) {
@@ -108,7 +109,7 @@ module.exports = class HandleController extends Controller {
             ctx.logger.info(`用户注册，验证邮箱验证码：请求参数=> email: ${email} captcha: ${captcha}`);
             await service.emailService.validate({email, template: '1', captcha});
             ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
-            const data = await service.userService.curl('api/v1/user/one', {
+            const data = await service.transformService.curl('api/v1/user/one', {
                 data: { email },
             });
             if (data) {
@@ -116,7 +117,7 @@ module.exports = class HandleController extends Controller {
                 throw '该邮箱已注册';
             }
             ctx.logger.info(`用户注册：请求参数=> ${email}`);
-            await service.userService.curl('api/v1/user/create', {
+            await service.transformService.curl('api/v1/user/create', {
                 data: { email, password },
             });
             ctx.logger.info(`用户注册：请求返回=> 注册成功`);
@@ -139,7 +140,7 @@ module.exports = class HandleController extends Controller {
         try {
             const { id } = ctx.state.token;
             ctx.logger.info(`用户信息：请求参数=> ${id}`);
-            const data = await service.userService.curl('api/v1/user/info', {
+            const data = await service.transformService.curl('api/v1/user/info', {
                 data: { id },
             });
             ctx.logger.info(`用户信息：请求返回=> ${data}`);
