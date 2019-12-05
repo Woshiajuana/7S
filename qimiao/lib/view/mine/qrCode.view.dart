@@ -77,7 +77,7 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
                 width: 48.0,
                 height: 48.0,
                 placeholder: Application.config.style.srcGoodsNull,
-                image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
+                image: 'https://h5-mk.oss-cn-shanghai.aliyuncs.com/qimiao/5de76b48169de6de69e24c54/AVATAR/20191205174002.png',
                 fit: BoxFit.fill,
               ),
             ),
