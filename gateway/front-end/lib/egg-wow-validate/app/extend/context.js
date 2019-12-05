@@ -8,6 +8,6 @@ module.exports = {
         return await this.app.validate.check(this.request.query, expect, config);
     },
     async validateFiles(expect, config) {
-        return await this.app.validate.checkFile(this.request.files, expect, config);
+        return await this.app.validate.check(this.request.files, expect, config);
     },
 };

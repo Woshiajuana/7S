@@ -13,16 +13,9 @@ class Validate {
         this.regular = Object.assign({ nonempty }, validator, this.config.regular);
         this._log('start register');
     }
-    initResult() {
-        this.sucResult = {};
+    initResult(expect) {
+        this.sucResult = Object.prototype.toString.call(expect) === '[object Array]' ? [] : {};
         this.errResult = [];
-    }
-    async checkFile (source, expect, config = {}) {
-        this.initResult();
-        // mode [oneByOne, whole]
-        if (oneByOne )
-        let { mode, errPrompt, trim } = Object.assign({}, this.config, config);
-
     }
     async check(source, expect, config = {}) {
         this.initResult();
