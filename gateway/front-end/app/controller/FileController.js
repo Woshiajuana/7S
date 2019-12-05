@@ -2,6 +2,8 @@
 'use strict';
 
 const { Controller } = require('egg');
+const path = require('path');
+const fs = require('mz/fs');
 
 module.exports = class HandleController extends Controller {
 
@@ -31,21 +33,40 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateFiles({
                 file: [ 'nonempty' ],
             });
+            console.log(`file =>`, file);
             let {
                 ip,
+                userAgent = {},
             } = ctx;
+            console.log(`ip =>`, ip);
+            console.log(`userAgent =>`, userAgent);
             let {
-                captcha,
+                bucket,
+                endpoint,
+                root,
+            } = app.config.oss.client;
+            console.log(`bucket =>`, bucket);
+            console.log(`endpoint =>`, endpoint);
+            console.log(`root =>`, root);
+            let {
+                id,
+            } = ctx.state.token;
+            console.log(`id =>`, id);
+            let {
+                type,
             } = await ctx.validateBody({
-                user: [ 'nonempty' ],
-                ip: [ 'nonempty' ],
+                // user: [ 'nonempty' ],
+                // ip: [ 'nonempty' ],
                 type: [ 'nonempty' ],
-                path: [ 'nonempty' ],
-                base: [ 'nonempty' ],
-                filename: [ 'nonempty' ],
-                device: [ 'nonempty' ],
+                // path: [ 'nonempty' ],
+                // base: [ 'nonempty' ],
+                // filename: [ 'nonempty' ],
+                // device: [ 'nonempty' ],
             });
-            ctx.respSuccess();
+            console.log(`type =>`, type);
+            ctx.respSuccess({
+
+            });
         } catch (err) {
             ctx.respError(err);
         }

@@ -108,6 +108,7 @@ module.exports = appInfo => {
             bucket: 'h5-mk',
             endpoint: 'oss-cn-shanghai.aliyun.com',
             timeout: '60s',
+            root: '/qimiao',
         },
     };
 
