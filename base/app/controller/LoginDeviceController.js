@@ -19,7 +19,8 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 创建登录设备
      * @apiGroup 登录设备
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [device] 设备信息
+     * @apiParam  {String} [remark] 备注
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/login-device/create
      */
@@ -28,7 +29,8 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                device: [ 'nonempty' ],
+                remark: [],
             });
             ctx.logger.info(`创建登录设备：请求参数=> ${JSON.stringify(objParams)} `);
             await service.loginDeviceService.create(objParams);
@@ -45,7 +47,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 更新登录设备
      * @apiGroup 登录设备
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [device] 设备信息
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/login-device/info
      */
@@ -54,7 +56,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                device: [ 'nonempty' ],
             });
             ctx.logger.info(`查询登录设备信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.loginDeviceService.findOne(objParams);
@@ -71,7 +73,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 删除登录设备
      * @apiGroup 登录设备
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [device] 设备信息
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/login-device/del
      */
@@ -80,7 +82,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                device: [ 'nonempty' ],
             });
             ctx.logger.info(`删除登录设备信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.loginDeviceService.del(objParams);
@@ -99,7 +101,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [device] 设备信息
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/login-device/list
      */
@@ -110,7 +112,7 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [ ],
-                video: [ ],
+                device: [ ],
             });
             const data = await service.loginDeviceService.list(objParams);
             ctx.respSuccess(data);

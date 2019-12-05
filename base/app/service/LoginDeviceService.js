@@ -14,20 +14,20 @@ module.exports = class HandleServer extends Service {
         if (video) {
             filter.video = app.mongoose.Types.ObjectId(video);
         }
-        return await ctx.model. LoginDeviceModel.count(filter);
+        return await ctx.model.LoginDeviceModel.count(filter);
     }
 
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model. LoginDeviceModel.create(data);
+        await ctx.model.LoginDeviceModel.create(data);
     }
 
     // 根据 id 查询
     async findOne (data) {
         const { ctx } = this;
         let { user, video } = data;
-        return await ctx.model. LoginDeviceModel.findOne({
+        return await ctx.model.LoginDeviceModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
             video: app.mongoose.Types.ObjectId(video),
         }).lean();
@@ -36,7 +36,7 @@ module.exports = class HandleServer extends Service {
     // 删除
     async del ({ user, video }) {
         const { ctx, app } = this;
-        await ctx.model. LoginDeviceModel.remove({
+        await ctx.model.LoginDeviceModel.remove({
             user: app.mongoose.Types.ObjectId(user),
             video: app.mongoose.Types.ObjectId(video),
         });
@@ -56,8 +56,8 @@ module.exports = class HandleServer extends Service {
             filter.video = app.mongoose.Types.ObjectId(video);
         }
         if (!filter.$or.length) delete filter.$or;
-        const total = await ctx.model. LoginDeviceModel.count(filter);
-        const list = await ctx.model. LoginDeviceModel
+        const total = await ctx.model.LoginDeviceModel.count(filter);
+        const list = await ctx.model.LoginDeviceModel
             .find(filter)
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
