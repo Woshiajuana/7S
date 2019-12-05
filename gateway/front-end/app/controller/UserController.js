@@ -9,6 +9,7 @@ module.exports = class HandleController extends Controller {
         app.router.mount('/api/v1/app/user/login', controller.login)
             .mount('/api/v1/app/user/register', controller.register)
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
         ;
 
     }
@@ -143,6 +144,41 @@ module.exports = class HandleController extends Controller {
                 data: { id },
             });
             ctx.logger.info(`用户信息：请求返回=> ${data}`);
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/app/user/update 用户修改信息
+     * @apiDescription  User 用户模块
+     * @apiGroup 用户
+     * @apiParam  {String} [nickname] nickname
+     * @apiParam  {String} [password] password
+     * @apiParam  {String} [avatar] avatar
+     * @apiParam  {String} [sex] sex
+     * @apiParam  {String} [signature] signature
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/app/user/update
+     * */
+    async update () {
+        const { ctx, service } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                nickname: [],
+                password: [],
+                avatar: [],
+                sex: [],
+                signature: [],
+            });
+            const { id } = ctx.state.token;
+            ctx.logger.info(`用户修改信息：请求参数=> ${JSON.stringify(objParams)}`);
+            await service.transformService.curl('api/v1/user/update', {
+                data: { ...objParams, id },
+            });
+            ctx.logger.info(`用户修改信息：请求返回=> 修改成功`);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
