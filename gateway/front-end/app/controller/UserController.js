@@ -179,7 +179,7 @@ module.exports = class HandleController extends Controller {
                 data: { ...objParams, id },
             });
             ctx.logger.info(`用户修改信息：请求返回=> 修改成功`);
-            ctx.respSuccess(data);
+            ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
         }
