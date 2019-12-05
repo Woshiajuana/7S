@@ -106,10 +106,7 @@ module.exports = class HandleController extends Controller {
                 captcha: [ 'nonempty' ],
             });
             ctx.logger.info(`用户注册，验证邮箱验证码：请求参数=> email: ${email} captcha: ${captcha}`);
-            if (!(await service.emailService.validate({email, template: '1', captcha}))) {
-                ctx.logger.info(`用户注册，验证邮箱验证码：错误`);
-                throw '验证码错误';
-            }
+            await service.emailService.validate({email, template: '1', captcha});
             ctx.logger.info(`用户注册，查询邮箱是否已注册：请求参数=> ${email}`);
             const data = await service.userService.curl('api/v1/user/one', {
                 data: { email },

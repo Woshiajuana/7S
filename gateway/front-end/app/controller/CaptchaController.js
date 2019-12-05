@@ -31,7 +31,7 @@ module.exports = class HandleController extends Controller {
             ctx.logger.info(`发送验证码：请求参数=> ${JSON.stringify(objParams)}`);
             await service.emailService.sendCaptcha(objParams);
             ctx.logger.info(`发送验证码：请求返回=> 发送成功`);
-            ctx.respSuccess(data);
+            ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
         }
