@@ -6,11 +6,10 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/file/upload-video', middleware.tokenMiddleware(), controller.uploadVideo)
-            .mount('/api/v1/app/file/upload', middleware.tokenMiddleware(), controller.upload)
+        app.router.mount('/api/v1/app/file/upload', middleware.tokenMiddleware(), controller.upload)
+            .mount('/api/v1/app/file/upload-video', middleware.tokenMiddleware(), controller.uploadVideo)
             .mount('/api/v1/app/file/upload-image', middleware.tokenMiddleware(), controller.uploadImage)
         ;
-
     }
 
 
@@ -31,9 +30,13 @@ module.exports = class HandleController extends Controller {
                 file,
                 captcha,
             } = await ctx.validateBody({
-                file: [ 'nonempty' ],
-                password: [ 'nonempty' ],
-                captcha: [ ],
+                user: [ 'nonempty' ],
+                ip: [ 'nonempty' ],
+                type: [ 'nonempty' ],
+                path: [ 'nonempty' ],
+                base: [ 'nonempty' ],
+                filename: [ 'nonempty' ],
+                device: [ 'nonempty' ],
             });
             ctx.respSuccess();
         } catch (err) {
