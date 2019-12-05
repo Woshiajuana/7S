@@ -9,8 +9,6 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/file/upload', middleware.tokenMiddleware(), controller.upload)
-            .mount('/api/v1/app/file/upload-video', middleware.tokenMiddleware(), controller.uploadVideo)
-            .mount('/api/v1/app/file/upload-image', middleware.tokenMiddleware(), controller.uploadImage)
         ;
     }
 
