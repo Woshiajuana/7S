@@ -31,10 +31,7 @@ module.exports = class HandleController extends Controller {
             let file = ctx.files;
             let arrFile = await ctx.validateFiles([
                 [
-                    {
-                        nonempty: true,
-                        prompt: '缺少必要参数',
-                    },
+                    'nonempty',
                     {
                         rule: (file) => {
                             return file.size < 2 * 1000 * 1000;
