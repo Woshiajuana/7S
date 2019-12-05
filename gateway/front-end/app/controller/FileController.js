@@ -4,6 +4,7 @@
 const { Controller } = require('egg');
 const path = require('path');
 const fs = require('mz/fs');
+const moment = require('moment');
 
 module.exports = class HandleController extends Controller {
 
@@ -43,11 +44,11 @@ module.exports = class HandleController extends Controller {
             let {
                 bucket,
                 endpoint,
-                root,
+                rootDir,
             } = app.config.oss.client;
             console.log(`bucket =>`, bucket);
             console.log(`endpoint =>`, endpoint);
-            console.log(`root =>`, root);
+            console.log(`rootDir =>`, rootDir);
 
             // user: [ 'nonempty' ],
             //     ip: [ 'nonempty' ],
@@ -66,18 +67,21 @@ module.exports = class HandleController extends Controller {
                 type: [ 'nonempty' ],
             });
             let result;
-            let { filepath } = file;
+            let { filepath, filename } = file;
+            let strPath = `${rootDir}/${id}/${type}`;
+            let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.split('.')[1]}`;
             try {
-                result = await ctx.oss.put(name, file.filepath);
+                result = await ctx.oss.put(`${strPath}/${strName}`, filepath);
             } finally {
-                await fs.unlink(file.filepath);
+                await fs.unlink(filepath);
             }
+            if (!result) throw '文件上传失败';
             // const data = await service.transformService.curl('api/v1/file/create', {
             //     data: { user: id, },
             // });
             console.log(`type =>`, type);
             ctx.respSuccess({
-
+                path: `https://${bucket}.${endpoint}/${rootDir}/${strPath}/${strName}`,
             });
         } catch (err) {
             ctx.respError(err);
