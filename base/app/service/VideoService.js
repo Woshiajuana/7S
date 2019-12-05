@@ -7,7 +7,7 @@ module.exports = class HandleServer extends Service {
 
     // 视频数量
     async count (data) {
-        const { ctx } = this;
+        const { ctx, app} = this;
         const { user } = data;
         return await ctx.model.VideoModel.count({
             user: app.mongoose.Types.ObjectId(user),

@@ -5,30 +5,9 @@ const { Service } = require('egg');
 
 module.exports = class HandleServer extends Service {
 
-    // 未读
-    async unreadCount (data) {
-        const { ctx } = this;
-        const { user } = data;
-        let numPrivate = 0;
-        if (user) {
-            numPrivate = await ctx.model.NoticeModel.count({
-                user: app.mongoose.Types.ObjectId(user),
-                unread: false,
-                nature: 'PRIVATE',
-                push: true,
-            });
-        }
-        let numPublic = await ctx.model.NoticeModel.count({
-            unread: false,
-            nature: 'PUBLIC',
-            push: true,
-        });
-        return numPrivate + numPublic;
-    }
-
     // 数量
     async count (data) {
-        const { ctx } = this;
+        const { ctx, app } = this;
         const { user } = data;
         let filter = {};
         if (user) {

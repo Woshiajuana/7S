@@ -7,7 +7,7 @@ module.exports = class HandleServer extends Service {
 
     // 数量
     async count (data) {
-        let { user } = data;
+        let { user, app } = data;
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
         }
