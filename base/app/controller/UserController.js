@@ -76,7 +76,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/info  查询用户信息
+     * @api {get} /api/v1/user/info  查询用户信息 (主要用户 APP 用户信息更新)
      * @apiDescription 更新用户
      * @apiGroup 用户
      * @apiParam  {String} [id] 用户 id
@@ -86,13 +86,18 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                id,
+            } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(objParams)} `);
-            const data = await service.userService.findOne(objParams);
-            ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(data)} `);
-            ctx.respSuccess(data);
+            ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(id)} `);
+            const objUser = await service.userService.findById(id);
+            ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(objUser)} `);
+            // 查询视频数量
+            const numVideo = await service.videoService.count({ user: id });
+
+            ctx.respSuccess(objUser);
         } catch (err) {
             ctx.respError(err);
         }
@@ -100,7 +105,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/user/one  查询用户基本信息
+     * @api {get} /api/v1/user/one  查询用户基本信息 (提供登录)
      * @apiDescription 更新用户
      * @apiGroup 用户
      * @apiParam  {String} [id] 用户 id

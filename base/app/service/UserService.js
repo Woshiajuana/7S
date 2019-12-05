@@ -19,7 +19,14 @@ module.exports = class HandleServer extends Service {
         await ctx.model.UserModel.update({ _id: app.mongoose.Types.ObjectId(id) }, data);
     }
 
+
     // 根据 id 查询
+    async findById (id) {
+        const { ctx } = this;
+        return await ctx.model.UserModel.findById(id).lean();
+    }
+
+    // 根据条件查
     async findOne (data) {
         const { ctx } = this;
         let { id, email, uid } = data;
