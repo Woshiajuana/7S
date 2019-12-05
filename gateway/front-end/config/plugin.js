@@ -34,3 +34,11 @@ exports.response = {
     // package: 'egg-wow-response',
     path: path.join(__dirname, '../lib/egg-wow-response')
 };
+
+// 邮件
+exports.email = {
+    enable: true,
+    // package: 'egg-wow-email',
+    path: path.join(__dirname, '../lib/egg-wow-email')
+};
+
