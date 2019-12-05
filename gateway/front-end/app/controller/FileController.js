@@ -31,12 +31,9 @@ module.exports = class HandleController extends Controller {
             let [
                 file,
             ] = await ctx.validateFiles([
-                [
-                    'nonempty',
-                ]
+                [ 'nonempty' ]
             ]);
             console.log(`file =>`, file);
-            console.log(`file.size =>`, file.size);
             let {
                 ip,
                 userAgent = {},
@@ -51,6 +48,14 @@ module.exports = class HandleController extends Controller {
             console.log(`bucket =>`, bucket);
             console.log(`endpoint =>`, endpoint);
             console.log(`root =>`, root);
+
+            // user: [ 'nonempty' ],
+            //     ip: [ 'nonempty' ],
+            //     type: [ 'nonempty' ],
+            //     path: [ 'nonempty' ],
+            //     base: [ 'nonempty' ],
+            //     filename: [ 'nonempty' ],
+            //     device: [ 'nonempty' ],
             let {
                 id,
             } = ctx.state.token;
@@ -60,6 +65,16 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 type: [ 'nonempty' ],
             });
+            let result;
+            let { filepath } = file;
+            try {
+                result = await ctx.oss.put(name, file.filepath);
+            } finally {
+                await fs.unlink(file.filepath);
+            }
+            // const data = await service.transformService.curl('api/v1/file/create', {
+            //     data: { user: id, },
+            // });
             console.log(`type =>`, type);
             ctx.respSuccess({
 

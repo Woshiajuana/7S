@@ -51,6 +51,14 @@ module.exports = app => {
             maxlength: 30,
         },
 
+        // 原文件名
+        source: {
+            type: String,
+            trim: '',
+            required: true,
+            maxlength: 30,
+        },
+
         // 设备信息
         device: {
             type: String,

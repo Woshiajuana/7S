@@ -24,6 +24,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [path] 路径
      * @apiParam  {String} [base] 服务器路径
      * @apiParam  {String} [filename] 文件名
+     * @apiParam  {String} [source] 原文件名
      * @apiParam  {String} [device] 设备信息
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/file/create
@@ -39,6 +40,7 @@ module.exports = class HandleController extends Controller {
                 base: [ 'nonempty' ],
                 filename: [ 'nonempty' ],
                 device: [ 'nonempty' ],
+                source: [ 'nonempty' ],
             });
             ctx.logger.info(`创建文件：请求参数=> ${JSON.stringify(objParams)} `);
             await service.fileService.create(objParams);
