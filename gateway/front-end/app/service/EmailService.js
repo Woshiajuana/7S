@@ -22,9 +22,9 @@ module.exports = class TransFormService extends Service {
     }
 
     // 验证图形验证码
-    async validate (data, captcha) {
+    async validate (data) {
         const { redis } = this.app;
-        let { email, template } = data;
+        let { email, template, captcha} = data;
         let strCaptcha = await redis.get(`${email} ${template} captcha`);
         this.logger.info(`生成图形验证码=> key: ${email} 请求验证码：${captcha} 验证码：${strCaptcha}`);
         return strCaptcha === captcha;
