@@ -28,6 +28,13 @@ module.exports = class HandleController extends Controller {
         try {
             let {
                 file,
+            } = await ctx.validateFiles({
+                file: [ 'nonempty' ],
+            });
+            let {
+                ip,
+            } = ctx;
+            let {
                 captcha,
             } = await ctx.validateBody({
                 user: [ 'nonempty' ],
