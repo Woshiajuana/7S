@@ -241,6 +241,18 @@ class _LoginViewState extends State<LoginView> {
 
   // 提交
   void _handleSubmit() async {
-    Application.router.replace(context, 'app');
+    try {
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserLogin;
+      Map<String, String> mapParams = { 'account': _strAccount, 'password': _strPassword };
+      var respBody = await Application.util.http.post(strUrl, params: mapParams);
+      print('respBody => $respBody');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    } finally {
+      Application.util.loading.hide();
+    }
+
+//    Application.router.replace(context, 'app');
   }
 }
