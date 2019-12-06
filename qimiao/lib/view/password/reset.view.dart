@@ -195,7 +195,7 @@ class _PasswordResetViewState extends State<PasswordResetView> {
         ),
       ),
       child: _numCount == _numDefCount ? new FlatButton(
-        onPressed: () => _countDown(),
+        onPressed: () => _handleSendCaptcha(),
         padding: const EdgeInsets.all(0),
         child: new Text(
           '获取',
