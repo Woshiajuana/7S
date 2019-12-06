@@ -10,18 +10,26 @@ part 'user.json.model.g.dart';
 class UserJsonModel {
   UserJsonModel(
     this.phone,
-    this.userToken,
-    this.accessToken,
+    this.nickname,
+    this.avatar,
+    this.sex,
+    this.email,
   );
 
   @JsonKey(name: 'phone')
   String phone;
 
-  @JsonKey(name: 'userToken')
-  String userToken;
+  @JsonKey(name: 'nickname')
+  String nickname;
 
-  @JsonKey(name: 'access_token')
-  String accessToken;
+  @JsonKey(name: 'avatar')
+  String avatar;
+
+  @JsonKey(name: 'sex')
+  String sex;
+
+  @JsonKey(name: 'email')
+  String email;
 
   //不同的类使用不同的mixin即可
   factory UserJsonModel.fromJson(Map<String, dynamic> json) => _$UserJsonModelFromJson(json);
