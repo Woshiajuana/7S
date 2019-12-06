@@ -4,6 +4,7 @@ import 'package:qimiao/common/application.dart';
 import 'package:flukit/flukit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:qimiao/common/utils/timer.util.dart';
+import 'package:qimiao/model/model.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _SplashViewState extends State<SplashView> {
         _count = _tick.toInt();
       });
       if (_tick == 0) {
-        Application.router.replace(context, 'login');
+        _handleJudgeTo();
       }
     });
     _timerUtil.startCountDown();
@@ -106,7 +107,7 @@ class _SplashViewState extends State<SplashView> {
             ],
           ),
           child: new FlatButton(
-            onPressed: () => Application.router.replace(context, 'login'),
+            onPressed: () => _handleJudgeTo(),
             child: new Text(
               '立即体验',
               textAlign: TextAlign.center,
@@ -184,7 +185,7 @@ class _SplashViewState extends State<SplashView> {
           ),
           child: new FlatButton(
             padding: const EdgeInsets.all(0),
-            onPressed: () => Application.router.replace(context, 'login'),
+            onPressed: () => _handleJudgeTo(),
             child: new Text(
               '跳过 $_count s',
               style: new TextStyle(fontSize: 12.0, color: Colors.red),
@@ -202,6 +203,19 @@ class _SplashViewState extends State<SplashView> {
         ],
       ),
     );
+  }
+
+
+  // 根据用户是否已登录来判断是否跳转到对应页面
+  void _handleJudgeTo () async {
+    String userInfoJsonKey = Application.config.store.userJson;
+    var userInfoJson = await Application.util.store.get(userInfoJsonKey);
+    if (userInfoJson == null) {
+      return Application.router.replace(context, 'login');
+    }
+    UserJsonModel userJsonModel = UserJsonModel.fromJson(userInfoJson);
+    StateModel.of(context).setUserJsonModel(userJsonModel);
+    Application.router.replace(context, 'app');
   }
 
   @override

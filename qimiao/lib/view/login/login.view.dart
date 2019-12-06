@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
-import 'package:qimiao/model/json/json.model.dart';
-import 'package:qimiao/model/state/state.model.dart';
+import 'package:qimiao/model/model.dart';
 import 'dart:convert';
 
 class LoginView extends StatefulWidget {
