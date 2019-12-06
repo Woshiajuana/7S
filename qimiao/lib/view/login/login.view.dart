@@ -114,7 +114,7 @@ class _LoginViewState extends State<LoginView> {
     return new Container(
       width: 80.0,
       height: 30.0,
-      margin: const EdgeInsets.only(right: 10.0),
+      margin: const EdgeInsets.only(right: 16.0),
       padding: const EdgeInsets.all(5.0),
       decoration: new BoxDecoration(
         color: Colors.white,
