@@ -15,7 +15,7 @@ class Env {
   }
 
   List<String> get arrSucCode {
-    return ['000000', 'S0001'];
+    return ['S00000'];
   }
 
   String get platformNo {

@@ -15,7 +15,7 @@ class Modal {
 
   void toast (msg, {ToastGravity gravity = ToastGravity.CENTER}) {
     if (msg is DioError) {
-      msg = msg.message;
+      msg = msg.message ?? msg.msg;
     }
     if (msg == '' || msg == null) return;
     Application.util.print.info(msg.toString());

@@ -33,28 +33,28 @@ class Http {
       }
       return options;
     }, onResponse: (Response response) {
-      _log(response.request.path, '请求返回结果=> ${response.data}');
       var data = response.data;
+      _log(response.request.path, '请求返回结果=> $data');
       if (data == null)
         return _dio.reject(new DioError(response: response));
-      var respCode = data['resp_code'] ?? data['respCode'];
-      if (Application.config.env.arrSucCode.indexOf(respCode) == -1)
+      ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
+      if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
         return _dio.reject(new DioError(response: response));
-      response.data = data['data'] ?? data['result'];
+      response.data = responseJsonModel.data;
       return response;
     }, onError: (DioError dioErr) {
       _log(dioErr?.response?.request?.path ?? '', '请求返回结果=> ${dioErr.toString()}');
-      Response response = dioErr?.response;
-      int stateCode = response?.statusCode ?? -999;
+      var data = dioErr?.response?.data;
+      int stateCode = dioErr?.response?.statusCode ?? -999;
       var message = '网络繁忙，请稍后再试';
-      if (dioErr.type == DioErrorType.RECEIVE_TIMEOUT
-      || dioErr.type == DioErrorType.CONNECT_TIMEOUT) {
+      if ([DioErrorType.RECEIVE_TIMEOUT,  DioErrorType.CONNECT_TIMEOUT].indexOf(dioErr.type) > -1) {
         message = '网络超时，请稍后再试';
-      } else if (response != null) {
-        message = response.data['resp_message'] ?? response.data['respMessage'] ?? '网络繁忙，请稍后再试';
-      }
-      if (stateCode == 401) {
-        Application.router.replace(Application.context, 'login');
+      } else if (stateCode >=200 && stateCode < 300 && data != null) {
+        ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
+        message = responseJsonModel.msg;
+        if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
+          Application.router.replace(Application.context, 'login');
+        }
       }
       dioErr.message = message;
       return dioErr;
