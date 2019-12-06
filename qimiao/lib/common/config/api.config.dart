@@ -19,5 +19,10 @@ class Api {
   String get reqUserInfo {
     return 'v1/app/user/info';
   }
+
+  // 用户重置图形验证码
+  String get doUserResetCaptcha {
+    return 'v1/app/user/reset/captcha';
+  }
   
 }
