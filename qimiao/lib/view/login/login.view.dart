@@ -56,7 +56,7 @@ class _LoginViewState extends State<LoginView> {
                 _widgetInputSection(
                   controller: _accountController,
                   icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
-                  hintText: '邮箱 / 7S-ID',
+                  hintText: '账号',
                   value: _strAccount,
                   onChanged: (value) => setState(() => _strAccount = value),
                   onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
@@ -242,6 +242,10 @@ class _LoginViewState extends State<LoginView> {
   // 提交
   void _handleSubmit() async {
     try {
+      if (_strAccount == null || _strAccount == '')
+        throw '逗我呢？得输入账号呀';
+      if (_strPassword == null || _strPassword == '')
+        throw '唬谁呢？密码都没输入';
       Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserLogin;
       Map<String, String> mapParams = { 'account': _strAccount, 'password': _strPassword };
