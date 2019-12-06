@@ -38,9 +38,9 @@ class Http {
       if (data == null)
         return _dio.reject(new DioError(response: response));
       ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
-      if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
-        return _dio.reject(new DioError(response: response));
-      response.data = responseJsonModel.data;
+//      if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
+//        return _dio.reject(new DioError(response: response));
+      response.data = responseJsonModel;
       return response;
     }, onError: (DioError dioErr) {
       _log(dioErr?.response?.request?.path ?? '', '请求返回结果=> ${dioErr.toString()}');

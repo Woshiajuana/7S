@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/json/json.model.dart';
+import 'dart:convert';
 
 class LoginView extends StatefulWidget {
 
@@ -17,6 +19,8 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController _accountController;
   TextEditingController _passController;
   TextEditingController _captchaController;
+
+  String _strCaptchaBase64;
 
   @override
   void initState() {
@@ -40,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
+//      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       body: new Container(
         decoration: new BoxDecoration(
@@ -66,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                   onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
                   onEye: () => {},
                 ),
-                new SizedBox(height: 10.0),
+
                 _widgetInputSection(
                   controller: _passController,
                   icon: new Image.asset(Application.util.getImgPath('pwd_icon.png'), width: 20.0, height: 21.0),
@@ -78,8 +82,10 @@ class _LoginViewState extends State<LoginView> {
                   onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
                   onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
                 ),
-                new SizedBox(height: 10.0),
-                _widgetInputSection(
+
+                _strCaptchaBase64 == null
+                    ? new Container()
+                    : _widgetInputSection(
                   controller: _captchaController,
                   icon: new Image.asset(Application.util.getImgPath('code_icon.png'), width: 16.0, height: 16.0),
                   hintText: '验证码',
@@ -87,8 +93,9 @@ class _LoginViewState extends State<LoginView> {
                   onChanged: (value) => setState(() => _strCaptcha = value),
                   onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
                   onEye: () => {},
+                  captcha: _widgetCodeCell(),
                 ),
-                new SizedBox(height: 10.0),
+
                 _widgetButtonSection(),
                 new SizedBox(height: 20.0),
                 _widgetForgetSection(),
@@ -96,6 +103,25 @@ class _LoginViewState extends State<LoginView> {
             ),
             _widgetRegisterLinkSection(),
           ],
+        ),
+      ),
+    );
+  }
+
+  // 验证码
+  Widget _widgetCodeCell () {
+    return new Container(
+      width: 100,
+      height: double.infinity,
+      color: Colors.red,
+      child: new InkWell(
+        onTap: () => _handleResetCaptcha(),
+        child: new Image.memory(
+          base64.decode(_strCaptchaBase64),
+          height: 30,    //设置高度
+          width: 70,    //设置宽度
+          fit: BoxFit.fill,    //填充
+          gaplessPlayback:true,
         ),
       ),
     );
@@ -128,6 +154,7 @@ class _LoginViewState extends State<LoginView> {
     bool isObscure = false,
     String value = '',
     bool useEye = false,
+    Widget captcha,
     dynamic onChanged,
     dynamic onClear,
     dynamic onEye,
@@ -136,6 +163,7 @@ class _LoginViewState extends State<LoginView> {
       child: new Container(
         width: 280.0,
         height: 46.0,
+        margin: EdgeInsets.only(bottom: 10.0),
         decoration: new BoxDecoration(
           color: Color(0xffe4e3e0),
           borderRadius: new BorderRadius.circular(30.0),
@@ -173,6 +201,7 @@ class _LoginViewState extends State<LoginView> {
               icon: new Icon(Icons.remove_red_eye, size: 20.0, color: isObscure ? Color(0xff666666) : Application.config.style.mainColor),
               onPressed: onEye,
             ) : new Container(),
+            captcha ?? new Container()
           ],
         ),
       ),
@@ -253,6 +282,11 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
+  // 重置图形验证码
+  void _handleResetCaptcha () async {
+    print('重新获取图形验证码');
+  }
+
   // 提交
   void _handleSubmit() async {
     try {
@@ -263,8 +297,9 @@ class _LoginViewState extends State<LoginView> {
       Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserLogin;
       Map<String, String> mapParams = { 'account': _strAccount, 'password': _strPassword };
-      var respBody = await Application.util.http.post(strUrl, params: mapParams);
-      print('respBody => $respBody');
+      ResponseJsonModel responseJsonModel = await Application.util.http.post(strUrl, params: mapParams);
+
+      print('responseJsonModel => ${responseJsonModel.msg}');
     } catch (err) {
       Application.util.modal.toast(err);
     } finally {
