@@ -12,19 +12,20 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/app/user/update/password', middleware.tokenMiddleware(), controller.updatePassword)
             .mount('/api/v1/app/user/reset/password', controller.resetPassword)
+            .mount('/api/v1/app/user/reset/captcha', controller.resetCaptcha)
         ;
 
     }
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/login 用户登录
+     * @api {get} /api/v1/app/user/login 用户登录
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [account] 账号
      * @apiParam  {String} [password] 密码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/login
+     * @apiSampleRequest /api/v1/app/user/login
      */
     async login () {
         const { ctx, service, app } = this;
@@ -87,14 +88,14 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/register 用户注册
+     * @api {get} /api/v1/app/user/register 用户注册
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [email] 账号
      * @apiParam  {String} [password] 密码
      * @apiParam  {String} [captcha] 验证码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/register
+     * @apiSampleRequest /api/v1/app/user/register
      * */
     async register () {
         const { ctx, service } = this;
@@ -131,11 +132,11 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/info 用户信息
+     * @api {get} /api/v1/app/user/info 用户信息
      * @apiDescription  User 用户信息
      * @apiGroup 用户
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/info
+     * @apiSampleRequest /api/v1/app/user/info
      * */
     async info () {
         const { ctx, service } = this;
@@ -154,7 +155,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/update 用户修改信息
+     * @api {get} /api/v1/app/user/update 用户修改信息
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [nickname] nickname
@@ -162,7 +163,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [sex] sex
      * @apiParam  {String} [signature] signature
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/update
+     * @apiSampleRequest /api/v1/app/user/update
      * */
     async update () {
         const { ctx, service } = this;
@@ -187,13 +188,13 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/update/password 用户修改密码
+     * @api {get} /api/v1/app/user/update/password 用户修改密码
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [password]  新密码
      * @apiParam  {String} [oldPassword] 旧密码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/update/password
+     * @apiSampleRequest /api/v1/app/user/update/password
      * */
     async updatePassword () {
         const { ctx, service } = this;
@@ -222,14 +223,14 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/user/reset/password 用户重置密码
+     * @api {get} /api/v1/app/user/reset/password 用户重置密码
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [password] 密码
      * @apiParam  {String} [captcha] 验证码
      * @apiParam  {String} [email]  邮箱
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/user/reset/password
+     * @apiSampleRequest /api/v1/app/user/reset/password
      * */
     async resetPassword () {
         const { ctx, service } = this;
@@ -249,6 +250,30 @@ module.exports = class HandleController extends Controller {
         }
     }
 
-
-
+    /**
+     *
+     * */
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/app/user/reset/captcha 用户重置图形验证码
+     * @apiDescription  User 用户模块
+     * @apiGroup 用户
+     * @apiParam  {String} [account]  邮箱账号
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/app/user/reset/captcha
+     * */
+    async resetCaptcha () {
+        const { ctx, service } = this;
+        try {
+            let {
+                account,
+            } = await ctx.validateBody({
+                account: [ 'nonempty' ],
+            });
+            const data = await service.captchaService.generate(account);
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
 };
