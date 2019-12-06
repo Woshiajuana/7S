@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:qimiao/model/state/state.model.dart';
+import 'package:qimiao/model/model.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -11,6 +11,14 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this._reqUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new ScopedModelDescendant<StateModel>(
@@ -262,22 +270,22 @@ class _MineViewState extends State<MineView> {
         children: <Widget>[
           _widgetBaseInfoItem(
             labelText: '粉丝',
-            valueText: '1240',
+            valueText: model?.user?.numFollower?.toString() ?? '0',
             onPressed: () => Application.router.push(context, 'friend'),
           ),
           _widgetBaseInfoItem(
             labelText: '关注',
-            valueText: '228',
+            valueText: model?.user?.numFollowing?.toString() ?? '0',
             onPressed: () => Application.router.push(context, 'friend'),
           ),
           _widgetBaseInfoItem(
             labelText: '视频',
-            valueText: '228',
+            valueText: model?.user?.numVideo?.toString() ?? '0',
             onPressed: () => Application.router.push(context, 'videoList'),
           ),
           _widgetBaseInfoItem(
             labelText: '照片',
-            valueText: '55',
+            valueText: model?.user?.numPhoto?.toString() ?? '0',
             onPressed: () => Application.router.push(context, 'photoList'),
           ),
         ],
@@ -372,6 +380,13 @@ class _MineViewState extends State<MineView> {
         );
       }).toList(),
     );
+  }
+
+  void _reqUserInfo () async {
+    String strUrl = Application.config.api.reqUserInfo;
+    var data = await Application.util.http.post(strUrl);
+    UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
+    StateModel.of(context).setUserJsonModel(userJsonModel);
   }
 
 }
