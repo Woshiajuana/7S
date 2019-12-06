@@ -206,7 +206,9 @@ class Router {
     'register': {
       'route': (_) => new RegisterView(),
       'handle': (params) {
-        return new RegisterView();
+        return new RegisterView(
+          email: params['email'],
+        );
       }
     },
     'webview': {

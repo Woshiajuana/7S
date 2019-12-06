@@ -243,7 +243,7 @@ class _LoginViewState extends State<LoginView> {
             style: TextStyle(color: Colors.white),
           ),
           new InkWell(
-            onTap: () => Application.router.push(context, 'register'),
+            onTap: () => Application.router.push(context, 'register', params: { 'email': _strAccount }),
             child: new Text(
               '点击注册',
               style: TextStyle(color: Application.config.style.mainColor),
