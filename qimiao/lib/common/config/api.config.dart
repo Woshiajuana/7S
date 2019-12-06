@@ -39,5 +39,15 @@ class Api {
   String get doUserResetPassword {
     return 'v1/app/user/reset/password';
   }
+
+  // 用户修改信息
+  String get doUserUpdateInfo {
+    return 'v1/app/user/update';
+  }
+
+  // 用户上传文件
+  String get doFileUpload {
+    return 'v1/app/file/upload';
+  }
   
 }

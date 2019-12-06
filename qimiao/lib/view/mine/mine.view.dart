@@ -15,7 +15,6 @@ class _MineViewState extends State<MineView> {
   Widget build(BuildContext context) {
     return new ScopedModelDescendant<StateModel>(
       builder: (context, child, model) {
-        print('model=> ${model.user?.email}');
         return new Scaffold(
           backgroundColor: Application.config.style.backgroundColor,
           body: new CustomScrollView(
@@ -29,7 +28,7 @@ class _MineViewState extends State<MineView> {
                     buildContent: (BuildContext context, double shrinkOffset, int alpha) {
                       return <Widget> [
                         _widgetHeaderBgSection(),
-                        _widgetHeaderSection(),
+                        _widgetHeaderSection(model: model),
                         _widgetAppBarSection(),
                       ];
                     }
@@ -137,7 +136,9 @@ class _MineViewState extends State<MineView> {
   }
 
   // 头部内容
-  Widget _widgetHeaderSection () {
+  Widget _widgetHeaderSection ({
+    StateModel model,
+  }) {
     return new Container(
       height: 310,
       child: new ListView(
@@ -147,9 +148,9 @@ class _MineViewState extends State<MineView> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               // 用户信息
-              _widgetUserInfoSection(),
+              _widgetUserInfoSection(model: model),
               // 用户基本信息
-              _widgetFollowGroup(),
+              _widgetFollowGroup(model: model),
             ],
           ),
         ],
@@ -157,7 +158,12 @@ class _MineViewState extends State<MineView> {
     );
   }
 
-  Widget _widgetUserInfoSection () {
+  Widget _widgetUserInfoSection ({
+    StateModel model,
+  }) {
+    String nickname = model?.user?.nickname ?? '';
+    String email = model?.user?.email ?? '';
+    String signature = model?.user?.signature ?? '';
     return new Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       child:  new Column(
@@ -168,7 +174,7 @@ class _MineViewState extends State<MineView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text(
-                  '我是阿倦啊',
+                  nickname == '' ? email : nickname,
                   style: new TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -179,7 +185,7 @@ class _MineViewState extends State<MineView> {
           ),
           new SizedBox(height: 3.0),
           new Text(
-            '这个家伙什么都没留下...',
+            signature == '' ? '这个家伙什么都没留下...' : signature,
             style: new TextStyle(
               color: Color(0xffbbbbbb),
               fontSize: 12.0,
@@ -212,7 +218,9 @@ class _MineViewState extends State<MineView> {
   }
 
   // 粉丝 or 关注
-  Widget _widgetFollowGroup () {
+  Widget _widgetFollowGroup ({
+    StateModel model,
+  }) {
     Widget _widgetBaseInfoItem ({
       String labelText = '',
       String valueText = '',
