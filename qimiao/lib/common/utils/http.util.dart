@@ -80,7 +80,7 @@ class Http {
     Response response = await _dio.post(url, data: params, options: options);
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
     if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
-        return throw responseJsonModel.msg;
+        throw responseJsonModel.msg;
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
 

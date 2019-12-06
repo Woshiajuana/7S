@@ -111,9 +111,17 @@ class _LoginViewState extends State<LoginView> {
   // 验证码
   Widget _widgetCodeCell () {
     return new Container(
-      width: 100,
-      height: double.infinity,
-      color: Colors.red,
+      width: 80.0,
+      height: 30.0,
+      margin: const EdgeInsets.only(right: 10.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        border: new Border.all(
+          color: Color(0xff999999),
+          width: 0.5,
+        ),
+      ),
       child: new InkWell(
         onTap: () => _handleResetCaptcha(),
         child: new Image.memory(
@@ -294,18 +302,28 @@ class _LoginViewState extends State<LoginView> {
         throw '逗我呢？得输入账号呀';
       if (_strPassword == null || _strPassword == '')
         throw '唬谁呢？密码都没输入';
+      if (_strCaptchaBase64 != null && (_strCaptcha == null || _strCaptcha == ''))
+        throw '你验证码倒是填写下呀';
       Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserLogin;
-      Map<String, String> mapParams = { 'account': _strAccount, 'password': _strPassword };
+      Map<String, String> mapParams = {
+        'account': _strAccount,
+        'password': _strPassword,
+        'captcha': _strCaptcha,
+      };
       ResponseJsonModel responseJsonModel = await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
-
-      print('responseJsonModel => ${responseJsonModel.msg}');
+      print('responseJsonModel.code => ${responseJsonModel.code}');
+      if (responseJsonModel.code == 'F50001') {
+        setState(() => _strCaptchaBase64 = responseJsonModel.data);
+      }
+      if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
+        throw responseJsonModel.msg;
+      }
+      print('responseJsonModel.data => ${responseJsonModel.data}');
     } catch (err) {
       Application.util.modal.toast(err);
     } finally {
       Application.util.loading.hide();
     }
-
-//    Application.router.replace(context, 'app');
   }
 }
