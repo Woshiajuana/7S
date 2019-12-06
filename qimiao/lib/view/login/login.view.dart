@@ -12,9 +12,11 @@ class _LoginViewState extends State<LoginView> {
 
   String _strAccount;
   String _strPassword;
+  String _strCaptcha;
   bool _isPwdObscure = true;
   TextEditingController _accountController;
   TextEditingController _passController;
+  TextEditingController _captchaController;
 
   @override
   void initState() {
@@ -22,6 +24,7 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
     _accountController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');
+    _captchaController = TextEditingController(text: '');
   }
 
   @override
@@ -29,6 +32,7 @@ class _LoginViewState extends State<LoginView> {
     // TODO: implement dispose
     _accountController.dispose();
     _passController.dispose();
+    _captchaController.dispose();
     super.dispose();
   }
 
@@ -73,6 +77,16 @@ class _LoginViewState extends State<LoginView> {
                   onChanged: (value) => setState(() => _strPassword = value),
                   onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
                   onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
+                ),
+                new SizedBox(height: 10.0),
+                _widgetInputSection(
+                  controller: _captchaController,
+                  icon: new Image.asset(Application.util.getImgPath('code_icon.png'), width: 16.0, height: 16.0),
+                  hintText: '验证码',
+                  value: _strCaptcha,
+                  onChanged: (value) => setState(() => _strCaptcha = value),
+                  onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
+                  onEye: () => {},
                 ),
                 new SizedBox(height: 10.0),
                 _widgetButtonSection(),
