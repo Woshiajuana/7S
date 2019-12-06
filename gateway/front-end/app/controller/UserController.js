@@ -11,7 +11,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
             .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/app/user/update/password', middleware.tokenMiddleware(), controller.updatePassword)
-            .mount('/api/v1/app/user/reset/password', middleware.tokenMiddleware(), controller.resetPassword)
+            .mount('/api/v1/app/user/reset/password', controller.resetPassword)
         ;
 
     }
@@ -234,21 +234,15 @@ module.exports = class HandleController extends Controller {
     async resetPassword () {
         const { ctx, service } = this;
         try {
-            let {
-                email,
-                password,
-                captcha,
-            } = await ctx.validateBody({
+            let objParams = await ctx.validateBody({
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
                 captcha: [ 'nonempty' ],
             });
-            const { id } = ctx.state.token;
-            ctx.logger.info(`用户修改信息：请求参数=> ${JSON.stringify(objParams)}`);
+            await service.emailService.validate({ ...objParams, template: '2' });
             await service.transformService.curl('api/v1/user/update', {
-                data: { ...objParams, id },
+                data: objParams,
             });
-            ctx.logger.info(`用户修改信息：请求返回=> 修改成功`);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
