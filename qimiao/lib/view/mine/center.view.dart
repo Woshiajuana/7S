@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
 
 class MineCenterView extends StatefulWidget {
   @override
@@ -77,27 +78,31 @@ class _MineCenterViewState extends State<MineCenterView> {
       },
     ];
 
-    return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      appBar: new AppBar(
-        elevation: 0,
-        title: new Text(
-          '个人中心',
-          style: new TextStyle(
-            fontSize: 18.0,
+    return new ScopedModelDescendant<StateModel>(
+      builder: (context, child, model) {
+        return new Scaffold(
+          backgroundColor: Application.config.style.backgroundColor,
+          appBar: new AppBar(
+            elevation: 0,
+            title: new Text(
+              '个人中心',
+              style: new TextStyle(
+                fontSize: 18.0,
+              ),
+            ),
           ),
-        ),
-      ),
-      body: new ListView(
-        children: _arrData.map((item) => _widgetCellItem(
-          onPressed: item['onPressed'],
-          labelText: item['labelText'] ?? '',
-          valueText: item['valueText'] ?? '',
-          useMargin: item['useMargin'] ?? false,
-          child: item['child'],
-          height: item['height'] ?? 60.0,
-        )).toList(),
-      ),
+          body: new ListView(
+            children: _arrData.map((item) => _widgetCellItem(
+              onPressed: item['onPressed'],
+              labelText: item['labelText'] ?? '',
+              valueText: item['valueText'] ?? '',
+              useMargin: item['useMargin'] ?? false,
+              child: item['child'],
+              height: item['height'] ?? 60.0,
+            )).toList(),
+          ),
+        );
+      },
     );
   }
 

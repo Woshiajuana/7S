@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:qimiao/model/model.dart';
 
 class MineView extends StatefulWidget {
