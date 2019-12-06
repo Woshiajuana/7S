@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/json/json.model.dart';
 
 class Http {
 

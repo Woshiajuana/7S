@@ -10,7 +10,7 @@ class Api {
 
   Api._internal();
 
-  static final baseUrl = 'http://loaclhost:9002/api/';
+  static final baseUrl = 'http://192.168.3.195:9002/api';
 
   // 登录
   String get doUserLogin {
