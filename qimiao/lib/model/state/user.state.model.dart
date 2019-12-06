@@ -1,3 +1,16 @@
 
-import 'package:flutter/material.dart';
+import 'package:qimiao/model/json/user.json.model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
+
+abstract class UserStateModel extends Model {
+
+  UserJsonModel _userJsonModel;
+  get user => _userJsonModel;
+
+  void increment(UserJsonModel userJsonModel){
+    _userJsonModel = userJsonModel;
+    notifyListeners();
+  }
+
+}
