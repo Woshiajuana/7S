@@ -17,7 +17,7 @@ module.exports = class TransFormService extends Service {
         let strCaptcha = randomNum(6);
         await this.send({ to: email, subject: objTemplate[template], html: `您的验证码：${ strCaptcha }，有效期5分钟` });
         await redis.set(`${email} ${template} captcha`, strCaptcha, 'PX', ms('5m'));
-        this.logger.info(`生成验证码=> email: ${email} 验证码：${strCaptcha}`);
+        this.logger.info(`生成验证码=> email: ${email} 模板: ${template} 验证码：${strCaptcha}`);
         return data;
     }
 
@@ -26,7 +26,7 @@ module.exports = class TransFormService extends Service {
         const { redis } = this.app;
         let { email, template, captcha} = data;
         let strCaptcha = await redis.get(`${email} ${template} captcha`);
-        this.logger.info(`生成图形验证码=> key: ${email} 请求验证码：${captcha} 验证码：${strCaptcha}`);
+        this.logger.info(`验证验证码=> key: ${email} 请求验证码：${captcha} 模板: ${template} 验证码：${strCaptcha}`);
         if (strCaptcha !== captcha)
             throw '验证码错误';
         await redis.del(`${email} ${template} captcha`);
