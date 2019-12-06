@@ -14,6 +14,7 @@ class UserJsonModel {
     this.avatar,
     this.sex,
     this.email,
+    this.accessToken,
 
     this.numVideo,
     this.numPhoto,
@@ -37,6 +38,9 @@ class UserJsonModel {
 
   @JsonKey(name: 'email')
   String email;
+
+  @JsonKey(name: 'accessToken')
+  String accessToken;
 
   @JsonKey(name: 'numVideo')
   int numVideo;

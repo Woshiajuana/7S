@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/json/json.model.dart';
+import 'package:qimiao/model/state/state.model.dart';
 import 'dart:convert';
 
 class LoginView extends StatefulWidget {
@@ -25,8 +26,10 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _accountController = TextEditingController(text: '');
-    _passController = TextEditingController(text: '');
+    _strAccount = '979703986@qq.com';
+    _strPassword = '1';
+    _accountController = TextEditingController(text: _strAccount);
+    _passController = TextEditingController(text: _strPassword);
     _captchaController = TextEditingController(text: '');
   }
 
@@ -327,10 +330,15 @@ class _LoginViewState extends State<LoginView> {
       String userInfoJsonKey = Application.config.store.userJson;
       await Application.util.store.set(userInfoJsonKey, responseJsonModel.data);
       print('responseJsonModel.data => ${responseJsonModel.data}');
-    } catch (err) {
-      Application.util.modal.toast(err);
-    } finally {
+      UserJsonModel userJsonModel = UserJsonModel.fromJson(responseJsonModel.data);
+      print('userJsonModel.data => ${userJsonModel.avatar}');
+      final c = StateModel.of(context);
+      c.increment(userJsonModel);
       Application.util.loading.hide();
+      Application.router.replace(context, 'app');
+    } catch (err) {
+      Application.util.loading.hide();
+      Application.util.modal.toast(err);
     }
   }
 }

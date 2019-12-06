@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:qimiao/model/state/state.model.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -11,35 +13,40 @@ class MineView extends StatefulWidget {
 class _MineViewState extends State<MineView> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      body: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverPersistentHeader(
-            pinned: true,
-            delegate: new SliverCustomHeaderDelegate(
-                collapsedHeight: 56,
-                expandedHeight: 310,
-                paddingTop: MediaQuery.of(context).padding.top,
-                buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                  return <Widget> [
-                    _widgetHeaderBgSection(),
-                    _widgetHeaderSection(),
-                    _widgetAppBarSection(),
-                  ];
-                }
-            ),
+    return new ScopedModelDescendant<StateModel>(
+      builder: (context, child, model) {
+        print('model=> ${model.user?.email}');
+        return new Scaffold(
+          backgroundColor: Application.config.style.backgroundColor,
+          body: new CustomScrollView(
+            slivers: <Widget>[
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: new SliverCustomHeaderDelegate(
+                    collapsedHeight: 56,
+                    expandedHeight: 310,
+                    paddingTop: MediaQuery.of(context).padding.top,
+                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                      return <Widget> [
+                        _widgetHeaderBgSection(),
+                        _widgetHeaderSection(),
+                        _widgetAppBarSection(),
+                      ];
+                    }
+                ),
+              ),
+              new SliverList(
+                delegate: new SliverChildListDelegate(
+                    <Widget>[
+                      _widgetMenuSection(),
+                      new SizedBox(height: 10.0),
+                    ]
+                ),
+              ),
+            ],
           ),
-          new SliverList(
-            delegate: new SliverChildListDelegate(
-              <Widget>[
-                _widgetMenuSection(),
-                new SizedBox(height: 10.0),
-              ]
-            ),
-          ),
-        ],
-      ),
+        );
+      }
     );
   }
 

@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 abstract class UserStateModel extends Model {
 
   UserJsonModel _userJsonModel;
-  get user => _userJsonModel;
+  UserJsonModel get user => _userJsonModel;
 
   void increment(UserJsonModel userJsonModel){
     _userJsonModel = userJsonModel;

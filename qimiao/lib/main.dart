@@ -6,6 +6,8 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qimiao/redux/app.redux.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/state/state.model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 void main() {
   if (Platform.isAndroid) {
@@ -32,8 +34,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider(
-      store: store,
+    return new ScopedModel<StateModel>(
+      model: new StateModel(),
       child: MaterialApp(
         title: 'WoosaiMall',
         theme: ThemeData(
