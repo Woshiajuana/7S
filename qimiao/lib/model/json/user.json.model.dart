@@ -14,6 +14,13 @@ class UserJsonModel {
     this.avatar,
     this.sex,
     this.email,
+
+    this.numVideo,
+    this.numPhoto,
+    this.numFollower,
+    this.numFollowing,
+    this.numPrivateNotice,
+    this.numPublicNotice,
   );
 
   @JsonKey(name: 'phone')
@@ -30,6 +37,24 @@ class UserJsonModel {
 
   @JsonKey(name: 'email')
   String email;
+
+  @JsonKey(name: 'numVideo')
+  int numVideo;
+
+  @JsonKey(name: 'numPhoto')
+  int numPhoto;
+
+  @JsonKey(name: 'numFollower')
+  int numFollower;
+
+  @JsonKey(name: 'numFollowing')
+  int numFollowing;
+
+  @JsonKey(name: 'numPrivateNotice')
+  int numPrivateNotice;
+
+  @JsonKey(name: 'numPublicNotice')
+  int numPublicNotice;
 
   //不同的类使用不同的mixin即可
   factory UserJsonModel.fromJson(Map<String, dynamic> json) => _$UserJsonModelFromJson(json);
