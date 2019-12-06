@@ -52,52 +52,58 @@ class _LoginViewState extends State<LoginView> {
             fit: BoxFit.cover,
           ),
         ),
-        child: new Stack(
-          children: <Widget>[
-            _widgetMaskSection(),
-            new ListView(
-              children: <Widget>[
-                _widgetHeaderSection(),
-                new SizedBox(height: 55.0),
-                _widgetInputSection(
-                  controller: _accountController,
-                  icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
-                  hintText: '账号',
-                  value: _strAccount,
-                  onChanged: (value) => setState(() => _strAccount = value),
-                  onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
-                  onEye: () => {},
+        child: new Container(
+          color: Color.fromRGBO(0, 0, 0, 0.5),
+          child: new ListView(
+            padding: const EdgeInsets.all(0),
+            children: <Widget>[
+              new Container(
+                height: MediaQuery.of(context).size.height,
+                child: new Column(
+                  children: <Widget>[
+                    _widgetHeaderSection(),
+                    new SizedBox(height: 55.0),
+                    _widgetInputSection(
+                      controller: _accountController,
+                      icon: new Image.asset(Application.util.getImgPath('user_icon.png'), width: 16.0, height: 16.0),
+                      hintText: '账号',
+                      value: _strAccount,
+                      onChanged: (value) => setState(() => _strAccount = value),
+                      onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
+                      onEye: () => {},
+                    ),
+                    _widgetInputSection(
+                      controller: _passController,
+                      icon: new Image.asset(Application.util.getImgPath('pwd_icon.png'), width: 20.0, height: 21.0),
+                      hintText: '密码',
+                      isObscure: _isPwdObscure,
+                      useEye: true,
+                      value: _strPassword,
+                      onChanged: (value) => setState(() => _strPassword = value),
+                      onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
+                      onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
+                    ),
+                    _strCaptchaBase64 == null
+                        ? new Container()
+                        : _widgetInputSection(
+                      controller: _captchaController,
+                      icon: new Image.asset(Application.util.getImgPath('code_icon.png'), width: 16.0, height: 16.0),
+                      hintText: '验证码',
+                      value: _strCaptcha,
+                      onChanged: (value) => setState(() => _strCaptcha = value),
+                      onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
+                      onEye: () => {},
+                      captcha: _widgetCodeCell(),
+                    ),
+                    _widgetButtonSection(),
+                    _widgetForgetSection(),
+                    new Expanded(child: new Container(), flex: 1),
+                    _widgetRegisterLinkSection(),
+                  ],
                 ),
-                _widgetInputSection(
-                  controller: _passController,
-                  icon: new Image.asset(Application.util.getImgPath('pwd_icon.png'), width: 20.0, height: 21.0),
-                  hintText: '密码',
-                  isObscure: _isPwdObscure,
-                  useEye: true,
-                  value: _strPassword,
-                  onChanged: (value) => setState(() => _strPassword = value),
-                  onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
-                  onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
-                ),
-                _strCaptchaBase64 == null
-                    ? new Container()
-                    : _widgetInputSection(
-                  controller: _captchaController,
-                  icon: new Image.asset(Application.util.getImgPath('code_icon.png'), width: 16.0, height: 16.0),
-                  hintText: '验证码',
-                  value: _strCaptcha,
-                  onChanged: (value) => setState(() => _strCaptcha = value),
-                  onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
-                  onEye: () => {},
-                  captcha: _widgetCodeCell(),
-                ),
-                _widgetButtonSection(),
-                new SizedBox(height: 20.0),
-                _widgetForgetSection(),
-              ],
-            ),
-            _widgetRegisterLinkSection(),
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -130,17 +136,10 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  // 背景mask
-  Widget _widgetMaskSection () {
-    return new Container(
-      color: Color.fromRGBO(0, 0, 0, 0.5),
-    );
-  }
-
   // 头部 LOGO
   Widget _widgetHeaderSection () {
     return new Container(
-      margin: const EdgeInsets.only(top: 70.0),
+      margin: const EdgeInsets.only(top: 90.0),
       child: new Image.asset(
         Application.util.getImgPath('login_logo.png'),
         width: 67.0,
@@ -216,6 +215,7 @@ class _LoginViewState extends State<LoginView> {
     return new Center(
       child: new Container(
         width: 280.0,
+        margin: const EdgeInsets.only(top: 20.0),
         alignment: Alignment.centerRight,
         child: new InkWell(
           onTap: () => Application.router.push(context, 'passwordReset'),
@@ -233,10 +233,8 @@ class _LoginViewState extends State<LoginView> {
 
   // 注册
   Widget _widgetRegisterLinkSection () {
-    return new Positioned(
-      bottom: 30.0,
-      left: 0,
-      right: 0,
+    return new Container(
+      margin: const EdgeInsets.only(bottom: 40.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
