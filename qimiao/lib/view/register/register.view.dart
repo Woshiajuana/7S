@@ -4,6 +4,13 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/common/utils/timer.util.dart';
 
 class RegisterView extends StatefulWidget {
+
+  RegisterView({
+    this.email,
+  });
+
+  final String email;
+
   @override
   _RegisterViewState createState() => _RegisterViewState();
 }
@@ -12,15 +19,16 @@ class _RegisterViewState extends State<RegisterView> {
 
   String _strEmail; // 邮箱
   String _strPassword; // 密码
-  String _strCode; // 验证码
+  String _strCaptcha; // 验证码
   bool _isPwdObscure = true;
+  bool _isAgreement = false;
   int _numDefCount = 10;
   int _numCount = 10;
   TimerUtil _timerUtil;
 
 
   TextEditingController _emailController;
-  TextEditingController _codeController;
+  TextEditingController _captchaController;
   TextEditingController _passController;
 
   @override
@@ -28,14 +36,14 @@ class _RegisterViewState extends State<RegisterView> {
     // TODO: implement initState
     super.initState();
     _emailController = TextEditingController(text: '');
-    _codeController = TextEditingController(text: '');
+    _captchaController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');
   }
 
   @override
   void dispose() {
     _emailController.dispose();
-    _codeController.dispose();
+    _captchaController.dispose();
     _passController.dispose();
     if (_timerUtil != null) _timerUtil.cancel(); // 记得中dispose里面把timer cancel。
     super.dispose();
@@ -80,12 +88,12 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 new SizedBox(height: 10.0),
                 _widgetInputSection(
-                  controller: _codeController,
+                  controller: _captchaController,
                   hintText: '验证码',
-                  value: _strCode,
+                  value: _strCaptcha,
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => setState(() => _strCode = value),
-                  onClear: () { _codeController.clear(); setState(() => _strCode = ''); },
+                  onChanged: (value) => setState(() => _strCaptcha = value),
+                  onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
                   onEye: () => {},
                   child: _widgetCodeSection(),
                 ),
@@ -190,7 +198,7 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ),
       child: _numCount == _numDefCount ? new FlatButton(
-        onPressed: () => _countDown(),
+        onPressed: () => _handleSendCaptcha(),
         padding: const EdgeInsets.all(0),
         child: new Text(
           '获取',
@@ -221,9 +229,9 @@ class _RegisterViewState extends State<RegisterView> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           new Checkbox(
-            value: false,
+            value: _isAgreement,
             activeColor: Application.config.style.mainColor,
-            onChanged: (bool val) {},
+            onChanged: (bool val) => setState(() => _isAgreement = val),
           ),
           new Text(
             '我已阅读并同意 ',
@@ -280,9 +288,50 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
+  // 发送验证码
+  void _handleSendCaptcha () async {
+    try {
+      if (_strEmail == null || _strEmail == '')
+        throw '邮箱...邮箱还没输入呢';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doSendEmailCaptcha;
+      Map<String, String> mapParams = { 'email': _strEmail, 'template': '1' };
+      await Application.util.http.post(strUrl, params: mapParams);
+      this._countDown();
+      throw '验证码发送成功';
+    } catch (err) {
+      Application.util.modal.toast(err);
+    } finally {
+      Application.util.loading.hide();
+    }
+  }
+
   // 提交
   void _handleSubmit() async {
-
+    try {
+      if (_strEmail == null || _strEmail == '')
+        throw '邮箱...邮箱还没输入呢';
+      if (_strEmail == null || _strEmail == '')
+        throw '验证码没填，邮箱找找看';
+      if (_strPassword == null || _strPassword == '')
+        throw '听俺个劝，密码得设置下';
+      if (_isAgreement == false)
+        throw '协议都不同意，俺没法和你玩...';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserRegister;
+      Map<String, String> mapParams = {
+        'email': _strEmail,
+        'captcha': _strCaptcha,
+        'password': _strPassword,
+      };
+      await Application.util.http.post(strUrl, params: mapParams);
+      Application.util.modal.toast('注册成功！');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    } finally {
+      Application.util.loading.hide();
+    }
   }
 
   // 倒计时

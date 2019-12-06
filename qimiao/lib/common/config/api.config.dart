@@ -24,5 +24,15 @@ class Api {
   String get doUserResetCaptcha {
     return 'v1/app/user/reset/captcha';
   }
+
+  // 用户发送邮件验证码
+  String get doSendEmailCaptcha {
+    return 'v1/app/captcha/send';
+  }
+
+  // 用户注册
+  String get doUserRegister {
+    return 'v1/app/user/register';
+  }
   
 }
