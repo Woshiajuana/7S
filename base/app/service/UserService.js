@@ -30,18 +30,32 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        return await ctx.model.UserModel.findById(id).populate([
+        let objUser = await ctx.model.UserModel.findById(id).populate([
             { path: 'avatar', select: 'base path filename'},
         ]).lean();
+        let { avatar } = objUser;
+        if (avatar) {
+            let { base, path, filename } = avatar;
+            objUser.avatar = `${base}${path}${filename}`;
+        }
+        return objUser;
     }
 
     // 根据条件查
     async findOne (data) {
         const { ctx } = this;
         let { id, email, uid } = data;
-        if (id) return await ctx.model.UserModel.findById(id).lean();
-        if (email) return await ctx.model.UserModel.findOne({ email }).lean();
-        if (uid) return await ctx.model.UserModel.findOne({ uid }).lean();
+        let objUser;
+        let objPopulate = [ { path: 'avatar', select: 'base path filename'} ];
+        if (id) objUser = await ctx.model.UserModel.findById(id).populate(objPopulate).lean();
+        else if (email) objUser = await ctx.model.UserModel.findOne({ email }).populate(objPopulate).lean();
+        else if (uid) objUser = await ctx.model.UserModel.findOne({ uid }).populate(objPopulate).lean();
+        let { avatar } = objUser;
+        if (avatar) {
+            let { base, path, filename } = avatar;
+            objUser.avatar = `${base}${path}${filename}`;
+        }
+        return objUser;
     }
 
     // 删除
