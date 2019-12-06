@@ -15,18 +15,19 @@ class _SplashViewState extends State<SplashView> {
 
   TimerUtil _timerUtil;
   int _count = 5;
-  int _status = 2;  // 0:启动页  1:引导页  2:广告页
+  int _status = 0;  // 0:启动页  1:引导页  2:广告页
 
   // 倒计时
   void _countDown () {
     _timerUtil = new TimerUtil(mTotalTime: _count * 1000);
     _timerUtil.setOnTimerTickCallback((int tick) {
       double _tick = tick / 1000;
-      setState(() {
-        _count = _tick.toInt();
-      });
-      if (_tick == 0) {
+      if (_tick <= 0) {
         _handleJudgeTo();
+      } else {
+        setState(() {
+          _count = _tick.toInt();
+        });
       }
     });
     _timerUtil.startCountDown();
@@ -35,11 +36,8 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    if (_status == 2) {
-      _countDown();
-    }
+    this._judgeShowPage();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -205,6 +203,21 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 
+  // 根据用户是否第一次打开 APP 来显示 引导页 还是 广告业
+  void _judgeShowPage () async {
+    String firstTimeKey = Application.config.store.firstTime;
+    var firstTime = await Application.util.store.get(firstTimeKey);
+    setState(() {
+      _status = firstTime == null ? 1 : 2;
+      if (firstTime == null) {
+        _status = 1;
+        Application.util.store.set(firstTimeKey, 'true');
+      } else {
+        _status = 2;
+        _countDown();
+      }
+    });
+  }
 
   // 根据用户是否已登录来判断是否跳转到对应页面
   void _handleJudgeTo () async {

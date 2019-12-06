@@ -19,5 +19,10 @@ class Store {
   String get userJson {
     return 'USER_JSON';
   }
+
+  // 用户是否初次打开 APP
+  String get firstTime {
+    return 'FIRST_TIME';
+  }
   
 }
