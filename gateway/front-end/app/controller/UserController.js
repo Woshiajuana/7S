@@ -74,7 +74,9 @@ module.exports = class HandleController extends Controller {
             if (password !== pwd) {
                 ctx.logger.info(`用户登录，密码错误：用户账号=> ${account}`);
                 await redis.set(`${account} auth password times`, ++numTimes);
-                throw numTimes >= maxTimes ? { code: 'F50001', data: await service.captchaService.generate(account), msg: '密码输入错误' } : '密码输入错误';
+                throw numTimes >= maxTimes
+                    ? { code: 'F50001', data: await service.captchaService.generate(account), msg: captcha ? '密码输入错误' : '密码错误次数过多，请输入图形验证码' }
+                    : '密码输入错误';
             }
             delete objUser.password;
             const { accessToken } = await ctx.generateToken({ id: _id, user: objUser });
