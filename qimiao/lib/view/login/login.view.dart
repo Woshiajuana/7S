@@ -44,7 +44,6 @@ class _LoginViewState extends State<LoginView> {
     // TODO: implement build
     return new Scaffold(
 //      resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,
       body: new Container(
         decoration: new BoxDecoration(
           color: Colors.blue,
@@ -92,7 +91,6 @@ class _LoginViewState extends State<LoginView> {
                   onEye: () => {},
                   captcha: _widgetCodeCell(),
                 ),
-
                 _widgetButtonSection(),
                 new SizedBox(height: 20.0),
                 _widgetForgetSection(),
