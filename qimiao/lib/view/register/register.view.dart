@@ -35,6 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _strEmail = widget.email ?? '';
     _emailController = TextEditingController(text: widget.email ?? '');
     _captchaController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');

@@ -181,7 +181,7 @@ class Router {
       'route': (_) => new PasswordResetView(),
       'handle': (params) {
         return new PasswordResetView(
-          account: params['account'],
+          email: params['email'],
         );
       }
     },

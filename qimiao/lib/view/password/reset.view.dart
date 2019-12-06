@@ -6,10 +6,10 @@ import 'package:qimiao/common/utils/timer.util.dart';
 class PasswordResetView extends StatefulWidget {
 
   PasswordResetView({
-    this.account,
+    this.email,
   });
 
-  final String account;
+  final String email;
 
   @override
   _PasswordResetViewState createState() => _PasswordResetViewState();
@@ -33,7 +33,8 @@ class _PasswordResetViewState extends State<PasswordResetView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _emailController = TextEditingController(text: widget.account ?? '');
+    _strEmail = widget.email ?? '';
+    _emailController = TextEditingController(text: widget.email ?? '');
     _codeController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');
   }
