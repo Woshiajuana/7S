@@ -14,3 +14,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## 启动_watcher_ （自动检测modal文件夹下的文件变化，生成文件，只需启动一次）
+flutter packages pub run build_runner watch
