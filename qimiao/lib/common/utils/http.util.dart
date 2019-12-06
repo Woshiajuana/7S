@@ -37,10 +37,6 @@ class Http {
       _log(response.request.path, '请求返回结果=> $data');
       if (data == null)
         return _dio.reject(new DioError(response: response));
-      ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
-//      if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
-//        return _dio.reject(new DioError(response: response));
-      response.data = responseJsonModel;
       return response;
     }, onError: (DioError dioErr) {
       _log(dioErr?.response?.request?.path ?? '', '请求返回结果=> ${dioErr.toString()}');
@@ -76,13 +72,16 @@ class Http {
     return response.data;
   }
 
-  Future post (String url, {Map params, Options options}) async {
+  Future post (String url, {Map params, Options options, bool useFilter = true}) async {
     if (_dio == null) {
       await _init();
     }
     _log(url, '请求发起参数=> $params');
     Response response = await _dio.post(url, data: params, options: options);
-    return response.data;
+    ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
+    if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
+        return throw responseJsonModel.msg;
+    return useFilter ? responseJsonModel.data : responseJsonModel;
   }
 
   Future request (String url, {Map<String, dynamic> params, Options options}) async {

@@ -11,7 +11,7 @@ class Env {
   Env._internal();
 
   String get baseUrl {
-    return 'http://mall-boss-api.dev.ptjxd.com/api/v1/';
+    return 'http://192.168.3.195:9002/api';
   }
 
   List<String> get arrSucCode {

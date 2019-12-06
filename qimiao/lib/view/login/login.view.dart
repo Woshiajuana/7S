@@ -297,7 +297,7 @@ class _LoginViewState extends State<LoginView> {
       Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserLogin;
       Map<String, String> mapParams = { 'account': _strAccount, 'password': _strPassword };
-      ResponseJsonModel responseJsonModel = await Application.util.http.post(strUrl, params: mapParams);
+      ResponseJsonModel responseJsonModel = await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
 
       print('responseJsonModel => ${responseJsonModel.msg}');
     } catch (err) {
