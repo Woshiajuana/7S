@@ -180,7 +180,9 @@ class Router {
     'passwordReset': {
       'route': (_) => new PasswordResetView(),
       'handle': (params) {
-        return new PasswordResetView();
+        return new PasswordResetView(
+          account: params['account'],
+        );
       }
     },
     'device': {

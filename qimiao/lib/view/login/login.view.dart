@@ -218,7 +218,7 @@ class _LoginViewState extends State<LoginView> {
         margin: const EdgeInsets.only(top: 20.0),
         alignment: Alignment.centerRight,
         child: new InkWell(
-          onTap: () => Application.router.push(context, 'passwordReset'),
+          onTap: () => Application.router.push(context, 'passwordReset', params: { 'account': _strAccount }),
           child: new Text(
             '忘记密码？',
             style: new TextStyle(
