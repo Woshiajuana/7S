@@ -19,7 +19,6 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController _accountController;
   TextEditingController _passController;
   TextEditingController _captchaController;
-
   String _strCaptchaBase64;
 
   @override
@@ -70,7 +69,6 @@ class _LoginViewState extends State<LoginView> {
                   onClear: () { _accountController.clear(); setState(() => _strAccount = ''); },
                   onEye: () => {},
                 ),
-
                 _widgetInputSection(
                   controller: _passController,
                   icon: new Image.asset(Application.util.getImgPath('pwd_icon.png'), width: 20.0, height: 21.0),
@@ -82,7 +80,6 @@ class _LoginViewState extends State<LoginView> {
                   onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
                   onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
                 ),
-
                 _strCaptchaBase64 == null
                     ? new Container()
                     : _widgetInputSection(
