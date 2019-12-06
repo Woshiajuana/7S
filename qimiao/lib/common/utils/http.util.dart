@@ -24,11 +24,11 @@ class Http {
     _dio = new Dio(_options);
     _dio.interceptors
     .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-      String userInfoJsonKey = Application.config.store.userInfoJson;
+      String userInfoJsonKey = Application.config.store.userJson;
       var userInfoJson = await Application.util.store.get(userInfoJsonKey);
       if (userInfoJson != null) {
         options.headers = {
-          'access-token': userInfoJson['access_token'],
+          'access-token': userInfoJson['accessToken'],
         };
       }
       return options;

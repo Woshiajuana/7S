@@ -324,6 +324,8 @@ class _LoginViewState extends State<LoginView> {
       if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
         throw responseJsonModel.msg;
       }
+      String userInfoJsonKey = Application.config.store.userJson;
+      await Application.util.store.set(userInfoJsonKey, responseJsonModel.data);
       print('responseJsonModel.data => ${responseJsonModel.data}');
     } catch (err) {
       Application.util.modal.toast(err);

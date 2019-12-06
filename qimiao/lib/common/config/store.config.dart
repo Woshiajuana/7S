@@ -16,8 +16,8 @@ class Store {
   }
 
   // 用户信息
-  String get userInfoJson {
-    return 'USER_INFO_JSON';
+  String get userJson {
+    return 'USER_JSON';
   }
   
 }
