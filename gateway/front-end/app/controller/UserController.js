@@ -198,15 +198,21 @@ module.exports = class HandleController extends Controller {
     async updatePassword () {
         const { ctx, service } = this;
         try {
-            let objParams = await ctx.validateBody({
-                nickname: [],
-                avatar: [],
-                sex: [],
-                signature: [],
+            let {
+                password,
+                oldPassword,
+            } = await ctx.validateBody({
+                password: [ 'nonempty' ],
+                oldPassword: [ 'nonempty' ],
             });
             const { id } = ctx.state.token;
+            let objUser = await service.transformService.curl('api/v1/user/one', {
+                data: { id: id },
+            });
+            let { password: pwd } = objUser;
+            if (pwd !== oldPassword) throw '密码不正确';
             await service.transformService.curl('api/v1/user/update', {
-                data: { ...objParams, id },
+                data: { password, id },
             });
             ctx.respSuccess();
         } catch (err) {
@@ -228,7 +234,11 @@ module.exports = class HandleController extends Controller {
     async resetPassword () {
         const { ctx, service } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                email,
+                password,
+                captcha,
+            } = await ctx.validateBody({
                 email: [ 'nonempty' ],
                 password: [ 'nonempty' ],
                 captcha: [ 'nonempty' ],

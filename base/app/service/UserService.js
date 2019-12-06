@@ -14,9 +14,16 @@ module.exports = class HandleServer extends Service {
     // 更新
     async update (data) {
         const { ctx, app } = this;
-        const { id } = data;
+        const { id, email } = data;
+        let filter = {};
+        if (id) {
+            filter._id = app.mongoose.Types.ObjectId(id);
+        } else if (email) {
+            filter.email = email;
+        }
         delete data.id;
-        await ctx.model.UserModel.update({ _id: app.mongoose.Types.ObjectId(id) }, data);
+        delete data.email;
+        await ctx.model.UserModel.update(filter, data);
     }
 
 
