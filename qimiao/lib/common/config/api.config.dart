@@ -34,5 +34,10 @@ class Api {
   String get doUserRegister {
     return 'v1/app/user/register';
   }
+
+  // 用户重置密码
+  String get doUserResetPassword {
+    return 'v1/app/user/reset/password';
+  }
   
 }

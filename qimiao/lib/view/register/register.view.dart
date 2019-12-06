@@ -312,7 +312,7 @@ class _RegisterViewState extends State<RegisterView> {
     try {
       if (_strEmail == null || _strEmail == '')
         throw '邮箱...邮箱还没输入呢';
-      if (_strEmail == null || _strEmail == '')
+      if (_strCaptcha == null || _strCaptcha == '')
         throw '验证码没填，邮箱找找看';
       if (_strPassword == null || _strPassword == '')
         throw '听俺个劝，密码得设置下';

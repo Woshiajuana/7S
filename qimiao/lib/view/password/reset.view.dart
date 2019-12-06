@@ -19,14 +19,14 @@ class _PasswordResetViewState extends State<PasswordResetView> {
 
   String _strEmail; // 邮箱
   String _strPassword; // 密码
-  String _strCode; // 验证码
+  String _strCaptcha; // 验证码
   bool _isPwdObscure = true;
   int _numDefCount = 10;
   int _numCount = 10;
   TimerUtil _timerUtil;
 
   TextEditingController _emailController;
-  TextEditingController _codeController;
+  TextEditingController _captchaController;
   TextEditingController _passController;
 
   @override
@@ -35,14 +35,14 @@ class _PasswordResetViewState extends State<PasswordResetView> {
     super.initState();
     _strEmail = widget.email ?? '';
     _emailController = TextEditingController(text: widget.email ?? '');
-    _codeController = TextEditingController(text: '');
+    _captchaController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');
   }
 
   @override
   void dispose() {
     _emailController.dispose();
-    _codeController.dispose();
+    _captchaController.dispose();
     _passController.dispose();
     if (_timerUtil != null) _timerUtil.cancel(); // 记得中dispose里面把timer cancel。
     super.dispose();
@@ -51,69 +51,69 @@ class _PasswordResetViewState extends State<PasswordResetView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Application.config.style.backgroundColor,
-        appBar: new AppBar(
-          elevation: 0,
-          title: new Text(
-            '重置密码',
-            style: new TextStyle(
-              fontSize: 18.0,
-            ),
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Application.config.style.backgroundColor,
+      appBar: new AppBar(
+        elevation: 0,
+        title: new Text(
+          '重置密码',
+          style: new TextStyle(
+            fontSize: 18.0,
           ),
         ),
-        body: new Container(
-          decoration: new BoxDecoration(
-            color: Colors.blue,
-            image: new DecorationImage(
-              image: new AssetImage(Application.util.getImgPath('register_bg.jpg')),
-              fit: BoxFit.cover,
-            ),
+      ),
+      body: new Container(
+        decoration: new BoxDecoration(
+          color: Colors.blue,
+          image: new DecorationImage(
+            image: new AssetImage(Application.util.getImgPath('register_bg.jpg')),
+            fit: BoxFit.cover,
           ),
-          child: new Stack(
-            children: <Widget>[
-              _widgetMaskSection(),
-              new ListView(
-                children: <Widget>[
-                  new SizedBox(height: 10.0),
-                  _widgetInputSection(
-                    controller: _emailController,
-                    hintText: '邮箱',
-                    value: _strEmail,
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => setState(() => _strEmail = value),
-                    onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
-                    onEye: () => {},
-                  ),
-                  new SizedBox(height: 10.0),
-                  _widgetInputSection(
-                    controller: _codeController,
-                    hintText: '验证码',
-                    value: _strCode,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) => setState(() => _strCode = value),
-                    onClear: () { _codeController.clear(); setState(() => _strCode = ''); },
-                    onEye: () => {},
-                    child: _widgetCodeSection(),
-                  ),
-                  new SizedBox(height: 10.0),
-                  _widgetInputSection(
-                    controller: _passController,
-                    hintText: '密码',
-                    isObscure: _isPwdObscure,
-                    useEye: true,
-                    value: _strPassword,
-                    onChanged: (value) => setState(() => _strPassword = value),
-                    onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
-                    onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
-                  ),
-                  new SizedBox(height: 60.0),
-                  _widgetButtonSection(),
-                ],
-              )
-            ],
-          ),
-        )
+        ),
+        child: new Stack(
+          children: <Widget>[
+            _widgetMaskSection(),
+            new ListView(
+              children: <Widget>[
+                new SizedBox(height: 10.0),
+                _widgetInputSection(
+                  controller: _emailController,
+                  hintText: '邮箱',
+                  value: _strEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) => setState(() => _strEmail = value),
+                  onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
+                  onEye: () => {},
+                ),
+                new SizedBox(height: 10.0),
+                _widgetInputSection(
+                  controller: _captchaController,
+                  hintText: '验证码',
+                  value: _strCaptcha,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => setState(() => _strCaptcha = value),
+                  onClear: () { _captchaController.clear(); setState(() => _strCaptcha = ''); },
+                  onEye: () => {},
+                  child: _widgetCodeSection(),
+                ),
+                new SizedBox(height: 10.0),
+                _widgetInputSection(
+                  controller: _passController,
+                  hintText: '密码',
+                  isObscure: _isPwdObscure,
+                  useEye: true,
+                  value: _strPassword,
+                  onChanged: (value) => setState(() => _strPassword = value),
+                  onClear: () { _passController.clear(); setState(() => _strPassword = ''); },
+                  onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
+                ),
+                new SizedBox(height: 60.0),
+                _widgetButtonSection(),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -246,9 +246,48 @@ class _PasswordResetViewState extends State<PasswordResetView> {
     );
   }
 
+  // 发送验证码
+  void _handleSendCaptcha () async {
+    try {
+      if (_strEmail == null || _strEmail == '')
+        throw '邮箱...邮箱还没输入呢';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doSendEmailCaptcha;
+      Map<String, String> mapParams = { 'email': _strEmail, 'template': '2' };
+      await Application.util.http.post(strUrl, params: mapParams);
+      this._countDown();
+      throw '验证码发送成功';
+    } catch (err) {
+      Application.util.modal.toast(err);
+    } finally {
+      Application.util.loading.hide();
+    }
+  }
+
   // 提交
   void _handleSubmit() async {
-
+    try {
+      if (_strEmail == null || _strEmail == '')
+        throw '邮箱没填';
+      if (_strCaptcha == null || _strCaptcha == '')
+        throw '验证码没填，邮箱找找看';
+      if (_strPassword == null || _strPassword == '')
+        throw '密码易忘，好歹得设置下呀';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserResetPassword;
+      Map<String, String> mapParams = {
+        'email': _strEmail,
+        'captcha': _strCaptcha,
+        'password': _strPassword,
+      };
+      await Application.util.http.post(strUrl, params: mapParams);
+      Application.util.modal.toast('重置成功！');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    } finally {
+      Application.util.loading.hide();
+    }
   }
 
   // 倒计时
