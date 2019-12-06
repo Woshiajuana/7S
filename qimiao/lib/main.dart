@@ -31,11 +31,13 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key key}) : super(key: key);
 
+  final stateModel = new StateModel();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new ScopedModel<StateModel>(
-      model: new StateModel(),
+      model: stateModel,
       child: MaterialApp(
         title: 'WoosaiMall',
         theme: ThemeData(
