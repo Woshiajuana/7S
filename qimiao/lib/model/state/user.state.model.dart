@@ -8,7 +8,7 @@ abstract class UserStateModel extends Model {
   UserJsonModel _userJsonModel;
   UserJsonModel get user => _userJsonModel;
 
-  void increment(UserJsonModel userJsonModel){
+  void setUserJsonModel(UserJsonModel userJsonModel){
     _userJsonModel = userJsonModel;
     notifyListeners();
   }

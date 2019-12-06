@@ -320,7 +320,6 @@ class _LoginViewState extends State<LoginView> {
         'captcha': _strCaptcha,
       };
       ResponseJsonModel responseJsonModel = await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
-      print('responseJsonModel.code => ${responseJsonModel.code}');
       if (responseJsonModel.code == 'F50001') {
         setState(() => _strCaptchaBase64 = responseJsonModel.data);
       }
@@ -329,11 +328,8 @@ class _LoginViewState extends State<LoginView> {
       }
       String userInfoJsonKey = Application.config.store.userJson;
       await Application.util.store.set(userInfoJsonKey, responseJsonModel.data);
-      print('responseJsonModel.data => ${responseJsonModel.data}');
       UserJsonModel userJsonModel = UserJsonModel.fromJson(responseJsonModel.data);
-      print('userJsonModel.data => ${userJsonModel.avatar}');
-      final c = StateModel.of(context);
-      c.increment(userJsonModel);
+      StateModel.of(context).setUserJsonModel(userJsonModel);
       Application.util.loading.hide();
       Application.router.replace(context, 'app');
     } catch (err) {
