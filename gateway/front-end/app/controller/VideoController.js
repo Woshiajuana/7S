@@ -6,18 +6,18 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/video/upload', middleware.tokenMiddleware(), controller.list)
+        app.router.mount('/api/v1/app/video/list', middleware.tokenMiddleware(), controller.list)
         ;
     }
 
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/notice/list 上传文件
-     * @apiDescription  通讯消息模块
+     * @api {get} /api/v1/app/video/list 视频列表
+     * @apiDescription  视频模块
      * @apiGroup  文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/notice/list
+     * @apiSampleRequest /api/v1/app/video/list
      */
     async list () {
         const { ctx, service, app } = this;
