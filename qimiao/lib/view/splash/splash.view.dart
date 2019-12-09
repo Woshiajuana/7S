@@ -221,8 +221,7 @@ class _SplashViewState extends State<SplashView> {
 
   // 根据用户是否已登录来判断是否跳转到对应页面
   void _handleJudgeTo () async {
-    String userInfoJsonKey = Application.config.store.userJson;
-    var userInfoJson = await Application.util.store.get(userInfoJsonKey);
+    var userInfoJson = await Application.util.store.get(Application.config.store.userJson);
     if (userInfoJson == null) {
       return Application.router.replace(context, 'login');
     }
