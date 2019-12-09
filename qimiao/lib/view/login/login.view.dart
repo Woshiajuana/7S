@@ -30,6 +30,7 @@ class _LoginViewState extends State<LoginView> {
     _accountController = TextEditingController(text: _strAccount);
     _passController = TextEditingController(text: _strPassword);
     _captchaController = TextEditingController(text: '');
+    Application.context = context;
   }
 
   @override

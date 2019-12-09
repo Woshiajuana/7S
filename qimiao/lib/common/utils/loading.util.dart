@@ -38,18 +38,16 @@ class Loading {
   }
 
   static Widget _widgetLoading () {
-    return new Material(
-      child: new Center(
-        child: new Container(
-          width: 80.0,
-          height: 80.0,
-          decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: new Center(
-            child: new CircularProgressIndicator(),
-          ),
+    return new Center(
+      child: new Container(
+        width: 80.0,
+        height: 80.0,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: new Center(
+          child: new CircularProgressIndicator(),
         ),
       ),
     );

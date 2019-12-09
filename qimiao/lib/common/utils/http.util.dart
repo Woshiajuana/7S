@@ -82,9 +82,14 @@ class Http {
     }
     _log(url, '请求发起参数=> $params');
     if (useLoading) Application.util.loading.show(Application.context);
-    Response response = await _dio.post(url, data: params, options: options);
+    Response response;
+    try {
+      response = await _dio.post(url, data: params, options: options);
+    } catch (e) {
+      if (useLoading) Application.util.loading.hide();
+      throw e;
+    }
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
-    if (useLoading) Application.util.loading.hide();
     if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
       await Application.util.store.remove(Application.config.store.userJson);
       Application.router.replace(Application.context, 'login');
