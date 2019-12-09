@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MineView extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _MineViewState extends State<MineView> {
                     paddingTop: MediaQuery.of(context).padding.top,
                     buildContent: (BuildContext context, double shrinkOffset, int alpha) {
                       return <Widget> [
-                        _widgetHeaderBgSection(),
+                        _widgetHeaderBgSection(model: model),
                         _widgetHeaderSection(model: model),
                         _widgetAppBarSection(),
                       ];
@@ -103,16 +104,27 @@ class _MineViewState extends State<MineView> {
   }
 
   // 头部背景
-  Widget _widgetHeaderBgSection () {
+  Widget _widgetHeaderBgSection ({
+    StateModel model,
+  }) {
     return new Container(
       height: 310.0,
       alignment: Alignment.bottomCenter,
       decoration: new BoxDecoration(
         color: Color(0xffdddddd),
         image: new DecorationImage(
-          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          image: (model.user.avatar != null && model.user.avatar != '') ? new Image.network(model.user.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
           fit: BoxFit.cover,
         ),
+
+//        image: new CachedNetworkImage(
+//          width: double.infinity,
+//          height: double.infinity,
+//          fit: BoxFit.cover,
+//          imageUrl: model.user.avatar,
+//          placeholder: (context, url) => new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+//          errorWidget: (context, url, error) => new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+//        ),
       ),
       child: new Stack(
         children: <Widget>[
