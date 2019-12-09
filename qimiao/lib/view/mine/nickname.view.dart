@@ -17,7 +17,8 @@ class _MineNicknameViewState extends State<MineNicknameView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _nicknameController = TextEditingController(text: '');
+    _strNickname = '';
+    _nicknameController = TextEditingController(text: _strNickname);
   }
 
   @override
@@ -29,40 +30,46 @@ class _MineNicknameViewState extends State<MineNicknameView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Application.config.style.backgroundColor,
-      appBar: new AppBar(
-        elevation: 0,
-        title: new Text(
-          '修改昵称',
-          style: new TextStyle(
-            fontSize: 18.0,
-          ),
-        ),
-        actions: <Widget>[
-          new Container(
-            width: 70.0,
-            child: new FlatButton(
-              onPressed: () => _handleSubmit(),
-              padding: const EdgeInsets.all(0),
-              child: new Text(
-                '保存',
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
-                ),
+    _strNickname = StateModel.of(context).user.nickname ?? '';
+    _nicknameController.text = _strNickname;
+    return new ScopedModelDescendant<StateModel>(
+      builder: (context, child, model) {
+        return new Scaffold(
+          backgroundColor: Application.config.style.backgroundColor,
+          appBar: new AppBar(
+            elevation: 0,
+            title: new Text(
+              '修改昵称',
+              style: new TextStyle(
+                fontSize: 18.0,
               ),
             ),
+            actions: <Widget>[
+              new Container(
+                width: 70.0,
+                child: new FlatButton(
+                  onPressed: () => _handleSubmit(),
+                  padding: const EdgeInsets.all(0),
+                  child: new Text(
+                    '保存',
+                    style: new TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: new ListView(
-        children: <Widget>[
-          _widgetInputSection(),
-          _widgetPromptSection(),
-        ],
-      ),
+          body: new ListView(
+            children: <Widget>[
+              _widgetInputSection(),
+              _widgetPromptSection(),
+            ],
+          ),
+        );
+      },
     );
   }
 
