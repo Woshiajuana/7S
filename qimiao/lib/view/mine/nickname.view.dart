@@ -24,7 +24,6 @@ class _MineNicknameViewState extends State<MineNicknameView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('1${widget.nickname}');
     _strNickname = widget.nickname ?? '';
     _nicknameController = TextEditingController(text: _strNickname);
   }
@@ -160,7 +159,6 @@ class _MineNicknameViewState extends State<MineNicknameView> {
       state.setUserJsonModel(userJsonModel);
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);
-      print(1);
     } catch (err) {
       Application.util.modal.toast(err);
     }

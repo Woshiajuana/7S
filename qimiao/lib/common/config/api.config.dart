@@ -40,6 +40,11 @@ class Api {
     return 'v1/app/user/reset/password';
   }
 
+  // 用户修改密码
+  String get doUserChangePassword {
+    return 'v1/app/user/change/password';
+  }
+
   // 用户修改信息
   String get doUserUpdateInfo {
     return 'v1/app/user/update';

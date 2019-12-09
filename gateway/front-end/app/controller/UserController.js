@@ -10,7 +10,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/user/register', controller.register)
             .mount('/api/v1/app/user/info', middleware.tokenMiddleware(), controller.info)
             .mount('/api/v1/app/user/update', middleware.tokenMiddleware(), controller.update)
-            .mount('/api/v1/app/user/update/password', middleware.tokenMiddleware(), controller.updatePassword)
+            .mount('/api/v1/app/user/change/password', middleware.tokenMiddleware(), controller.changePassword)
             .mount('/api/v1/app/user/reset/password', controller.resetPassword)
             .mount('/api/v1/app/user/reset/captcha', controller.resetCaptcha)
         ;
@@ -190,15 +190,15 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/user/update/password 用户修改密码
+     * @api {get} /api/v1/app/user/change/password 用户修改密码
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [password]  新密码
      * @apiParam  {String} [oldPassword] 旧密码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/user/update/password
+     * @apiSampleRequest /api/v1/app/user/change/password
      * */
-    async updatePassword () {
+    async changePassword () {
         const { ctx, service } = this;
         try {
             let {

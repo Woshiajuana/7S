@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/model.dart';
 
 class PasswordChangeView extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
     _emailController = TextEditingController(text: '');
     _oldPwdController = TextEditingController(text: '');
     _passController = TextEditingController(text: '');
+    this._reqUserInfo();
   }
 
   @override
@@ -49,14 +51,32 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
             fontSize: 18.0,
           ),
         ),
+        actions: <Widget>[
+          new Container(
+            width: 70.0,
+            child: new FlatButton(
+              onPressed: () => _handleSubmit(),
+              padding: const EdgeInsets.all(0),
+              child: new Text(
+                '确认',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      body:  new ListView(
+      body: new ListView(
         children: <Widget>[
           new SizedBox(height: 10.0),
           _widgetInputSection(
             controller: _emailController,
             hintText: '邮箱',
             value: _strEmail,
+            isEnabled: false,
             keyboardType: TextInputType.emailAddress,
             onChanged: (value) => setState(() => _strEmail = value),
             onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
@@ -85,7 +105,6 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
             onEye: () => setState(() => _isPwdObscure = !_isPwdObscure),
           ),
           new SizedBox(height: 60.0),
-          _widgetButtonSection(),
         ],
       ),
     );
@@ -99,6 +118,7 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
     bool isObscure = false,
     String value = '',
     bool useEye = false,
+    bool isEnabled = true,
     TextInputType keyboardType,
     dynamic onChanged,
     dynamic onClear,
@@ -120,6 +140,7 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
           new Expanded(
             flex: 1,
             child: new TextField(
+              enabled: isEnabled,
               controller: controller,
               obscureText: isObscure,
               keyboardType: keyboardType,
@@ -132,13 +153,13 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
               onChanged: onChanged,
             ),
           ),
-          new Offstage(
+          isEnabled ? new Offstage(
             offstage: (value == '' || value == null),
             child: new IconButton(
               icon: new Icon(Icons.clear, size: 20.0, color: Color(0xff666666)),
               onPressed: onClear,
             ),
-          ),
+          ) : new Container(),
           useEye ? new IconButton(
             icon: new Icon(Icons.remove_red_eye, size: 20.0, color: isObscure ? Color(0xff666666) : Application.config.style.mainColor),
             onPressed: onEye,
@@ -149,37 +170,35 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
     );
   }
 
-  Widget _widgetButtonSection () {
-    return new Center(
-      child: new Container(
-        width: 280.0,
-        height: 46.0,
-        decoration: new BoxDecoration(
-          color: Application.config.style.mainColor,
-          borderRadius: new BorderRadius.circular(30.0),
-        ),
-        child: new FlatButton(
-          onPressed: () => _handleSubmit(),
-          child: new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Text(
-                '确认',
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  // 获取用户信息
+  void _reqUserInfo () async {
+    try {
+      Future.delayed(Duration(milliseconds: 0)).then((e) async{
+        UserJsonModel userJsonModel = StateModel.of(context).user;
+        setState(() {
+          _strEmail = userJsonModel.email;
+          _emailController.text = _strEmail;
+        });
+      });
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
   // 提交
   void _handleSubmit() async {
-
+    if (_strPassword == null || _strPassword == '')
+      throw '以旧换新，旧密码呢？';
+    if (_strOldPassword == null || _strOldPassword == '')
+      throw '新密码你不设置呀？';
+    String strUrl = Application.config.api.doUserChangePassword;
+    Map<String, String> mapParams = {
+      'password': _strPassword,
+      'oldPassword': _strOldPassword,
+    };
+    await Application.util.http.post(strUrl, params: mapParams);
+    Application.util.modal.toast('修改成功');
+    Application.router.pop(context);
   }
 
 }
