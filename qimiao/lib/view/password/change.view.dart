@@ -187,18 +187,22 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
 
   // 提交
   void _handleSubmit() async {
-    if (_strPassword == null || _strPassword == '')
-      throw '以旧换新，旧密码呢？';
-    if (_strOldPassword == null || _strOldPassword == '')
-      throw '新密码你不设置呀？';
-    String strUrl = Application.config.api.doUserChangePassword;
-    Map<String, String> mapParams = {
-      'password': _strPassword,
-      'oldPassword': _strOldPassword,
-    };
-    await Application.util.http.post(strUrl, params: mapParams);
-    Application.util.modal.toast('修改成功');
-    Application.router.pop(context);
+    try {
+      if (_strPassword == null || _strPassword == '')
+        throw '新密码你不设置呀？';
+      if (_strOldPassword == null || _strOldPassword == '')
+        throw '以旧换新，旧密码呢？';
+      String strUrl = Application.config.api.doUserChangePassword;
+      Map<String, String> mapParams = {
+        'password': _strPassword,
+        'oldPassword': _strOldPassword,
+      };
+      await Application.util.http.post(strUrl, params: mapParams);
+      Application.util.modal.toast('修改成功');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
 }

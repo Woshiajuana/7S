@@ -96,7 +96,7 @@ class Http {
       Application.router.replace(Application.context, 'login');
       throw responseJsonModel.msg;
     }
-    if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
+    if (['F40004'].indexOf(responseJsonModel.code) > -1) {
       await Application.util.store.remove(Application.config.store.userJson);
       Application.router.replace(Application.context, 'login');
       await showDialog(
@@ -113,6 +113,9 @@ class Http {
         },
       );
       throw '';
+    }
+    if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
+      throw responseJsonModel.msg;
     }
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
