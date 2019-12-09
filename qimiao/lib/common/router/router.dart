@@ -170,7 +170,9 @@ class Router {
     'mineSignature': {
       'route': (_) => new MineSignatureView(),
       'handle': (params) {
-        return new MineSignatureView();
+        return new MineSignatureView(
+          signature: params['signature'],
+        );
       }
     },
     'passwordChange': {
