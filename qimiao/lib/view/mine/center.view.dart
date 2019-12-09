@@ -240,7 +240,8 @@ class _MineCenterViewState extends State<MineCenterView> {
       UserJsonModel userJsonModel = state.user;
       userJsonModel.sex = strSex;
       String userInfoJsonKey = Application.config.store.userJson;
-      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      print('userJsonModel.toJson() => ${userJsonModel.toJson()}');
+//      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
       Application.util.loading.hide();
       Application.util.modal.toast('修改成功');

@@ -25,7 +25,8 @@ class Http {
     _dio.interceptors
     .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       String userInfoJsonKey = Application.config.store.userJson;
-      var userInfoJson = await Application.util.store.get(userInfoJsonKey);
+      var userInfoJson = await Application.util.store.get(userInfoJsonKey) ?? {};
+      print('请求的 token=> ${userInfoJson['accessToken']}');
       if (userInfoJson != null) {
         options.headers = {
           'access-token': userInfoJson['accessToken'],
