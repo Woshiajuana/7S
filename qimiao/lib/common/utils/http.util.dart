@@ -85,6 +85,7 @@ class Http {
     Response response;
     try {
       response = await _dio.post(url, data: params, options: options);
+      if (useLoading) Application.util.loading.hide();
     } catch (e) {
       if (useLoading) Application.util.loading.hide();
       throw e;

@@ -160,6 +160,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
       state.setUserJsonModel(userJsonModel);
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);
+      print(1);
     } catch (err) {
       Application.util.modal.toast(err);
     }
