@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/model.dart';
 
 class MineNicknameView extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
           new Container(
             width: 70.0,
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => _handleSubmit(),
               padding: const EdgeInsets.all(0),
               child: new Text(
                 '保存',
@@ -129,6 +130,11 @@ class _MineNicknameViewState extends State<MineNicknameView> {
         ],
       ),
     );
+  }
+
+  // 提交
+  void _handleSubmit () {
+
   }
 
 }
