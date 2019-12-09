@@ -206,15 +206,18 @@ class _MineCenterViewState extends State<MineCenterView> {
         return new ActionSheetDialog(
           arrOptions: _arrSexOption.map((item) {
             String strSex = StateModel.of(context).user.sex;
-            item['child'] = new Container(
-              child: new Radio(
-                value: true,
-                groupValue: strSex == item['value'],
-                activeColor: Application.config.style.mainColor,
-                onChanged: (value) => _handleSexSubmit(item),
+            return {
+              'text': item['text'],
+              'child': new Container(
+                child: new Radio(
+                  value: true,
+                  groupValue: strSex == item['value'],
+                  activeColor: Application.config.style.mainColor,
+                  onChanged: (value) => _handleSexSubmit(item),
+                ),
               ),
-            );
-            return item;
+              'onPressed': () => _handleSexSubmit(item),
+            };
           }).toList(),
         );
       },
@@ -224,9 +227,13 @@ class _MineCenterViewState extends State<MineCenterView> {
   // 提交性别
   void _handleSexSubmit (item) async {
     try {
+      String strSex = item['value'];
+      if (strSex == StateModel.of(context).user.sex) {
+        Application.router.pop(context);
+        return null;
+      }
       Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserUpdateInfo;
-      String strSex = item['value'];
       Map<String, String> mapParams = { 'sex': strSex };
       await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
       var state = StateModel.of(context);
@@ -237,7 +244,7 @@ class _MineCenterViewState extends State<MineCenterView> {
       state.setUserJsonModel(userJsonModel);
       Application.util.loading.hide();
       Application.util.modal.toast('修改成功');
-      Navigator.of(context).pop();
+      Application.router.pop(context);
     } catch (err) {
       Application.util.loading.hide();
       Application.util.modal.toast(err);
