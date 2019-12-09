@@ -12,6 +12,11 @@ class MineCenterView extends StatefulWidget {
 class _MineCenterViewState extends State<MineCenterView> {
 
   List _arrData;
+  List _arrSexOption = [
+    { 'text': '保密', 'value': '0' },
+    { 'text': '男', 'value': '1' },
+    { 'text': '女', 'value': '2' },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +58,17 @@ class _MineCenterViewState extends State<MineCenterView> {
           {
             'onPressed': () => _handleSex(),
             'labelText': '性别',
-            'valueText': model?.user?.sex ?? '',
+            'valueText': _arrSexOption[int.parse(model?.user?.sex ?? 0)]['text'],
             'useMargin': true,
           },
           {
             'onPressed': () => Application.router.push(context, 'mineSignature', params: { 'signature': model?.user?.signature }),
-            'labelText': '个性签名',
+            'labelText': '签名',
             'valueText': model?.user?.signature ?? '',
           },
           {
             'onPressed': () => Application.router.push(context, 'mineQrCode'),
-            'labelText': '二维码名片',
-            'valueText': '右边',
+            'labelText': '名片',
             'child': new Container(
               width: 30.0,
               height: 30.0,
@@ -137,15 +141,22 @@ class _MineCenterViewState extends State<MineCenterView> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            new Expanded(flex: 1, child: new Container()),
-            child ?? new Text(
-              valueText,
-              style: new TextStyle(
-                color: Color(0xff999999),
-                fontSize: 16.0,
-                fontWeight: FontWeight.w400,
+            new SizedBox(width: 16.0),
+            new Expanded(
+              flex: 1,
+              child: new Text(
+                valueText ?? '',
+                maxLines: 1,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                style: new TextStyle(
+                  color: Color(0xff999999),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
+            child ?? new Container(),
             new SizedBox(width: 10.0),
             new Icon(Icons.arrow_forward_ios, size: 18.0, color: onPressed == null ? Color(0xffffffff) : Color(0xff999999)),
           ],
@@ -193,49 +204,44 @@ class _MineCenterViewState extends State<MineCenterView> {
       barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
       builder: (BuildContext context) {
         return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '男生',
-              'child': new Container(
-                child: new Radio(
-                  value: true,
-                  groupValue: false,
-                  activeColor: Application.config.style.mainColor,
-                  onChanged: (value) => print('2'),
-                ),
+          arrOptions: _arrSexOption.map((item) {
+            String strSex = StateModel.of(context).user.sex;
+            item['child'] = new Container(
+              child: new Radio(
+                value: true,
+                groupValue: strSex == item['value'],
+                activeColor: Application.config.style.mainColor,
+                onChanged: (value) => _handleSexSubmit(item),
               ),
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '女生',
-              'child': new Container(
-                child: new Radio(
-                  value: true,
-                  groupValue: false,
-                  activeColor: Application.config.style.mainColor,
-                  onChanged: (value) => print('2'),
-                ),
-              ),
-              'onPressed': () => print('拍照'),
-            },
-            {
-              'text': '保密',
-              'child': new Container(
-                child: new Radio(
-                  value: true,
-                  groupValue: true,
-                  activeColor: Application.config.style.mainColor,
-                  onChanged: (value) => print('2'),
-                ),
-              ),
-              'onPressed': () => print('拍照'),
-            }
-          ],
+            );
+            return item;
+          }).toList(),
         );
       },
     );
+  }
+
+  // 提交性别
+  void _handleSexSubmit (item) async {
+    try {
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserUpdateInfo;
+      String strSex = item['value'];
+      Map<String, String> mapParams = { 'sex': strSex };
+      await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
+      var state = StateModel.of(context);
+      UserJsonModel userJsonModel = state.user;
+      userJsonModel.sex = strSex;
+      String userInfoJsonKey = Application.config.store.userJson;
+      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      state.setUserJsonModel(userJsonModel);
+      Application.util.loading.hide();
+      Application.util.modal.toast('修改成功');
+      Navigator.of(context).pop();
+    } catch (err) {
+      Application.util.loading.hide();
+      Application.util.modal.toast(err);
+    }
   }
 
 }
