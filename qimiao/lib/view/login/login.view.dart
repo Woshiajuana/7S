@@ -311,7 +311,6 @@ class _LoginViewState extends State<LoginView> {
         throw '唬谁呢？密码都没输入';
       if (_strCaptchaBase64 != null && (_strCaptcha == null || _strCaptcha == ''))
         throw '你验证码倒是填写下呀';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserLogin;
       Map<String, String> mapParams = {
         'account': _strAccount,
@@ -329,10 +328,8 @@ class _LoginViewState extends State<LoginView> {
       UserJsonModel userJsonModel = UserJsonModel.fromJson(responseJsonModel.data);
       StateModel.of(context).setUserJsonModel(userJsonModel);
       await Application.util.store.set(Application.config.store.accessToken, userJsonModel.accessToken);
-      Application.util.loading.hide();
       Application.router.replace(context, 'app');
     } catch (err) {
-      Application.util.loading.hide();
       Application.util.modal.toast(err);
     }
   }

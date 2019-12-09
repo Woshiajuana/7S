@@ -156,8 +156,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
       var state = StateModel.of(context);
       UserJsonModel userJsonModel = state.user;
       userJsonModel.nickname = _strNickname;
-      String userInfoJsonKey = Application.config.store.userJson;
-      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);

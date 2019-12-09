@@ -144,22 +144,18 @@ class _MineSignatureViewState extends State<MineSignatureView> {
   void _handleSubmit () async {
     try {
       if (_strSignature == null || _strSignature == '')
-        throw '点我干嘛?昵称你都没填...';
-      Application.util.loading.show(context);
+        throw '点我干嘛?个性签名你都没填...';
       String strUrl = Application.config.api.doUserUpdateInfo;
       Map<String, String> mapParams = { 'signature': _strSignature };
-      await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
+      await Application.util.http.post(strUrl, params: mapParams);
       var state = StateModel.of(context);
       UserJsonModel userJsonModel = state.user;
       userJsonModel.signature = _strSignature;
-      String userInfoJsonKey = Application.config.store.userJson;
-      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
-      Application.util.loading.hide();
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);
     } catch (err) {
-      Application.util.loading.hide();
       Application.util.modal.toast(err);
     }
   }

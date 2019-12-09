@@ -47,7 +47,6 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
     _pageController = new PageController(
       initialPage: 0,
     );
-    Application.context = context;
   }
 
   // 组件即将销毁时调用
