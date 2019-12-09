@@ -24,12 +24,11 @@ class Http {
     _dio = new Dio(_options);
     _dio.interceptors
     .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-      String userInfoJsonKey = Application.config.store.userJson;
-      var userInfoJson = await Application.util.store.get(userInfoJsonKey) ?? {};
-      print('请求的 token=> ${userInfoJson['accessToken']}');
-      if (userInfoJson != null) {
+      String accessToken = await Application.util.store.get(Application.config.store.accessToken) ?? {};
+      print('请求的 token=> ${accessToken}');
+      if (accessToken != null) {
         options.headers = {
-          'access-token': userInfoJson['accessToken'],
+          'access-token': accessToken,
         };
       }
       return options;
@@ -38,10 +37,6 @@ class Http {
       _log(response.request.path, '请求返回结果=> $data');
       if (data == null)
         return _dio.reject(new DioError(response: response));
-      ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
-      if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
-        return _dio.reject(new DioError(response: response));
-      }
       return response;
     }, onError: (DioError dioErr) async {
       _log(dioErr?.response?.request?.path ?? '', '请求返回结果=> ${dioErr.toString()}');
@@ -53,12 +48,6 @@ class Http {
       } else if (stateCode >=200 && stateCode < 300 && data != null) {
         ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
         message = responseJsonModel.msg;
-        if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
-          print('用户 token 问题');
-          String userJsonKey = Application.config.store.userJson;
-          await Application.util.store.remove(userJsonKey);
-          Application.router.replace(Application.context, 'login');
-        }
       }
       dioErr.message = message;
       return dioErr;
@@ -80,16 +69,29 @@ class Http {
     return response.data;
   }
 
-  Future post (String url, {Map params, Options options, bool useFilter = true}) async {
+  Future post (String url, {
+    Map params,
+    Options options,
+    bool useFilter = true,
+    bool useLoading = true,
+  }) async {
     if (_dio == null) {
       await _init();
     }
     _log(url, '请求发起参数=> $params');
+    if (useLoading) Application.util.loading.show(Application.context);
     Response response = await _dio.post(url, data: params, options: options);
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
-    if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
-        throw responseJsonModel.msg;
-
+    if (useLoading) Application.util.loading.hide();
+    if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
+      String userJsonKey = Application.config.store.userJson;
+      await Application.util.store.remove(userJsonKey);
+      Application.router.replace(Application.context, 'login');
+      throw responseJsonModel.msg;
+    }
+    if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
+      throw responseJsonModel.msg;
+    }
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
 

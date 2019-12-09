@@ -325,10 +325,10 @@ class _LoginViewState extends State<LoginView> {
       if (Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
         throw responseJsonModel.msg;
       }
-      String userInfoJsonKey = Application.config.store.userJson;
-      await Application.util.store.set(userInfoJsonKey, responseJsonModel.data);
+      await Application.util.store.set(Application.config.store.userJson, responseJsonModel.data);
       UserJsonModel userJsonModel = UserJsonModel.fromJson(responseJsonModel.data);
       StateModel.of(context).setUserJsonModel(userJsonModel);
+      await Application.util.store.set(Application.config.store.accessToken, userJsonModel.accessToken);
       Application.util.loading.hide();
       Application.router.replace(context, 'app');
     } catch (err) {

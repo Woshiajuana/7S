@@ -10,7 +10,7 @@ class Store {
 
   Store._internal();
 
-  // 登录
+  // TOKEN
   String get accessToken {
     return 'ACCESS_TOKEN';
   }
