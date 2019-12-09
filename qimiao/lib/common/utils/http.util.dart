@@ -72,7 +72,7 @@ class Http {
   }
 
   Future post (String url, {
-    Map params,
+    dynamic params,
     Options options,
     bool useFilter = true,
     bool useLoading = true,

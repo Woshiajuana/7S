@@ -1,4 +1,6 @@
 
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
@@ -250,8 +252,29 @@ class _MineCenterViewState extends State<MineCenterView> {
   void _handleImagePicker ({
     ImageSource source,
   }) async {
-    var image = await ImagePicker.pickImage(source: source);
-    
+    try {
+      var image = await ImagePicker.pickImage(source: source);
+      if (image == null) return null;
+      String path = image.path;
+      String name = path.substring(path.lastIndexOf('/') + 1, path.length);
+      FormData formData = new FormData.from({
+        'file': new UploadFileInfo(new File(path), name),
+        'type': 'AVATAR',
+      });
+      String strUrl = Application.config.api.doFileUpload;
+      Map data = await Application.util.http.post(strUrl, params: formData);
+      strUrl = Application.config.api.doUserUpdateInfo;
+      await Application.util.http.post(strUrl, params: { 'avatar': data['file'] });
+      var state = StateModel.of(context);
+      UserJsonModel userJsonModel = state.user;
+      userJsonModel.avatar = data['url'];
+      state.setUserJsonModel(userJsonModel);
+      await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
+      Application.util.modal.toast('修改成功');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
 }

@@ -31,6 +31,7 @@ module.exports = class HandleController extends Controller {
             ] = await ctx.validateFiles([
                 [ 'nonempty' ]
             ]);
+            console.log('file => ', file);
             let {
                 ip,
                 userAgent = {},
@@ -52,7 +53,7 @@ module.exports = class HandleController extends Controller {
             let result;
             let { filepath, filename } = file;
             let strPath = `${rootDir}/${id}/${type}/`;
-            let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.split('.')[1]}`;
+            let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.substring(filename.lastIndexOf('.')+1)}`;
             try {
                 result = await ctx.oss.put(`${strPath}${strName}`, filepath);
             } catch (e) {

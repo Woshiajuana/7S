@@ -56,7 +56,6 @@ module.exports = app => {
             type: String,
             trim: '',
             required: true,
-            maxlength: 30,
         },
 
         // 设备信息
