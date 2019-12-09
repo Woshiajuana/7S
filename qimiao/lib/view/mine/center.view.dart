@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MineCenterView extends StatefulWidget {
   @override
@@ -179,9 +180,7 @@ class _MineCenterViewState extends State<MineCenterView> {
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.photo, color: Color(0xff666666)),
               ),
-              'onPressed': () {
-                print('相册1');
-              },
+              'onPressed': () => _handleImagePicker(source: ImageSource.gallery),
             },
             {
               'text': '拍照',
@@ -189,7 +188,7 @@ class _MineCenterViewState extends State<MineCenterView> {
                 padding: const EdgeInsets.only(right: 10.0),
                 child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
               ),
-              'onPressed': () => print('拍照'),
+              'onPressed': () => _handleImagePicker(source: ImageSource.camera),
             }
           ],
         );
@@ -245,6 +244,14 @@ class _MineCenterViewState extends State<MineCenterView> {
     } catch (err) {
       Application.util.modal.toast(err);
     }
+  }
+
+  // 上传图片
+  void _handleImagePicker ({
+    ImageSource source,
+  }) async {
+    var image = await ImagePicker.pickImage(source: source);
+    
   }
 
 }
