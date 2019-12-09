@@ -382,15 +382,15 @@ class _MineViewState extends State<MineView> {
   }
 
   void _reqUserInfo () async {
-    try {
-      String strUrl = Application.config.api.reqUserInfo;
-      var data = await Application.util.http.post(strUrl);
-      Application.util.store.set(Application.config.store.userJson, data);
-      UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
-      StateModel.of(context).setUserJsonModel(userJsonModel);
-    } catch (err) {
-      Application.util.modal.toast(err);
-    }
+//    try {
+//      String strUrl = Application.config.api.reqUserInfo;
+//      var data = await Application.util.http.post(strUrl);
+//      Application.util.store.set(Application.config.store.userJson, data);
+//      UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
+//      StateModel.of(context).setUserJsonModel(userJsonModel);
+//    } catch (err) {
+//      Application.util.modal.toast(err);
+//    }
   }
 
 }

@@ -150,21 +150,18 @@ class _MineNicknameViewState extends State<MineNicknameView> {
     try {
       if (_strNickname == null || _strNickname == '')
         throw '点我干嘛?昵称你都没填...';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserUpdateInfo;
       Map<String, String> mapParams = { 'nickname': _strNickname };
-      await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
+      await Application.util.http.post(strUrl, params: mapParams);
       var state = StateModel.of(context);
       UserJsonModel userJsonModel = state.user;
       userJsonModel.nickname = _strNickname;
       String userInfoJsonKey = Application.config.store.userJson;
       await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
-      Application.util.loading.hide();
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);
     } catch (err) {
-      Application.util.loading.hide();
       Application.util.modal.toast(err);
     }
   }

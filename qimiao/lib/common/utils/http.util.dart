@@ -2,6 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/json/json.model.dart';
+import 'package:flutter/material.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class Http {
 
@@ -24,7 +26,7 @@ class Http {
     _dio = new Dio(_options);
     _dio.interceptors
     .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-      String accessToken = await Application.util.store.get(Application.config.store.accessToken) ?? {};
+      String accessToken = await Application.util.store.get(Application.config.store.accessToken);
       print('请求的 token=> ${accessToken}');
       if (accessToken != null) {
         options.headers = {
@@ -84,13 +86,27 @@ class Http {
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
     if (useLoading) Application.util.loading.hide();
     if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
-      String userJsonKey = Application.config.store.userJson;
-      await Application.util.store.remove(userJsonKey);
+      await Application.util.store.remove(Application.config.store.userJson);
       Application.router.replace(Application.context, 'login');
       throw responseJsonModel.msg;
     }
     if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1) {
-      throw responseJsonModel.msg;
+      await Application.util.store.remove(Application.config.store.userJson);
+      Application.router.replace(Application.context, 'login');
+      await showDialog(
+        context: Application.context,
+        builder: (BuildContext buildContext) {
+          return new WillPopScope(
+            onWillPop: () async {
+              return Future.value(false);
+            },
+            child: new AlertToastDialog(
+              content: responseJsonModel.msg,
+            ),
+          );
+        },
+      );
+      throw '请重新登录';
     }
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
