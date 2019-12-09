@@ -20,7 +20,12 @@ class Loading {
       barrierDismissible: barrierDismissible,
       context: _context,
       builder: (context) {
-        return _widgetLoading();
+        return new WillPopScope(
+          onWillPop: () async {
+            return Future.value(false);
+          },
+          child: _widgetLoading(),
+        );
       },
     ).then((value) {
       _context = null;
