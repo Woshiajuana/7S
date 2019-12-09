@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/model.dart';
 
 class MineSignatureView extends StatefulWidget {
 
@@ -50,10 +51,10 @@ class _MineSignatureViewState extends State<MineSignatureView> {
           new Container(
             width: 70.0,
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => _handleSubmit(),
               padding: const EdgeInsets.all(0),
               child: new Text(
-                '保存',
+                '确认',
                 style: new TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
@@ -137,6 +138,30 @@ class _MineSignatureViewState extends State<MineSignatureView> {
         ],
       ),
     );
+  }
+
+  // 提交
+  void _handleSubmit () async {
+    try {
+      if (_strSignature == null || _strSignature == '')
+        throw '点我干嘛?昵称你都没填...';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserUpdateInfo;
+      Map<String, String> mapParams = { 'signature': _strSignature };
+      await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
+      var state = StateModel.of(context);
+      UserJsonModel userJsonModel = state.user;
+      userJsonModel.signature = _strSignature;
+      String userInfoJsonKey = Application.config.store.userJson;
+      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      state.setUserJsonModel(userJsonModel);
+      Application.util.loading.hide();
+      Application.util.modal.toast('修改成功');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.loading.hide();
+      Application.util.modal.toast(err);
+    }
   }
 
 }
