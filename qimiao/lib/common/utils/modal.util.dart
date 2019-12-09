@@ -13,7 +13,7 @@ class Modal {
 
   Modal._internal();
 
-  void toast (msg, {ToastGravity gravity = ToastGravity.CENTER}) {
+  void toast (msg, {ToastGravity gravity = ToastGravity.BOTTOM}) {
     if (msg is DioError) {
       msg = msg.message ?? msg.msg;
     }
