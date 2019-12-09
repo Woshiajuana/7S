@@ -14,8 +14,8 @@ class _MineCenterViewState extends State<MineCenterView> {
   List _arrData;
   List _arrSexOption = [
     { 'text': '保密', 'value': '0' },
-    { 'text': '男', 'value': '1' },
-    { 'text': '女', 'value': '2' },
+    { 'text': '男生', 'value': '1' },
+    { 'text': '女生', 'value': '2' },
   ];
 
   @override
