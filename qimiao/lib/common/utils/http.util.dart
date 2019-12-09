@@ -53,6 +53,7 @@ class Http {
         ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
         message = responseJsonModel.msg;
         if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
+          print('用户 token 问题');
           String userJsonKey = Application.config.store.userJson;
           await Application.util.store.remove(userJsonKey);
           Application.router.replace(Application.context, 'login');
@@ -87,6 +88,7 @@ class Http {
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
     if (useFilter && Application.config.env.arrSucCode.indexOf(responseJsonModel.code) == -1)
         throw responseJsonModel.msg;
+
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
 
