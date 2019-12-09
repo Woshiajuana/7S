@@ -381,16 +381,24 @@ class _MineViewState extends State<MineView> {
     );
   }
 
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    print('didChangeDependencies');
+  }
+
   void _reqUserInfo () async {
-//    try {
-//      String strUrl = Application.config.api.reqUserInfo;
-//      var data = await Application.util.http.post(strUrl);
-//      Application.util.store.set(Application.config.store.userJson, data);
-//      UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
-//      StateModel.of(context).setUserJsonModel(userJsonModel);
-//    } catch (err) {
-//      Application.util.modal.toast(err);
-//    }
+    try {
+      Future.delayed(Duration(milliseconds: 0)).then((e) async{
+        String strUrl = Application.config.api.reqUserInfo;
+        var data = await Application.util.http.post(strUrl, useLoading: false);
+        Application.util.store.set(Application.config.store.userJson, data);
+        UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
+        StateModel.of(context).setUserJsonModel(userJsonModel);
+      });
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
 }

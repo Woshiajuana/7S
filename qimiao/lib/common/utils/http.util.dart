@@ -112,7 +112,7 @@ class Http {
           );
         },
       );
-      throw '请重新登录';
+      throw '';
     }
     return useFilter ? responseJsonModel.data : responseJsonModel;
   }
