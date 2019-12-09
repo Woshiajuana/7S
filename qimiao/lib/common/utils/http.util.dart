@@ -37,8 +37,12 @@ class Http {
       _log(response.request.path, '请求返回结果=> $data');
       if (data == null)
         return _dio.reject(new DioError(response: response));
+      ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
+      if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
+        return _dio.reject(new DioError(response: response));
+      }
       return response;
-    }, onError: (DioError dioErr) {
+    }, onError: (DioError dioErr) async {
       _log(dioErr?.response?.request?.path ?? '', '请求返回结果=> ${dioErr.toString()}');
       var data = dioErr?.response?.data;
       int stateCode = dioErr?.response?.statusCode ?? -999;
@@ -49,6 +53,8 @@ class Http {
         ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(data);
         message = responseJsonModel.msg;
         if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
+          String userJsonKey = Application.config.store.userJson;
+          await Application.util.store.remove(userJsonKey);
           Application.router.replace(Application.context, 'login');
         }
       }
