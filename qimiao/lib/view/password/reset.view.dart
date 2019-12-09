@@ -251,7 +251,6 @@ class _PasswordResetViewState extends State<PasswordResetView> {
     try {
       if (_strEmail == null || _strEmail == '')
         throw '邮箱...邮箱还没输入呢';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doSendEmailCaptcha;
       Map<String, String> mapParams = { 'email': _strEmail, 'template': '2' };
       await Application.util.http.post(strUrl, params: mapParams);
@@ -259,8 +258,6 @@ class _PasswordResetViewState extends State<PasswordResetView> {
       throw '验证码发送成功';
     } catch (err) {
       Application.util.modal.toast(err);
-    } finally {
-      Application.util.loading.hide();
     }
   }
 
@@ -273,7 +270,6 @@ class _PasswordResetViewState extends State<PasswordResetView> {
         throw '验证码没填，邮箱找找看';
       if (_strPassword == null || _strPassword == '')
         throw '密码易忘，好歹得设置下呀';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserResetPassword;
       Map<String, String> mapParams = {
         'email': _strEmail,
@@ -285,8 +281,6 @@ class _PasswordResetViewState extends State<PasswordResetView> {
       Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
-    } finally {
-      Application.util.loading.hide();
     }
   }
 

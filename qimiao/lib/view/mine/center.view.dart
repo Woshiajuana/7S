@@ -232,22 +232,17 @@ class _MineCenterViewState extends State<MineCenterView> {
         Application.router.pop(context);
         return null;
       }
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserUpdateInfo;
       Map<String, String> mapParams = { 'sex': strSex };
       await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
       var state = StateModel.of(context);
       UserJsonModel userJsonModel = state.user;
       userJsonModel.sex = strSex;
-      String userInfoJsonKey = Application.config.store.userJson;
-      print('userJsonModel.toJson() => ${userJsonModel.toJson()}');
-//      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
-      Application.util.loading.hide();
       Application.util.modal.toast('修改成功');
       Application.router.pop(context);
     } catch (err) {
-      Application.util.loading.hide();
       Application.util.modal.toast(err);
     }
   }

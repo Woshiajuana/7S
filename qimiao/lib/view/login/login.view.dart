@@ -291,15 +291,12 @@ class _LoginViewState extends State<LoginView> {
     try {
       if (_strAccount == null || _strAccount == '')
         throw '逗我呢？得输入账号呀';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserResetCaptcha;
       Map<String, String> mapParams = { 'account': _strAccount };
       var data = await Application.util.http.post(strUrl, params: mapParams);
       setState(() => _strCaptchaBase64 = data);
     } catch (err) {
       Application.util.modal.toast(err);
-    } finally {
-      Application.util.loading.hide();
     }
   }
 

@@ -294,7 +294,6 @@ class _RegisterViewState extends State<RegisterView> {
     try {
       if (_strEmail == null || _strEmail == '')
         throw '邮箱...邮箱还没输入呢';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doSendEmailCaptcha;
       Map<String, String> mapParams = { 'email': _strEmail, 'template': '1' };
       await Application.util.http.post(strUrl, params: mapParams);
@@ -302,8 +301,6 @@ class _RegisterViewState extends State<RegisterView> {
       throw '验证码发送成功';
     } catch (err) {
       Application.util.modal.toast(err);
-    } finally {
-      Application.util.loading.hide();
     }
   }
 
@@ -318,7 +315,6 @@ class _RegisterViewState extends State<RegisterView> {
         throw '听俺个劝，密码得设置下';
       if (_isAgreement == false)
         throw '协议都不同意，俺没法和你玩...';
-      Application.util.loading.show(context);
       String strUrl = Application.config.api.doUserRegister;
       Map<String, String> mapParams = {
         'email': _strEmail,
@@ -330,8 +326,6 @@ class _RegisterViewState extends State<RegisterView> {
       Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
-    } finally {
-      Application.util.loading.hide();
     }
   }
 
