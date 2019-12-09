@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 
 class MineSignatureView extends StatefulWidget {
+
+  MineSignatureView({
+    this.signature,
+  });
+
+  final String signature;
+
   @override
   _MineSignatureViewState createState() => _MineSignatureViewState();
 }
@@ -16,7 +23,8 @@ class _MineSignatureViewState extends State<MineSignatureView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _signatureController = TextEditingController(text: '');
+    _strSignature = widget.signature ?? '';
+    _signatureController = TextEditingController(text: _strSignature);
   }
 
   @override

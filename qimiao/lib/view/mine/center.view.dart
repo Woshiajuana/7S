@@ -41,7 +41,7 @@ class _MineCenterViewState extends State<MineCenterView> {
             ),
           },
           {
-            'onPressed': () => Application.router.push(context, 'mineNickname'),
+            'onPressed': () => Application.router.push(context, 'mineNickname', params: { 'nickname': model?.user?.nickname }),
             'labelText': '昵称',
             'valueText': model?.user?.nickname ?? '',
             'useMargin': true,
@@ -57,7 +57,7 @@ class _MineCenterViewState extends State<MineCenterView> {
             'useMargin': true,
           },
           {
-            'onPressed': () => Application.router.push(context, 'mineSignature'),
+            'onPressed': () => Application.router.push(context, 'mineSignature', params: { 'signature': model?.user?.signature }),
             'labelText': '个性签名',
             'valueText': model?.user?.signature ?? '',
           },

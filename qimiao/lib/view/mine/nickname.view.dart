@@ -4,6 +4,13 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/model.dart';
 
 class MineNicknameView extends StatefulWidget {
+
+  MineNicknameView({
+    this.nickname,
+  });
+
+  final String nickname;
+
   @override
   _MineNicknameViewState createState() => _MineNicknameViewState();
 }
@@ -17,7 +24,8 @@ class _MineNicknameViewState extends State<MineNicknameView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _strNickname = '';
+    print('1${widget.nickname}');
+    _strNickname = widget.nickname ?? '';
     _nicknameController = TextEditingController(text: _strNickname);
   }
 
@@ -30,8 +38,6 @@ class _MineNicknameViewState extends State<MineNicknameView> {
 
   @override
   Widget build(BuildContext context) {
-    _strNickname = StateModel.of(context).user.nickname ?? '';
-    _nicknameController.text = _strNickname;
     return new ScopedModelDescendant<StateModel>(
       builder: (context, child, model) {
         return new Scaffold(
@@ -51,7 +57,7 @@ class _MineNicknameViewState extends State<MineNicknameView> {
                   onPressed: () => _handleSubmit(),
                   padding: const EdgeInsets.all(0),
                   child: new Text(
-                    '保存',
+                    '确认',
                     style: new TextStyle(
                       color: Colors.white,
                       fontSize: 16.0,
@@ -140,8 +146,27 @@ class _MineNicknameViewState extends State<MineNicknameView> {
   }
 
   // 提交
-  void _handleSubmit () {
-
+  void _handleSubmit () async {
+    try {
+      if (_strNickname == null || _strNickname == '')
+        throw '点我干嘛?昵称你都没填...';
+      Application.util.loading.show(context);
+      String strUrl = Application.config.api.doUserUpdateInfo;
+      Map<String, String> mapParams = { 'nickname': _strNickname };
+      await Application.util.http.post(strUrl, params: mapParams, useFilter: false);
+      var state = StateModel.of(context);
+      UserJsonModel userJsonModel = state.user;
+      userJsonModel.nickname = _strNickname;
+      String userInfoJsonKey = Application.config.store.userJson;
+      await Application.util.store.set(userInfoJsonKey, userJsonModel.toJson());
+      state.setUserJsonModel(userJsonModel);
+      Application.util.loading.hide();
+      Application.util.modal.toast('修改成功');
+      Application.router.pop(context);
+    } catch (err) {
+      Application.util.loading.hide();
+      Application.util.modal.toast(err);
+    }
   }
 
 }

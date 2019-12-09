@@ -150,7 +150,9 @@ class Router {
     'mineNickname': {
       'route': (_) => new MineNicknameView(),
       'handle': (params) {
-        return new MineNicknameView();
+        return new MineNicknameView(
+          nickname: params['nickname'],
+        );
       }
     },
     'mineUid': {
