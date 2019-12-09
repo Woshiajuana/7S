@@ -42,7 +42,7 @@ class _AlertToastDialogState extends State<AlertToastDialog> {
   // 内容
   Widget _widgetContentSection () {
     return new Container(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 32.0, top: 32.0),
       child: new Text(
         widget.content,
         style: new TextStyle(
@@ -58,6 +58,14 @@ class _AlertToastDialogState extends State<AlertToastDialog> {
     return new Container(
       height: 50,
       width: double.infinity,
+      decoration: new BoxDecoration(
+        border: new Border(
+          top: new BorderSide(
+            color: Color(0xffdddddd),
+            width: 0.5
+          ),
+        ),
+      ),
       child: new FlatButton(
         onPressed: () => Navigator.of(context).pop(),
         child: new Text(
