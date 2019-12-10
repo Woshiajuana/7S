@@ -156,7 +156,8 @@ module.exports = appInfo => {
             port: '21',
             user: 'ftp',
             password: 'ftpliujiaoyan1120',
-            baseUrl: 'http://154.8.209.13:48430/'
+            rootDir: 'qimiao',
+            baseUrl: 'http://154.8.209.13:40002/'
         },
     };
 

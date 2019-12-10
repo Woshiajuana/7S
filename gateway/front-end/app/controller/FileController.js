@@ -37,6 +37,68 @@ module.exports = class HandleController extends Controller {
                 userAgent = {},
             } = ctx;
             let {
+                baseUrl,
+                rootDir
+            } = app.config.ftp.client;
+            let {
+                id,
+            } = ctx.state.token;
+            let {
+                type,
+            } = await ctx.validateBody({
+                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
+                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
+            });
+            let result;
+            let { filepath, filename } = file;
+            let strPath = `${rootDir}/${id}/${type}/`;
+            let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.substring(filename.lastIndexOf('.')+1)}`;
+            try {
+                result = await ctx.ftp.putPlus(filepath, `${strPath}${strName}`);
+            } catch (e) {
+                this.logger.info(`上传FTP失败=> ${result.toString()}`);
+            } finally {
+                await fs.unlink(filepath);
+            }
+            if (!result) throw '文件上传失败';
+            const {
+                _id
+            } = await service.transformService.curl('api/v1/file/create', {
+                data: {
+                    user: id,
+                    type,
+                    ip,
+                    base: baseUrl,
+                    path: strPath,
+                    filename: strName,
+                    device: JSON.stringify(userAgent),
+                    source: filename,
+                },
+            });
+            ctx.respSuccess({
+                url: `${baseUrl}${strPath}${strName}`,
+                file: _id,
+            });
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+
+    async uploadByOss () {
+        const { ctx, service, app } = this;
+        try {
+            let [
+                file,
+            ] = await ctx.validateFiles([
+                [ 'nonempty' ]
+            ]);
+            console.log('file => ', file);
+            let {
+                ip,
+                userAgent = {},
+            } = ctx;
+            let {
                 bucket,
                 endpoint,
                 rootDir,
