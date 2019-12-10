@@ -1,10 +1,10 @@
 'use strict';
 
-const oss = require('./lib/oss');
+const ftp = require('./lib/ftp');
 
 module.exports = agent => {
-  const useAgent = agent.config.oss.useAgent;
-  if (useAgent) {
-    oss(agent);
-  }
+    const useAgent = agent.config.ftp.useAgent;
+    if (useAgent) {
+        ftp(agent);
+    }
 };

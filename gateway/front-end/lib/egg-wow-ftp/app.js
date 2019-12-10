@@ -1,7 +1,7 @@
 'use strict';
 
-const oss = require('./lib/oss');
+const ftp = require('./lib/ftp');
 
 module.exports = app => {
-  oss(app);
+    ftp(app);
 };
