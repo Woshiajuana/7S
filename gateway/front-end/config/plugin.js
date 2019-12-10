@@ -20,6 +20,13 @@ exports.oss = {
     package: 'egg-oss',
 };
 
+// FTP
+exports.ftp = {
+    enable: true,
+    package: 'egg-oss',
+    path: path.join(__dirname, '../lib/egg-wow-ftp')
+};
+
 // token
 exports.token = {
     enable: true,

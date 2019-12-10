@@ -149,6 +149,17 @@ module.exports = appInfo => {
         ],
     };
 
+    // add ftp
+    config.ftp = {
+        client: {
+            host: '154.8.209.13',
+            port: '21',
+            user: 'ftp',
+            password: 'ftpliujiaoyan1120',
+            baseUrl: 'http://154.8.209.13:48430/'
+        },
+    };
+
     // add log
     config.logger = {
         level: 'INFO',
