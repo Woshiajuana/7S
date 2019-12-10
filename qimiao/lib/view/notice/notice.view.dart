@@ -10,6 +10,10 @@ class NoticeView extends StatefulWidget {
 
 class _NoticeViewState extends State<NoticeView> {
 
+  ScrollController _scrollController = new ScrollController();
+
+  
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -23,15 +27,18 @@ class _NoticeViewState extends State<NoticeView> {
           ),
         ),
       ),
-      body: new ListView(
-        children: <Widget>[
-          _widgetNoticeItem(),
-          _widgetNoticeItem(),
-          _widgetNoticeItem(),
-          _widgetNoticeItem(),
-          _widgetNoticeItem(),
-          _widgetNoticeItem(),
-        ],
+      body: new RefreshIndicator(
+        onRefresh: _onRefresh,
+        child: new ListView(
+          children: <Widget>[
+            _widgetNoticeItem(),
+            _widgetNoticeItem(),
+            _widgetNoticeItem(),
+            _widgetNoticeItem(),
+            _widgetNoticeItem(),
+            _widgetNoticeItem(),
+          ]
+        ),
       ),
     );
   }
@@ -83,5 +90,12 @@ class _NoticeViewState extends State<NoticeView> {
     );
   }
 
+  Future<void> _onRefresh() async {
+    print("RefreshListPage _onRefresh()");
+//    await Future.delayed(Duration(seconds: 2), () {
+//      _list = List.generate(15, (i) => "我是刷新出的数据${i}");
+//      setState(() {});
+//    });
+  }
 
 }
