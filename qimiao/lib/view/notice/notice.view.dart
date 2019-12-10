@@ -28,6 +28,7 @@ class _NoticeViewState extends State<NoticeView> {
 //        _loadMore();
       }
     });
+    this._reqNoticeList();
   }
 
   @override
@@ -155,9 +156,9 @@ class _NoticeViewState extends State<NoticeView> {
       Future.delayed(Duration(milliseconds: 0)).then((e) async{
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
-        ListJsonMode listJsonMode = await Application.util.http.post(strUrl, params: mapParams, useLoading: false);
+        ListJsonMode listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
         setState(() {
-          _arrData = _arrData.;
+          _arrData = listJsonMode.list;
         });
       });
     } catch (err) {
