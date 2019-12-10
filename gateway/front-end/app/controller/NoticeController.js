@@ -67,12 +67,12 @@ module.exports = class HandleController extends Controller {
                 user: [ 'nonempty' ],
                 title: [ 'nonempty' ],
                 nature: [ 'nonempty', (v) => ['PRIVATE', 'PUBLIC'].indexOf(v) > -1 ],
-                type: [ 'nonempty' ],
+                type: [ 'nonempty', (v) => ['LINK', 'TEXT'].indexOf(v) > -1 ],
                 content: [ 'nonempty' ],
                 push: [ 'nonempty' ],
             });
             await service.transformService.curl('api/v1/notice/create', { data: objParams });
-            ctx.respSuccess(data);
+            ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
         }
@@ -93,7 +93,6 @@ module.exports = class HandleController extends Controller {
             let objParams = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            let { id: user } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/notice/create', { data: objParams });
             ctx.respSuccess(data);
         } catch (err) {

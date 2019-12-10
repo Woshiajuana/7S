@@ -83,13 +83,13 @@ class _MineViewState extends State<MineView> {
                       ),
 //                      model.user.numPrivateNotice + model.user.numPublicNotice > 0
                       new Positioned(
-                        top: 10.0,
-                        right: 10.0,
+                        top: 12.0,
+                        right: 11.0,
                         child: new Offstage(
                           offstage: !(model.user.numPrivateNotice + model.user.numPublicNotice > 0),
                           child: new Container(
-                            width: 10.0,
-                            height: 10.0,
+                            width: 7.0,
+                            height: 7.0,
                             decoration: new BoxDecoration(
                               color: Colors.red,
                               borderRadius: new BorderRadius.circular(6.0),
@@ -392,7 +392,6 @@ class _MineViewState extends State<MineView> {
 
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     print('didChangeDependencies');
   }
 
