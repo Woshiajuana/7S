@@ -157,8 +157,12 @@ class _NoticeViewState extends State<NoticeView> {
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
         ListJsonMode listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
+        print('listJsonMode.list =>');
+        print(listJsonMode.list);
+        List s = listJsonMode.list;
+        print('listJsonMode.list => ${s}');
         setState(() {
-          _arrData = listJsonMode.list;
+          _arrData = new List<NoticeJsonModel>.from(listJsonMode.list);
         });
       });
     } catch (err) {
