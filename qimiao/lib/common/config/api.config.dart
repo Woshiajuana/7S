@@ -54,5 +54,10 @@ class Api {
   String get doFileUpload {
     return 'v1/app/file/upload';
   }
+
+  // 获取通知列表
+  String get reqNoticeList {
+    return 'v1/app/notice/list';
+  }
   
 }
