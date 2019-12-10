@@ -110,7 +110,7 @@ class _NoticeViewState extends State<NoticeView> {
         ),
       ),
       child: new FlatButton(
-        onPressed: () => Application.router.push(context, 'noticeDetails', params: { 'title': '实名认证' }),
+        onPressed: () => Application.router.push(context, 'noticeDetails', params: { 'title': noticeJsonModel.title ?? '' }),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -119,7 +119,7 @@ class _NoticeViewState extends State<NoticeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  '2019/09/09 10:10:10',
+                  noticeJsonModel.created_at ?? '',
                   style: new TextStyle(
                     color: Color(0xff999999),
                     fontSize: 12.0,
@@ -127,7 +127,7 @@ class _NoticeViewState extends State<NoticeView> {
                 ),
                 new SizedBox(height: 5.0),
                 new Text(
-                  '实名认证',
+                  noticeJsonModel.title ?? '',
                   style: new TextStyle(
                     color: Color(0xff666666),
                     fontSize: 16.0,
