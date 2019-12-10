@@ -113,18 +113,9 @@ class _MineViewState extends State<MineView> {
       decoration: new BoxDecoration(
         color: Color(0xffdddddd),
         image: new DecorationImage(
-          image: (model.user.avatar != null && model.user.avatar != '') ? new Image.network(model.user.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          image: (model.user.avatar != null && model.user.avatar != '') ? new NetworkImage(model.user.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
           fit: BoxFit.cover,
         ),
-
-//        image: new CachedNetworkImage(
-//          width: double.infinity,
-//          height: double.infinity,
-//          fit: BoxFit.cover,
-//          imageUrl: model.user.avatar,
-//          placeholder: (context, url) => new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-//          errorWidget: (context, url, error) => new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-//        ),
       ),
       child: new Stack(
         children: <Widget>[
