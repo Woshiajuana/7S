@@ -44,8 +44,16 @@ class _MineCenterViewState extends State<MineCenterView> {
                   height: 70.0,
                   fit: BoxFit.cover,
                   imageUrl: model?.user?.avatar,
-                  placeholder: (context, url) => Image.asset(Application.util.getImgPath('defaultFace013x.png')),
-                  errorWidget: (context, url, error) => Image.asset(Application.util.getImgPath('defaultFace013x.png')),
+                  placeholder: (context, url) => Image.asset(
+                    Application.util.getImgPath('defaultFace013x.png'),
+                    width: 70.0,
+                    height: 70.0,
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    Application.util.getImgPath('defaultFace013x.png'),
+                    width: 70.0,
+                    height: 70.0,
+                  ),
                 ),
               ),
             ),
