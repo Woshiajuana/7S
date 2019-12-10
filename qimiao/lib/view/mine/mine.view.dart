@@ -37,7 +37,7 @@ class _MineViewState extends State<MineView> {
                       return <Widget> [
                         _widgetHeaderBgSection(model: model),
                         _widgetHeaderSection(model: model),
-                        _widgetAppBarSection(),
+                        _widgetAppBarSection(model: model),
                       ];
                     }
                 ),
@@ -58,7 +58,9 @@ class _MineViewState extends State<MineView> {
   }
 
   // appbar
-  Widget _widgetAppBarSection () {
+  Widget _widgetAppBarSection ({
+    StateModel model,
+  }) {
     return new Positioned(
       left: 0,
       right: 0,
@@ -79,16 +81,20 @@ class _MineViewState extends State<MineView> {
                         icon: new Icon(Icons.email, color: Colors.white),
                         onPressed: () => Application.router.push(context, 'notice'),
                       ),
+//                      model.user.numPrivateNotice + model.user.numPublicNotice > 0
                       new Positioned(
                         top: 10.0,
                         right: 10.0,
-                        child: new Container(
-                          width: 10.0,
-                          height: 10.0,
-                          decoration: new BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: new BorderRadius.circular(6.0),
-                            border: new Border.all(color: Colors.transparent, width: 2.0),
+                        child: new Offstage(
+                          offstage: !(model.user.numPrivateNotice + model.user.numPublicNotice > 0),
+                          child: new Container(
+                            width: 10.0,
+                            height: 10.0,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: new BorderRadius.circular(6.0),
+                              border: new Border.all(color: Colors.transparent, width: 2.0),
+                            ),
                           ),
                         ),
                       ),
