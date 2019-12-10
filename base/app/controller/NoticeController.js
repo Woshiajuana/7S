@@ -23,7 +23,6 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [nature] 消息性质
      * @apiParam  {String} [type] 消息类型
      * @apiParam  {String} [content] 消息内容
-     * @apiParam  {String} [unread] 已读未读
      * @apiParam  {String} [push]  推送状态
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/notice/create
@@ -155,6 +154,7 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [],
+                nature: [],
                 keyword: [],
             });
             const data = await service.noticeService.list(objParams);

@@ -54,11 +54,11 @@ module.exports = class HandleServer extends Service {
     // 列表
     async list (data) {
         const { ctx, app } = this;
-        let { numIndex, numSize, keyword, user } = data;
+        let { numIndex, numSize, keyword, user, nature } = data;
         numIndex = +numIndex;
         numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
-        if (user) {
+        if (nature !== 'PUBLIC' && user) {
             filter.user = app.mongoose.Types.ObjectId(user);
         }
         if (keyword) {

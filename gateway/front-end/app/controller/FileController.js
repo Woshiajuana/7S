@@ -18,8 +18,8 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/app/file/upload 上传文件
      * @apiDescription  File 文件模块
      * @apiGroup  文件
-     * @apiParam  {String} [account] 账号
-     * @apiParam  {String} [password] 密码
+     * @apiParam  {String} [type] 类型
+     * @apiParam  {String} [file] 文件
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/app/file/upload
      */
