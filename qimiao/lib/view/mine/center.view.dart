@@ -170,36 +170,6 @@ class _MineCenterViewState extends State<MineCenterView> {
     );
   }
 
-  // 头像
-  void _handleAvatar () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '相册',
-              'child': new Container(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: new Icon(Icons.photo, color: Color(0xff666666)),
-              ),
-              'onPressed': () => _handleImagePicker(source: ImageSource.gallery),
-            },
-            {
-              'text': '拍照',
-              'child': new Container(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
-              ),
-              'onPressed': () => _handleImagePicker(source: ImageSource.camera),
-            }
-          ],
-        );
-      },
-    );
-  }
-
   // 性别
   void _handleSex () {
     showDialog(
@@ -250,6 +220,36 @@ class _MineCenterViewState extends State<MineCenterView> {
     }
   }
 
+  // 头像
+  void _handleAvatar () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '相册',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.photo, color: Color(0xff666666)),
+              ),
+              'onPressed': () => _handleImagePicker(source: ImageSource.gallery),
+            },
+            {
+              'text': '拍照',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
+              ),
+              'onPressed': () => _handleImagePicker(source: ImageSource.camera),
+            }
+          ],
+        );
+      },
+    );
+  }
+
   // 上传图片
   void _handleImagePicker ({
     ImageSource source,
@@ -273,7 +273,8 @@ class _MineCenterViewState extends State<MineCenterView> {
       state.setUserJsonModel(userJsonModel);
       await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       Application.util.modal.toast('修改成功');
-      Application.router.pop(context);
+      print('到这里了');
+//      Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
     }

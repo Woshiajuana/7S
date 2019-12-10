@@ -28,7 +28,6 @@ class Loading {
         );
       },
     ).then((value) {
-      _context = null;
       if (callback != null) {
         callback(value);
       }

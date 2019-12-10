@@ -27,7 +27,6 @@ class Http {
     _dio.interceptors
     .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       String accessToken = await Application.util.store.get(Application.config.store.accessToken);
-      print('请求的 token=> ${accessToken}');
       if (accessToken != null) {
         options.headers = {
           'access-token': accessToken,
@@ -84,7 +83,9 @@ class Http {
     if (useLoading) Application.util.loading.show(Application.context);
     Response response;
     try {
+      print('开始执行请求 useLoading => ${useLoading}');
       response = await _dio.post(url, data: params, options: options);
+      print('结束执行请求 useLoading => ${useLoading}');
       if (useLoading) Application.util.loading.hide();
     } catch (e) {
       if (useLoading) Application.util.loading.hide();
