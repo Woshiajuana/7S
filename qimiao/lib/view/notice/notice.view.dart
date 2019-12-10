@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:qimiao/model/model.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -81,4 +82,6 @@ class _NoticeViewState extends State<NoticeView> {
       ),
     );
   }
+
+
 }

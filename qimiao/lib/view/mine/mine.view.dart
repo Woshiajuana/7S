@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class MineView extends StatefulWidget {
   @override
