@@ -19,11 +19,9 @@ function createClient(config, app) {
         });
     });
     ftp.putPlus = (input, output) => new Promise(async (resolve, reject) => {
-        console.log('ftp 上传 input=> ', input);
-        console.log('ftp 上传 output=> ', output);
         await ftp.tryDir(output);
         ftp.put(input, output, (err) => {
-            ftp.end();
+            // ftp.end();
             err ? reject(err) : resolve();
         });
     });
