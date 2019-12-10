@@ -6,6 +6,7 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MineCenterView extends StatefulWidget {
   @override
@@ -38,12 +39,13 @@ class _MineCenterViewState extends State<MineCenterView> {
                 borderRadius: new BorderRadius.circular((41)), // 圆角度
               ),
               child: new ClipOval(
-                child: new FadeInImage.assetNetwork(
+                child: new CachedNetworkImage(
                   width: 70.0,
                   height: 70.0,
-                  placeholder: Application.config.style.srcGoodsNull,
-                  image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
+                  imageUrl: model?.user?.avatar,
+                  placeholder: (context, url) => Image.asset(Application.util.getImgPath('defaultFace013x.png')),
+                  errorWidget: (context, url, error) => Image.asset(Application.util.getImgPath('defaultFace013x.png')),
                 ),
               ),
             ),
