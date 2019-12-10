@@ -255,6 +255,7 @@ class _MineCenterViewState extends State<MineCenterView> {
     ImageSource source,
   }) async {
     try {
+      Application.router.pop(context);
       var image = await ImagePicker.pickImage(source: source);
       if (image == null) return null;
       String path = image.path;
@@ -273,8 +274,6 @@ class _MineCenterViewState extends State<MineCenterView> {
       state.setUserJsonModel(userJsonModel);
       await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       Application.util.modal.toast('修改成功');
-      print('到这里了');
-//      Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
     }
