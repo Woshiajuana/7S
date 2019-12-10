@@ -208,9 +208,9 @@ class _MineCenterViewState extends State<MineCenterView> {
   // 提交性别
   void _handleSexSubmit (item) async {
     try {
+      Application.router.pop(context);
       String strSex = item['value'];
       if (strSex == StateModel.of(context).user.sex) {
-        Application.router.pop(context);
         return null;
       }
       String strUrl = Application.config.api.doUserUpdateInfo;
@@ -222,7 +222,6 @@ class _MineCenterViewState extends State<MineCenterView> {
       await Application.util.store.set(Application.config.store.userJson, userJsonModel.toJson());
       state.setUserJsonModel(userJsonModel);
       Application.util.modal.toast('修改成功');
-      Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
     }
