@@ -32,10 +32,10 @@ class NoticeJsonModel {
   String content;
 
   @JsonKey(name: 'unread')
-  String unread;
+  bool unread;
 
   @JsonKey(name: 'push')
-  String push;
+  bool push;
 
   @JsonKey(name: 'created_at')
   String created_at;

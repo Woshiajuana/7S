@@ -12,8 +12,8 @@ NoticeJsonModel _$NoticeJsonModelFromJson(Map<String, dynamic> json) {
       json['nature'] as String,
       json['type'] as String,
       json['content'] as String,
-      json['unread'] as String,
-      json['push'] as String,
+      json['unread'] as bool,
+      json['push'] as bool,
       json['created_at'] as String,
       json['updated_at'] as String);
 }

@@ -16,7 +16,7 @@ class ListJsonMode {
   );
 
   @JsonKey(name: 'list')
-  dynamic list;
+  List list;
 
   @JsonKey(name: 'total')
   int total;

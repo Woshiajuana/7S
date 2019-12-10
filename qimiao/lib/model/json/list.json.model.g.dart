@@ -7,7 +7,7 @@ part of 'list.json.model.dart';
 // **************************************************************************
 
 ListJsonMode _$ListJsonModeFromJson(Map<String, dynamic> json) {
-  return ListJsonMode(json['list'], json['total'] as int,
+  return ListJsonMode(json['list'] as List, json['total'] as int,
       json['numIndex'] as int, json['numSize'] as int);
 }
 
