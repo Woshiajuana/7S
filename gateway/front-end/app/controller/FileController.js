@@ -31,7 +31,6 @@ module.exports = class HandleController extends Controller {
             ] = await ctx.validateFiles([
                 [ 'nonempty' ]
             ]);
-            console.log('file => ', file);
             let {
                 ip,
                 userAgent = {},
