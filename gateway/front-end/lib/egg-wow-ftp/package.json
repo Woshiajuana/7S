@@ -31,17 +31,14 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "ali-oss": "^6.0.1"
+    "ftp": "^0.3.10"
   },
   "deprecated": false,
-  "description": "OSS plugin for egg",
+  "description": "FTP plugin for egg",
   "devDependencies": {
     "autod": "^3.0.1",
     "egg": "^2.11.2",
     "egg-bin": "^4.9.0",
-    "egg-mock": "^3.20.1",
-    "eslint": "^5.6.1",
-    "eslint-config-egg": "^7.1.0",
     "is-type-of": "^1.2.1"
   },
   "eggPlugin": {
@@ -62,7 +59,7 @@
     "egg",
     "egg-plugin",
     "eggPlugin",
-    "oss"
+    "ftp"
   ],
   "license": "MIT",
   "name": "egg-wow-ftp",

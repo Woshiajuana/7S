@@ -20,6 +20,7 @@
         "egg-wow-response": "0.0.1",
         "egg-wow-token": "0.0.2",
         "egg-wow-validate": "0.0.1",
+        "ftp": "^0.3.10",
         "moment": "^2.24.0",
         "ms": "^2.1.2",
         "nodemailer": "^4.0.1",
