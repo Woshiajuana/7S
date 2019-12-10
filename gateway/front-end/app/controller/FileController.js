@@ -49,18 +49,16 @@ module.exports = class HandleController extends Controller {
                 // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
                 type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
             });
-            let result;
             let { filepath, filename } = file;
             let strPath = `${rootDir}/${id}/${type}/`;
             let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.substring(filename.lastIndexOf('.')+1)}`;
             try {
-                result = await ctx.ftp.putPlus(filepath, `${strPath}${strName}`);
+                await ctx.ftp.putPlus(filepath, `${strPath}${strName}`);
             } catch (e) {
-                this.logger.info(`上传FTP失败=> ${result.toString()}`);
+                this.logger.info(`上传FTP失败=> ${JSON.stringify(e)}`);
             } finally {
                 await fs.unlink(filepath);
             }
-            if (!result) throw '文件上传失败';
             const {
                 _id
             } = await service.transformService.curl('api/v1/file/create', {
