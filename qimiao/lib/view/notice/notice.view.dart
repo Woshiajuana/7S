@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/model.dart';
+import 'package:qimiao/widget/widget.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -46,7 +47,8 @@ class _NoticeViewState extends State<NoticeView> {
       ),
       body: new RefreshIndicator(
         onRefresh: _onRefresh,
-        child: ListView.builder(
+        child: new ListView.builder(
+          physics: new AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           itemCount: _arrData.length == 0 ? 0 : _isLoading ? _arrData.length + 1 : _arrData.length,
           itemBuilder: (context, index) {
