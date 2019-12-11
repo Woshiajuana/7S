@@ -16,6 +16,7 @@ class _NoticeViewState extends State<NoticeView> {
   bool _isLoading = false;
   int _numIndex = 1;
   int _numSize = 10;
+  bool _isLoad;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _NoticeViewState extends State<NoticeView> {
       ),
       body: new WowView(
 //        isLoading: ,
+        isLoading: _isLoad,
         child: new RefreshIndicator(
           onRefresh: _onRefresh,
           child: new ListView.builder(
@@ -157,18 +159,22 @@ class _NoticeViewState extends State<NoticeView> {
   }
 
   void _reqNoticeList () async {
-    try {
-      Future.delayed(Duration(milliseconds: 0)).then((e) async{
+    Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
         ListJsonMode listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
         setState(() {
           _arrData = listJsonMode.list.map((item) => NoticeJsonModel.fromJson(item)).toList();
         });
-      });
-    } catch (err) {
-      Application.util.modal.toast(err);
-    }
+      } catch (err) {
+        Application.util.modal.toast(err);
+      } finally {
+        setState(() {
+          _isLoad = false;
+        });
+      }
+    });
   }
 
 }
