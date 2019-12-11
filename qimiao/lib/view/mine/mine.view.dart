@@ -34,6 +34,7 @@ class _MineViewState extends State<MineView> {
                     paddingTop: MediaQuery.of(context).padding.top,
                     buildContent: (BuildContext context, double shrinkOffset, int alpha) {
                       return <Widget> [
+                        _widgetHeaderDefBgSection(),
                         _widgetHeaderBgSection(model: model),
                         _widgetHeaderSection(model: model),
                         _widgetAppBarSection(model: model),
@@ -53,6 +54,20 @@ class _MineViewState extends State<MineView> {
           ),
         );
       }
+    );
+  }
+
+  // 默认背景
+  Widget _widgetHeaderDefBgSection () {
+    return new Container(
+      height: 310.0,
+      decoration: new BoxDecoration(
+        color: Color(0xffdddddd),
+        image: new DecorationImage(
+          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 
@@ -117,7 +132,6 @@ class _MineViewState extends State<MineView> {
       height: 310.0,
       alignment: Alignment.bottomCenter,
       decoration: new BoxDecoration(
-        color: Color(0xffdddddd),
         image: new DecorationImage(
           image: (model.user.avatar != null && model.user.avatar != '') ? new NetworkImage(model.user.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
           fit: BoxFit.cover,
