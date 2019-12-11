@@ -60,6 +60,8 @@ class _MineViewState extends State<MineView> {
   Widget _widgetAppBarSection ({
     StateModel model,
   }) {
+    int numPrivateNotice = model?.user?.numPrivateNotice ?? 0;
+    int numPublicNotice = model?.user?.numPublicNotice ?? 0;
     return new Positioned(
       left: 0,
       right: 0,
@@ -80,12 +82,11 @@ class _MineViewState extends State<MineView> {
                         icon: new Icon(Icons.email, color: Colors.white),
                         onPressed: () => Application.router.push(context, 'notice'),
                       ),
-//                      model.user.numPrivateNotice + model.user.numPublicNotice > 0
                       new Positioned(
                         top: 12.0,
                         right: 11.0,
                         child: new Offstage(
-                          offstage: !(model.user.numPrivateNotice + model.user.numPublicNotice > 0),
+                          offstage: !(numPrivateNotice + numPublicNotice > 0),
                           child: new Container(
                             width: 7.0,
                             height: 7.0,
@@ -395,17 +396,17 @@ class _MineViewState extends State<MineView> {
   }
 
   void _reqUserInfo () async {
-    try {
-      Future.delayed(Duration(milliseconds: 0)).then((e) async{
+    Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
         String strUrl = Application.config.api.reqUserInfo;
         var data = await Application.util.http.post(strUrl, useLoading: false);
         Application.util.store.set(Application.config.store.userJson, data);
         UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
         StateModel.of(context).setUserJsonModel(userJsonModel);
-      });
-    } catch (err) {
-      Application.util.modal.toast(err);
-    }
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+    });
   }
 
 }
