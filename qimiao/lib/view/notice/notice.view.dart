@@ -45,15 +45,18 @@ class _NoticeViewState extends State<NoticeView> {
           ),
         ),
       ),
-      body: new RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: new ListView.builder(
-          physics: new AlwaysScrollableScrollPhysics(),
-          controller: _scrollController,
-          itemCount: _arrData.length == 0 ? 0 : _isLoading ? _arrData.length + 1 : _arrData.length,
-          itemBuilder: (context, index) {
-            return _getRow(context, index);
-          },
+      body: new WowView(
+//        isLoading: ,
+        child: new RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: new ListView.builder(
+            physics: new AlwaysScrollableScrollPhysics(),
+            controller: _scrollController,
+            itemCount: _arrData.length == 0 ? 0 : _isLoading ? _arrData.length + 1 : _arrData.length,
+            itemBuilder: (context, index) {
+              return _getRow(context, index);
+            },
+          ),
         ),
       ),
     );
