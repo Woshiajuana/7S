@@ -12,7 +12,7 @@ class NoticeView extends StatefulWidget {
 class _NoticeViewState extends State<NoticeView> {
 
   ScrollController _scrollController;
-  List<NoticeJsonModel> _arrData = [];
+  List<NoticeJsonModel> _arrData;
   bool _isLoading = false;
   int _numIndex = 1;
   int _numSize = 10;
@@ -34,6 +34,7 @@ class _NoticeViewState extends State<NoticeView> {
 
   @override
   Widget build(BuildContext context) {
+    int len = _arrData?.length ?? 0;
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
@@ -52,7 +53,7 @@ class _NoticeViewState extends State<NoticeView> {
           child: new ListView.builder(
             physics: new AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
-            itemCount: _arrData?.length == 0 ? 0 : _isLoading ? _arrData.length + 1 : _arrData.length,
+            itemCount: _isLoading ? len + 1 : len,
             itemBuilder: (context, index) {
               return _getRow(context, index);
             },
@@ -167,9 +168,6 @@ class _NoticeViewState extends State<NoticeView> {
         });
       } catch (err) {
         Application.util.modal.toast(err);
-      } finally {
-        setState(() {
-        });
       }
     });
   }
