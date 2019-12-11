@@ -155,7 +155,7 @@ class _NoticeViewState extends State<NoticeView> {
   // 刷新
   Future<void> _handleRefresh() async {
     _numIndex = 1;
-    this._reqNoticeList();
+    await this._reqNoticeList();
   }
 
   // 下拉加载
@@ -173,7 +173,7 @@ class _NoticeViewState extends State<NoticeView> {
   }
 
   void _reqNoticeList () async {
-    Future.delayed(Duration(milliseconds: 0)).then((e) async{
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
