@@ -16,7 +16,6 @@ class _NoticeViewState extends State<NoticeView> {
   bool _isLoading = false;
   int _numIndex = 1;
   int _numSize = 10;
-  bool _isLoad;
 
   @override
   void initState() {
@@ -169,7 +168,6 @@ class _NoticeViewState extends State<NoticeView> {
         Application.util.modal.toast(err);
       } finally {
         setState(() {
-          _isLoad = false;
         });
       }
     });
