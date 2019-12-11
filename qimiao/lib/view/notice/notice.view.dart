@@ -46,9 +46,7 @@ class _NoticeViewState extends State<NoticeView> {
           ),
         ),
       ),
-      body: new WowView(
-//        isLoading: ,
-        isLoading: _isLoad,
+      body: new WowLoadView(
         child: new RefreshIndicator(
           onRefresh: _onRefresh,
           child: new ListView.builder(
