@@ -12,6 +12,7 @@ class NoticeView extends StatefulWidget {
 class _NoticeViewState extends State<NoticeView> {
 
   ScrollController _scrollController;
+  ListJsonMode _listJsonMode;
   List<NoticeJsonModel> _arrData;
   bool _isLoading = false;
   int _numIndex = 1;
@@ -26,7 +27,7 @@ class _NoticeViewState extends State<NoticeView> {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；
       if (position.maxScrollExtent - position.pixels < 50) {
-//        _loadMore();
+        _loadingMore();
       }
     });
     this._reqNoticeList();
@@ -49,7 +50,7 @@ class _NoticeViewState extends State<NoticeView> {
       body: new WowLoadView(
         data: _arrData,
         child: new RefreshIndicator(
-          onRefresh: _onRefresh,
+          onRefresh: _handleRefresh,
           child: new ListView.builder(
             physics: new AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
@@ -73,6 +74,8 @@ class _NoticeViewState extends State<NoticeView> {
 
   // 加载
   Widget _getMoreWidget() {
+    int numTotal = _listJsonMode?.total ?? 0;
+    int len = _arrData?.length ?? 0;
     return Center(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -80,7 +83,7 @@ class _NoticeViewState extends State<NoticeView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            numTotal == len ? new Container() : SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
@@ -90,7 +93,7 @@ class _NoticeViewState extends State<NoticeView> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: Text(
-                '加载中...',
+                numTotal == len ? '加载完毕' : '加载中...',
                 style: TextStyle(fontSize: 16.0),
               ),
             ),
@@ -149,12 +152,24 @@ class _NoticeViewState extends State<NoticeView> {
     );
   }
 
-  Future<void> _onRefresh() async {
-    print("RefreshListPage _onRefresh()");
-//    await Future.delayed(Duration(seconds: 2), () {
-//      _list = List.generate(15, (i) => "我是刷新出的数据${i}");
-//      setState(() {});
-//    });
+  // 刷新
+  Future<void> _handleRefresh() async {
+    _numIndex = 1;
+    this._reqNoticeList();
+  }
+
+  // 下拉加载
+  void _loadingMore () async {
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+      int numTotal = _listJsonMode?.total ?? 0;
+      int len = _arrData?.length ?? 0;
+      if (numTotal == len) return null;
+      _numIndex++;
+      this._reqNoticeList();
+    }
   }
 
   void _reqNoticeList () async {
@@ -162,12 +177,15 @@ class _NoticeViewState extends State<NoticeView> {
       try {
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
-        ListJsonMode listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
+        _listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
         setState(() {
-          _arrData = listJsonMode.list.map((item) => NoticeJsonModel.fromJson(item)).toList();
+          List<NoticeJsonModel> data = _listJsonMode.list.map((item) => NoticeJsonModel.fromJson(item)).toList();
+          _numIndex == 1 ? _arrData = data : _arrData.addAll(data);
         });
       } catch (err) {
         Application.util.modal.toast(err);
+      } finally {
+        _isLoading = false;
       }
     });
   }
