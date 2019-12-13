@@ -11,3 +11,4 @@ export 'alertToastDialog.widget.dart';
 export 'wowScrollerInfo.widget.dart';
 export 'wowAppBar.widget.dart';
 export 'wowLoadView.widget.dart';
+export 'wowScrollListView.widget.dart';
