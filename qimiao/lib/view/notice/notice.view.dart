@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:qimiao/widget/widget.dart';
-import 'package:date_utils/date_utils.dart';
+import "package:intl/intl.dart";
+import 'package:date_format/date_format.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -26,13 +27,12 @@ class _NoticeViewState extends State<NoticeView> {
 
   @override
   Widget build(BuildContext context) {
-    print(DateTime.parse('2019-12-13T08:01:12.938Z'));
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '消息1',
+          '消息',
           style: new TextStyle(
             fontSize: 18.0,
           ),
@@ -57,7 +57,7 @@ class _NoticeViewState extends State<NoticeView> {
   Widget _widgetNoticeItem ({
     NoticeJsonModel noticeJsonModel,
   }) {
-//    String time = noticeJsonModel.created_at != null ? Utils.apiDayFormat(new DateTime(noticeJsonModel.created_at)) : '';
+    String time = noticeJsonModel.created_at != null ? formatDate(DateTime.parse(noticeJsonModel.created_at), [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]) : '';
     return new Container(
       height: 70,
       decoration: new BoxDecoration(
@@ -81,7 +81,7 @@ class _NoticeViewState extends State<NoticeView> {
                 new Row(
                   children: <Widget>[
                     new Text(
-                      noticeJsonModel.created_at ?? '',
+                      time,
                       style: new TextStyle(
                         color: Color(0xff999999),
                         fontSize: 12.0,

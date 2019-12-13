@@ -38,6 +38,7 @@ dependencies:
   video_player: ^0.9.0                    # 视频播放器
   scoped_model: 1.0.1                     # 状态管理
   json_annotation: ^2.0.0                 # JSON序列化
+  date_format: 1.0.8                      # 时间格式化
 
 dev_dependencies:
   flutter_test:
