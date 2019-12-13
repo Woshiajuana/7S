@@ -11,10 +11,8 @@ class NoticeView extends StatefulWidget {
 
 class _NoticeViewState extends State<NoticeView> {
 
-  ScrollController _scrollController;
   ListJsonMode _listJsonMode;
   List<NoticeJsonModel> _arrData;
-  bool _isLoading = false;
   int _numIndex = 1;
   int _numSize = 10;
 
@@ -22,14 +20,6 @@ class _NoticeViewState extends State<NoticeView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController = new ScrollController();
-    _scrollController.addListener(() {
-      var position = _scrollController.position;
-      // 小于50px时，触发上拉加载；
-      if (position.maxScrollExtent - position.pixels < 50) {
-        _loadingMore();
-      }
-    });
     this._reqNoticeList();
   }
 
@@ -49,55 +39,14 @@ class _NoticeViewState extends State<NoticeView> {
       ),
       body: new WowLoadView(
         data: _arrData,
-        child: new RefreshIndicator(
+        child: new WowScrollListView(
           onRefresh: _handleRefresh,
-          child: new ListView.builder(
-            physics: new AlwaysScrollableScrollPhysics(),
-            controller: _scrollController,
-            itemCount: _isLoading ? len + 1 : len,
-            itemBuilder: (context, index) {
-              return _getRow(context, index);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  // 获取列
-  Widget _getRow(BuildContext context, int index) {
-    if (index < _arrData.length) {
-      return _widgetNoticeItem(noticeJsonModel: _arrData[index]);
-    }
-    return _getMoreWidget();
-  }
-
-  // 加载
-  Widget _getMoreWidget() {
-    int numTotal = _listJsonMode?.total ?? 0;
-    int len = _arrData?.length ?? 0;
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            numTotal == len ? new Container() : SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 4.0,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Text(
-                numTotal == len ? '加载完毕' : '加载中...',
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ),
-          ],
+          onLoad: _loadingMore,
+          data: _arrData,
+          total: _listJsonMode.total,
+          itemBuilder: (content, index) {
+            return _widgetNoticeItem(noticeJsonModel: _arrData[index]);
+          }
         ),
       ),
     );
@@ -159,20 +108,16 @@ class _NoticeViewState extends State<NoticeView> {
   }
 
   // 下拉加载
-  void _loadingMore () async {
-    if (!_isLoading) {
-      setState(() {
-        _isLoading = true;
-      });
-      int numTotal = _listJsonMode?.total ?? 0;
-      int len = _arrData?.length ?? 0;
-      if (numTotal == len) return null;
-      _numIndex++;
-      this._reqNoticeList();
-    }
+  void _loadingMore ({
+    Function callback,
+  }) async {
+    _numIndex++;
+    this._reqNoticeList(callback: callback);
   }
 
-  void _reqNoticeList () async {
+  void _reqNoticeList ({
+    Function callback,
+  }) async {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqNoticeList;
@@ -185,7 +130,7 @@ class _NoticeViewState extends State<NoticeView> {
       } catch (err) {
         Application.util.modal.toast(err);
       } finally {
-        _isLoading = false;
+        if (callback != null) callback();
       }
     });
   }

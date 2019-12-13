@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 class WowScrollListView extends StatefulWidget {
 
   WowScrollListView({
-    @required this.child,
     @required this.onRefresh,
     @required this.onLoad,
     @required this.data,
-    @required this.itemBuilder,
     @required this.total,
+    @required this.itemBuilder,
   });
 
-  final Widget child;
   final RefreshCallback onRefresh;
   final Function onLoad;
   final Function itemBuilder;
@@ -37,7 +35,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；
       if (position.maxScrollExtent - position.pixels < 50) {
-        widget.onLoad();
+        this._loadingMore();
       }
     });
   }
@@ -96,5 +94,18 @@ class _WowScrollListViewState extends State<WowScrollListView> {
         ),
       ),
     );
+  }
+
+  //
+  void _loadingMore () async {
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+      int total = widget.total ?? 0;
+      int len = widget.data?.length ?? 0;
+      if (total == len) return null;
+      widget.onLoad(callback: setState(() => _isLoading = false));
+    }
   }
 }
