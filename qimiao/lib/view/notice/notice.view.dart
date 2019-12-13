@@ -4,7 +4,6 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:qimiao/widget/widget.dart';
 import "package:intl/intl.dart";
-import 'package:date_format/date_format.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -27,7 +26,6 @@ class _NoticeViewState extends State<NoticeView> {
 
   @override
   Widget build(BuildContext context) {
-    print(formatDate(DateTime.now(), [yyyy, "年", mm, "月", dd, ' ', HH, ':', nn, ':', ss]));
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
@@ -58,7 +56,7 @@ class _NoticeViewState extends State<NoticeView> {
   Widget _widgetNoticeItem ({
     NoticeJsonModel noticeJsonModel,
   }) {
-    String time = noticeJsonModel.created_at != null ? formatDate(DateTime.parse(noticeJsonModel.created_at), [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]) : '';
+    String time = noticeJsonModel.created_at != null ? new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(noticeJsonModel.created_at).toLocal()) : '';
     return new Container(
       height: 70,
       decoration: new BoxDecoration(
