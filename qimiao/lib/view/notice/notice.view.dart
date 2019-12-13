@@ -40,9 +40,9 @@ class _NoticeViewState extends State<NoticeView> {
         data: _arrData,
         child: new WowScrollListView(
           onRefresh: _handleRefresh,
-          onLoad: _loadingMore,
+          onLoad: _handleLoad,
           data: _arrData,
-          total: _listJsonMode.total,
+          total: _listJsonMode?.total ?? 0,
           itemBuilder: (content, index) {
             return _widgetNoticeItem(noticeJsonModel: _arrData[index]);
           }
@@ -101,13 +101,13 @@ class _NoticeViewState extends State<NoticeView> {
   }
 
   // 刷新
-  Future<void> _handleRefresh() async {
+  void _handleRefresh() async {
     _numIndex = 1;
     await this._reqNoticeList();
   }
 
   // 下拉加载
-  void _loadingMore ({
+  void _handleLoad ({
     Function callback,
   }) async {
     _numIndex++;

@@ -11,7 +11,7 @@ class WowScrollListView extends StatefulWidget {
     @required this.itemBuilder,
   });
 
-  final RefreshCallback onRefresh;
+  final Function onRefresh;
   final Function onLoad;
   final Function itemBuilder;
   final List data;
@@ -34,7 +34,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     _scrollController.addListener(() {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；
-      if (position.maxScrollExtent - position.pixels < 50) {
+      if (position.maxScrollExtent - position.pixels < 30) {
         this._loadingMore();
       }
     });
@@ -52,7 +52,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     int count = widget.data?.length ?? 0;
     int total = widget.total ?? 0;
     return new RefreshIndicator(
-      onRefresh: widget.onRefresh,
+      onRefresh: _handleRefresh,
       child: new ListView.builder(
         physics: new AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
@@ -73,24 +73,22 @@ class _WowScrollListViewState extends State<WowScrollListView> {
   }) {
     return new Center(
       child: new Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             count == total ? new Container() : new SizedBox(
-              width: 20,
-              height: 20,
+              width: 15,
+              height: 15,
               child: new CircularProgressIndicator(
-                strokeWidth: 4.0,
+                strokeWidth: 1.0,
               ),
             ),
-            new Padding(
-              padding: new EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: new Text(
-                count == total ? '加载完毕' : '加载中...',
-                style: new TextStyle(fontSize: 14.0, color: Color(0xff999999)),
-              ),
+            new SizedBox(width: 10.0),
+            new Text(
+              count == total ? '没有更多啦' : '加载中...',
+              style: new TextStyle(fontSize: 12.0, color: Color(0xff999999)),
             ),
           ],
         ),
@@ -98,12 +96,16 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     );
   }
 
-  //
+  // 刷新
+  Future<void> _handleRefresh() async {
+    setState(() => _isLoading = false);
+    await widget.onRefresh();
+  }
+
+  // 加载
   void _loadingMore () async {
     if (!_isLoading) {
-      setState(() {
-        _isLoading = true;
-      });
+      setState(() => _isLoading = true);
       int total = widget.total ?? 0;
       int count = widget.data?.length ?? 0;
       if (total <= count) return null;
