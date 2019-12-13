@@ -104,9 +104,9 @@ module.exports = class HandleController extends Controller {
             // 查询关注数量
             const numFollowing = await service.followingService.count({ user: id });
             // 查询私有未读消息
-            const numPrivateNotice = await service.noticeService.count({ user: id, unread: false, push: true, nature: 'PRIVATE' });
+            const numPrivateNotice = await service.noticeService.count({ user: id, unread: true, push: true, nature: 'PRIVATE' });
             // 查询公共未读消息
-            const numPublicNotice = await service.noticeService.count({ user: id, unread: false, push: true, nature: 'PUBLIC' });
+            const numPublicNotice = await service.noticeService.count({ user: id, unread: true, push: true, nature: 'PUBLIC' });
             delete objUser.password;
             Object.assign(objUser, { numVideo, numPhoto, numFollower, numFollowing, numPrivateNotice, numPublicNotice });
             ctx.logger.info(`查询用户信息：返回结果=> ${JSON.stringify(objUser)} `);

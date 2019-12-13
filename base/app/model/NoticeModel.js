@@ -45,7 +45,7 @@ module.exports = app => {
         // 已读未读
         unread: {
             type: Boolean,
-            default: false,
+            default: true,
         },
 
         // 推送状态

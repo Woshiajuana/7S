@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:qimiao/view/app.view.dart';
 import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/freezeFrame/freezeFrame.view.dart';
-import 'package:qimiao/view/freezeFrame/details.dart';
+import 'package:qimiao/view/freezeFrame/details.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
 import 'package:qimiao/view/notice/notice.view.dart';
 import 'package:qimiao/view/notice/details.view.dart';

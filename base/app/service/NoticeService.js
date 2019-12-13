@@ -72,6 +72,7 @@ module.exports = class HandleServer extends Service {
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
             .limit(numSize)
+            .select('title nature unread push created_at updated_at')
             .populate()
             .lean();
         return {

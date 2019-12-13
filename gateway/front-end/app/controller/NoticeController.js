@@ -93,7 +93,11 @@ module.exports = class HandleController extends Controller {
             let objParams = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            const data = await service.transformService.curl('api/v1/notice/create', { data: objParams });
+            const data = await service.transformService.curl('api/v1/notice/info', { data: objParams });
+            if (data.unread) {
+                await service.transformService.curl('api/v1/notice/update', { data: objParams });
+            }
+
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
