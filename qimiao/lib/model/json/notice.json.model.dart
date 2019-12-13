@@ -9,6 +9,7 @@ part 'notice.json.model.g.dart';
 
 class NoticeJsonModel {
   NoticeJsonModel(
+    this.id,
     this.title,
     this.nature,
     this.type,
@@ -18,6 +19,9 @@ class NoticeJsonModel {
     this.created_at,
     this.updated_at,
   );
+
+  @JsonKey(name: '_id')
+  String id;
 
   @JsonKey(name: 'title')
   String title;

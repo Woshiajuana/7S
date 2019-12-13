@@ -45,7 +45,7 @@ class _NoticeViewState extends State<NoticeView> {
           data: _arrData,
           total: _listJsonMode?.total ?? 0,
           itemBuilder: (content, index) {
-            return _widgetNoticeItem(noticeJsonModel: _arrData[index]);
+            return _widgetNoticeItem(index);
           }
         ),
       ),
@@ -53,9 +53,8 @@ class _NoticeViewState extends State<NoticeView> {
   }
 
   // 消息
-  Widget _widgetNoticeItem ({
-    NoticeJsonModel noticeJsonModel,
-  }) {
+  Widget _widgetNoticeItem (index) {
+    NoticeJsonModel noticeJsonModel = _arrData[index];
     String time = noticeJsonModel.created_at != null ? new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(noticeJsonModel.created_at).toLocal()) : '';
     return new Container(
       height: 70,
@@ -69,7 +68,7 @@ class _NoticeViewState extends State<NoticeView> {
         ),
       ),
       child: new FlatButton(
-        onPressed: () => Application.router.push(context, 'noticeDetails', params: { 'title': noticeJsonModel.title ?? '' }),
+        onPressed: () => _handleJump(index),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -141,6 +140,7 @@ class _NoticeViewState extends State<NoticeView> {
     this._reqNoticeList(callback: callback);
   }
 
+  // 获取列表
   void _reqNoticeList ({
     Function callback,
   }) async {
@@ -159,6 +159,28 @@ class _NoticeViewState extends State<NoticeView> {
         if (callback != null) callback();
       }
     });
+  }
+
+  // 请求数据
+  void _handleJump (index) async {
+    NoticeJsonModel oldNoticeJsonModel = _arrData[index];
+    try {
+      if (oldNoticeJsonModel.content == null || oldNoticeJsonModel.content == '') {
+        String strUrl = Application.config.api.reqNoticeInfo;
+        Map mapParams = { 'id': oldNoticeJsonModel.id };
+        oldNoticeJsonModel = NoticeJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams));
+        oldNoticeJsonModel.unread = false;
+        setState(() {
+          _arrData[index] = oldNoticeJsonModel;
+        });
+      }
+      Application.router.push(context, 'noticeDetails', params: {
+        'title': oldNoticeJsonModel.title ?? '',
+        'content': oldNoticeJsonModel.content ?? '',
+      });
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
 }

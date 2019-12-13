@@ -59,5 +59,10 @@ class Api {
   String get reqNoticeList {
     return 'v1/app/notice/list';
   }
+
+  // 获取通知内容
+  String get reqNoticeInfo {
+    return 'v1/app/notice/info';
+  }
   
 }
