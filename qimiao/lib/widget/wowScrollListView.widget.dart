@@ -105,7 +105,9 @@ class _WowScrollListViewState extends State<WowScrollListView> {
       int total = widget.total ?? 0;
       int len = widget.data?.length ?? 0;
       if (total == len) return null;
-      widget.onLoad(callback: setState(() => _isLoading = false));
+      widget.onLoad(callback: () {
+        setState(() => _isLoading = false);
+      });
     }
   }
 }
