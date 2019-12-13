@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:date_utils/date_utils.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -25,12 +26,13 @@ class _NoticeViewState extends State<NoticeView> {
 
   @override
   Widget build(BuildContext context) {
+    print(DateTime.parse('2019-12-13T08:01:12.938Z'));
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '消息',
+          '消息1',
           style: new TextStyle(
             fontSize: 18.0,
           ),
@@ -55,6 +57,7 @@ class _NoticeViewState extends State<NoticeView> {
   Widget _widgetNoticeItem ({
     NoticeJsonModel noticeJsonModel,
   }) {
+//    String time = noticeJsonModel.created_at != null ? Utils.apiDayFormat(new DateTime(noticeJsonModel.created_at)) : '';
     return new Container(
       height: 70,
       decoration: new BoxDecoration(
@@ -75,12 +78,37 @@ class _NoticeViewState extends State<NoticeView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Text(
-                  noticeJsonModel.created_at ?? '',
-                  style: new TextStyle(
-                    color: Color(0xff999999),
-                    fontSize: 12.0,
-                  ),
+                new Row(
+                  children: <Widget>[
+                    new Text(
+                      noticeJsonModel.created_at ?? '',
+                      style: new TextStyle(
+                        color: Color(0xff999999),
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    new Offstage(
+                      offstage: noticeJsonModel?.unread != true,
+                      child: new Container(
+                        margin: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
+                        decoration: new BoxDecoration(
+                          border: new Border.all(
+                            color: Colors.red,
+                            width: 0.5,
+                          ),
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        child: new Text(
+                          'new',
+                          style: new TextStyle(
+                            color: Colors.red,
+                            fontSize: 8.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 new SizedBox(height: 5.0),
                 new Text(
