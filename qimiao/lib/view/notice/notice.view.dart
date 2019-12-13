@@ -27,12 +27,13 @@ class _NoticeViewState extends State<NoticeView> {
 
   @override
   Widget build(BuildContext context) {
+    print(formatDate(DateTime.now(), [yyyy, "年", mm, "月", dd, ' ', HH, ':', nn, ':', ss]));
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '消息',
+          '消息2',
           style: new TextStyle(
             fontSize: 18.0,
           ),
