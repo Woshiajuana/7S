@@ -90,6 +90,7 @@ class Router {
       'handle': (params) {
         return new NoticeDetailsView(
           title: params['title'] ?? '',
+          content: params['content'] ?? '',
         );
       }
     },
