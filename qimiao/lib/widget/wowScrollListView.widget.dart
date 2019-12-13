@@ -50,6 +50,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
   @override
   Widget build(BuildContext context) {
     int count = widget.data?.length ?? 0;
+    int total = widget.total ?? 0;
     return new RefreshIndicator(
       onRefresh: widget.onRefresh,
       child: new ListView.builder(
@@ -60,7 +61,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
           if (index < count) {
             return widget.itemBuilder(context, index);
           }
-          return _widgetMoreCellItem(count: count);
+          return _widgetMoreCellItem(count: count, total: total);
         },
       ),
     );
@@ -68,6 +69,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
 
   Widget _widgetMoreCellItem ({
     int count,
+    int total,
   }) {
     return new Center(
       child: new Padding(
@@ -76,7 +78,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            count == widget.total ? new Container() : new SizedBox(
+            count == total ? new Container() : new SizedBox(
               width: 20,
               height: 20,
               child: new CircularProgressIndicator(
@@ -86,7 +88,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
             new Padding(
               padding: new EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: new Text(
-                count == widget.total ? '加载完毕' : '加载中...',
+                count == total ? '加载完毕' : '加载中...',
                 style: new TextStyle(fontSize: 14.0, color: Color(0xff999999)),
               ),
             ),
@@ -103,8 +105,8 @@ class _WowScrollListViewState extends State<WowScrollListView> {
         _isLoading = true;
       });
       int total = widget.total ?? 0;
-      int len = widget.data?.length ?? 0;
-      if (total == len) return null;
+      int count = widget.data?.length ?? 0;
+      if (total <= count) return null;
       widget.onLoad(callback: () {
         setState(() => _isLoading = false);
       });
