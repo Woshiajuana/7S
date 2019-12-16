@@ -76,6 +76,7 @@ module.exports = class HandleController extends Controller {
                 type: [],
                 content: [],
                 push: [],
+                unread: [],
             });
             ctx.logger.info(`更新消息信息：请求参数=> ${JSON.stringify(objParams)} `);
             await service.noticeService.update(objParams);
