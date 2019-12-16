@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:qimiao/widget/widget.dart';
 import "package:intl/intl.dart";
@@ -31,7 +31,7 @@ class _NoticeViewState extends State<NoticeView> {
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '消息2',
+          '消息',
           style: new TextStyle(
             fontSize: 18.0,
           ),
@@ -169,6 +169,9 @@ class _NoticeViewState extends State<NoticeView> {
         String strUrl = Application.config.api.reqNoticeInfo;
         Map mapParams = { 'id': oldNoticeJsonModel.id };
         oldNoticeJsonModel = NoticeJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams));
+        if (oldNoticeJsonModel.unread) {
+          eventBus.fire(MineEvent());
+        }
         oldNoticeJsonModel.unread = false;
         setState(() {
           _arrData[index] = oldNoticeJsonModel;

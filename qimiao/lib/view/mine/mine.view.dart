@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
@@ -11,11 +12,23 @@ class MineView extends StatefulWidget {
 
 class _MineViewState extends State<MineView> {
 
+  StreamSubscription _mineEventSubscription;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _mineEventSubscription = eventBus.on<MineEvent>().listen((MineEvent data) {
+      this._reqUserInfo();
+    });
     this._reqUserInfo();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _mineEventSubscription.cancel();
+    super.dispose();
   }
 
   @override
