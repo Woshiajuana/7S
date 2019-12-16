@@ -66,6 +66,9 @@ module.exports = class HandleServer extends Service {
         if (keyword) {
             filter.$or.push({ title: { $regex: keyword, $options: '$i' } });
         }
+        if (startTime && endTime) {
+            filter.created_at = { '$gte': new Date(startTime), '$lte': new Date(endTime) }
+        }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.PhotoModel.count(filter);
         const list = await ctx.model.PhotoModel
