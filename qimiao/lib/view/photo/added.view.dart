@@ -101,7 +101,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
               color: Color.fromRGBO(0, 0, 0, .3),
             ),
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => _handleConfirm(),
               child: new Icon(Icons.refresh, size: 40.0, color: Colors.white)
             ),
           ),
@@ -241,7 +241,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
   }
 
   // 弹窗
-  void _handleConfrim () {
+  void _handleConfirm () {
     showDialog(
       context: context,
       barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭

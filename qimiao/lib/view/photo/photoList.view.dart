@@ -64,6 +64,8 @@ class _PhotoListViewState extends State<PhotoListView> {
     String strTime = photoJsonModel.created_at != null
         ? new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(photoJsonModel.created_at).toLocal())
         : '';
+    FileJsonModel fileJsonModel = photoJsonModel.photo;
+    String strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -105,7 +107,7 @@ class _PhotoListViewState extends State<PhotoListView> {
                         borderRadius: BorderRadius.circular(6.0),
                         child: new Image.asset(
                           Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           width: double.infinity,
                           height: double.infinity,
                         ),
