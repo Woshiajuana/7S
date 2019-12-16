@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
-import 'package:qimiao/model/model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoAddView extends StatefulWidget {
@@ -306,6 +305,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
       Application.util.modal.toast('保存成功');
+      eventBus.fire(MineEvent());
       Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);

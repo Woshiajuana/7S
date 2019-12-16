@@ -22,7 +22,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
-    this._reqPhotoList();
+//    this._reqPhotoList();
   }
 
   @override
