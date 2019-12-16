@@ -97,11 +97,13 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                id,
+            } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            ctx.logger.info(`查询消息信息：请求参数=> ${JSON.stringify(objParams)} `);
-            const data = await service.noticeService.findById(objParams);
+            ctx.logger.info(`查询消息信息：请求参数=> ${id} `);
+            const data = await service.noticeService.findById(id);
             ctx.logger.info(`查询消息信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {
