@@ -57,8 +57,6 @@ module.exports = class HandleServer extends Service {
             startTime,
             endTime,
         } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
@@ -71,12 +69,19 @@ module.exports = class HandleServer extends Service {
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.PhotoModel.count(filter);
-        const list = await ctx.model.PhotoModel
+        let objPopulate = [ { path: 'avatar', select: 'base path filename'} ];
+        let list = await ctx.model.PhotoModel
             .find(filter)
-            .sort('-created_at')
-            .skip((numIndex - 1) * numSize)
-            .limit(numSize)
-            .populate()
+            .sort('-created_at');
+        if (numIndex && numSize) {
+            numIndex = +numIndex;
+            numSize = +numSize;
+            list = await list
+                .skip((numIndex - 1) * numSize)
+                .limit(numSize);
+        }
+        list = await list
+            .populate([{ path: 'photo', select: 'base path filename'}])
             .lean();
         return {
             list,

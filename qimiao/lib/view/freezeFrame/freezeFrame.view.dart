@@ -15,12 +15,14 @@ class FreezeFrameView extends StatefulWidget {
 class _FreezeFrameViewState extends State<FreezeFrameView> {
 
   DateTime _dateTime;
+  List<PhotoJsonModel> _arrPhotoData;
   
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
+    this._reqPhotoList();
   }
 
   @override
@@ -446,9 +448,9 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
   void _reqPhotoList () async {
     Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
-        String strUrl = Application.config.api.reqUserInfo;
+        String strUrl = Application.config.api.reqPhotoList;
+//        List
         var data = await Application.util.http.post(strUrl, useLoading: false);
-        Application.util.store.set(Application.config.store.userJson, data);
         UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
         StateModel.of(context).setUserJsonModel(userJsonModel);
       } catch (err) {
