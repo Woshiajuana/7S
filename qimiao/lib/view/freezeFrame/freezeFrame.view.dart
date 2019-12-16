@@ -4,6 +4,7 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qimiao/model/model.dart';
 
 
 class FreezeFrameView extends StatefulWidget {
@@ -356,28 +357,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
     );
   }
 
-  void _handleExitOut () async {
-    var result = await showDialog(
-      context: context,
-      builder: (BuildContext buildContext) {
-        return new WillPopScope(
-            child: new UpgradeDialog(),
-            onWillPop: () async {
-              return Future.value(false);
-            }
-        );
-      },
-    );
-    if (result != true) return;
-    try {
-//      await Application.util.store.clear();
-    } catch (err) {
-
-    } finally {
-      Application.router.replace(context, 'login');
-    }
-  }
-
   void _handleHelp () {
     showDialog(
       context: context,
@@ -461,6 +440,21 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
         );
       },
     );
+  }
+
+  // 请求
+  void _reqPhotoList () async {
+    Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqUserInfo;
+        var data = await Application.util.http.post(strUrl, useLoading: false);
+        Application.util.store.set(Application.config.store.userJson, data);
+        UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
+        StateModel.of(context).setUserJsonModel(userJsonModel);
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+    });
   }
 
 

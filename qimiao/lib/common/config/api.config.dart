@@ -64,5 +64,17 @@ class Api {
   String get reqNoticeInfo {
     return 'v1/app/notice/info';
   }
-  
+
+  // 获取图片作品列表
+  String get reqPhotoList {
+    return 'v1/app/photo/list';
+  }
+
+  // 创建图片作品
+  String get doPhotoCreate {
+    return 'v1/app/photo/create';
+  }
+
+
+
 }
