@@ -96,7 +96,7 @@ module.exports = class HandleController extends Controller {
             const data = await service.transformService.curl('api/v1/notice/info', { data: objParams });
             if (data.unread) {
                 await service.transformService.curl('api/v1/notice/update', {
-                    data: { id, user: ctx.state.token.id, unread: false},
+                    data: { id: objParams.id, user: ctx.state.token.id, unread: false},
                 });
             }
             ctx.respSuccess(data);
