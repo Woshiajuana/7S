@@ -1,6 +1,11 @@
 
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
+import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PhotoAddView extends StatefulWidget {
   @override
@@ -9,20 +14,21 @@ class PhotoAddView extends StatefulWidget {
 
 class _PhotoAddViewState extends State<PhotoAddView> {
 
-  String _strEmail; // 邮箱
-
-  TextEditingController _emailController;
+  String _strTitle; // 标题
+  bool _isNature = false;
+  File _fileImage;
+  TextEditingController _titleController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _emailController = TextEditingController(text: '');
+    _titleController = TextEditingController(text: '');
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -42,7 +48,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
           new Container(
             width: 70.0,
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => _handleSubmit(),
               padding: const EdgeInsets.all(0),
               child: new Text(
                 '保存',
@@ -61,12 +67,11 @@ class _PhotoAddViewState extends State<PhotoAddView> {
           _widgetWorkSection(),
           _widgetInfoSection(),
           _widgetInputSection(
-            controller: _emailController,
-            hintText: '邮箱',
-            value: _strEmail,
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => setState(() => _strEmail = value),
-            onClear: () { _emailController.clear(); setState(() => _strEmail = ''); },
+            controller: _titleController,
+            hintText: '标题',
+            value: _strTitle,
+            onChanged: (value) => setState(() => _strTitle = value),
+            onClear: () { _titleController.clear(); setState(() => _strTitle = ''); },
             onEye: () => {},
           ),
           _widgetShareSection(),
@@ -81,10 +86,10 @@ class _PhotoAddViewState extends State<PhotoAddView> {
       height: 180.0,
       child: new Stack(
         children: <Widget>[
-          new Container(
-            child: new Image.asset(
-              Application.util.getImgPath('guide1.png'),
-              fit: BoxFit.fill,
+          _fileImage == null ? new Container() : new Container(
+            child: new Image.file(
+              _fileImage,
+              fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
             ),
@@ -209,8 +214,6 @@ class _PhotoAddViewState extends State<PhotoAddView> {
     );
   }
 
-  bool check = false;
-
   // 分享到世界按钮
   Widget _widgetShareSection () {
     return new Container(
@@ -226,16 +229,88 @@ class _PhotoAddViewState extends State<PhotoAddView> {
             ),
           ),
           new Switch(
-            value: this.check,
+            value: _isNature,
             activeColor: Application.config.style.mainColor,     // 激活时原点颜色
             onChanged: (bool val) {
-              this.setState(() {
-                this.check = !this.check;
-              });
+              this.setState(() => _isNature = !_isNature);
             },
-          )
+          ),
         ],
       ),
     );
   }
+
+  // 弹窗
+  void _handleConfrim () {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '相册',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.photo, color: Color(0xff666666)),
+              ),
+              'onPressed': () => _handleImagePicker(source: ImageSource.gallery),
+            },
+            {
+              'text': '拍照',
+              'child': new Container(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: new Icon(Icons.camera_enhance, color: Color(0xff666666)),
+              ),
+              'onPressed': () => _handleImagePicker(source: ImageSource.camera),
+            }
+          ],
+        );
+      },
+    );
+  }
+
+  // 上传图片
+  void _handleImagePicker ({
+    ImageSource source,
+  }) async {
+    try {
+      Application.router.pop(context);
+      var image = await ImagePicker.pickImage(source: source);
+      if (image == null) return null;
+      setState(() => _fileImage = image);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
+  // 提交信息
+  void _handleSubmit () async {
+    try {
+      if (_fileImage == null)
+        throw '图片都没选择呀...';
+      if (_strTitle == null || _strTitle == '')
+        throw '好歹得写个标题吧...';
+      String path = _fileImage.path;
+      String name = path.substring(path.lastIndexOf('/') + 1, path.length);
+      FormData formData = new FormData.from({
+        'file': new UploadFileInfo(new File(path), name),
+        'type': 'PHOTO',
+      });
+      String strUrl = Application.config.api.doFileUpload;
+      Map data = await Application.util.http.post(strUrl, params: formData);
+      strUrl = Application.config.api.doPhotoCreate;
+      await Application.util.http.post(strUrl, params: {
+        'photo': data['file'],
+        'title': _strTitle,
+        'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
+      });
+      Application.util.modal.toast('保存成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
+
+
 }
