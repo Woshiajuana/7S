@@ -24,7 +24,7 @@ class PhotoJsonModel {
   String title;
 
   @JsonKey(name: 'volume')
-  String volume;
+  int volume;
 
   @JsonKey(name: 'nature')
   String nature;

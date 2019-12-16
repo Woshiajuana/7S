@@ -12,7 +12,7 @@ PhotoJsonModel _$PhotoJsonModelFromJson(Map<String, dynamic> json) {
           ? null
           : FileJsonModel.fromJson(json['photo'] as Map<String, dynamic>),
       json['title'] as String,
-      json['volume'] as String,
+      json['volume'] as int,
       json['nature'] as String,
       json['created_at'] as String);
 }

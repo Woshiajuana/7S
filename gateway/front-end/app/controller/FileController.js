@@ -52,7 +52,7 @@ module.exports = class HandleController extends Controller {
             let strPath = `${rootDir}/${id}/${type}/`;
             let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.substring(filename.lastIndexOf('.')+1)}`;
             try {
-                await ctx.ftp.putPlus(filepath, `${strPath}${strName}`);
+                await ctx.ftp.put(filepath, `${strPath}${strName}`);
             } catch (e) {
                 this.logger.info(`上传FTP失败=> ${JSON.stringify(e)}`);
             } finally {

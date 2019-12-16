@@ -109,7 +109,7 @@ class _PhotoListViewState extends State<PhotoListView> {
                         child: new CachedNetworkImage(
                           width: double.infinity,
                           height: double.infinity,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           imageUrl: strPath,
                           placeholder: (context, url) => new Image.asset(
                             Application.util.getImgPath('guide1.png'),
@@ -160,20 +160,7 @@ class _PhotoListViewState extends State<PhotoListView> {
                                 new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
                                 new SizedBox(width: 2.0),
                                 new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
+                                  photoJsonModel.volume?.toString() ?? '0',
                                   style: new TextStyle(
                                     color: Color(0xff999999),
                                     fontSize: 12.0,
