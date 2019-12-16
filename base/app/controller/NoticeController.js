@@ -9,6 +9,7 @@ module.exports = class HandleController extends Controller {
         app.router.mount('/api/v1/notice/create', controller.create)
             .mount('/api/v1/notice/info', controller.info)
             .mount('/api/v1/notice/list', controller.list)
+            .mount('/api/v1/notice/update', controller.update)
             .mount('/api/v1/notice/del', controller.del)
         ;
     }
@@ -49,7 +50,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/video/update 更新消息
+     * @api {get} /api/v1/notice/update 更新消息
      * @apiDescription 更新消息
      * @apiGroup 消息
      * @apiParam  {String} [id] 消息 id
@@ -61,7 +62,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [unread] 已读未读
      * @apiParam  {String} [push]  推送状态
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/video/update
+     * @apiSampleRequest /api/v1/notice/update
      */
     async update () {
         const { ctx, service, app } = this;
@@ -77,7 +78,7 @@ module.exports = class HandleController extends Controller {
                 push: [],
             });
             ctx.logger.info(`更新消息信息：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.videoService.update(objParams);
+            await service.noticeService.update(objParams);
             ctx.logger.info(`更新消息信息：返回结果=> 成功 `);
             ctx.respSuccess();
         } catch (err) {
