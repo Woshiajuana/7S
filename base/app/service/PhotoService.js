@@ -49,7 +49,14 @@ module.exports = class HandleServer extends Service {
     // 列表
     async list (data) {
         const { ctx, app } = this;
-        let { numIndex, numSize, keyword, user } = data;
+        let {
+            numIndex,
+            numSize,
+            keyword,
+            user,
+            startTime,
+            endTime,
+        } = data;
         numIndex = +numIndex;
         numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配

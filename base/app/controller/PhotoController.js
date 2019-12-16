@@ -136,7 +136,11 @@ module.exports = class HandleController extends Controller {
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
-     * @apiParam  {String} [keyword] 标题 / 时间
+     * @apiParam  {String} [numSize] 大小
+     * @apiParam  {String} [user] 用户id
+     * @apiParam  {String} [startTime] 开始时间
+     * @apiParam  {String} [endTime] 截止时间
+     * @apiParam  {String} [keyword] 标题
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/photo/list
      */
