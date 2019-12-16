@@ -69,20 +69,25 @@ module.exports = class HandleServer extends Service {
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.PhotoModel.count(filter);
-        let objPopulate = [ { path: 'avatar', select: 'base path filename'} ];
-        let list = await ctx.model.PhotoModel
-            .find(filter)
-            .sort('-created_at');
+
+        let list;
         if (numIndex && numSize) {
             numIndex = +numIndex;
             numSize = +numSize;
-            list = await list
+            list = await ctx.model.PhotoModel
+                .find(filter)
+                .sort('-created_at')
                 .skip((numIndex - 1) * numSize)
-                .limit(numSize);
+                .limit(numSize)
+                .populate([{ path: 'photo', select: 'base path filename'}])
+                .lean();
+        } else {
+            list = await ctx.model.PhotoModel
+                .find(filter)
+                .sort('-created_at')
+                .populate([{ path: 'photo', select: 'base path filename'}])
+                .lean();
         }
-        list = await list
-            .populate([{ path: 'photo', select: 'base path filename'}])
-            .lean();
         return {
             list,
             total,
