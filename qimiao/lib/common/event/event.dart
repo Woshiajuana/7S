@@ -3,7 +3,7 @@ import 'package:event_bus/event_bus.dart';
 
 EventBus eventBus = new EventBus();
 
-class MyEvent {
-  String text;
-  MyEvent(this.text);
+// 个人中心刷新事件
+class MineEvent {
+  MineEvent();
 }
