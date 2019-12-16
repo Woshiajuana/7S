@@ -21,6 +21,12 @@ class _PhotoListViewState extends State<PhotoListView> {
             fontSize: 18.0,
           ),
         ),
+        actions: <Widget>[
+//          new IconButton(
+//            icon: null,
+//            onPressed: null,
+//          ),
+        ],
       ),
       body: new ListView(
         children: <Widget>[
