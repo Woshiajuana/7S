@@ -12,6 +12,7 @@ class PhotoJsonModel {
   PhotoJsonModel(
     this.photo,
     this.title,
+    this.volume,
     this.nature,
     this.created_at,
   );
@@ -21,6 +22,9 @@ class PhotoJsonModel {
 
   @JsonKey(name: 'title')
   String title;
+
+  @JsonKey(name: 'volume')
+  String volume;
 
   @JsonKey(name: 'nature')
   String nature;
