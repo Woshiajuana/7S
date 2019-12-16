@@ -7,9 +7,6 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/photo/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/photo/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/app/photo/del', middleware.tokenMiddleware(), controller.del)
-            .mount('/api/v1/app/photo/update', middleware.tokenMiddleware(), controller.update)
         ;
     }
 
@@ -25,13 +22,15 @@ module.exports = class HandleController extends Controller {
     async list () {
         const { ctx, service, app } = this;
         try {
-            let {
-                type,
-            } = await ctx.validateBody({
-                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
-                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
+            let objParams = await ctx.validateBody({
+                startTime: [],
+                endTime: [],
             });
-            ctx.respSuccess();
+            const { id: user } = ctx.state.token;
+            const data = await service.transformService.curl('api/v1/file/create', {
+                data: { user, ...objParams },
+            });
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
