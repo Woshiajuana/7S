@@ -27,7 +27,7 @@ module.exports = class HandleController extends Controller {
                 endTime: [],
             });
             const { id: user } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/file/create', {
+            const data = await service.transformService.curl('api/v1/photo/list', {
                 data: { user, ...objParams },
             });
             ctx.respSuccess(data);

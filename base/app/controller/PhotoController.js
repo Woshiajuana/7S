@@ -148,6 +148,8 @@ module.exports = class HandleController extends Controller {
                 numSize: [ 'nonempty' ],
                 user: [],
                 keyword: [],
+                startTime: [],
+                endTime: [],
             });
             const data = await service.photoService.list(objParams);
             ctx.respSuccess(data);
