@@ -66,6 +66,7 @@ class _PhotoListViewState extends State<PhotoListView> {
         : '';
     FileJsonModel fileJsonModel = photoJsonModel.photo;
     String strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+    print(strPath);
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -105,11 +106,23 @@ class _PhotoListViewState extends State<PhotoListView> {
                     children: <Widget>[
                       new ClipRRect(
                         borderRadius: BorderRadius.circular(6.0),
-                        child: new Image.asset(
-                          Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.cover,
+                        child: new CachedNetworkImage(
                           width: double.infinity,
                           height: double.infinity,
+                          fit: BoxFit.fill,
+                          imageUrl: strPath,
+                          placeholder: (context, url) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                          errorWidget: (context, url, error) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
                         ),
                       ),
                       new Container(
@@ -128,9 +141,10 @@ class _PhotoListViewState extends State<PhotoListView> {
                     height: 77.0,
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         new Text(
-                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
+                          photoJsonModel.title ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: new TextStyle(
