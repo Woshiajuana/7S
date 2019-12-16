@@ -13,6 +13,7 @@ class PhotoJsonModel {
     this.photo,
     this.title,
     this.nature,
+    this.created_at,
   );
 
   @JsonKey(name: 'photo')
@@ -23,6 +24,10 @@ class PhotoJsonModel {
 
   @JsonKey(name: 'nature')
   String nature;
+
+  @JsonKey(name: 'created_at')
+  String created_at;
+
 
   //不同的类使用不同的mixin即可
   factory PhotoJsonModel.fromJson(Map<String, dynamic> json) => _$PhotoJsonModelFromJson(json);

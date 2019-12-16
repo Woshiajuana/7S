@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
+import "package:intl/intl.dart";
 
 class PhotoListView extends StatefulWidget {
   @override
@@ -9,6 +11,19 @@ class PhotoListView extends StatefulWidget {
 }
 
 class _PhotoListViewState extends State<PhotoListView> {
+
+  ListJsonModel _listJsonModel;
+  List<PhotoJsonModel> _arrData;
+  int _numIndex = 1;
+  int _numSize = 10;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this._reqPhotoList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -28,22 +43,27 @@ class _PhotoListViewState extends State<PhotoListView> {
           ),
         ],
       ),
-      body: new ListView(
-        children: <Widget>[
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-          _widgetPhotoCellItem(),
-        ],
+      body: new WowLoadView(
+        data: _arrData,
+        child: new WowScrollListView(
+            onRefresh: _handleRefresh,
+            onLoad: _handleLoad,
+            data: _arrData,
+            total: _listJsonModel?.total ?? 0,
+            itemBuilder: (content, index) {
+              return _widgetPhotoCellItem(index);
+            }
+        ),
       ),
     );
   }
 
   // 照片
-  Widget _widgetPhotoCellItem () {
+  Widget _widgetPhotoCellItem (index) {
+    PhotoJsonModel photoJsonModel = _arrData[index];
+    String strTime = photoJsonModel.created_at != null
+        ? new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(photoJsonModel.created_at).toLocal())
+        : '';
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -52,7 +72,7 @@ class _PhotoListViewState extends State<PhotoListView> {
             padding: const EdgeInsets.only(left: 10.0),
             alignment: Alignment.centerLeft,
             child: new Text(
-              '2019-11-18',
+              strTime,
               style: new TextStyle(
                 fontSize: 12.0,
                 color: Color(0xff666666),
@@ -191,4 +211,40 @@ class _PhotoListViewState extends State<PhotoListView> {
       },
     );
   }
+
+  // 刷新
+  void _handleRefresh() async {
+    _numIndex = 1;
+    await this._reqPhotoList();
+  }
+
+  // 下拉加载
+  void _handleLoad ({
+    Function callback,
+  }) async {
+    _numIndex++;
+    this._reqPhotoList(callback: callback);
+  }
+
+  // 获取列表
+  void _reqPhotoList ({
+    Function callback,
+  }) async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqPhotoList;
+        Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
+        _listJsonModel = ListJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
+        setState(() {
+          List<PhotoJsonModel> data = _listJsonModel.list.map((item) => PhotoJsonModel.fromJson(item)).toList();
+          _numIndex == 1 ? _arrData = data : _arrData.addAll(data);
+        });
+      } catch (err) {
+        Application.util.modal.toast(err);
+      } finally {
+        if (callback != null) callback();
+      }
+    });
+  }
+
 }
