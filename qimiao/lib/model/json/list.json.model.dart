@@ -7,8 +7,8 @@ part 'list.json.model.g.dart';
 // 这个标注是告诉生成器，这个类是需要生成Model类的
 @JsonSerializable()
 
-class ListJsonMode {
-  ListJsonMode(
+class ListJsonModel {
+  ListJsonModel(
     this.list,
     this.total,
     this.numIndex,
@@ -28,10 +28,10 @@ class ListJsonMode {
   int numSize;
 
   //不同的类使用不同的mixin即可
-  factory ListJsonMode.fromJson(Map<String, dynamic> json) => _$ListJsonModeFromJson(json);
+  factory ListJsonModel.fromJson(Map<String, dynamic> json) => _$ListJsonModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ListJsonModeToJson(this);
+  Map<String, dynamic> toJson() => _$ListJsonModelToJson(this);
 
   // 命名构造函数
-  ListJsonMode.empty();
+  ListJsonModel.empty();
 }

@@ -12,7 +12,7 @@ class NoticeView extends StatefulWidget {
 
 class _NoticeViewState extends State<NoticeView> {
 
-  ListJsonMode _listJsonMode;
+  ListJsonModel _ListJsonModel;
   List<NoticeJsonModel> _arrData;
   int _numIndex = 1;
   int _numSize = 10;
@@ -43,7 +43,7 @@ class _NoticeViewState extends State<NoticeView> {
           onRefresh: _handleRefresh,
           onLoad: _handleLoad,
           data: _arrData,
-          total: _listJsonMode?.total ?? 0,
+          total: _ListJsonModel?.total ?? 0,
           itemBuilder: (content, index) {
             return _widgetNoticeItem(index);
           }
@@ -148,9 +148,9 @@ class _NoticeViewState extends State<NoticeView> {
       try {
         String strUrl = Application.config.api.reqNoticeList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'nature': 'PRIVATE' };
-        _listJsonMode = ListJsonMode.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
+        _ListJsonModel = ListJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
         setState(() {
-          List<NoticeJsonModel> data = _listJsonMode.list.map((item) => NoticeJsonModel.fromJson(item)).toList();
+          List<NoticeJsonModel> data = _ListJsonModel.list.map((item) => NoticeJsonModel.fromJson(item)).toList();
           _numIndex == 1 ? _arrData = data : _arrData.addAll(data);
         });
       } catch (err) {
