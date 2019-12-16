@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 
 class PhotoListView extends StatefulWidget {
@@ -22,10 +22,10 @@ class _PhotoListViewState extends State<PhotoListView> {
           ),
         ),
         actions: <Widget>[
-//          new IconButton(
-//            icon: null,
-//            onPressed: null,
-//          ),
+          new IconButton(
+            icon: new Icon(Icons.add, color: Colors.white),
+            onPressed: () => Application.router.push(context, 'photoAdded'),
+          ),
         ],
       ),
       body: new ListView(
