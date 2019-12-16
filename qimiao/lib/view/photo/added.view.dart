@@ -306,6 +306,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
       Application.util.modal.toast('保存成功');
+      Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
     }
