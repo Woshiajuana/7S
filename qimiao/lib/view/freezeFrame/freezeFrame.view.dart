@@ -449,10 +449,9 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
     Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoList;
-//        List
         var data = await Application.util.http.post(strUrl, useLoading: false);
-        UserJsonModel userJsonModel = UserJsonModel.fromJson(data);
-        StateModel.of(context).setUserJsonModel(userJsonModel);
+        ListJsonModel listJsonModel = ListJsonModel.fromJson(data);
+        listJsonModel.list.forEach((item) => _arrPhotoData.add(PhotoJsonModel.fromJson(item)));
       } catch (err) {
         Application.util.modal.toast(err);
       }
