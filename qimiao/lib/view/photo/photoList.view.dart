@@ -123,6 +123,10 @@ class _PhotoListViewState extends State<PhotoListView> {
                           color: Color.fromRGBO(0, 0, 0, 0.3),
                           borderRadius: new BorderRadius.circular(6.0),
                         ),
+                        child: new FlatButton(
+                          onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
+                          child: new Container(),
+                        ),
                       ),
                     ],
                   ),

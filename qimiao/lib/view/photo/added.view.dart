@@ -76,7 +76,6 @@ class _PhotoAddViewState extends State<PhotoAddView> {
       body: new ListView(
         children: <Widget>[
           _widgetWorkSection(),
-          _widgetInfoSection(),
           _widgetInputSection(
             controller: _titleController,
             hintText: '标题',
@@ -134,52 +133,6 @@ class _PhotoAddViewState extends State<PhotoAddView> {
               onPressed: () => _handleConfirm(),
               child: new Icon(Icons.refresh, size: 40.0, color: Colors.white)
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 点赞 播放次数
-  Widget _widgetInfoSection () {
-    return new Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: new BoxDecoration(
-        border: new Border(
-          bottom: new BorderSide(
-            color: Color(0xffbbbbbb),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: new Row(
-        children: <Widget>[
-          new Row(
-            children: <Widget>[
-              new Icon(Icons.live_tv, size: 16.0, color: Color(0xff999999)),
-              new SizedBox(width: 2.0),
-              new Text(
-                '100',
-                style: new TextStyle(
-                  color: Color(0xff999999),
-                  fontSize: 14.0,
-                ),
-              ),
-            ],
-          ),
-          new SizedBox(width: 30.0),
-          new Row(
-            children: <Widget>[
-              new Icon(Icons.thumb_up, size: 16.0, color: Color(0xff999999)),
-              new SizedBox(width: 2.0),
-              new Text(
-                '100',
-                style: new TextStyle(
-                  color: Color(0xff999999),
-                  fontSize: 14.0,
-                ),
-              ),
-            ],
           ),
         ],
       ),

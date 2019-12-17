@@ -10,6 +10,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/photo/create', middleware.tokenMiddleware(), controller.create)
             .mount('/api/v1/app/photo/del', middleware.tokenMiddleware(), controller.del)
             .mount('/api/v1/app/photo/update', middleware.tokenMiddleware(), controller.update)
+            .mount('/api/v1/app/photo/info', middleware.tokenMiddleware(), controller.info)
         ;
     }
 
@@ -80,12 +81,21 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let {
-                type,
+                id,
             } = await ctx.validateBody({
-                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
-                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
+                id: [ 'nonempty' ],
             });
-            ctx.respSuccess();
+            const data = await service.transformService.curl('api/v1/photo/info', {
+                data: { id },
+            });
+            data.volume++;
+            await service.transformService.curl('api/v1/photo/update', {
+                data: { id, volume: data.volume },
+            });
+            const objUser = await service.transformService.curl('api/v1/user/info', {
+                data: { id: data.user },
+            });
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

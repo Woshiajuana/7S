@@ -18,7 +18,7 @@ import 'package:qimiao/view/setting/setting.view.dart';
 import 'package:qimiao/view/video/videoList.view.dart';
 import 'package:qimiao/view/video/details.dart';
 import 'package:qimiao/view/photo/photoList.view.dart';
-import 'package:qimiao/view/photo/details.dart';
+import 'package:qimiao/view/photo/details.view.dart';
 import 'package:qimiao/view/photo/added.view.dart';
 import 'package:qimiao/view/collect/collectList.view.dart';
 import 'package:qimiao/view/history/historyList.view.dart';
