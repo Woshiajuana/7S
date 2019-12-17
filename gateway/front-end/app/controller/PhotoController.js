@@ -85,6 +85,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
+            const { id: user } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/photo/info', {
                 data: { id },
             });
@@ -92,9 +93,11 @@ module.exports = class HandleController extends Controller {
             await service.transformService.curl('api/v1/photo/update', {
                 data: { id, volume: data.volume },
             });
-            const objUser = await service.transformService.curl('api/v1/user/info', {
+            const { user: author } = data.user;
+            data.user = await service.transformService.curl('api/v1/user/info', {
                 data: { id: data.user },
             });
+            data.user.follow = user === author
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

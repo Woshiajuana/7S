@@ -75,7 +75,7 @@ module.exports = class HandleServer extends Service {
             numIndex = +numIndex;
             numSize = +numSize;
             list = await ctx.model.PhotoModel
-                .find(filter)
+                .find(filter, { user: 0 })
                 .sort('-created_at')
                 .skip((numIndex - 1) * numSize)
                 .limit(numSize)
@@ -83,7 +83,7 @@ module.exports = class HandleServer extends Service {
                 .lean();
         } else {
             list = await ctx.model.PhotoModel
-                .find(filter)
+                .find(filter, { user: 0 })
                 .sort('-created_at')
                 .populate([{ path: 'photo', select: 'base path filename'}])
                 .lean();
