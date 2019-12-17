@@ -39,7 +39,7 @@ class _PhotoListViewState extends State<PhotoListView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.add, color: Colors.white),
-            onPressed: () => Application.router.push(context, 'photoAdded'),
+            onPressed: () => Application.router.push(context, 'photoAdded', params: { 'title': '新增照片' }),
           ),
         ],
       ),
@@ -173,7 +173,7 @@ class _PhotoListViewState extends State<PhotoListView> {
                               width: 20.0,
                               child: new FlatButton(
                                   padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(),
+                                  onPressed: () => _handleOperate(photoJsonModel),
                                   child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
                               ),
                             ),
@@ -192,7 +192,7 @@ class _PhotoListViewState extends State<PhotoListView> {
   }
 
   // 操作
-  void _handleOperate () {
+  void _handleOperate (PhotoJsonModel photoJsonModel) {
     showDialog(
       context: context,
       barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
@@ -202,11 +202,11 @@ class _PhotoListViewState extends State<PhotoListView> {
             {
               'text': '分享',
               'onPressed': () {
-                print('相册1');
+
               },
             },
             {
-              'text': '举报',
+              'text': '删除',
               'onPressed': () => print('拍照'),
             },
           ],

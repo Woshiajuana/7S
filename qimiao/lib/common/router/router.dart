@@ -116,7 +116,9 @@ class Router {
     'photoAdded': {
       'route': (_) => new PhotoAddView(),
       'handle': (params) {
-        return new PhotoAddView();
+        return new PhotoAddView(
+          title: params['title'],
+        );
       }
     },
     'photoDetails': {

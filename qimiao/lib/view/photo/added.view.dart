@@ -7,6 +7,13 @@ import 'package:qimiao/widget/widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoAddView extends StatefulWidget {
+
+  PhotoAddView({
+    this.title = '',
+  });
+
+  final String title;
+
   @override
   _PhotoAddViewState createState() => _PhotoAddViewState();
 }
@@ -38,7 +45,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '作品编辑',
+          widget.title ?? '',
           style: new TextStyle(
             fontSize: 18.0,
           ),

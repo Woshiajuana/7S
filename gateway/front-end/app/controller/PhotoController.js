@@ -8,6 +8,8 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/photo/list', middleware.tokenMiddleware(), controller.list)
             .mount('/api/v1/app/photo/create', middleware.tokenMiddleware(), controller.create)
+            .mount('/api/v1/app/photo/del', middleware.tokenMiddleware(), controller.del)
+            .mount('/api/v1/app/photo/update', middleware.tokenMiddleware(), controller.update)
         ;
     }
 
@@ -100,11 +102,12 @@ module.exports = class HandleController extends Controller {
     async del () {
         const { ctx, service, app } = this;
         try {
-            let {
-                type,
-            } = await ctx.validateBody({
-                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
-                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
+            let objParams = await ctx.validateBody({
+                id: [ 'nonempty' ],
+            });
+            const { id: user } = ctx.state.token;
+            await service.transformService.curl('api/v1/photo/del', {
+                data: { user, ...objParams },
             });
             ctx.respSuccess();
         } catch (err) {
@@ -123,11 +126,15 @@ module.exports = class HandleController extends Controller {
     async update () {
         const { ctx, service, app } = this;
         try {
-            let {
-                type,
-            } = await ctx.validateBody({
-                // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
-                type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
+            let objParams = await ctx.validateBody({
+                id: [ 'nonempty' ],
+                photo: [ 'nonempty' ],
+                title: [ 'nonempty' ],
+                nature: [ 'nonempty', (v) => [ 'PRIVACY', 'PUBLIC' ].indexOf(v) > -1 ],
+            });
+            const { id: user } = ctx.state.token;
+            await service.transformService.curl('api/v1/photo/update', {
+                data: { user, ...objParams },
             });
             ctx.respSuccess();
         } catch (err) {
