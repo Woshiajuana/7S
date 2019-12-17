@@ -200,10 +200,8 @@ class _PhotoListViewState extends State<PhotoListView> {
         return new ActionSheetDialog(
           arrOptions: [
             {
-              'text': '分享',
-              'onPressed': () {
-
-              },
+              'text': '编辑',
+              'onPressed': () => Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel }),
             },
             {
               'text': '删除',
@@ -217,14 +215,24 @@ class _PhotoListViewState extends State<PhotoListView> {
 
   // 删除
   void _doPhotoDelete (PhotoJsonModel photoJsonModel) async {
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new ConfirmDialog(
+          content: '确定要删除该张照片么？',
+        );
+      },
+    );
+    if (result != true) return;
     try {
       String strUrl = Application.config.api.doPhotoDelete;
-      Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
+      Map mapParams = { 'id': photoJsonModel.id };
       await Application.util.http.post(strUrl, params: mapParams);
       setState(() {
         _listJsonModel.total--;
-//        _arrData.add()
+        _arrData.remove(photoJsonModel);
       });
+      Application.util.modal.toast('删除成功');
     } catch (err) {
       Application.util.modal.toast(err);
     }

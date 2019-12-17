@@ -148,7 +148,6 @@ class _SettingViewState extends State<SettingView> {
     );
     if (result != true) return;
     try {
-//      await Application.util.store.clear();
       String userJsonKey = Application.config.store.userJson;
       await Application.util.store.remove(userJsonKey);
     } catch (err) {

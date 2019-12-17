@@ -4,15 +4,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoAddView extends StatefulWidget {
 
   PhotoAddView({
     this.title = '',
+    this.data,
   });
 
   final String title;
+  final PhotoJsonModel data;
 
   @override
   _PhotoAddViewState createState() => _PhotoAddViewState();
