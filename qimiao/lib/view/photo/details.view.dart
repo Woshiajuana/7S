@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
-import 'package:video_player/video_player.dart';
+import 'package:qimiao/model/model.dart';
 
 class PhotoDetailsView extends StatefulWidget {
 
@@ -18,23 +18,17 @@ class PhotoDetailsView extends StatefulWidget {
 
 class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
-  VideoPlayerController _controller;
+  PhotoJsonModel photoJsonModel;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+    this._reqPhotoInfo();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
 
@@ -50,8 +44,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               new ListView(
                 padding: const EdgeInsets.all(0),
                 children: <Widget>[
-                  // 播放器
-                  _widgetVideoPlaySection(shrinkOffset: shrinkOffset),
                   // 用户
                   _widgetUserSection(),
                   // 标题
@@ -111,99 +103,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   }
 
   // 播放器
-  Widget _widgetVideoPlaySection ({
-    double shrinkOffset,
-  }) {
-    if (shrinkOffset > 50) {
-      _controller.pause();
-    }
-    // loading
-    Widget _widgetLoadingItem () {
-      return new Container(
-        child: new Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            new Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Image.asset(Application.util.getImgPath('guide1.png'), fit: BoxFit.fill,)
-            ),
-            new Container(
-              decoration: new BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.3),
-              ),
-            ),
-            new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Container(
-                  width: 20.0,
-                  height: 20.0,
-                  margin: const EdgeInsets.only(bottom: 10.0),
-                  child: new CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
-                new Text(
-                  '加载中...',
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-
-    // 播放器
-    Widget _widgetVideoItem () {
-      return new Container(
-        width: double.infinity,
-        child: new Stack(
-          children: <Widget>[
-            new AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            ),
-            new Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: new FlatButton(
-                onPressed: () {
-                  setState(() {
-                    _controller.value.isPlaying
-                        ? _controller.pause()
-                        : _controller.play();
-                  });
-                },
-                child: _controller.value.isPlaying ? new Container() : new Icon(
-                  Icons.play_circle_filled,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
-
-    bool _initialized = _controller.value.initialized;
-
-    return new Container(
-      height: 200.0,
-      child: new Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          _initialized ? _widgetVideoItem() : _widgetLoadingItem(),
-        ],
-      ),
-    );
-  }
-
   // 用户
   Widget _widgetUserSection () {
     return new Container(
@@ -592,4 +491,16 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   }
 
   // 获取照片详情
+  void _reqPhotoInfo () async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqPhotoInfo;
+        Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
+        var data = await Application.util.http.post(strUrl, params: mapParams, useLoading: false);
+
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+    });
+  }
 }

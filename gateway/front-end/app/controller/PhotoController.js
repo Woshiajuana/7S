@@ -97,7 +97,11 @@ module.exports = class HandleController extends Controller {
             data.user = await service.transformService.curl('api/v1/user/info', {
                 data: { id: data.user },
             });
-            data.user.follow = user === author
+            if (user !== author) {
+                data.user.follower = !!(await service.transformService.curl('api/v1/following/info', {
+                    data: { user, following: author },
+                }));
+            }
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

@@ -85,4 +85,9 @@ class Api {
     return 'v1/app/photo/update';
   }
 
+  // 查询图片作品
+  String get reqPhotoInfo {
+    return 'v1/app/photo/info';
+  }
+
 }
