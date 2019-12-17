@@ -19,6 +19,9 @@ class FileJsonModel {
     this.source,
   );
 
+  @JsonKey(name: '_id')
+  String id;
+
   @JsonKey(name: 'user')
   String user;
 

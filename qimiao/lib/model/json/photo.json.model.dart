@@ -17,6 +17,9 @@ class PhotoJsonModel {
     this.created_at,
   );
 
+  @JsonKey(name: '_id')
+  FileJsonModel id;
+
   @JsonKey(name: 'photo')
   FileJsonModel photo;
 

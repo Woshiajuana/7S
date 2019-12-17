@@ -207,12 +207,27 @@ class _PhotoListViewState extends State<PhotoListView> {
             },
             {
               'text': '删除',
-              'onPressed': () => print('拍照'),
+              'onPressed': () => this._doPhotoDelete(photoJsonModel),
             },
           ],
         );
       },
     );
+  }
+
+  // 删除
+  void _doPhotoDelete (PhotoJsonModel photoJsonModel) async {
+    try {
+      String strUrl = Application.config.api.doPhotoDelete;
+      Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
+      await Application.util.http.post(strUrl, params: mapParams);
+      setState(() {
+        _listJsonModel.total--;
+//        _arrData.add()
+      });
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
   // 刷新

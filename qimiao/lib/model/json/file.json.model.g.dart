@@ -15,11 +15,13 @@ FileJsonModel _$FileJsonModelFromJson(Map<String, dynamic> json) {
       json['base'] as String,
       json['filename'] as String,
       json['device'] as String,
-      json['source'] as String);
+      json['source'] as String)
+    ..id = json['_id'] as String;
 }
 
 Map<String, dynamic> _$FileJsonModelToJson(FileJsonModel instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'user': instance.user,
       'ip': instance.ip,
       'type': instance.type,

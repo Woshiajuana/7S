@@ -75,6 +75,14 @@ class Api {
     return 'v1/app/photo/create';
   }
 
+  // 删除图片作品
+  String get doPhotoDelete {
+    return 'v1/app/photo/del';
+  }
 
+  // 编辑图片作品
+  String get doPhotoUpdate {
+    return 'v1/app/photo/update';
+  }
 
 }
