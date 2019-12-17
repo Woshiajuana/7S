@@ -18,8 +18,8 @@ class Http {
   static Dio _dio;
   static BaseOptions _options = new BaseOptions(
     baseUrl: Application.config.env.baseUrl,
-    connectTimeout: 1000 * 10,
-    receiveTimeout: 1000 * 20,
+    connectTimeout: 1000 * 60,
+    receiveTimeout: 1000 * 60,
   );
 
   static Future _init() async {
