@@ -70,7 +70,11 @@ class WowLoadView extends StatelessWidget{
             ),
           ),
         ),
-        (data != null || status == false) ? child : new Container(),
+        new Offstage(
+          offstage: !(data != null || status == false),
+          child: child,
+        ),
+//        (data != null || status == false) ? child : new Container(),
       ],
     );
   }

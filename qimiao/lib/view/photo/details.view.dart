@@ -43,7 +43,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             children: <Widget>[
               new WowLoadView(
                 status: _photoJsonModel == null,
-                child: new ListView(
+                child: _photoJsonModel == null ? new Container() : new ListView(
                   padding: const EdgeInsets.all(0),
                   children: <Widget>[
                     _widgetWorkSection(),
@@ -100,7 +100,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     double shrinkOffset,
     int alpha,
   }) {
-    UserJsonModel userJsonModel = _photoJsonModel?.user;
     return new Positioned(
       left: 0,
       right: 0,
@@ -121,12 +120,17 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                   onPressed: () => Navigator.pop(context),
                 ),
                 new SizedBox(width: 24.0),
-                new Text(
-                  userJsonModel == null ? '' : userJsonModel?.nickname ?? '',
-                  style: new TextStyle(
-                    color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
+                new Expanded(
+                  flex: 1,
+                  child: new Text(
+                    _photoJsonModel?.title ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: new TextStyle(
+                      color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -162,7 +166,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.cover,
-                          imageUrl: userJsonModel.avatar ?? '',
+                          imageUrl: userJsonModel?.avatar ?? '',
                           placeholder: (context, url) => new Image.asset(
                             Application.util.getImgPath('guide1.png'),
                           ),
@@ -235,7 +239,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   // 标题
   Widget _widgetInfoSection () {
-
+    print('_photoJsonModel => $_photoJsonModel');
     return new Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
       color: Colors.white,
