@@ -32,7 +32,9 @@ class _PhotoAddViewState extends State<PhotoAddView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _titleController = TextEditingController(text: '');
+    _strTitle = widget.data?.title ?? '';
+    _titleController = TextEditingController(text: _strTitle);
+    _isNature = widget.data?.nature == 'PUBLIC';
   }
 
   @override
@@ -91,10 +93,29 @@ class _PhotoAddViewState extends State<PhotoAddView> {
 
   // 作品
   Widget _widgetWorkSection () {
+    String strPath;
+    if (widget.data != null) {
+      FileJsonModel fileJsonModel = widget.data.photo;
+      strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+    }
     return new Container(
       height: 180.0,
       child: new Stack(
         children: <Widget>[
+          strPath != null && _fileImage == null ? new Container(
+            child: new CachedNetworkImage(
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              imageUrl: strPath,
+              placeholder: (context, url) => new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+              ),
+              errorWidget: (context, url, error) => new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+              ),
+            ),
+          ) : new Container(),
           _fileImage == null ? new Container() : new Container(
             child: new Image.file(
               _fileImage,

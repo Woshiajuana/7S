@@ -66,7 +66,6 @@ class _PhotoListViewState extends State<PhotoListView> {
         : '';
     FileJsonModel fileJsonModel = photoJsonModel.photo;
     String strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
-    print(strPath);
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -113,15 +112,9 @@ class _PhotoListViewState extends State<PhotoListView> {
                           imageUrl: strPath,
                           placeholder: (context, url) => new Image.asset(
                             Application.util.getImgPath('guide1.png'),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
                           ),
                           errorWidget: (context, url, error) => new Image.asset(
                             Application.util.getImgPath('guide1.png'),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
                           ),
                         ),
                       ),
@@ -201,7 +194,10 @@ class _PhotoListViewState extends State<PhotoListView> {
           arrOptions: [
             {
               'text': '编辑',
-              'onPressed': () => Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel }),
+              'onPressed': () {
+                Application.router.pop(context);
+                Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+              },
             },
             {
               'text': '删除',
@@ -215,6 +211,7 @@ class _PhotoListViewState extends State<PhotoListView> {
 
   // 删除
   void _doPhotoDelete (PhotoJsonModel photoJsonModel) async {
+    Application.router.pop(context);
     var result = await showDialog(
       context: context,
       builder: (BuildContext buildContext) {

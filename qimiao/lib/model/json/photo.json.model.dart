@@ -18,7 +18,7 @@ class PhotoJsonModel {
   );
 
   @JsonKey(name: '_id')
-  FileJsonModel id;
+  String id;
 
   @JsonKey(name: 'photo')
   FileJsonModel photo;

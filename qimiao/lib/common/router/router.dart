@@ -118,6 +118,7 @@ class Router {
       'handle': (params) {
         return new PhotoAddView(
           title: params['title'],
+          data: params['data'],
         );
       }
     },

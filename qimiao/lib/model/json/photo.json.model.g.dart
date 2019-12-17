@@ -15,9 +15,7 @@ PhotoJsonModel _$PhotoJsonModelFromJson(Map<String, dynamic> json) {
       json['volume'] as int,
       json['nature'] as String,
       json['created_at'] as String)
-    ..id = json['_id'] == null
-        ? null
-        : FileJsonModel.fromJson(json['_id'] as Map<String, dynamic>);
+    ..id = json['_id'] as String;
 }
 
 Map<String, dynamic> _$PhotoJsonModelToJson(PhotoJsonModel instance) =>
