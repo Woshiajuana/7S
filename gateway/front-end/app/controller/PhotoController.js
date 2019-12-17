@@ -26,6 +26,8 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
+                numIndex: [ ],
+                numSize: [ ],
                 startTime: [],
                 endTime: [],
             });
