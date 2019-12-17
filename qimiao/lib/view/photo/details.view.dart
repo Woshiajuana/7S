@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
+import "package:intl/intl.dart";
 
 class PhotoDetailsView extends StatefulWidget {
 
@@ -31,7 +32,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -41,18 +41,21 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
         builder: (BuildContext context, double shrinkOffset, int alpha) {
           return new Stack(
             children: <Widget>[
-              new ListView(
-                padding: const EdgeInsets.all(0),
-                children: <Widget>[
-                  _widgetWorkSection(),
-                  // 用户
-                  _widgetUserSection(),
-                  // 标题
-                  _widgetInfoSection(),
-                  new SizedBox(height: 10.0),
-                  // 推荐
-                  _widgetRecommendSection(),
-                ],
+              new WowLoadView(
+                status: _photoJsonModel == null,
+                child: new ListView(
+                  padding: const EdgeInsets.all(0),
+                  children: <Widget>[
+                    _widgetWorkSection(),
+                    // 用户
+                    _widgetUserSection(),
+                    // 标题
+                    _widgetInfoSection(),
+                    new SizedBox(height: 10.0),
+                    // 推荐
+                    _widgetRecommendSection(),
+                  ],
+                ),
               ),
               _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
             ],
@@ -97,6 +100,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     double shrinkOffset,
     int alpha,
   }) {
+    UserJsonModel userJsonModel = _photoJsonModel?.user;
     return new Positioned(
       left: 0,
       right: 0,
@@ -118,7 +122,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                 ),
                 new SizedBox(width: 24.0),
                 new Text(
-                  '我是阿倦啊',
+                  userJsonModel == null ? '' : userJsonModel?.nickname ?? '',
                   style: new TextStyle(
                     color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
                     fontSize: 18.0,
@@ -133,9 +137,9 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     );
   }
 
-  // 播放器
   // 用户
   Widget _widgetUserSection () {
+    UserJsonModel userJsonModel = _photoJsonModel?.user;
     return new Container(
       color: Colors.white,
       child: new Row(
@@ -144,7 +148,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             flex: 1,
             child: new Container(
               height: 60.0,
-//              padding: const EdgeInsets.only(),
               child: new FlatButton(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
                 onPressed: () => Application.router.push(context, 'friendInfo'),
@@ -155,11 +158,17 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       height: 36.0,
                       child: new ClipRRect(
                         borderRadius: BorderRadius.circular(36.0),
-                        child: new Image.asset(
-                          Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.fill,
+                        child: new CachedNetworkImage(
                           width: double.infinity,
                           height: double.infinity,
+                          fit: BoxFit.cover,
+                          imageUrl: userJsonModel.avatar ?? '',
+                          placeholder: (context, url) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
+                          errorWidget: (context, url, error) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
                         ),
                       ),
                     ),
@@ -169,7 +178,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         new Text(
-                          '我是阿倦啊',
+                          userJsonModel?.nickname ?? '',
                           style: new TextStyle(
                             color: Color(0xff333333),
                             fontWeight: FontWeight.w400,
@@ -177,7 +186,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                           ),
                         ),
                         new Text(
-                          '粉丝：1000',
+                          '粉丝：${userJsonModel?.numFollower ?? 0}',
                           style: new TextStyle(
                             color: Color(0xff999999),
                             fontWeight: FontWeight.w400,
@@ -226,6 +235,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   // 标题
   Widget _widgetInfoSection () {
+
     return new Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
       color: Colors.white,
@@ -233,7 +243,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            '我是阿倦啊我是阿倦啊我是阿倦啊我是阿倦啊我是阿倦啊',
+            _photoJsonModel?.title ?? '',
             style: new TextStyle(
               color: Color(0xff333333),
               fontWeight: FontWeight.w400,
@@ -245,10 +255,10 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Icon(Icons.live_tv, size: 14.0, color: Color(0xffbbbbbb)),
+                  new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xffbbbbbb)),
                   new SizedBox(width: 2.0),
                   new Text(
-                    '100',
+                    _photoJsonModel?.volume?.toString() ?? '0',
                     style: new TextStyle(
                       color: Color(0xffbbbbbb),
                       fontSize: 12.0,
@@ -256,21 +266,13 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                   ),
                 ],
               ),
-              new SizedBox(width: 20.0),
-              new Text(
-                '7S-00001',
-                style: new TextStyle(
-                  color: Color(0xffbbbbbb),
-                  fontSize: 12.0,
-                ),
-              ),
               new Expanded(flex: 1, child: new Container()),
               new Row(
                 children: <Widget>[
                   new Icon(Icons.av_timer, size: 14.0, color: Color(0xffbbbbbb)),
                   new SizedBox(width: 2.0),
                   new Text(
-                    '2019-10-10 10:00:00',
+                    new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(_photoJsonModel.created_at).toLocal()),
                     style: new TextStyle(
                       color: Color(0xffbbbbbb),
                       fontSize: 12.0,
