@@ -34,7 +34,10 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        return await ctx.model.PhotoModel.findById(id).lean();
+        return await ctx.model.PhotoModel
+            .findById(id)
+            .populate([{ path: 'photo', select: 'base path filename'}])
+            .lean();
     }
 
     // 删除

@@ -62,8 +62,8 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                user: [ 'nonempty' ],
                 id: [ 'nonempty' ],
+                user: [],
                 photo: [],
                 title: [],
                 volume: [],
@@ -90,12 +90,13 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                id,
+            } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            ctx.logger.info(`查询照片信息：请求参数=> ${JSON.stringify(objParams)} `);
-            const data = await service.photoService.findById(objParams);
-            await service.photoService.update({ ...data, volume: data.volume + 1 });
+            ctx.logger.info(`查询照片信息：请求参数=> ${id} `);
+            const data = await service.photoService.findById(id);
             ctx.logger.info(`查询照片信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {

@@ -270,32 +270,34 @@ class _PhotoAddViewState extends State<PhotoAddView> {
   // 提交信息
   void _handleSubmit () async {
     try {
-      if (_fileImage == null)
+      bool isAdded = widget.data == null;
+      if (isAdded && _fileImage == null)
         throw '图片都没选择呀...';
       if (_strTitle == null || _strTitle == '')
         throw '好歹得写个标题吧...';
-      String path = _fileImage.path;
-      String name = path.substring(path.lastIndexOf('/') + 1, path.length);
-      FormData formData = new FormData.from({
-        'file': new UploadFileInfo(new File(path), name),
-        'type': 'PHOTO',
-      });
+      Map data;
       String strUrl = Application.config.api.doFileUpload;
-      Map data = await Application.util.http.post(strUrl, params: formData);
-      strUrl = Application.config.api.doPhotoCreate;
+      if (_fileImage != null) {
+        String path = _fileImage.path;
+        String name = path.substring(path.lastIndexOf('/') + 1, path.length);
+        FormData formData = new FormData.from({
+          'file': new UploadFileInfo(new File(path), name),
+          'type': 'PHOTO',
+        });
+        data = await Application.util.http.post(strUrl, params: formData);
+      }
+      strUrl = isAdded ? Application.config.api.doPhotoCreate : Application.config.api.doPhotoUpdate;
       await Application.util.http.post(strUrl, params: {
-        'photo': data['file'],
+        'id': widget.data?.id ?? '',
+        'photo': isAdded ? data['file'] : widget.data.photo.id,
         'title': _strTitle,
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
       Application.util.modal.toast('保存成功');
-      eventBus.fire(MineEvent());
+      if (isAdded) eventBus.fire(MineEvent());
       Application.router.pop(context);
     } catch (err) {
       Application.util.modal.toast(err);
     }
   }
-
-
-
 }

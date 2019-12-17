@@ -93,7 +93,7 @@ module.exports = class HandleController extends Controller {
             await service.transformService.curl('api/v1/photo/update', {
                 data: { id, volume: data.volume },
             });
-            const { user: author } = data.user;
+            const { user: author } = data;
             data.user = await service.transformService.curl('api/v1/user/info', {
                 data: { id: data.user },
             });

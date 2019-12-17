@@ -15,12 +15,16 @@ PhotoJsonModel _$PhotoJsonModelFromJson(Map<String, dynamic> json) {
       json['volume'] as int,
       json['nature'] as String,
       json['created_at'] as String)
-    ..id = json['_id'] as String;
+    ..id = json['_id'] as String
+    ..user = json['user'] == null
+        ? null
+        : UserJsonModel.fromJson(json['user'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$PhotoJsonModelToJson(PhotoJsonModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
+      'user': instance.user,
       'photo': instance.photo,
       'title': instance.title,
       'volume': instance.volume,

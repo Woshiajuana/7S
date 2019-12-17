@@ -18,7 +18,7 @@ class PhotoDetailsView extends StatefulWidget {
 
 class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
-  PhotoJsonModel photoJsonModel;
+  PhotoJsonModel _photoJsonModel;
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               new ListView(
                 padding: const EdgeInsets.all(0),
                 children: <Widget>[
+                  _widgetWorkSection(),
                   // 用户
                   _widgetUserSection(),
                   // 标题
@@ -57,6 +58,36 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  // 作品
+  Widget _widgetWorkSection () {
+    String strPath;
+    if (_photoJsonModel != null) {
+      FileJsonModel fileJsonModel = _photoJsonModel.photo;
+      strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+    }
+    return new Container(
+      height: 180.0,
+      child: new Stack(
+        children: <Widget>[
+          new Container(
+            child: new CachedNetworkImage(
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              imageUrl: strPath ?? '',
+              placeholder: (context, url) => new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+              ),
+              errorWidget: (context, url, error) => new Image.asset(
+                Application.util.getImgPath('guide1.png'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -495,9 +526,13 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoInfo;
-        Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
-        var data = await Application.util.http.post(strUrl, params: mapParams, useLoading: false);
-
+        var data = await Application.util.http.post(strUrl, params: {
+          'id': widget.id,
+        }, useLoading: false);
+        print(data);
+        setState(() {
+          _photoJsonModel = PhotoJsonModel.fromJson(data);
+        });
       } catch (err) {
         Application.util.modal.toast(err);
       }

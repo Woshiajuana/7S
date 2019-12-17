@@ -1,6 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'file.json.model.dart';
+import 'user.json.model.dart';
 
 // json.g.dart 将在我们运行生成命令后自动生成
 part 'photo.json.model.g.dart';
@@ -19,6 +20,9 @@ class PhotoJsonModel {
 
   @JsonKey(name: '_id')
   String id;
+
+  @JsonKey(name: 'user')
+  UserJsonModel user;
 
   @JsonKey(name: 'photo')
   FileJsonModel photo;

@@ -125,7 +125,9 @@ class Router {
     'photoDetails': {
       'route': (_) => new PhotoDetailsView(),
       'handle': (params) {
-        return new PhotoDetailsView();
+        return new PhotoDetailsView(
+          id: params['id'],
+        );
       }
     },
     'collectList': {
