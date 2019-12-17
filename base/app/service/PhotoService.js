@@ -25,10 +25,10 @@ module.exports = class HandleServer extends Service {
         const { ctx, app } = this;
         const { id, user } = data;
         delete data.id;
-        await ctx.model.PhotoModel.update({
-            _id: app.mongoose.Types.ObjectId(id),
-            user: app.mongoose.Types.ObjectId(user),
-        }, data);
+        let filter = { _id: app.mongoose.Types.ObjectId(id) };
+        if (user)
+            filter.user = app.mongoose.Types.ObjectId(user);
+        await ctx.model.PhotoModel.update(filter, data);
     }
 
     // 根据 id 查询

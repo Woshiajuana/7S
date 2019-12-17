@@ -239,7 +239,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   // 标题
   Widget _widgetInfoSection () {
-    print('_photoJsonModel => $_photoJsonModel');
     return new Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
       color: Colors.white,
@@ -287,91 +286,91 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             ],
           ),
           new SizedBox(height: 20.0),
-          new Row(
-            children: <Widget>[
-              new Container(
-                width: 50.0,
-                height: 50.0,
-                margin: const EdgeInsets.only(right: 20.0),
-                child: new FlatButton(
-                  onPressed: () => {},
-                  padding: const EdgeInsets.all(0),
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.thumb_up,
-                        color: Color(0xff999999),
-                      ),
-                      new SizedBox(height: 3.0),
-                      new Text(
-                        '100',
-                        style: new TextStyle(
-                          color: Color(0xff999999),
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              new Container(
-                width: 50.0,
-                height: 50.0,
-                margin: const EdgeInsets.only(right: 20.0),
-                child: new FlatButton(
-                  onPressed: () => {},
-                  padding: const EdgeInsets.all(0),
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.thumb_down,
-                        color: Color(0xff999999),
-                      ),
-                      new SizedBox(height: 3.0),
-                      new Text(
-                        '不喜欢',
-                        style: new TextStyle(
-                          color: Color(0xff999999),
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              new Container(
-                width: 50.0,
-                height: 50.0,
-                margin: const EdgeInsets.only(right: 20.0),
-                child: new FlatButton(
-                  onPressed: () => {},
-                  padding: const EdgeInsets.all(0),
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.favorite,
-                        color: Color(0xff999999),
-                      ),
-                      new SizedBox(height: 3.0),
-                      new Text(
-                        '100',
-                        style: new TextStyle(
-                          color: Color(0xff999999),
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+//          new Row(
+//            children: <Widget>[
+//              new Container(
+//                width: 50.0,
+//                height: 50.0,
+//                margin: const EdgeInsets.only(right: 20.0),
+//                child: new FlatButton(
+//                  onPressed: () => {},
+//                  padding: const EdgeInsets.all(0),
+//                  child: new Column(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[
+//                      new Icon(
+//                        Icons.thumb_up,
+//                        color: Color(0xff999999),
+//                      ),
+//                      new SizedBox(height: 3.0),
+//                      new Text(
+//                        '100',
+//                        style: new TextStyle(
+//                          color: Color(0xff999999),
+//                          fontSize: 10.0,
+//                          fontWeight: FontWeight.w400,
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//              new Container(
+//                width: 50.0,
+//                height: 50.0,
+//                margin: const EdgeInsets.only(right: 20.0),
+//                child: new FlatButton(
+//                  onPressed: () => {},
+//                  padding: const EdgeInsets.all(0),
+//                  child: new Column(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[
+//                      new Icon(
+//                        Icons.thumb_down,
+//                        color: Color(0xff999999),
+//                      ),
+//                      new SizedBox(height: 3.0),
+//                      new Text(
+//                        '不喜欢',
+//                        style: new TextStyle(
+//                          color: Color(0xff999999),
+//                          fontSize: 10.0,
+//                          fontWeight: FontWeight.w400,
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//              new Container(
+//                width: 50.0,
+//                height: 50.0,
+//                margin: const EdgeInsets.only(right: 20.0),
+//                child: new FlatButton(
+//                  onPressed: () => {},
+//                  padding: const EdgeInsets.all(0),
+//                  child: new Column(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[
+//                      new Icon(
+//                        Icons.favorite,
+//                        color: Color(0xff999999),
+//                      ),
+//                      new SizedBox(height: 3.0),
+//                      new Text(
+//                        '100',
+//                        style: new TextStyle(
+//                          color: Color(0xff999999),
+//                          fontSize: 10.0,
+//                          fontWeight: FontWeight.w400,
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            ],
+//          ),
         ],
       ),
     );
