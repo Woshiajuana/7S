@@ -21,7 +21,7 @@ class WowLoadView extends StatelessWidget{
     return new Stack(
       children: <Widget>[
         new Offstage(
-          offstage: !(data == null || status == true),
+          offstage: !((data == null && status == null) || status == true),
           child: new Container(
             alignment: Alignment.center,
             child: new Row(
