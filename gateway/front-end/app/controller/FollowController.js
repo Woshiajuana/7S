@@ -8,7 +8,7 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/follow/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/app/follower/list', middleware.tokenMiddleware(), controller.followerList)
-            .mount('/api/v1/app/following/list', middleware.tokenMiddleware(), controller.followinglist)
+            .mount('/api/v1/app/following/list', middleware.tokenMiddleware(), controller.followingList)
         ;
     }
 
@@ -29,24 +29,24 @@ module.exports = class HandleController extends Controller {
                 following,
                 operate,
             } = await ctx.validateBody({
-                following: [ 'nonempty' ],
+                user: [ 'nonempty' ],
                 operate: [ 'nonempty' ]
             });
             const { id: user } = ctx.state.token;
             let data;
             if (operate) {
                 data = await service.transformService.curl('api/v1/following/create', {
-                    data: { user, following },
+                    data: { user: following, follower: user },
                 });
                 await service.transformService.curl('api/v1/follower/create', {
-                    data: { follower: user, user: following },
+                    data: { user, following },
                 });
             } else {
                 await service.transformService.curl('api/v1/following/del', {
-                    data: { user, following },
+                    data: { user: following, follower: user },
                 });
                 await service.transformService.curl('api/v1/follower/del', {
-                    data: { follower: user, user: following },
+                    data: { user, following },
                 });
             }
             ctx.respSuccess(data ? data._id : '');
@@ -68,14 +68,32 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             const { id: user } = ctx.state.token;
-            await service.transformService.curl('api/v1/following/list', {
-                data: { following: user },
+            const data = await service.transformService.curl('api/v1/follower/list', {
+                data: { user },
             });
-            await service.transformService.curl('api/v1/follower/create', {
-                data: { follower: user, user: following },
-            });
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
 
-            ctx.respSuccess(data ? data._id : '');
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/app/follower/list 粉丝列表
+     * @apiDescription  关注模块
+     * @apiGroup  关注
+     * @apiParam  {String} [following]  用户 id
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/app/follower/list
+     */
+    async followingList () {
+        const { ctx, service, app } = this;
+        try {
+            const { id: user } = ctx.state.token;
+            const data = await service.transformService.curl('api/v1/following/list', {
+                data: { user },
+            });
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

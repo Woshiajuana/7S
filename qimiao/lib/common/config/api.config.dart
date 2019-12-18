@@ -100,4 +100,14 @@ class Api {
     return 'v1/app/follow/update';
   }
 
+  // 关注列表
+  String get reqFollowingList {
+    return 'v1/app/following/list';
+  }
+
+  // 粉丝列表
+  String get reqFollowerList {
+    return 'v1/app/follower/list';
+  }
+
 }

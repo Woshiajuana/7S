@@ -24,19 +24,19 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findOne (data) {
         const { ctx, app } = this;
-        let { user, follower } = data;
+        let { user, following } = data;
         return await ctx.model.FollowerModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
-            follower: app.mongoose.Types.ObjectId(follower),
+            following: app.mongoose.Types.ObjectId(following),
         }).lean();
     }
 
     // 删除
-    async del ({ user, follower }) {
+    async del ({ user, following }) {
         const { ctx, app } = this;
         await ctx.model.FollowerModel.remove({
             user: app.mongoose.Types.ObjectId(user),
-            follower: app.mongoose.Types.ObjectId(follower),
+            following: app.mongoose.Types.ObjectId(following),
         });
     }
 
