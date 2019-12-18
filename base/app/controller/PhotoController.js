@@ -10,8 +10,35 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/photo/update', controller.update)
             .mount('/api/v1/photo/info', controller.info)
             .mount('/api/v1/photo/list', controller.list)
+            .mount('/api/v1/photo/recommend', controller.recommend)
             .mount('/api/v1/photo/del', controller.del)
         ;
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/photo/recommend 推荐照片列表
+     * @apiDescription 推荐照片列表
+     * @apiGroup APP基础
+     * @apiParam  {String} [exclude] 排除
+     * @apiParam  {String} [limit] 限制
+     * @apiParam  {String} [user] 用户
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/photo/recommend
+     */
+    async recommend () {
+        const { ctx, service, app } = this;
+        try {
+            const objParams = await ctx.validateBody({
+                exclude: [],
+                limit: [],
+                user: [],
+            });
+            const data = await service.photoService.recommend(objParams);
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
     }
 
     /**

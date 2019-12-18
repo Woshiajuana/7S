@@ -98,4 +98,20 @@ module.exports = class HandleServer extends Service {
             numSize,
         }
     }
+
+    // 推荐
+    async recommend (data) {
+        const { ctx, app } = this;
+        const { exclude, limit, user } = data;
+        const { ctx, app } = this;
+        const filter = {};
+        return await ctx.model.PhotoModel.aggregate([
+            {
+                $match: { application: app.mongoose.Types.ObjectId(application) }
+            },
+            {
+                $sample: { size: 5 }
+            },
+        ]);
+    }
 };

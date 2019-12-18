@@ -11,6 +11,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/app/photo/del', middleware.tokenMiddleware(), controller.del)
             .mount('/api/v1/app/photo/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/app/photo/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/app/photo/recommend', middleware.tokenMiddleware(), controller.recommend)
         ;
     }
 
@@ -19,6 +20,38 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/app/photo/list 照片列表
      * @apiDescription  照片模块
      * @apiGroup  文件
+     * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [id] 用户 id
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/app/photo/list
+     */
+    async recommend () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                user: [],
+                limit: [ 'nonempty', (v) => v < 20 ],
+            });
+            const data = await service.transformService.curl('api/v1/photo/list', {
+                data: { user, ...objParams },
+            });
+
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/app/photo/list 照片列表
+     * @apiDescription  照片模块
+     * @apiGroup  文件
+     * @apiParam  {String} [numIndex] 照片文件 页码
+     * @apiParam  {String} [numSize] 照片文件 页数
+     * @apiParam  {String} [startTime] 照片文件 开始时间
+     * @apiParam  {String} [endTime] 照片文件 截止时间
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/app/photo/list
      */
