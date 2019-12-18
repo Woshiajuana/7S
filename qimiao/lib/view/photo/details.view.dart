@@ -74,7 +74,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     }
     return new Container(
-      height: 180.0,
+      height: 240.0,
       child: new Stack(
         children: <Widget>[
           new Container(
@@ -294,18 +294,14 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   // 推荐
   Widget _widgetRecommendSection () {
-    return new Column(
-      children: <Widget>[
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-      ],
+    return _arrRecommend == null ? new Container() : new Column(
+      children: _arrRecommend.map((item) => _widgetPhotoCellItem(item)).toList(),
     );
   }
 
-  Widget _widgetVideoCellItem () {
+  Widget _widgetPhotoCellItem (PhotoJsonModel photoJsonModel) {
+    FileJsonModel fileJsonModel = photoJsonModel.photo;
+    String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -315,10 +311,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               color: Colors.white,
               border: new Border(
                 top: new BorderSide(
-                  color: Color(0xffdddddd),
-                  width: 0.5,
-                ),
-                bottom: new BorderSide(
                   color: Color(0xffdddddd),
                   width: 0.5,
                 ),
@@ -333,11 +325,17 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                     children: <Widget>[
                       new ClipRRect(
                         borderRadius: BorderRadius.circular(6.0),
-                        child: new Image.asset(
-                          Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.fill,
+                        child: new CachedNetworkImage(
                           width: double.infinity,
                           height: double.infinity,
+                          fit: BoxFit.cover,
+                          imageUrl: imageUrl ?? '',
+                          placeholder: (context, url) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
+                          errorWidget: (context, url, error) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
                         ),
                       ),
                       new Container(
@@ -356,9 +354,10 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                     height: 77.0,
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         new Text(
-                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
+                          photoJsonModel?.title ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: new TextStyle(
@@ -366,28 +365,25 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                             color: Color(0xff333333),
                           ),
                         ),
+                        new Expanded(flex: 1, child: new Container()),
+                        new Text(
+                          photoJsonModel?.user?.nickname ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: new TextStyle(
+                            fontSize: 12.0,
+                            color: Color(0xff999999),
+                          ),
+                        ),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             new Row(
                               children: <Widget>[
-                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xff999999)),
+                                new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
                                 new SizedBox(width: 2.0),
                                 new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
+                                  photoJsonModel?.volume?.toString() ?? '0',
                                   style: new TextStyle(
                                     color: Color(0xff999999),
                                     fontSize: 12.0,
@@ -473,7 +469,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
           'user': user,
         }, useLoading: false);
         setState(() {
-          data.forEach((item) => _arrRecommend.add(PhotoJsonModel.fromJson(item)));
+          _arrRecommend = data.map((item) => PhotoJsonModel.fromJson(item)).toList();
         });
       } catch (err) {
         Application.util.modal.toast(err);
