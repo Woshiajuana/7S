@@ -135,7 +135,7 @@ module.exports = class HandleController extends Controller {
             });
             if (user !== author) {
                 const data = await service.transformService.curl('api/v1/following/info', {
-                    data: { author, follower: user },
+                    data: { user: author, follower: user },
                 });
                 data.user.follower = data ? data._id : '';
             }

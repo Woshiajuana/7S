@@ -30,15 +30,7 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findById (id) {
         const { ctx } = this;
-        let objUser = await ctx.model.UserModel.findById(id).populate([
-            { path: 'avatar', select: 'base path filename'},
-        ]).lean();
-        let { avatar } = objUser;
-        if (avatar) {
-            let { base, path, filename } = avatar;
-            objUser.avatar = `${base}${path}${filename}`;
-        }
-        return objUser;
+        return await ctx.model.UserModel.findById(id).lean();
     }
 
     // 根据条件查
