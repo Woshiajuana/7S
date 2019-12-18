@@ -24,34 +24,31 @@ module.exports = class HandleServer extends Service {
     // 根据 id 查询
     async findOne (data) {
         const { ctx, app } = this;
-        let { user, video } = data;
+        let { user, follower } = data;
         return await ctx.model.FollowerModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
-            video: app.mongoose.Types.ObjectId(video),
+            follower: app.mongoose.Types.ObjectId(follower),
         }).lean();
     }
 
     // 删除
-    async del ({ user, video }) {
+    async del ({ user, follower }) {
         const { ctx, app } = this;
         await ctx.model.FollowerModel.remove({
             user: app.mongoose.Types.ObjectId(user),
-            video: app.mongoose.Types.ObjectId(video),
+            follower: app.mongoose.Types.ObjectId(follower),
         });
     }
 
     // 列表
     async list (data) {
         const { ctx, app } = this;
-        let { numIndex, numSize, video, user } = data;
+        let { numIndex, numSize, user } = data;
         numIndex = +numIndex;
         numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
-        }
-        if (video) {
-            filter.video = app.mongoose.Types.ObjectId(video);
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.FollowerModel.count(filter);
