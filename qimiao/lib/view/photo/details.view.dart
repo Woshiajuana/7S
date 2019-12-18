@@ -145,6 +145,8 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   // 用户
   Widget _widgetUserSection () {
     UserJsonModel userJsonModel = _photoJsonModel?.user;
+    bool isSome = StateModel.of(context).user.id == userJsonModel?.id;
+    bool isFollower = _photoJsonModel?.user?.follower ?? false;
     return new Container(
       color: Colors.white,
       child: new Row(
@@ -206,11 +208,11 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             ),
           ),
           new SizedBox(width: 16.0),
-          new Container(
+          isSome ? new Container() : new Container(
             width: 60.0,
             height: 26.0,
             decoration: new BoxDecoration(
-              color: Application.config.style.mainColor,
+              color: isFollower ? Application.config.style.mainColor : Color(0xffbbbbbb),
               borderRadius: new BorderRadius.circular(2.0),
             ),
             child: new FlatButton(
@@ -221,7 +223,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                 children: <Widget>[
                   new Icon(Icons.add, size: 18.0, color: Colors.white),
                   new Text(
-                    '关注',
+                    isFollower ? '已关注' : '关注',
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,

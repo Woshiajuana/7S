@@ -67,6 +67,9 @@ class UserJsonModel {
   @JsonKey(name: 'numPublicNotice')
   int numPublicNotice;
 
+  @JsonKey(name: 'follower')
+  bool follower;
+
   //不同的类使用不同的mixin即可
   factory UserJsonModel.fromJson(Map<String, dynamic> json) => _$UserJsonModelFromJson(json);
 
