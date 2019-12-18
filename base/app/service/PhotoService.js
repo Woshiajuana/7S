@@ -131,12 +131,22 @@ module.exports = class HandleServer extends Service {
         filter.push({
             $lookup: {
                 from: 'files',  // 从哪个Schema中查询（一般需要复数，除非声明Schema的时候专门有处理）
-                localField: 'user.avatar',  // 本地关联的字段
+                localField: 'photo',  // 本地关联的字段
                 foreignField: '_id', // user中用的关联字段
-                as: 'user.avatar' // 查询到所有user后放入的字段名，这个是自定义的，是个数组类型。
+                as: 'photo' // 查询到所有user后放入的字段名，这个是自定义的，是个数组类型。
             },
         });
-        // filter.push({ $project : { 'user.avatar' : 0 }  });
+        filter.push({ $unwind: '$photo' });
+        // filter.push({
+        //     $lookup: {
+        //         from: 'files',  // 从哪个Schema中查询（一般需要复数，除非声明Schema的时候专门有处理）
+        //         localField: 'user.avatar',  // 本地关联的字段
+        //         foreignField: '_id', // user中用的关联字段
+        //         as: 'user.avatar' // 查询到所有user后放入的字段名，这个是自定义的，是个数组类型。
+        //     },
+        // });
+        // filter.push({ $unwind: '$user.avatar' });
+        filter.push({ $project : { 'user.avatar' : 0 }  });
         if (limit) {
             filter.push({
                 $sample: { size: +limit }
