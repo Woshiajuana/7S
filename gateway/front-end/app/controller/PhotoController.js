@@ -17,23 +17,24 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/list 照片列表
+     * @api {get} /api/v1/app/photo/recommend 照片推荐列表
      * @apiDescription  照片模块
      * @apiGroup  文件
-     * @apiParam  {String} [id] 用户 id
-     * @apiParam  {String} [id] 用户 id
+     * @apiParam  {String} [user] 用户 id
+     * @apiParam  {String} [limit] 用户 限制
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/list
+     * @apiSampleRequest /api/v1/app/photo/recommend
      */
     async recommend () {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
                 user: [],
+                exclude: [],
                 limit: [ 'nonempty', (v) => v < 20 ],
             });
-            const data = await service.transformService.curl('api/v1/photo/list', {
-                data: { user, ...objParams },
+            const data = await service.transformService.curl('api/v1/photo/recommend', {
+                data: objParams,
             });
 
             ctx.respSuccess(data);

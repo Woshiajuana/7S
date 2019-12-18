@@ -35,12 +35,13 @@ module.exports = class HandleController extends Controller {
                 user: [],
             });
             const data = await service.photoService.recommend(objParams);
+            console.log(data);
             if (data.length < objParams.limit) {
-                const d = await service.photoService.recommend({
-                    exclude: data.map((item) => item._id),
+                const arrAddTo = await service.photoService.recommend({
+                    exclude: [...data.map((item) => item._id), ...objParams.exclude],
                     limit: objParams.limit - data.length,
                 });
-                data.push(...d);
+                data.push(...arrAddTo);
             }
             ctx.respSuccess(data);
         } catch (err) {

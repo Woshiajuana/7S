@@ -18,10 +18,10 @@ class Agent extends egg.Agent {
 
 class CurlService extends egg.Service {
 
-    constructor(ctx, name) {
-        super(ctx, name);
-        this.strName = name || this.constructor.name;
-        this.options = Object.assign({}, ctx.app.config.curl[this.strName] || {});
+    constructor(ctx, options = {}) {
+        super(ctx);
+        this.strName = options.name || this.constructor.name;
+        this.options = Object.assign({}, ctx.app.config.curl[this.strName] || {}, options);
     }
 
     async afterRequest (response) {
@@ -44,6 +44,7 @@ class CurlService extends egg.Service {
         options = Object.assign({
             method: 'POST',
             dataType: 'json',
+            contentType: 'json',
         }, this.options, options);
         let {
             baseUrl,
