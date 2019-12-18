@@ -103,15 +103,17 @@ module.exports = class HandleServer extends Service {
     async recommend (data) {
         const { ctx, app } = this;
         const { exclude, limit, user } = data;
-        const { ctx, app } = this;
-        const filter = {};
-        return await ctx.model.PhotoModel.aggregate([
-            {
-                $match: { application: app.mongoose.Types.ObjectId(application) }
-            },
-            {
-                $sample: { size: 5 }
-            },
-        ]);
+        const filter = [];
+        if (user) {
+            filter.push({
+                $match: { user: app.mongoose.Types.ObjectId(user) }
+            })
+        }
+        if (limit) {
+            filter.push({
+                $sample: { size: limit }
+            })
+        }
+        return await ctx.model.PhotoModel.aggregate(filter);
     }
 };
