@@ -20,11 +20,12 @@ class PhotoDetailsView extends StatefulWidget {
 class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   PhotoJsonModel _photoJsonModel;
+  List<PhotoJsonModel> _arrRecommend;
 
   @override
   void initState() {
     super.initState();
-    this._reqPhotoInfo();
+    this._reqPhotoInfo(widget.id);
   }
 
   @override
@@ -286,91 +287,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             ],
           ),
           new SizedBox(height: 20.0),
-//          new Row(
-//            children: <Widget>[
-//              new Container(
-//                width: 50.0,
-//                height: 50.0,
-//                margin: const EdgeInsets.only(right: 20.0),
-//                child: new FlatButton(
-//                  onPressed: () => {},
-//                  padding: const EdgeInsets.all(0),
-//                  child: new Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      new Icon(
-//                        Icons.thumb_up,
-//                        color: Color(0xff999999),
-//                      ),
-//                      new SizedBox(height: 3.0),
-//                      new Text(
-//                        '100',
-//                        style: new TextStyle(
-//                          color: Color(0xff999999),
-//                          fontSize: 10.0,
-//                          fontWeight: FontWeight.w400,
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//              new Container(
-//                width: 50.0,
-//                height: 50.0,
-//                margin: const EdgeInsets.only(right: 20.0),
-//                child: new FlatButton(
-//                  onPressed: () => {},
-//                  padding: const EdgeInsets.all(0),
-//                  child: new Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      new Icon(
-//                        Icons.thumb_down,
-//                        color: Color(0xff999999),
-//                      ),
-//                      new SizedBox(height: 3.0),
-//                      new Text(
-//                        '不喜欢',
-//                        style: new TextStyle(
-//                          color: Color(0xff999999),
-//                          fontSize: 10.0,
-//                          fontWeight: FontWeight.w400,
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//              new Container(
-//                width: 50.0,
-//                height: 50.0,
-//                margin: const EdgeInsets.only(right: 20.0),
-//                child: new FlatButton(
-//                  onPressed: () => {},
-//                  padding: const EdgeInsets.all(0),
-//                  child: new Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      new Icon(
-//                        Icons.favorite,
-//                        color: Color(0xff999999),
-//                      ),
-//                      new SizedBox(height: 3.0),
-//                      new Text(
-//                        '100',
-//                        style: new TextStyle(
-//                          color: Color(0xff999999),
-//                          fontSize: 10.0,
-//                          fontWeight: FontWeight.w400,
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ],
-//          ),
         ],
       ),
     );
@@ -527,16 +443,37 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   }
 
   // 获取照片详情
-  void _reqPhotoInfo () async {
+  void _reqPhotoInfo (id) async {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoInfo;
         var data = await Application.util.http.post(strUrl, params: {
-          'id': widget.id,
+          'id': id,
         }, useLoading: false);
         print(data);
         setState(() {
           _photoJsonModel = PhotoJsonModel.fromJson(data);
+        });
+        this._reqPhotoRecommend(id, _photoJsonModel.user.id);
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+
+    });
+  }
+
+  // 获取推荐
+  void _reqPhotoRecommend (id, user) async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqPhotoRecommend;
+        List data = await Application.util.http.post(strUrl, params: {
+          'exclude': [id],
+          'limit': 10,
+          'user': user,
+        }, useLoading: false);
+        setState(() {
+          data.forEach((item) => _arrRecommend.add(PhotoJsonModel.fromJson(item)));
         });
       } catch (err) {
         Application.util.modal.toast(err);

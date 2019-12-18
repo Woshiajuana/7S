@@ -25,6 +25,9 @@ class UserJsonModel {
     this.numPublicNotice,
   );
 
+  @JsonKey(name: '_id')
+  String id;
+
   @JsonKey(name: 'phone')
   String phone;
 

@@ -31,10 +31,17 @@ module.exports = class HandleController extends Controller {
         try {
             const objParams = await ctx.validateBody({
                 exclude: [],
-                limit: [],
+                limit: [ 'nonempty', (v) => v < 20 && v > 0 ],
                 user: [],
             });
             const data = await service.photoService.recommend(objParams);
+            if (data.length < objParams.limit) {
+                const d = await service.photoService.recommend({
+                    exclude: data.map((item) => item._id),
+                    limit: objParams.limit - data.length,
+                });
+                data.push(...d);
+            }
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

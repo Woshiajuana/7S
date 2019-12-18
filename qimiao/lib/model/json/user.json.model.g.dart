@@ -20,11 +20,13 @@ UserJsonModel _$UserJsonModelFromJson(Map<String, dynamic> json) {
       json['numFollower'] as int,
       json['numFollowing'] as int,
       json['numPrivateNotice'] as int,
-      json['numPublicNotice'] as int);
+      json['numPublicNotice'] as int)
+    ..id = json['_id'] as String;
 }
 
 Map<String, dynamic> _$UserJsonModelToJson(UserJsonModel instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'phone': instance.phone,
       'nickname': instance.nickname,
       'avatar': instance.avatar,

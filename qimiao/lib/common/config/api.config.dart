@@ -90,4 +90,9 @@ class Api {
     return 'v1/app/photo/info';
   }
 
+  // 推荐图片作品
+  String get reqPhotoRecommend {
+    return 'v1/app/photo/recommend';
+  }
+
 }

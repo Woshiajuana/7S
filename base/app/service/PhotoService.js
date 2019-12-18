@@ -106,7 +106,16 @@ module.exports = class HandleServer extends Service {
         const filter = [];
         if (user) {
             filter.push({
-                $match: { user: app.mongoose.Types.ObjectId(user) }
+                $match: {
+                    user: app.mongoose.Types.ObjectId(user),
+                }
+            })
+        }
+        if (exclude && exclude.length) {
+            filter.push({
+                $match: {
+                    _id: { $nin: exclude.map((id) => app.mongoose.Types.ObjectId(id)) }
+                }
             })
         }
         if (limit) {
