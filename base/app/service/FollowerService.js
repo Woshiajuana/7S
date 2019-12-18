@@ -23,7 +23,7 @@ module.exports = class HandleServer extends Service {
 
     // 根据 id 查询
     async findOne (data) {
-        const { ctx } = this;
+        const { ctx, app } = this;
         let { user, video } = data;
         return await ctx.model.FollowerModel.findOne({
             user: app.mongoose.Types.ObjectId(user),

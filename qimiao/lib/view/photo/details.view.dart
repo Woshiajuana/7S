@@ -25,7 +25,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   @override
   void initState() {
     super.initState();
-    this._reqPhotoInfo(widget.id);
+    this._reqPhotoInfo();
   }
 
   @override
@@ -146,7 +146,8 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   Widget _widgetUserSection () {
     UserJsonModel userJsonModel = _photoJsonModel?.user;
     bool isSome = StateModel.of(context).user.id == userJsonModel?.id;
-    bool isFollower = _photoJsonModel?.user?.follower ?? false;
+    print('_photoJsonModel?.user?.follower${_photoJsonModel?.user?.follower}');
+    bool isFollower = _photoJsonModel?.user?.follower == null ?? false;
     return new Container(
       color: Colors.white,
       child: new Row(
@@ -212,11 +213,11 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
             width: 60.0,
             height: 26.0,
             decoration: new BoxDecoration(
-              color: isFollower ? Application.config.style.mainColor : Color(0xffbbbbbb),
+              color: isFollower ? Color(0xffbbbbbb) : Application.config.style.mainColor,
               borderRadius: new BorderRadius.circular(2.0),
             ),
             child: new FlatButton(
-              onPressed: () => {},
+              onPressed: () => _doFollowUpdate(userJsonModel),
               padding: const EdgeInsets.all(0),
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -346,6 +347,16 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                           borderRadius: new BorderRadius.circular(6.0),
                         ),
                       ),
+                      new Container(
+                        decoration: new BoxDecoration(
+                          color: Color.fromRGBO(0, 0, 0, 0.3),
+                          borderRadius: new BorderRadius.circular(6.0),
+                        ),
+                        child: new FlatButton(
+                          onPressed: () => this._reqPhotoInfo(id: photoJsonModel.id),
+                          child: new Container(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -441,18 +452,20 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   }
 
   // 获取照片详情
-  void _reqPhotoInfo (id) async {
+  void _reqPhotoInfo ({ String id }) async {
+    String strId = id;
+    if (strId == null) strId = widget.id;
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoInfo;
         var data = await Application.util.http.post(strUrl, params: {
-          'id': id,
-        }, useLoading: false);
+          'id': strId,
+        }, useLoading: id != null);
         print(data);
         setState(() {
           _photoJsonModel = PhotoJsonModel.fromJson(data);
         });
-        this._reqPhotoRecommend(id, _photoJsonModel.user.id);
+        this._reqPhotoRecommend(strId, _photoJsonModel.user.id);
       } catch (err) {
         Application.util.modal.toast(err);
       }
@@ -478,4 +491,21 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       }
     });
   }
+
+  // 关注取消关注
+  void _doFollowUpdate (UserJsonModel userJsonModel) async {
+    try {
+      String strUrl = Application.config.api.doFollowUpdate;
+      var data = await Application.util.http.post(strUrl, params: {
+        'user': StateModel.of(context)?.user?.id ?? '',
+        'following': userJsonModel?.id ?? '',
+      });
+      setState(() {
+        _photoJsonModel.user.follower = data ?? '';
+      });
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
 }

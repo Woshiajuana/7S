@@ -95,4 +95,9 @@ class Api {
     return 'v1/app/photo/recommend';
   }
 
+  // 关注 or 取消关注
+  String get doFollowUpdate {
+    return 'v1/app/follow/update';
+  }
+
 }

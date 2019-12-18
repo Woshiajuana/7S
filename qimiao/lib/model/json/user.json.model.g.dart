@@ -22,7 +22,7 @@ UserJsonModel _$UserJsonModelFromJson(Map<String, dynamic> json) {
       json['numPrivateNotice'] as int,
       json['numPublicNotice'] as int)
     ..id = json['_id'] as String
-    ..follower = json['follower'] as bool;
+    ..follower = json['follower'] as String;
 }
 
 Map<String, dynamic> _$UserJsonModelToJson(UserJsonModel instance) =>
