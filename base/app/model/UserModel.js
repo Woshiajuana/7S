@@ -39,10 +39,9 @@ module.exports = app => {
 
         // 头像
         avatar: {
-            type: Schema.Types.ObjectId,
-            ref: 'file',
+            type: String,
             trim: true,
-            default: null,
+            default: '',
         },
 
         // 性别 [ 0: 保密, 1: 男, 2: 女  ]

@@ -46,15 +46,9 @@ module.exports = class HandleServer extends Service {
         const { ctx } = this;
         let { id, email, uid } = data;
         let objUser;
-        let objPopulate = [ { path: 'avatar', select: 'base path filename'} ];
-        if (id) objUser = await ctx.model.UserModel.findById(id).populate(objPopulate).lean();
-        else if (email) objUser = await ctx.model.UserModel.findOne({ email }).populate(objPopulate).lean();
-        else if (uid) objUser = await ctx.model.UserModel.findOne({ uid }).populate(objPopulate).lean();
-        let { avatar } = objUser;
-        if (avatar) {
-            let { base, path, filename } = avatar;
-            objUser.avatar = `${base}${path}${filename}`;
-        }
+        if (id) objUser = await ctx.model.UserModel.findById(id).lean();
+        else if (email) objUser = await ctx.model.UserModel.findOne({ email }).lean();
+        else if (uid) objUser = await ctx.model.UserModel.findOne({ uid }).lean();
         return objUser;
     }
 

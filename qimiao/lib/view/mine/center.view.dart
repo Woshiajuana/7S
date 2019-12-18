@@ -276,7 +276,7 @@ class _MineCenterViewState extends State<MineCenterView> {
       String strUrl = Application.config.api.doFileUpload;
       Map data = await Application.util.http.post(strUrl, params: formData);
       strUrl = Application.config.api.doUserUpdateInfo;
-      await Application.util.http.post(strUrl, params: { 'avatar': data['file'] });
+      await Application.util.http.post(strUrl, params: { 'avatar': data['url'] });
       var state = StateModel.of(context);
       UserJsonModel userJsonModel = state.user;
       userJsonModel.avatar = data['url'];
