@@ -29,7 +29,7 @@ module.exports = class HandleController extends Controller {
                 following,
                 operate,
             } = await ctx.validateBody({
-                user: [ 'nonempty' ],
+                following: [ 'nonempty' ],
                 operate: [ 'nonempty' ]
             });
             const { id: user } = ctx.state.token;
@@ -60,6 +60,8 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/app/follower/list 粉丝列表
      * @apiDescription  关注模块
      * @apiGroup  关注
+     * @apiParam  {String} [numIndex] 页数
+     * @apiParam  {String} [numSize] 每页数量
      * @apiParam  {String} [following]  用户 id
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/app/follower/list
@@ -67,9 +69,13 @@ module.exports = class HandleController extends Controller {
     async followerList () {
         const { ctx, service, app } = this;
         try {
+            let objParams = await ctx.validateBody({
+                numIndex: [ 'nonempty' ],
+                numSize: [ 'nonempty' ],
+            });
             const { id: user } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/follower/list', {
-                data: { user },
+                data: { user, ...objParams },
             });
             ctx.respSuccess(data);
         } catch (err) {
@@ -82,6 +88,8 @@ module.exports = class HandleController extends Controller {
      * @api {get} /api/v1/app/follower/list 粉丝列表
      * @apiDescription  关注模块
      * @apiGroup  关注
+     * @apiParam  {String} [numIndex] 页数
+     * @apiParam  {String} [numSize] 每页数量
      * @apiParam  {String} [following]  用户 id
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/app/follower/list
@@ -89,9 +97,13 @@ module.exports = class HandleController extends Controller {
     async followingList () {
         const { ctx, service, app } = this;
         try {
+            let objParams = await ctx.validateBody({
+                numIndex: [ 'nonempty' ],
+                numSize: [ 'nonempty' ],
+            });
             const { id: user } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/following/list', {
-                data: { user },
+                data: { user, ...objParams },
             });
             ctx.respSuccess(data);
         } catch (err) {

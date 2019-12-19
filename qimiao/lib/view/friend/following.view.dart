@@ -163,7 +163,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
   }) async {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
-        String strUrl = Application.config.api.reqNoticeList;
+        String strUrl = Application.config.api.reqFollowingList;
         Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize };
         _listJsonModel = ListJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
         setState(() {

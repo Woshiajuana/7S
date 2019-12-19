@@ -104,7 +104,6 @@ module.exports = class HandleServer extends Service {
         const { ctx, app } = this;
         const { exclude, limit, user } = data;
         const filter = [];
-        console.log('data => ', data);
         if (user) {
             filter.push({
                 $match: {
@@ -152,7 +151,6 @@ module.exports = class HandleServer extends Service {
                 $sample: { size: +limit }
             })
         }
-        console.log('filter => ', filter);
         return await ctx.model.PhotoModel.aggregate(filter);
     }
 };
