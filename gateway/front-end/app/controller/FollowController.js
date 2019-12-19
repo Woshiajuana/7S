@@ -85,7 +85,7 @@ module.exports = class HandleController extends Controller {
                 data: { user, ...objParams },
             });
             if (data) {
-                data.list = data.list.map(({_id, follower, created_at, updated_at}) => Object.assign({}, follower, { _id, created_at, updated_at }));
+                data.list = data.list.map(({_id, follower, created_at, updated_at}) => Object.assign({}, follower, { created_at, updated_at }));
             }
             ctx.respSuccess(data);
         } catch (err) {
@@ -115,7 +115,7 @@ module.exports = class HandleController extends Controller {
                 data: { user, ...objParams },
             });
             if (data) {
-                data.list = data.list.map(({_id, following, created_at, updated_at}) => Object.assign({}, following, { _id, created_at, updated_at }));
+                data.list = data.list.map(({_id, following, created_at, updated_at}) => Object.assign({}, following, { created_at, updated_at }));
             }
             console.log('data.list => ', data.list);
             ctx.respSuccess(data);

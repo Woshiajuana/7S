@@ -40,25 +40,49 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             child: new NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
-                  new SliverToBoxAdapter(
-                    child: new Container(
-                      height: 310.0,
-                      child: new Stack(
-                        children: <Widget>[
-                          _widgetHeaderDefBgSection(),
-                          _widgetHeaderBgSection(),
-                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        ],
+                  new SliverAppBar(
+                    title: Text("标题"),
+                    expandedHeight: 310.0,
+                    floating: false,
+                    pinned: true,
+                    snap: false,
+                    flexibleSpace: new FlexibleSpaceBar(
+                      background: new Image.asset(
+                        Application.util.getImgPath('mine_head_bg.png'),
+                        fit: BoxFit.cover,
                       ),
                     ),
+                    leading: new IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {},
+                    ),
                   ),
+//                  new SliverToBoxAdapter(
+//                    child: new Container(
+//                      height: 310.0,
+//                      child: new Stack(
+//                        children: <Widget>[
+//                          _widgetHeaderDefBgSection(),
+//                          _widgetHeaderBgSection(),
+//                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
+//                        ],
+//                      ),
+//                    ),
+//                  ),
                 ];
               },
               body: new Container(
-                height: 10.0,
                 color: Colors.red,
-                child:  new FriendFollowingView(),
+                child: new ListView(
+                  children: <Widget>[
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                  ],
+                ),
               ),
             ),
           );

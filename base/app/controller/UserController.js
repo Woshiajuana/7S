@@ -95,6 +95,7 @@ module.exports = class HandleController extends Controller {
             });
             ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(id)} `);
             const objUser = await service.userService.findById(id);
+            if (!objUser) throw '无该用户';
             // 查询视频数量
             const numVideo = await service.videoService.count({ user: id });
             // 查询照片数量
