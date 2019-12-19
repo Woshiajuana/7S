@@ -61,7 +61,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
             child: new Container(
               height: 60.0,
               child: new FlatButton(
-                onPressed: () => Application.router.push(context, 'friendInfo'),
+                onPressed: () => Application.router.push(context, 'friendInfo', params: { 'id': userJsonModel?.id }),
                 padding: const EdgeInsets.only(right: 0, left: 16.0),
                 child: new Row(
                   children: <Widget>[

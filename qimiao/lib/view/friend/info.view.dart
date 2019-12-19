@@ -32,34 +32,37 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new WowLoadView(
-        status: _userJsonModel == null,
-        child: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: new SliverPersistentHeader(
-                  pinned: true,
-                  delegate: new SliverCustomHeaderDelegate(
-                      collapsedHeight: 100,
-                      expandedHeight: 310,
-                      paddingTop: MediaQuery.of(context).padding.top,
-                      buildContent: (BuildContext context, double shrinkOffset, int alpha) {
-                        return <Widget> [
+      body: new WowScrollerInfo(
+        maxExtent: 310,
+        builder: (BuildContext context, double shrinkOffset, int alpha) {
+          return new WowLoadView(
+            status: _userJsonModel == null,
+            child: new NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  new SliverToBoxAdapter(
+                    child: new Container(
+                      height: 310.0,
+                      child: new Stack(
+                        children: <Widget>[
                           _widgetHeaderDefBgSection(),
                           _widgetHeaderBgSection(),
                           _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
                           _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        ];
-                      }
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ];
+              },
+              body: new Container(
+                height: 10.0,
+                color: Colors.red,
+                child:  new FriendFollowingView(),
               ),
-            ];
-          },
-          body: new FriendFollowingView(),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -278,31 +281,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             alpha: a,
           ) : new Container(),
           // tab 切换
-        ],
-      ),
-    );
-  }
-
-  // tab 切换
-  Widget _widgetTabSection () {
-    return new Container(
-      height: 44.0,
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        border: new Border(
-          bottom: new BorderSide(
-            color: Color(0xffdddddd),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: new TabBar(
-        unselectedLabelColor: Color(0xff999999),
-        labelColor: Application.config.style.mainColor,
-        indicatorColor: Application.config.style.mainColor,
-        tabs: <Widget>[
-          Tab(text: '视频'),
-          Tab(text: '照片'),
         ],
       ),
     );
