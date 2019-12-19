@@ -146,7 +146,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   Widget _widgetUserSection () {
     UserJsonModel userJsonModel = _photoJsonModel?.user;
     bool isSome = StateModel.of(context).user.id == userJsonModel?.id;
-    print('_photoJsonModel?.user?.follower${_photoJsonModel?.user?.follower}');
     bool isFollower = _photoJsonModel?.user?.follower != '' ?? false;
     return new Container(
       color: Colors.white,
@@ -158,7 +157,10 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               height: 60.0,
               child: new FlatButton(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
-                onPressed: () => Application.router.push(context, 'friendInfo'),
+                onPressed: ()  {
+                  if (isSome) return null;
+                  Application.router.push(context, 'friendInfo', params: { 'id': userJsonModel?.id });
+                },
                 child: new Row(
                   children: <Widget>[
                     new Container(
@@ -501,8 +503,9 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       });
       setState(() {
         _photoJsonModel.user.follower = data ?? '';
+        _photoJsonModel.user.numFollower = (data ?? '') == '' ? _photoJsonModel.user.numFollower - 1 : _photoJsonModel.user.numFollower + 1;
       });
-      Application.util.modal.toast(data ?? '' == '' ? '已取消关注' : '关注成功');
+      Application.util.modal.toast((data ?? '') == '' ? '已取消关注' : '关注成功');
     } catch (err) {
       Application.util.modal.toast(err);
     }

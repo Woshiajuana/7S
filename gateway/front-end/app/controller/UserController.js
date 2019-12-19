@@ -143,10 +143,15 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service } = this;
         try {
-            const { id } = ctx.state.token;
+            let {
+                id,
+            } = await ctx.validateBody({
+                id: [],
+            });
+            const { id: user } = ctx.state.token;
             ctx.logger.info(`用户信息：请求参数=> ${id}`);
             const data = await service.transformService.curl('api/v1/user/info', {
-                data: { id },
+                data: { id: id || user },
             });
             ctx.logger.info(`用户信息：请求返回=> ${data}`);
             ctx.respSuccess(data);

@@ -145,7 +145,9 @@ class Router {
     'friendInfo': {
       'route': (_) => new FriendInfoView(),
       'handle': (params) {
-        return new FriendInfoView();
+        return new FriendInfoView(
+          id: params['id'],
+        );
       }
     },
     'historyList': {
