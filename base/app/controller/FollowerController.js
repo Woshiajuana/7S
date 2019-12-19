@@ -19,7 +19,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 创建粉丝
      * @apiGroup 粉丝
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [following] 关注
+     * @apiParam  {String} [follower] 关注
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/follower/create
      */
@@ -28,12 +28,12 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                following: [ 'nonempty' ],
+                follower: [ 'nonempty' ],
             });
             ctx.logger.info(`创建粉丝：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.followerService.create(objParams);
+            const data = await service.followerService.create(objParams);
             ctx.logger.info(`创建粉丝：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
@@ -45,7 +45,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 更新粉丝
      * @apiGroup 粉丝
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [following] 关注
+     * @apiParam  {String} [follower] 关注
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/follower/info
      */
@@ -54,7 +54,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                following: [ 'nonempty' ],
+                follower: [ 'nonempty' ],
             });
             ctx.logger.info(`查询粉丝信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.followerService.findOne(objParams);
@@ -71,7 +71,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 删除粉丝
      * @apiGroup 粉丝
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [following] 关注
+     * @apiParam  {String} [follower] 关注
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/follower/del
      */
@@ -80,7 +80,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                following: [ 'nonempty' ],
+                follower: [ 'nonempty' ],
             });
             ctx.logger.info(`删除粉丝信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.followerService.del(objParams);
@@ -99,7 +99,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [following] 粉丝
+     * @apiParam  {String} [follower] 粉丝
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/follower/list
      */
@@ -110,7 +110,7 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [ ],
-                following: [ ],
+                follower: [ ],
             });
             const data = await service.followerService.list(objParams);
             ctx.respSuccess(data);

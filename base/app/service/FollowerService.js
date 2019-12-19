@@ -18,25 +18,25 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.FollowerModel.create(data);
+        return await ctx.model.FollowerModel.create(data);
     }
 
     // 根据 id 查询
     async findOne (data) {
         const { ctx, app } = this;
-        let { user, following } = data;
+        let { user, follower } = data;
         return await ctx.model.FollowerModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
-            following: app.mongoose.Types.ObjectId(following),
+            follower: app.mongoose.Types.ObjectId(follower),
         }).lean();
     }
 
     // 删除
-    async del ({ user, following }) {
+    async del ({ user, follower }) {
         const { ctx, app } = this;
         await ctx.model.FollowerModel.remove({
             user: app.mongoose.Types.ObjectId(user),
-            following: app.mongoose.Types.ObjectId(following),
+            follower: app.mongoose.Types.ObjectId(follower),
         });
     }
 
@@ -57,7 +57,10 @@ module.exports = class HandleServer extends Service {
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
             .limit(numSize)
-            .populate()
+            .populate([
+                { path: 'user', select: { password: 0 } },
+                { path: 'follower', select: { password: 0 } },
+            ])
             .lean();
         return {
             list,

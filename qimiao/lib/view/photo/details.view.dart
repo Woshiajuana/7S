@@ -147,7 +147,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     UserJsonModel userJsonModel = _photoJsonModel?.user;
     bool isSome = StateModel.of(context).user.id == userJsonModel?.id;
     print('_photoJsonModel?.user?.follower${_photoJsonModel?.user?.follower}');
-    bool isFollower = _photoJsonModel?.user?.follower == null ?? false;
+    bool isFollower = _photoJsonModel?.user?.follower != '' ?? false;
     return new Container(
       color: Colors.white,
       child: new Row(
@@ -496,10 +496,8 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
   void _doFollowUpdate (UserJsonModel userJsonModel) async {
     try {
       String strUrl = Application.config.api.doFollowUpdate;
-      String strFollower = _photoJsonModel?.user?.follower ?? '';
       var data = await Application.util.http.post(strUrl, params: {
-        'following': userJsonModel?.id ?? '',
-        'operate': strFollower == '',
+        'id': userJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.user.follower = data ?? '';

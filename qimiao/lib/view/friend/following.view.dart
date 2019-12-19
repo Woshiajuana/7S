@@ -28,13 +28,13 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
     return new WowLoadView(
       data: _arrData,
       child: new WowScrollListView(
-          onRefresh: _handleRefresh,
-          onLoad: _handleLoad,
-          data: _arrData,
-          total: _listJsonModel?.total ?? 0,
-          itemBuilder: (content, index) {
-            return _widgetCellItem(index);
-          }
+        onRefresh: _handleRefresh,
+        onLoad: _handleLoad,
+        data: _arrData,
+        total: _listJsonModel?.total ?? 0,
+        itemBuilder: (content, index) {
+          return _widgetCellItem(index);
+        }
       ),
     );
   }
@@ -42,6 +42,7 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
   // item
   Widget _widgetCellItem (int index) {
     UserJsonModel userJsonModel = _arrData[index];
+    print(userJsonModel.avatar);
     return new Container(
       padding: const EdgeInsets.only(right: 16.0),
       decoration: new BoxDecoration(
@@ -71,12 +72,21 @@ class _FriendFollowingViewState extends State<FriendFollowingView> {
                         borderRadius: new BorderRadius.circular((41)), // 圆角度
                       ),
                       child: new ClipOval(
-                        child: new FadeInImage.assetNetwork(
+                        child: new CachedNetworkImage(
                           width: 36.0,
                           height: 36.0,
-                          placeholder: Application.config.style.srcGoodsNull,
-                          image: 'http://ossmk2.jfpays.com/www_make_v1/app/static/images/defaultFace013x.png',
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
+                          imageUrl: userJsonModel?.avatar ?? '',
+                          placeholder: (context, url) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                            width: 36.0,
+                            height: 36.0,
+                          ),
+                          errorWidget: (context, url, error) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                            width: 36.0,
+                            height: 36.0,
+                          ),
                         ),
                       ),
                     ),

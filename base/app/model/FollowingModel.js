@@ -14,8 +14,8 @@ module.exports = app => {
             required: true,
         },
 
-        // 粉丝
-        follower: {
+        // 关注
+        following: {
             type: Schema.Types.ObjectId,
             ref: 'user',
             trim: true,
