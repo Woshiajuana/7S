@@ -117,6 +117,7 @@ module.exports = class HandleController extends Controller {
             if (data) {
                 data.list = data.list.map(({_id, following, created_at, updated_at}) => Object.assign({}, following, { _id, created_at, updated_at }));
             }
+            console.log('data.list => ', data.list);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

@@ -36,7 +36,6 @@ module.exports = class HandleController extends Controller {
             const data = await service.transformService.curl('api/v1/photo/recommend', {
                 data: objParams,
             });
-
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -135,7 +134,7 @@ module.exports = class HandleController extends Controller {
             });
             if (user !== author) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {
-                    data: { user, following: user },
+                    data: { user, following: author },
                 });
                 data.user.follower = objFollow ? objFollow._id : '';
             }

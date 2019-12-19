@@ -502,6 +502,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       setState(() {
         _photoJsonModel.user.follower = data ?? '';
       });
+      Application.util.modal.toast(data ?? '' == '' ? '已取消关注' : '关注成功');
     } catch (err) {
       Application.util.modal.toast(err);
     }

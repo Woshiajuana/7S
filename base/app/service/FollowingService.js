@@ -58,7 +58,7 @@ module.exports = class HandleServer extends Service {
             .limit(numSize)
             .populate([
                 { path: 'user', select: { password: 0 } },
-                { path: 'follower', select: { password: 0 } },
+                { path: 'following', select: { password: 0 } },
             ])
             .lean();
         return {
