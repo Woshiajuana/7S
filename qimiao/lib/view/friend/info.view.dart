@@ -4,6 +4,7 @@ import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:qimiao/view/friend/following.view.dart';
+import 'dart:ui';
 
 class FriendInfoView extends StatefulWidget {
 
@@ -20,6 +21,7 @@ class FriendInfoView extends StatefulWidget {
 class _FriendInfoViewState extends State<FriendInfoView> {
 
   UserJsonModel _userJsonModel;
+  ScrollController _scrollController;
 
   @override
   void initState() {
@@ -39,17 +41,27 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             status: _userJsonModel == null,
             child: new NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+//                print('shrinkOffset <= 50 => ${shrinkOffset <= 50}  alpha => ${alpha}' );
                 return <Widget>[
                   new SliverAppBar(
-                    title: Text("标题"),
-                    expandedHeight: 310.0,
+                    title:  new Text(
+                      _userJsonModel?.nickname ?? '',
+                      style: new TextStyle(
+                        color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
                     floating: false,
                     pinned: true,
                     snap: false,
                     flexibleSpace: new FlexibleSpaceBar(
-                      background: new Image.asset(
-                        Application.util.getImgPath('mine_head_bg.png'),
-                        fit: BoxFit.cover,
+                      background: new Stack(
+                        children: <Widget>[
+                          _widgetHeaderBgSection(),
+                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
+                        ],
                       ),
                     ),
                     leading: new IconButton(
@@ -72,10 +84,13 @@ class _FriendInfoViewState extends State<FriendInfoView> {
 //                  ),
                 ];
               },
-              body: new Container(
-                color: Colors.red,
-                child: new ListView(
+              body: new SingleChildScrollView(
+                child: new Column(
                   children: <Widget>[
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
+                    _widgetPhotoCellItem(),
                     _widgetPhotoCellItem(),
                     _widgetPhotoCellItem(),
                     _widgetPhotoCellItem(),
@@ -365,15 +380,25 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   Widget _widgetHeaderBgSection () {
     return new Container(
       height: 310.0,
+      color: Colors.red,
       alignment: Alignment.bottomCenter,
-      decoration: new BoxDecoration(
-        image: new DecorationImage(
-          image: (_userJsonModel?.avatar != null && _userJsonModel?.avatar != '') ? new NetworkImage(_userJsonModel.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-          fit: BoxFit.cover,
-        ),
-      ),
       child: new Stack(
         children: <Widget>[
+          new Container(
+            height: 310.0,
+            child:new CachedNetworkImage(
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              imageUrl: _userJsonModel?.avatar ?? '',
+              placeholder: (context, url) => new Image.asset(
+                Application.util.getImgPath('mine_head_bg.png'),
+              ),
+              errorWidget: (context, url, error) => new Image.asset(
+                Application.util.getImgPath('mine_head_bg.png'),
+              ),
+            ),
+          ),
           new Container(
             color: Color.fromRGBO(0, 0, 0, 0.2),
           ),
