@@ -22,86 +22,83 @@ class _FriendInfoViewState extends State<FriendInfoView> {
 
   UserJsonModel _userJsonModel;
   ScrollController _scrollController;
+  int _alpha = 0;
+  double _shrinkOffset = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _scrollController = new ScrollController();
+    _scrollController.addListener(() {
+      setState(() {
+        _shrinkOffset = _scrollController.position.pixels;
+        _alpha = (_shrinkOffset / 310 * 255).clamp(0, 255).toInt();
+      });
+    });
     this._reqUserInfo();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
-      body: new WowScrollerInfo(
-        maxExtent: 310,
-        builder: (BuildContext context, double shrinkOffset, int alpha) {
-          return new WowLoadView(
-            status: _userJsonModel == null,
-            child: new NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-//                print('shrinkOffset <= 50 => ${shrinkOffset <= 50}  alpha => ${alpha}' );
-                return <Widget>[
-                  new SliverAppBar(
-                    title:  new Text(
-                      _userJsonModel?.nickname ?? '',
-                      style: new TextStyle(
-                        color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
-                    floating: false,
-                    pinned: true,
-                    snap: false,
-                    flexibleSpace: new FlexibleSpaceBar(
-                      background: new Stack(
-                        children: <Widget>[
-                          _widgetHeaderBgSection(),
-                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-                        ],
-                      ),
-                    ),
-                    leading: new IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {},
-                    ),
+      body: new WowLoadView(
+        status: _userJsonModel == null,
+        child: new NestedScrollView(
+          controller: _scrollController,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverAppBar(
+                title:  new Text(
+                  _userJsonModel?.nickname ?? '',
+                  style: new TextStyle(
+                    color: _shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(_alpha, 255, 255, 255),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
                   ),
-//                  new SliverToBoxAdapter(
-//                    child: new Container(
-//                      height: 310.0,
-//                      child: new Stack(
-//                        children: <Widget>[
-//                          _widgetHeaderDefBgSection(),
-//                          _widgetHeaderBgSection(),
-//                          _widgetHeaderSection(shrinkOffset: shrinkOffset, alpha: alpha),
-//                          _widgetAppBarSection(shrinkOffset: shrinkOffset, alpha: alpha),
-//                        ],
-//                      ),
-//                    ),
-//                  ),
-                ];
-              },
-              body: new SingleChildScrollView(
-                child: new Column(
-                  children: <Widget>[
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                    _widgetPhotoCellItem(),
-                  ],
+                ),
+                expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
+                floating: false,
+                pinned: true,
+                snap: false,
+                flexibleSpace: new FlexibleSpaceBar(
+                  background: new Stack(
+                    children: <Widget>[
+                      _widgetHeaderBgSection(),
+                      _widgetHeaderSection(shrinkOffset: _shrinkOffset, alpha: _alpha),
+                    ],
+                  ),
+                ),
+                leading: new IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {},
                 ),
               ),
-            ),
-          );
-        },
+            ];
+          },
+          body: new ListView(
+            padding: const EdgeInsets.all(0),
+            children: <Widget>[
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+              _widgetPhotoCellItem(),
+            ],
+          ),
+        ),
       ),
     );
   }
