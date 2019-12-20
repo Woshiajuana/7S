@@ -39,9 +39,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     _scrollController = new ScrollController();
     _scrollController.addListener(() {
       setState(() {
-        print(_scrollController);
         _shrinkOffset = _scrollController.position.pixels;
-        print('maxScrollExtent => ${_scrollController.position.maxScrollExtent}  _shrinkOffset => $_shrinkOffset');
         _alpha = (_shrinkOffset / 310 * 255).clamp(0, 255).toInt();
       });
     });
@@ -63,53 +61,56 @@ class _FriendInfoViewState extends State<FriendInfoView> {
       backgroundColor: Application.config.style.backgroundColor,
       body: new WowLoadView(
         status: _userJsonModel == null,
-        child: new NestedScrollView(
-//          controller: _scrollController,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverAppBar(
-                title:  new Text(
-                  _userJsonModel?.nickname ?? '',
-                  style: new TextStyle(
-                    color: _shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(_alpha, 255, 255, 255),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
+        child: new NotificationListener<ScrollNotification>(
+          onNotification: _handleScroll,
+          child: new NestedScrollView(
+            controller: _scrollController,
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                new SliverAppBar(
+                  title:  new Text(
+                    _userJsonModel?.nickname ?? '',
+                    style: new TextStyle(
+                      color: _shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(_alpha, 255, 255, 255),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  flexibleSpace: new FlexibleSpaceBar(
+                    background: new Stack(
+                      children: <Widget>[
+                        _widgetHeaderBgSection(),
+                        _widgetHeaderSection(shrinkOffset: _shrinkOffset, alpha: _alpha),
+                      ],
+                    ),
+                  ),
+                  leading: new IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () => Application.router.pop(context),
                   ),
                 ),
-                expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
-                floating: false,
-                pinned: true,
-                snap: false,
-                flexibleSpace: new FlexibleSpaceBar(
-                  background: new Stack(
-                    children: <Widget>[
-                      _widgetHeaderBgSection(),
-                      _widgetHeaderSection(shrinkOffset: _shrinkOffset, alpha: _alpha),
-                    ],
-                  ),
-                ),
-                leading: new IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () => Application.router.pop(context),
+              ];
+            },
+            body: new WowLoadView(
+              data: _arrData,
+              child: new RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: new ListView.builder(
+                  padding: const EdgeInsets.all(0),
+                  physics: new AlwaysScrollableScrollPhysics(),
+                  itemCount: _isLoading ? count + 1 : count,
+                  itemBuilder: (context, index) {
+                    if (index < count) {
+                      return _widgetPhotoCellItem(index);
+                    }
+                    return _widgetMoreCellItem(count: count, total: total);
+                  },
                 ),
               ),
-            ];
-          },
-          body: new WowLoadView(
-            data: _arrData,
-            child: new ListView(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(0),
-              children: <Widget>[
-                new Container(height: 200.0, color: Colors.red),
-                new Container(height: 200.0, color: Colors.blue),
-                new Container(height: 200.0, color: Colors.red),
-                new Container(height: 200.0, color: Colors.blue),
-                new Container(height: 200.0, color: Colors.red),
-                new Container(height: 200.0, color: Colors.blue),
-                new Container(height: 200.0, color: Colors.red),
-                new Container(height: 200.0, color: Colors.blue),
-              ],
             ),
           ),
         ),
@@ -455,6 +456,13 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     );
   }
 
+  // 刷新
+  Future<void> _handleRefresh() async {
+    setState(() => _isLoading = false);
+    _numIndex = 1;
+    await this._reqPhotoList();
+  }
+
   // 操作
   void _handleOperate (PhotoJsonModel photoJsonModel) {
     showDialog(
@@ -524,18 +532,32 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     });
   }
 
-  // 刷新
-  void _handleRefresh() async {
-    _numIndex = 1;
-    await this._reqPhotoList();
+  // 滚动监听回调
+  bool _handleScroll (ScrollNotification scroll) {
+    // 当前滑动距离
+    var position = scroll.metrics;
+    // 小于50px时，触发上拉加载；
+    if (position.maxScrollExtent - position.pixels < 30) {
+      this._handleLoad();
+    }
+    // 返回false，继续向上传递,返回true则不再向上传递
+    return true;
   }
 
   // 下拉加载
   void _handleLoad ({
     Function callback,
   }) async {
-    _numIndex++;
-    this._reqPhotoList(callback: callback);
+    if (!_isLoading) {
+      setState(() => _isLoading = true);
+      int total = _listJsonModel?.total ?? 0;
+      int count = _arrData?.length ?? 0;
+      if (total <= count) return null;
+      _numIndex++;
+      this._reqPhotoList(callback: () {
+        setState(() => _isLoading = false);
+      });
+    }
   }
 
   // 获取列表

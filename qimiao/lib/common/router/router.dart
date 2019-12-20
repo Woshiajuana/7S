@@ -32,7 +32,6 @@ import 'package:qimiao/view/password/reset.view.dart';
 import 'package:qimiao/view/mine/signature.view.dart';
 import 'package:qimiao/view/friend/info.view.dart';
 import 'package:qimiao/view/search/search.view.dart';
-import 'package:qimiao/view/friend/test.dart';
 
 class Router {
 
@@ -154,7 +153,7 @@ class Router {
     'historyList': {
       'route': (_) => new HistoryListView(),
       'handle': (params) {
-        return new SliverAppBarPage();
+        return new HistoryListView();
       }
     },
     'mineCenter': {
