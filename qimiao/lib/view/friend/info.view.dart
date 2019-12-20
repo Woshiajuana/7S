@@ -1,10 +1,10 @@
 
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:qimiao/model/model.dart';
-import 'package:qimiao/view/friend/following.view.dart';
-import 'dart:ui';
+import "package:intl/intl.dart";
 
 class FriendInfoView extends StatefulWidget {
 
@@ -24,6 +24,12 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   ScrollController _scrollController;
   int _alpha = 0;
   double _shrinkOffset = 0;
+
+  ListJsonModel _listJsonModel;
+  List<PhotoJsonModel> _arrData;
+  int _numIndex = 1;
+  int _numSize = 10;
+
 
   @override
   void initState() {
@@ -84,19 +90,17 @@ class _FriendInfoViewState extends State<FriendInfoView> {
               ),
             ];
           },
-          body: new ListView(
-            padding: const EdgeInsets.all(0),
-            children: <Widget>[
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-              _widgetPhotoCellItem(),
-            ],
+          body: new WowLoadView(
+            data: _arrData,
+            child: new WowScrollListView(
+                onRefresh: _handleRefresh,
+                onLoad: _handleLoad,
+                data: _arrData,
+                total: _listJsonModel?.total ?? 0,
+                itemBuilder: (content, index) {
+                  return _widgetPhotoCellItem(index);
+                }
+            ),
           ),
         ),
       ),
@@ -104,7 +108,13 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   }
 
   // 照片
-  Widget _widgetPhotoCellItem () {
+  Widget _widgetPhotoCellItem (index) {
+    PhotoJsonModel photoJsonModel = _arrData[index];
+    String strTime = photoJsonModel.created_at != null
+        ? new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(photoJsonModel.created_at).toLocal())
+        : '';
+    FileJsonModel fileJsonModel = photoJsonModel.photo;
+    String strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     return new Container(
       child: new Column(
         children: <Widget>[
@@ -113,7 +123,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             padding: const EdgeInsets.only(left: 10.0),
             alignment: Alignment.centerLeft,
             child: new Text(
-              '2019-11-18',
+              strTime,
               style: new TextStyle(
                 fontSize: 12.0,
                 color: Color(0xff666666),
@@ -144,17 +154,27 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                     children: <Widget>[
                       new ClipRRect(
                         borderRadius: BorderRadius.circular(6.0),
-                        child: new Image.asset(
-                          Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.fill,
+                        child: new CachedNetworkImage(
                           width: double.infinity,
                           height: double.infinity,
+                          fit: BoxFit.cover,
+                          imageUrl: strPath,
+                          placeholder: (context, url) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
+                          errorWidget: (context, url, error) => new Image.asset(
+                            Application.util.getImgPath('guide1.png'),
+                          ),
                         ),
                       ),
                       new Container(
                         decoration: new BoxDecoration(
                           color: Color.fromRGBO(0, 0, 0, 0.3),
                           borderRadius: new BorderRadius.circular(6.0),
+                        ),
+                        child: new FlatButton(
+                          onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
+                          child: new Container(),
                         ),
                       ),
                     ],
@@ -167,9 +187,10 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                     height: 77.0,
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         new Text(
-                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
+                          photoJsonModel.title ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: new TextStyle(
@@ -185,20 +206,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                                 new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
                                 new SizedBox(width: 2.0),
                                 new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
+                                  photoJsonModel.volume?.toString() ?? '0',
                                   style: new TextStyle(
                                     color: Color(0xff999999),
                                     fontSize: 12.0,
@@ -211,7 +219,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                               width: 20.0,
                               child: new FlatButton(
                                   padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(),
+                                  onPressed: () => _handleOperate(photoJsonModel),
                                   child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
                               ),
                             ),
@@ -225,71 +233,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-          ],
-        );
-      },
-    );
-  }
-
-  // 导航条
-  Widget _widgetAppBarSection ({
-    double shrinkOffset,
-    int alpha,
-  }) {
-    return new Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      child: new Container(
-        color: Color.fromARGB(alpha, 236, 100, 47),
-        child: new SafeArea(
-          bottom: false,
-          child: new Container(
-            height: 56.0,
-            child: new Row(
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(
-                    Icons.arrow_back,
-                    color: shrinkOffset <= 50 ? Colors.white : Color.fromARGB(alpha, 255, 255, 255),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                new SizedBox(width: 24.0),
-                new Text(
-                  '我是阿倦啊',
-                  style: new TextStyle(
-                    color: shrinkOffset <= 50 ? Colors.transparent : Color.fromARGB(alpha, 255, 255, 255),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -355,20 +298,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           ),
           new SizedBox(height: 12.0),
         ],
-      ),
-    );
-  }
-
-  // 默认背景
-  Widget _widgetHeaderDefBgSection () {
-    return new Container(
-      height: 310.0,
-      decoration: new BoxDecoration(
-        color: Color(0xffdddddd),
-        image: new DecorationImage(
-          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
-          fit: BoxFit.cover,
-        ),
       ),
     );
   }
@@ -487,6 +416,57 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     );
   }
 
+  // 操作
+  void _handleOperate (PhotoJsonModel photoJsonModel) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+      builder: (BuildContext context) {
+        return new ActionSheetDialog(
+          arrOptions: [
+            {
+              'text': '编辑',
+              'onPressed': () {
+                Application.router.pop(context);
+                Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+              },
+            },
+            {
+              'text': '删除',
+              'onPressed': () => this._doPhotoDelete(photoJsonModel),
+            },
+          ],
+        );
+      },
+    );
+  }
+
+  // 删除
+  void _doPhotoDelete (PhotoJsonModel photoJsonModel) async {
+    Application.router.pop(context);
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new ConfirmDialog(
+          content: '确定要删除该张照片么？',
+        );
+      },
+    );
+    if (result != true) return;
+    try {
+      String strUrl = Application.config.api.doPhotoDelete;
+      Map mapParams = { 'id': photoJsonModel.id };
+      await Application.util.http.post(strUrl, params: mapParams);
+      setState(() {
+        _listJsonModel.total--;
+        _arrData.remove(photoJsonModel);
+      });
+      Application.util.modal.toast('删除成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
   void _reqUserInfo () async {
     Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
@@ -498,8 +478,44 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         setState(() {
           _userJsonModel = UserJsonModel.fromJson(data);
         });
+        this._reqPhotoList();
       } catch (err) {
         Application.util.modal.toast(err);
+      }
+    });
+  }
+
+  // 刷新
+  void _handleRefresh() async {
+    _numIndex = 1;
+    await this._reqPhotoList();
+  }
+
+  // 下拉加载
+  void _handleLoad ({
+    Function callback,
+  }) async {
+    _numIndex++;
+    this._reqPhotoList(callback: callback);
+  }
+
+  // 获取列表
+  void _reqPhotoList ({
+    Function callback,
+  }) async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqPhotoList;
+        Map mapParams = { 'numIndex': _numIndex, 'numSize': _numSize, 'user': widget.id };
+        _listJsonModel = ListJsonModel.fromJson(await Application.util.http.post(strUrl, params: mapParams, useLoading: false));
+        setState(() {
+          List<PhotoJsonModel> data = _listJsonModel.list.map((item) => PhotoJsonModel.fromJson(item)).toList();
+          _numIndex == 1 ? _arrData = data : _arrData.addAll(data);
+        });
+      } catch (err) {
+        Application.util.modal.toast(err);
+      } finally {
+        if (callback != null) callback();
       }
     });
   }

@@ -54,6 +54,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     return new RefreshIndicator(
       onRefresh: _handleRefresh,
       child: new ListView.builder(
+        padding: const EdgeInsets.all(0),
         physics: new AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         itemCount: _isLoading ? count + 1 : count,

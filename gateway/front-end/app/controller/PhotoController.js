@@ -63,10 +63,11 @@ module.exports = class HandleController extends Controller {
                 numSize: [ ],
                 startTime: [],
                 endTime: [],
+                user: [],
             });
-            const { id: user } = ctx.state.token;
+            const { id } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/photo/list', {
-                data: { user, ...objParams },
+                data: { ...objParams, user: objParams.user || id },
             });
             ctx.respSuccess(data);
         } catch (err) {
