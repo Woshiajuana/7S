@@ -49,4 +49,22 @@ class Style {
     return Color(0xff999999);
   }
 
+  MaterialColor get primarySwatch {
+    return const MaterialColor(
+      0xffec642f,
+      const <int, Color>{
+        50: const Color(0xffec642f),
+        100: const Color(0xffec642f),
+        200: const Color(0xffec642f),
+        300: const Color(0xffec642f),
+        400: const Color(0xffec642f),
+        500: const Color(0xffec642f),
+        600: const Color(0xffec642f),
+        700: const Color(0xffec642f),
+        800: const Color(0xffec642f),
+        900: const Color(0xffec642f),
+      },
+    );
+  }
+
 }
