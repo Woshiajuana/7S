@@ -28,18 +28,10 @@ class WowLoadView extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Container(
-                  width: 16.0,
-                  height: 16.0,
-                  margin: const EdgeInsets.only(right: 10.0),
+                  width: 36.0,
+                  height: 36.0,
                   child: new CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
-                new Text(
-                  '拼命加载中...',
-                  style: new TextStyle(
-                    color: Color(0xff999999),
-                    fontSize: 12.0,
+                    strokeWidth: 3.0,
                   ),
                 ),
               ],

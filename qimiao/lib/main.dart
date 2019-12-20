@@ -30,7 +30,21 @@ class MyApp extends StatelessWidget {
         title: '7S',
         theme: new ThemeData(
           primaryColor: Application.config.style.mainColor,
-//          primarySwatch: MaterialColor(),
+          primarySwatch: const MaterialColor(
+            0xFFfe7301,
+            const <int, Color>{
+              50: const Color(0xFFfe7301),
+              100: const Color(0xFFfe7301),
+              200: const Color(0xFFfe7301),
+              300: const Color(0xFFfe7301),
+              400: const Color(0xFFfe7301),
+              500: const Color(0xFFfe7301),
+              600: const Color(0xFFfe7301),
+              700: const Color(0xFFfe7301),
+              800: const Color(0xFFfe7301),
+              900: const Color(0xFFfe7301),
+            },
+          ),
         ),
         routes: Application.router.routes,
       ),
