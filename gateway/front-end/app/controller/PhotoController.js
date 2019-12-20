@@ -34,7 +34,7 @@ module.exports = class HandleController extends Controller {
                 limit: [ 'nonempty', (v) => v < 20 ],
             });
             const { id } = ctx.state.token;
-            let isSame = id === user;
+            let isSame = id === objParams.user;
             const data = await service.transformService.curl('api/v1/photo/recommend', {
                 data: Object.assign(objParams, isSame ? {} : { nature: 'PUBLIC' }),
             });
