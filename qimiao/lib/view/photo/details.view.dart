@@ -54,7 +54,12 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                     _widgetInfoSection(),
                     new SizedBox(height: 10.0),
                     // 推荐
-                    _widgetRecommendSection(),
+                    new WowLoadView(
+                      status: _arrRecommend == null,
+                      child: _arrRecommend == null ? new Container() : new Column(
+                        children: _arrRecommend.map((item) => _widgetPhotoCellItem(item)).toList(),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -296,13 +301,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     );
   }
 
-  // 推荐
-  Widget _widgetRecommendSection () {
-    return _arrRecommend == null ? new Container() : new Column(
-      children: _arrRecommend.map((item) => _widgetPhotoCellItem(item)).toList(),
-    );
-  }
-
+  // 照片
   Widget _widgetPhotoCellItem (PhotoJsonModel photoJsonModel) {
     FileJsonModel fileJsonModel = photoJsonModel.photo;
     String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
