@@ -98,7 +98,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
       strPath = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     }
     return new Container(
-      height: 180.0,
+      height: 240.0,
       child: new Stack(
         children: <Widget>[
           strPath != null && _fileImage == null ? new Container(

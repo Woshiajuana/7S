@@ -148,13 +148,15 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [],
             });
+
             const { id: user } = ctx.state.token;
-            ctx.logger.info(`用户信息：请求参数=> ${id}`);
+            let isSame = !id || id === user;
+            ctx.logger.info(`用户信息：请求参数=> ${id || user}`);
             const data = await service.transformService.curl('api/v1/user/info', {
-                data: { id: id || user },
+                data: { id: id || user, nature: isSame ? '' : 'PUBLIC' },
             });
             // 当查询不是自己下信息是需要查询下是否有关注信息
-            if (id && id !== user) {
+            if (!isSame) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {
                     data: { user, following: id },
                 });

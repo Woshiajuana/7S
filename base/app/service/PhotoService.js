@@ -102,12 +102,19 @@ module.exports = class HandleServer extends Service {
     // 推荐
     async recommend (data) {
         const { ctx, app } = this;
-        const { exclude, limit, user } = data;
+        const { exclude, limit, user, nature } = data;
         const filter = [];
         if (user) {
             filter.push({
                 $match: {
                     user: app.mongoose.Types.ObjectId(user),
+                }
+            })
+        }
+        if (nature) {
+            filter.push({
+                $match: {
+                    nature,
                 }
             })
         }

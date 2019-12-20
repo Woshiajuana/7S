@@ -33,6 +33,7 @@ module.exports = class HandleController extends Controller {
                 exclude: [],
                 limit: [ 'nonempty', (v) => v < 20 && v > 0 ],
                 user: [],
+                nature: [],
             });
             const data = await service.photoService.recommend(objParams);
             if (data.length < objParams.limit) {
@@ -189,6 +190,7 @@ module.exports = class HandleController extends Controller {
                 keyword: [],
                 startTime: [],
                 endTime: [],
+                nature: [],
             });
             const data = await service.photoService.list(objParams);
             ctx.respSuccess(data);

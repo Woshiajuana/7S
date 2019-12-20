@@ -66,8 +66,10 @@ module.exports = class HandleController extends Controller {
                 user: [],
             });
             const { id } = ctx.state.token;
+            let { user } = objParams;
+            let isSame = !user || id === user;
             const data = await service.transformService.curl('api/v1/photo/list', {
-                data: { ...objParams, user: objParams.user || id },
+                data: { ...objParams, user: user || id, nature: isSame ? '' : 'PUBLIC' },
             });
             ctx.respSuccess(data);
         } catch (err) {
@@ -125,11 +127,14 @@ module.exports = class HandleController extends Controller {
             const data = await service.transformService.curl('api/v1/photo/info', {
                 data: { id },
             });
+            const { user: author } = data;
+            let isSame = !author || author === user;
+            if (!isSame && data.nature !== 'PUBLIC')
+                throw '哦豁...不能查看哦';
             data.volume++;
             await service.transformService.curl('api/v1/photo/update', {
                 data: { id, volume: data.volume },
             });
-            const { user: author } = data;
             data.user = await service.transformService.curl('api/v1/user/info', {
                 data: { id: data.user },
             });
