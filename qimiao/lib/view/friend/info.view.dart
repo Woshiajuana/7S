@@ -88,7 +88,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 ),
                 leading: new IconButton(
                   icon: Icon(Icons.arrow_back),
-                  onPressed: () {},
+                  onPressed: () => Application.router.pop(context),
                 ),
               ),
             ];
@@ -98,7 +98,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             child: new ListView.builder(
               padding: const EdgeInsets.all(0),
               physics: new AlwaysScrollableScrollPhysics(),
-              controller: _scrollController,
+//              controller: _scrollController,
               itemCount: _isLoading ? count + 1 : count,
               itemBuilder: (context, index) {
                 if (index < count) {
