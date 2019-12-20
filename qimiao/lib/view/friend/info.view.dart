@@ -77,9 +77,9 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                     ),
                   ),
                   expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
-                  floating: false,
+                  floating: true,
                   pinned: true,
-                  snap: false,
+                  snap: true,
                   flexibleSpace: new FlexibleSpaceBar(
                     background: new Stack(
                       children: <Widget>[
@@ -92,6 +92,12 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                     icon: Icon(Icons.arrow_back),
                     onPressed: () => Application.router.pop(context),
                   ),
+                  actions: <Widget>[
+                    new IconButton(
+                      onPressed: () => _doFollowUpdate(),
+                      icon: new Icon((_userJsonModel?.follower ?? '') == '' ? Icons.favorite_border : Icons.favorite),
+                    ),
+                  ],
                 ),
               ];
             },
@@ -578,6 +584,23 @@ class _FriendInfoViewState extends State<FriendInfoView> {
         if (callback != null) callback();
       }
     });
+  }
+
+  // 关注取消关注
+  void _doFollowUpdate () async {
+    try {
+      String strUrl = Application.config.api.doFollowUpdate;
+      var data = await Application.util.http.post(strUrl, params: {
+        'id': _userJsonModel?.id ?? '',
+      });
+      setState(() {
+        _userJsonModel.follower = data ?? '';
+        _userJsonModel.numFollower = (data ?? '') == '' ? _userJsonModel.numFollower - 1 : _userJsonModel.numFollower + 1;
+      });
+      Application.util.modal.toast((data ?? '') == '' ? '已取消关注' : '关注成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
   }
 
 }

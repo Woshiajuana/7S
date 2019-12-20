@@ -124,30 +124,6 @@ class _FriendFollowerViewState extends State<FriendFollowerView> {
               ),
             ),
           ),
-          new SizedBox(width: 10.0),
-          new Container(
-            width: 50.0,
-            height: 24.0,
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.circular(36.0),
-              border: new Border.all(
-                color: Application.config.style.mainColor,
-                width: 0.5,
-              ),
-            ),
-            child: new FlatButton(
-              onPressed: () => {},
-              padding: const EdgeInsets.all(0),
-              child: new Text(
-                '已关注',
-                style: new TextStyle(
-                  color: Application.config.style.mainColor,
-                  fontSize: 10.0,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

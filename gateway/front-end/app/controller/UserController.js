@@ -153,6 +153,13 @@ module.exports = class HandleController extends Controller {
             const data = await service.transformService.curl('api/v1/user/info', {
                 data: { id: id || user },
             });
+            // 当查询不是自己下信息是需要查询下是否有关注信息
+            if (id && id !== user) {
+                const objFollow = await service.transformService.curl('api/v1/following/info', {
+                    data: { user, following: id },
+                });
+                data.follower = objFollow ? objFollow._id : '';
+            }
             ctx.logger.info(`用户信息：请求返回=> ${data}`);
             ctx.respSuccess(data);
         } catch (err) {
