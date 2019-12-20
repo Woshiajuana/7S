@@ -29,6 +29,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   List<PhotoJsonModel> _arrData;
   int _numIndex = 1;
   int _numSize = 10;
+  bool _isLoading = false;
 
 
   @override
@@ -54,6 +55,8 @@ class _FriendInfoViewState extends State<FriendInfoView> {
 
   @override
   Widget build(BuildContext context) {
+    int count = _arrData?.length ?? 0;
+    int total = _listJsonModel?.total ?? 0;
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       body: new WowLoadView(
@@ -92,16 +95,48 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           },
           body: new WowLoadView(
             data: _arrData,
-            child: new WowScrollListView(
-                onRefresh: _handleRefresh,
-                onLoad: _handleLoad,
-                data: _arrData,
-                total: _listJsonModel?.total ?? 0,
-                itemBuilder: (content, index) {
+            child: new ListView.builder(
+              padding: const EdgeInsets.all(0),
+              physics: new AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
+              itemCount: _isLoading ? count + 1 : count,
+              itemBuilder: (context, index) {
+                if (index < count) {
                   return _widgetPhotoCellItem(index);
                 }
+                return _widgetMoreCellItem(count: count, total: total);
+              },
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetMoreCellItem ({
+    int count,
+    int total,
+  }) {
+    return new Center(
+      child: new Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            count == total ? new Container() : new SizedBox(
+              width: 15,
+              height: 15,
+              child: new CircularProgressIndicator(
+                strokeWidth: 1.0,
+              ),
+            ),
+            new SizedBox(width: 10.0),
+            new Text(
+              count == total ? '没有更多啦' : '加载中...',
+              style: new TextStyle(fontSize: 12.0, color: Color(0xff999999)),
+            ),
+          ],
         ),
       ),
     );
