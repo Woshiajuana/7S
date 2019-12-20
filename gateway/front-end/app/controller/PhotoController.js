@@ -69,7 +69,7 @@ module.exports = class HandleController extends Controller {
             let { user } = objParams;
             let isSame = !user || id === user;
             const data = await service.transformService.curl('api/v1/photo/list', {
-                data: { ...objParams, user: user || id, nature: isSame ? '' : 'PUBLIC' },
+                data: { ...objParams, user: user || id, nature: isSame ? undefined : 'PUBLIC' },
             });
             ctx.respSuccess(data);
         } catch (err) {

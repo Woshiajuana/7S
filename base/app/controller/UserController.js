@@ -93,7 +93,7 @@ module.exports = class HandleController extends Controller {
                 nature,
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
-                nature: [ (v) => ['PRIVACY', 'PUBLIC'].indexOf(v) > -1 ],
+                nature: [],
             });
             ctx.logger.info(`查询用户信息：请求参数=> ${JSON.stringify(id)} `);
             const objUser = await service.userService.findById(id);

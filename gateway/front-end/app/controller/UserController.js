@@ -153,7 +153,7 @@ module.exports = class HandleController extends Controller {
             let isSame = !id || id === user;
             ctx.logger.info(`用户信息：请求参数=> ${id || user}`);
             const data = await service.transformService.curl('api/v1/user/info', {
-                data: { id: id || user, nature: isSame ? '' : 'PUBLIC' },
+                data: Object.assign({ id: id || user }, isSame ? {} : { nature: 'PUBLIC' }),
             });
             // 当查询不是自己下信息是需要查询下是否有关注信息
             if (!isSame) {
