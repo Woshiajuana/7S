@@ -39,7 +39,9 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     _scrollController = new ScrollController();
     _scrollController.addListener(() {
       setState(() {
+        print(_scrollController);
         _shrinkOffset = _scrollController.position.pixels;
+        print('maxScrollExtent => ${_scrollController.position.maxScrollExtent}  _shrinkOffset => $_shrinkOffset');
         _alpha = (_shrinkOffset / 310 * 255).clamp(0, 255).toInt();
       });
     });
@@ -95,17 +97,18 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           },
           body: new WowLoadView(
             data: _arrData,
-            child: new ListView.builder(
+            child: new ListView(
               padding: const EdgeInsets.all(0),
-              physics: new AlwaysScrollableScrollPhysics(),
-//              controller: _scrollController,
-              itemCount: _isLoading ? count + 1 : count,
-              itemBuilder: (context, index) {
-                if (index < count) {
-                  return _widgetPhotoCellItem(index);
-                }
-                return _widgetMoreCellItem(count: count, total: total);
-              },
+              children: <Widget>[
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+                new Container(height: 200.0, color: Colors.red),
+                new Container(height: 200.0, color: Colors.blue),
+              ],
             ),
           ),
         ),
