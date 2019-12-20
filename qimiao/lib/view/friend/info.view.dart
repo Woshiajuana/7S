@@ -64,7 +64,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
       body: new WowLoadView(
         status: _userJsonModel == null,
         child: new NestedScrollView(
-          controller: _scrollController,
+//          controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               new SliverAppBar(
@@ -98,6 +98,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
           body: new WowLoadView(
             data: _arrData,
             child: new ListView(
+              controller: _scrollController,
               padding: const EdgeInsets.all(0),
               children: <Widget>[
                 new Container(height: 200.0, color: Colors.red),
