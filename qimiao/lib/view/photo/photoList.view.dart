@@ -148,6 +148,25 @@ class _PhotoListViewState extends State<PhotoListView> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
+                          new Expanded(child: new Container(), flex: 1),
+                          new Container(
+                            padding: const EdgeInsets.only(left: 3.0, right: 3.0),
+                            decoration: new BoxDecoration(
+                              border: new Border.all(
+                                color: Colors.red,
+                                width: 0.5,
+                              ),
+                              borderRadius: new BorderRadius.circular(5.0),
+                            ),
+                            child: new Text(
+                              photoJsonModel?.nature == 'PUBLIC' ? '公开' : '私有',
+                              style: new TextStyle(
+                                color: Colors.red,
+                                fontSize: 8.0,
+                              ),
+                            ),
+                          ),
+                          new SizedBox(height: 4.0),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[

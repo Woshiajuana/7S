@@ -72,6 +72,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     int count,
     int total,
   }) {
+    print('total => $total');
     return new Center(
       child: new Padding(
         padding: const EdgeInsets.all(20.0),
@@ -88,7 +89,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
             ),
             new SizedBox(width: 10.0),
             new Text(
-              count == total ? '没有更多啦' : '加载中...',
+              total == 0 ? '' : count == total ? '没有更多啦' : '加载中...',
               style: new TextStyle(fontSize: 12.0, color: Color(0xff999999)),
             ),
           ],
@@ -105,6 +106,7 @@ class _WowScrollListViewState extends State<WowScrollListView> {
 
   // 加载
   void _loadingMore () async {
+    print('widget.data?.length != 0 => ${widget.data?.length != 0}');
     if (!_isLoading) {
       setState(() => _isLoading = true);
       int total = widget.total ?? 0;

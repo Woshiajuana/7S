@@ -144,7 +144,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             ),
             new SizedBox(width: 10.0),
             new Text(
-              count == total ? '没有更多啦' : '加载中...',
+              total == 0 ? '' : count == total ? '没有更多啦' : '加载中...',
               style: new TextStyle(fontSize: 12.0, color: Color(0xff999999)),
             ),
           ],

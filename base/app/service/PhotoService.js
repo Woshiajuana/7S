@@ -9,9 +9,9 @@ module.exports = class HandleServer extends Service {
     async count (data) {
         const { ctx, app } = this;
         const { user } = data;
-        return await ctx.model.PhotoModel.count({
-            user: app.mongoose.Types.ObjectId(user),
-        });
+        if (data.user)
+            data.user = app.mongoose.Types.ObjectId(user);
+        return await ctx.model.PhotoModel.count(data);
     }
 
     // 创建
@@ -59,10 +59,14 @@ module.exports = class HandleServer extends Service {
             user,
             startTime,
             endTime,
+            nature,
         } = data;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
+        }
+        if (nature) {
+            filter.nature = nature;
         }
         if (keyword) {
             filter.$or.push({ title: { $regex: keyword, $options: '$i' } });

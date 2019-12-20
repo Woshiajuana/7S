@@ -40,6 +40,7 @@ module.exports = class HandleController extends Controller {
                 const arrAddTo = await service.photoService.recommend({
                     exclude: [...data.map((item) => item._id), ...objParams.exclude],
                     limit: objParams.limit - data.length,
+                    nature: objParams.nature,
                 });
                 data.push(...arrAddTo);
             }

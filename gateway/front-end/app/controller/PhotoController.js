@@ -33,8 +33,10 @@ module.exports = class HandleController extends Controller {
                 exclude: [],
                 limit: [ 'nonempty', (v) => v < 20 ],
             });
+            const { id } = ctx.state.token;
+            let isSame = id === user;
             const data = await service.transformService.curl('api/v1/photo/recommend', {
-                data: objParams,
+                data: Object.assign(objParams, isSame ? {} : { nature: 'PUBLIC' }),
             });
             ctx.respSuccess(data);
         } catch (err) {
@@ -69,7 +71,7 @@ module.exports = class HandleController extends Controller {
             let { user } = objParams;
             let isSame = !user || id === user;
             const data = await service.transformService.curl('api/v1/photo/list', {
-                data: { ...objParams, user: user || id, nature: isSame ? undefined : 'PUBLIC' },
+                data: Object.assign(objParams, { user: user || id }, isSame ? {} : { nature: 'PUBLIC' }),
             });
             ctx.respSuccess(data);
         } catch (err) {
