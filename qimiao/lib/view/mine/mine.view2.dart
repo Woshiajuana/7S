@@ -35,7 +35,8 @@ class _MineViewState extends State<MineView> {
   }
 
   Future<void> _handleRefresh() async {
-    await this._reqUserInfo();
+//    setState(() => _isLoading = false);
+//    await widget.onRefresh();
   }
 
   @override
@@ -44,82 +45,90 @@ class _MineViewState extends State<MineView> {
       builder: (context, child, model) {
         return new Scaffold(
           backgroundColor: Application.config.style.backgroundColor,
-          body: new Stack(
-            children: <Widget>[
-              new RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: new ListView(
-                  padding: const EdgeInsets.all(0),
-                  children: <Widget>[
-                    _widgetHeaderSection(model: model),
-                    _widgetMenuSection(),
-                    new SizedBox(height: 10.0),
+          body: new NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                new SliverAppBar(
+                  expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  actions: <Widget>[
+                    _widgetNoticeSection(),
                   ],
+                  flexibleSpace: new FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    background: new Stack(
+                      children: <Widget>[
+                        _widgetHeaderBgSection(model: model),
+                        _widgetHeaderSection(model: model),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              _widgetAppBarSection(model: model),
-            ],
+              ];
+            },
+            body: new ListView(
+              children: <Widget>[
+                _widgetMenuSection(),
+              ],
+            ),
           ),
         );
       }
     );
   }
 
-  // appbar
-  Widget _widgetAppBarSection ({
-    StateModel model,
-  }) {
-    int numPrivateNotice = model?.user?.numPrivateNotice ?? 0;
-    int numPublicNotice = model?.user?.numPublicNotice ?? 0;
-    return new Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      child: new Container(
-        color: Colors.transparent,
-        child: new SafeArea(
-          bottom: false,
-          child: new Container(
-            height: 56.0,
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                new Container(
-                  child: new Stack(
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.email, color: Colors.white),
-                        onPressed: () => Application.router.push(context, 'notice'),
-                      ),
-                      new Positioned(
-                        top: 12.0,
-                        right: 11.0,
-                        child: new Offstage(
-                          offstage: !(numPrivateNotice + numPublicNotice > 0),
-                          child: new Container(
-                            width: 7.0,
-                            height: 7.0,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: new BorderRadius.circular(6.0),
-                              border: new Border.all(color: Colors.transparent, width: 2.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+  // 默认背景
+  Widget _widgetHeaderDefBgSection () {
+    return new Container(
+      height: 310.0,
+      decoration: new BoxDecoration(
+        color: Color(0xffdddddd),
+        image: new DecorationImage(
+          image: new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
         ),
       ),
     );
   }
 
+  // appbar
+  Widget _widgetNoticeSection ({
+    StateModel model,
+  }) {
+    int numPrivateNotice = model?.user?.numPrivateNotice ?? 0;
+    int numPublicNotice = model?.user?.numPublicNotice ?? 0;
+    return new Container(
+      child: new Stack(
+        children: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.email, color: Colors.white),
+            onPressed: () => Application.router.push(context, 'notice'),
+          ),
+          new Positioned(
+            top: 12.0,
+            right: 11.0,
+            child: new Offstage(
+              offstage: !(numPrivateNotice + numPublicNotice > 0),
+              child: new Container(
+                width: 7.0,
+                height: 7.0,
+                decoration: new BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: new BorderRadius.circular(6.0),
+                  border: new Border.all(color: Colors.transparent, width: 2.0),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // 头部背景
-  Widget _widgetHeaderSection ({
+  Widget _widgetHeaderBgSection ({
     StateModel model,
   }) {
     return new Container(
@@ -163,6 +172,21 @@ class _MineViewState extends State<MineView> {
               ),
             ),
           ),
+
+        ],
+      ),
+    );
+  }
+
+  // 头部内容
+  Widget _widgetHeaderSection ({
+    StateModel model,
+  }) {
+    return new Container(
+      height: 310,
+      child: new ListView(
+        reverse: true,
+        children: <Widget>[
           new Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -393,13 +417,13 @@ class _MineViewState extends State<MineView> {
     );
   }
 
-//  void didChangeDependencies() {
-//    super.didChangeDependencies();
-//    print('didChangeDependencies');
-//  }
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('didChangeDependencies');
+  }
 
   void _reqUserInfo () async {
-    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+    Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqUserInfo;
         var data = await Application.util.http.post(strUrl, useLoading: false);
