@@ -406,15 +406,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                                   ),
                                 ],
                               ),
-//                              new Container(
-//                                height: 20.0,
-//                                width: 30.0,
-//                                child: new FlatButton(
-//                                    padding: const EdgeInsets.all(0),
-//                                    onPressed: () => _handleOperate(),
-//                                    child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
-//                                ),
-//                              ),
                             ],
                           ),
                         ],

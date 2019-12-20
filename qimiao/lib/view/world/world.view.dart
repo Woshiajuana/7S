@@ -22,7 +22,7 @@ class _WorldViewState extends State<WorldView> {
         child: new Container(
           color: Application.config.style.backgroundColor,
           child: new DefaultTabController(
-            length: 3,
+            length: 2,
             child: new NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
@@ -45,12 +45,6 @@ class _WorldViewState extends State<WorldView> {
                         ],
                       ),
                       onRefresh: _onRefresh,
-                    ),
-                    new ListView(
-                      children: <Widget>[
-                        _widgetVideoGroup(),
-                        new SizedBox(height: 10.0),
-                      ],
                     ),
                     new ListView(
                       children: <Widget>[
@@ -175,12 +169,7 @@ class _WorldViewState extends State<WorldView> {
                 ),
                 new Tab(
                   child: new Text(
-                    '视频一瞬',
-                  ),
-                ),
-                new Tab(
-                  child: new Text(
-                    '精彩一刻',
+                    '关注',
                   ),
                 ),
               ],
