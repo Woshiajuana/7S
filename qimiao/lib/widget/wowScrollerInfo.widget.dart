@@ -32,8 +32,6 @@ class _WowScrollerInfoState extends State<WowScrollerInfo> {
   bool _handleScroll (ScrollNotification scroll) {
     // 当前滑动距离
     this.setState(() {
-      print('_shrinkOffset => $_shrinkOffset');
-      print('metrics.atEdge => ${scroll.metrics.atEdge}');
       _shrinkOffset = scroll.metrics.pixels;
       _alpha = _shrinkOffset > widget.maxExtent ? 255 : (_shrinkOffset / widget.maxExtent * 255).clamp(0, 255).toInt();
     });

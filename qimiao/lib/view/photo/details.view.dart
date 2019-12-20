@@ -162,7 +162,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               child: new FlatButton(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
                 onPressed: ()  {
-//                  if (isSome) return null;
+                  if (isSome) return null;
                   Application.router.push(context, 'friendInfo', params: { 'id': userJsonModel?.id });
                 },
                 child: new Row(

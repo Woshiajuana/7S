@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
@@ -14,12 +13,11 @@ class MineView extends StatefulWidget {
 class _MineViewState extends State<MineView> {
 
   StreamSubscription _mineEventSubscription;
-  ScrollController _controller;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = ScrollController();
     _mineEventSubscription = eventBus.on<MineEvent>().listen((MineEvent data) {
       this._reqUserInfo();
     });
@@ -30,13 +28,7 @@ class _MineViewState extends State<MineView> {
   void dispose() {
     // TODO: implement dispose
     _mineEventSubscription.cancel();
-    _controller.dispose();
     super.dispose();
-  }
-
-  Future<void> _handleRefresh() async {
-//    setState(() => _isLoading = false);
-//    await widget.onRefresh();
   }
 
   @override
@@ -45,34 +37,33 @@ class _MineViewState extends State<MineView> {
       builder: (context, child, model) {
         return new Scaffold(
           backgroundColor: Application.config.style.backgroundColor,
-          body: new NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                new SliverAppBar(
-                  expandedHeight: 310.0 - MediaQueryData.fromWindow(window).padding.top,
-                  floating: false,
-                  pinned: true,
-                  snap: false,
-                  actions: <Widget>[
-                    _widgetNoticeSection(),
-                  ],
-                  flexibleSpace: new FlexibleSpaceBar(
-                    collapseMode: CollapseMode.pin,
-                    background: new Stack(
-                      children: <Widget>[
+          body: new CustomScrollView(
+            slivers: <Widget>[
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: new SliverCustomHeaderDelegate(
+                    collapsedHeight: 56,
+                    expandedHeight: 310,
+                    paddingTop: MediaQuery.of(context).padding.top,
+                    buildContent: (BuildContext context, double shrinkOffset, int alpha) {
+                      return <Widget> [
+                        _widgetHeaderDefBgSection(),
                         _widgetHeaderBgSection(model: model),
                         _widgetHeaderSection(model: model),
-                      ],
-                    ),
-                  ),
+                        _widgetAppBarSection(model: model),
+                      ];
+                    }
                 ),
-              ];
-            },
-            body: new ListView(
-              children: <Widget>[
-                _widgetMenuSection(),
-              ],
-            ),
+              ),
+              new SliverList(
+                delegate: new SliverChildListDelegate(
+                  <Widget>[
+                    _widgetMenuSection(),
+                    new SizedBox(height: 10.0),
+                  ]
+                ),
+              ),
+            ],
           ),
         );
       }
@@ -94,35 +85,54 @@ class _MineViewState extends State<MineView> {
   }
 
   // appbar
-  Widget _widgetNoticeSection ({
+  Widget _widgetAppBarSection ({
     StateModel model,
   }) {
     int numPrivateNotice = model?.user?.numPrivateNotice ?? 0;
     int numPublicNotice = model?.user?.numPublicNotice ?? 0;
-    return new Container(
-      child: new Stack(
-        children: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.email, color: Colors.white),
-            onPressed: () => Application.router.push(context, 'notice'),
-          ),
-          new Positioned(
-            top: 12.0,
-            right: 11.0,
-            child: new Offstage(
-              offstage: !(numPrivateNotice + numPublicNotice > 0),
-              child: new Container(
-                width: 7.0,
-                height: 7.0,
-                decoration: new BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: new BorderRadius.circular(6.0),
-                  border: new Border.all(color: Colors.transparent, width: 2.0),
+    return new Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: new Container(
+        color: Colors.transparent,
+        child: new SafeArea(
+          bottom: false,
+          child: new Container(
+            height: 56.0,
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new Container(
+                  child: new Stack(
+                    children: <Widget>[
+                      new IconButton(
+                        icon: new Icon(Icons.email, color: Colors.white),
+                        onPressed: () => Application.router.push(context, 'notice'),
+                      ),
+                      new Positioned(
+                        top: 12.0,
+                        right: 11.0,
+                        child: new Offstage(
+                          offstage: !(numPrivateNotice + numPublicNotice > 0),
+                          child: new Container(
+                            width: 7.0,
+                            height: 7.0,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: new BorderRadius.circular(6.0),
+                              border: new Border.all(color: Colors.transparent, width: 2.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -134,23 +144,14 @@ class _MineViewState extends State<MineView> {
     return new Container(
       height: 310.0,
       alignment: Alignment.bottomCenter,
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: (model.user.avatar != null && model.user.avatar != '') ? new NetworkImage(model.user.avatar) : new AssetImage(Application.util.getImgPath('mine_head_bg.png')),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: new Stack(
         children: <Widget>[
-          new Container(
-            height: 310.0,
-            child:new CachedNetworkImage(
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-              imageUrl: model?.user?.avatar ?? '',
-              placeholder: (context, url) => new Image.asset(
-                Application.util.getImgPath('mine_head_bg.png'),
-              ),
-              errorWidget: (context, url, error) => new Image.asset(
-                Application.util.getImgPath('mine_head_bg.png'),
-              ),
-            ),
-          ),
           new Container(
             color: Color.fromRGBO(0, 0, 0, 0.2),
           ),

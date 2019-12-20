@@ -346,7 +346,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
   Widget _widgetHeaderBgSection () {
     return new Container(
       height: 310.0,
-      color: Colors.red,
       alignment: Alignment.bottomCenter,
       child: new Stack(
         children: <Widget>[

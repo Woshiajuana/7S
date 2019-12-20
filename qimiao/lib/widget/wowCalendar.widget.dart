@@ -217,9 +217,7 @@ class _WowCalendarState extends State<WowCalendar> {
 
   void nextMonth() {
     setState(() {
-      print('nextMonth _selectedDate before=> $_selectedDate');
       _selectedDate = Utils.nextMonth(_selectedDate);
-      print('nextMonth _selectedDate after=> $_selectedDate');
       var firstDateOfNewMonth = Utils.firstDayOfMonth(_selectedDate);
       var lastDateOfNewMonth = Utils.lastDayOfMonth(_selectedDate);
       updateSelectedRange(firstDateOfNewMonth, lastDateOfNewMonth);
@@ -242,9 +240,7 @@ class _WowCalendarState extends State<WowCalendar> {
 
   void nextWeek() {
     setState(() {
-      print('nextWeek _selectedDate before=> $_selectedDate');
       _selectedDate = Utils.nextWeek(_selectedDate);
-      print('nextWeek _selectedDate after=> $_selectedDate');
       var firstDayOfCurrentWeek = Utils.firstDayOfWeek(_selectedDate);
       var lastDayOfCurrentWeek = Utils.lastDayOfWeek(_selectedDate);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
