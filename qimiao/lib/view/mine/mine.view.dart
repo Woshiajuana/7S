@@ -290,11 +290,6 @@ class _MineViewState extends State<MineView> {
             onPressed: () => Application.router.push(context, 'friend'),
           ),
           _widgetBaseInfoItem(
-            labelText: '视频',
-            valueText: model?.user?.numVideo?.toString() ?? '0',
-            onPressed: () => Application.router.push(context, 'videoList'),
-          ),
-          _widgetBaseInfoItem(
             labelText: '照片',
             valueText: model?.user?.numPhoto?.toString() ?? '0',
             onPressed: () => Application.router.push(context, 'photoList'),
@@ -308,15 +303,9 @@ class _MineViewState extends State<MineView> {
   Widget _widgetMenuSection () {
     List _arrMenu = [
       {
-        'text': '视频',
-        'icon': Icons.videocam,
-        'useMargin': true,
-        'routeName': 'videoList',
-      },
-      {
         'text': '照片',
         'icon': Icons.photo,
-        'useMargin': false,
+        'useMargin': true,
         'routeName': 'photoList',
       },
       {

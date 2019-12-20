@@ -82,7 +82,6 @@ class _PhotoListViewState extends State<PhotoListView> {
             ),
           ),
           new Container(
-            padding: const EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
               color: Colors.white,
               border: new Border(
@@ -96,91 +95,93 @@ class _PhotoListViewState extends State<PhotoListView> {
                 ),
               ),
             ),
-            child: new Row(
-              children: <Widget>[
-                new Container(
-                  width: 120.0,
-                  height: 77.0,
-                  child: new Stack(
-                    children: <Widget>[
-                      new ClipRRect(
-                        borderRadius: BorderRadius.circular(6.0),
-                        child: new CachedNetworkImage(
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          imageUrl: strPath,
-                          placeholder: (context, url) => new Image.asset(
-                            Application.util.getImgPath('guide1.png'),
-                          ),
-                          errorWidget: (context, url, error) => new Image.asset(
-                            Application.util.getImgPath('guide1.png'),
-                          ),
-                        ),
-                      ),
-                      new Container(
-                        decoration: new BoxDecoration(
-                          color: Color.fromRGBO(0, 0, 0, 0.3),
-                          borderRadius: new BorderRadius.circular(6.0),
-                        ),
-                        child: new FlatButton(
-                          onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
-                          child: new Container(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                new SizedBox(width: 10.0),
-                new Expanded(
-                  flex: 1,
-                  child: new Container(
+            child: new FlatButton(
+              padding: const EdgeInsets.all(10.0),
+              onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
+              child: new Row(
+                children: <Widget>[
+                  new Container(
+                    width: 120.0,
                     height: 77.0,
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: new Stack(
                       children: <Widget>[
-                        new Text(
-                          photoJsonModel.title ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: new TextStyle(
-                            fontSize: 14.0,
-                            color: Color(0xff333333),
+                        new ClipRRect(
+                          borderRadius: BorderRadius.circular(6.0),
+                          child: new CachedNetworkImage(
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            imageUrl: strPath,
+                            placeholder: (context, url) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
+                            errorWidget: (context, url, error) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
                           ),
                         ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  photoJsonModel.volume?.toString() ?? '0',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Container(
-                              height: 20.0,
-                              width: 20.0,
-                              child: new FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(photoJsonModel),
-                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
-                              ),
-                            ),
-                          ],
+                        new Container(
+                          decoration: new BoxDecoration(
+                            color: Color.fromRGBO(0, 0, 0, 0.3),
+                            borderRadius: new BorderRadius.circular(6.0),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  new SizedBox(width: 10.0),
+                  new Expanded(
+                    flex: 1,
+                    child: new Container(
+                      height: 77.0,
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            photoJsonModel.title ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              fontSize: 14.0,
+                              color: Color(0xff333333),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              new Row(
+                                children: <Widget>[
+                                  new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
+                                  new SizedBox(width: 2.0),
+                                  new Text(
+                                    photoJsonModel.volume?.toString() ?? '0',
+                                    style: new TextStyle(
+                                      color: Color(0xff999999),
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              new Container(
+                                height: 20.0,
+                                width: 30.0,
+                                child: new FlatButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () => _handleOperate(photoJsonModel),
+                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

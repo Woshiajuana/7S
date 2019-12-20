@@ -26,7 +26,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
     },
     {
       'text': '定格',
-      'icon': Icons.video_call,
+      'icon': Icons.camera_enhance,
     },
     {
       'text': '我的',

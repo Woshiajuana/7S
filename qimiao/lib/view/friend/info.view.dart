@@ -177,7 +177,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             ),
           ),
           new Container(
-            padding: const EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
               color: Colors.white,
               border: new Border(
@@ -191,91 +190,84 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                 ),
               ),
             ),
-            child: new Row(
-              children: <Widget>[
-                new Container(
-                  width: 120.0,
-                  height: 77.0,
-                  child: new Stack(
-                    children: <Widget>[
-                      new ClipRRect(
-                        borderRadius: BorderRadius.circular(6.0),
-                        child: new CachedNetworkImage(
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          imageUrl: strPath,
-                          placeholder: (context, url) => new Image.asset(
-                            Application.util.getImgPath('guide1.png'),
-                          ),
-                          errorWidget: (context, url, error) => new Image.asset(
-                            Application.util.getImgPath('guide1.png'),
-                          ),
-                        ),
-                      ),
-                      new Container(
-                        decoration: new BoxDecoration(
-                          color: Color.fromRGBO(0, 0, 0, 0.3),
-                          borderRadius: new BorderRadius.circular(6.0),
-                        ),
-                        child: new FlatButton(
-                          onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
-                          child: new Container(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                new SizedBox(width: 10.0),
-                new Expanded(
-                  flex: 1,
-                  child: new Container(
+            child: new FlatButton(
+              padding: const EdgeInsets.all(10.0),
+              onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
+              child:  new Row(
+                children: <Widget>[
+                  new Container(
+                    width: 120.0,
                     height: 77.0,
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: new Stack(
                       children: <Widget>[
-                        new Text(
-                          photoJsonModel.title ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: new TextStyle(
-                            fontSize: 14.0,
-                            color: Color(0xff333333),
+                        new ClipRRect(
+                          borderRadius: BorderRadius.circular(6.0),
+                          child: new CachedNetworkImage(
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            imageUrl: strPath,
+                            placeholder: (context, url) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
+                            errorWidget: (context, url, error) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
                           ),
                         ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  photoJsonModel.volume?.toString() ?? '0',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Container(
-                              height: 20.0,
-                              width: 20.0,
-                              child: new FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(photoJsonModel),
-                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
-                              ),
-                            ),
-                          ],
+                        new Container(
+                          decoration: new BoxDecoration(
+                            color: Color.fromRGBO(0, 0, 0, 0.3),
+                            borderRadius: new BorderRadius.circular(6.0),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  new SizedBox(width: 10.0),
+                  new Expanded(
+                    flex: 1,
+                    child: new Container(
+                      height: 77.0,
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            photoJsonModel.title ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: new TextStyle(
+                              fontSize: 14.0,
+                              color: Color(0xff333333),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              new Row(
+                                children: <Widget>[
+                                  new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
+                                  new SizedBox(width: 2.0),
+                                  new Text(
+                                    photoJsonModel.volume?.toString() ?? '0',
+                                    style: new TextStyle(
+                                      color: Color(0xff999999),
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -449,10 +441,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
             valueText: _userJsonModel?.numFollowing?.toString() ?? '0',
           ),
           _widgetBaseInfoItem(
-            labelText: '视频',
-            valueText: _userJsonModel?.numVideo?.toString() ?? '0',
-          ),
-          _widgetBaseInfoItem(
             labelText: '照片',
             valueText: _userJsonModel?.numPhoto?.toString() ?? '0',
           ),
@@ -466,31 +454,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     setState(() => _isLoading = false);
     _numIndex = 1;
     await this._reqPhotoList();
-  }
-
-  // 操作
-  void _handleOperate (PhotoJsonModel photoJsonModel) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '编辑',
-              'onPressed': () {
-                Application.router.pop(context);
-                Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
-              },
-            },
-            {
-              'text': '删除',
-              'onPressed': () => this._doPhotoDelete(photoJsonModel),
-            },
-          ],
-        );
-      },
-    );
   }
 
   // 删除
