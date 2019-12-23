@@ -107,7 +107,7 @@ class _WorldViewState extends State<WorldView> {
                       new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
                       new SizedBox(width: 10.0),
                       new Text(
-                        '${_arrRecommend?.length} 什么？找不到你想要的？试试我吧...',
+                        '什么？找不到你想要的？试试我吧...',
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 13.0,
