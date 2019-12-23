@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/common.dart';
+import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/widgets.dart';
-import 'package:qimiao/model/model.dart';
+import 'package:flutter/services.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -12,14 +12,6 @@ class WorldView extends StatefulWidget {
 }
 
 class _WorldViewState extends State<WorldView> {
-
-  List<PhotoJsonModel> _arrRecommend;
-
-  @override
-  void initState() {
-    super.initState();
-    this._reqPhotoRecommend();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +36,15 @@ class _WorldViewState extends State<WorldView> {
                 padding: const EdgeInsets.only(top: 40.0),
                 child: new TabBarView(
                   children: <Widget>[
-                    new WowLoadView(
-                      status: _arrRecommend == null,
-                      child: new RefreshIndicator(
-                        child: new WowLoadView(
-                          child: new ListView(
-                            children: <Widget>[
-                              _widgetVideoGroup(),
-                              new SizedBox(height: 10.0),
-                            ],
-                          ),
-                        ),
-                        onRefresh: _onRefresh,
+                    new RefreshIndicator(
+                      child: new ListView(
+                        children: <Widget>[
+                          _widgetCarouselCell(),
+                          _widgetVideoGroup(),
+                          new SizedBox(height: 10.0),
+                        ],
                       ),
+                      onRefresh: _onRefresh,
                     ),
                     new ListView(
                       children: <Widget>[
@@ -72,6 +60,14 @@ class _WorldViewState extends State<WorldView> {
         ),
       ),
     );
+  }
+
+  // 下拉刷新方法,为list重新赋值
+  Future<Null> _onRefresh() async {
+    await Future.delayed(Duration(seconds: 1), () {
+      print('refresh');
+
+    });
   }
 
   // 搜索
@@ -180,6 +176,55 @@ class _WorldViewState extends State<WorldView> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // 轮播图
+  Widget _widgetCarouselCell () {
+    // 引导页数据
+    List<String> _arrGuide = [
+      Application.util.getImgPath('guide1.png'),
+      Application.util.getImgPath('guide2.png'),
+      Application.util.getImgPath('guide3.png'),
+      Application.util.getImgPath('guide4.png'),
+    ];
+    return new Container(
+      height: 160.0,
+      margin: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+      decoration: new BoxDecoration(
+        borderRadius: new BorderRadius.circular(6.0),
+        boxShadow: [
+          new BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.1),
+              offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+              blurRadius: 1.0, //阴影模糊程度
+              spreadRadius: 1.0 //阴影扩散程度
+          )
+        ],
+      ),
+      child: new Swiper(
+        autoStart: true,
+        circular: true,
+        indicator: new CircleSwiperIndicator(
+          radius: 4.0,
+          padding: const EdgeInsets.only(bottom: 10.0),
+          itemColor: Colors.black26,
+          itemActiveColor: Application.config.style.mainColor,
+        ),
+        children:_arrGuide.map((item) {
+          return new Container(
+            child: new ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: new Image.asset(
+                item,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -358,12 +403,6 @@ class _WorldViewState extends State<WorldView> {
     );
   }
 
-  // 下拉刷新方法,为list重新赋值
-  Future<Null> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1), () async {
-      await this._reqPhotoRecommend();
-    });
-  }
 
   // 操作
   void _handleOperate () {
@@ -387,23 +426,6 @@ class _WorldViewState extends State<WorldView> {
         );
       },
     );
-  }
-
-  // 获取推荐内容
-  void _reqPhotoRecommend () async {
-    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
-      try {
-        String strUrl = Application.config.api.reqPhotoRecommend;
-        List data = await Application.util.http.post(strUrl, params: {
-          'limit': 20,
-        }, useLoading: false);
-        setState(() {
-          _arrRecommend.addAll(data.map((item) => PhotoJsonModel.fromJson(item)).toList());
-        });
-      } catch (err) {
-        Application.util.modal.toast(err);
-      }
-    });
   }
 
 }

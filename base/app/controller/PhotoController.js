@@ -31,14 +31,14 @@ module.exports = class HandleController extends Controller {
         try {
             const objParams = await ctx.validateBody({
                 exclude: [],
-                limit: [ 'nonempty', (v) => v < 20 && v > 0 ],
+                limit: [ 'nonempty' ],
                 user: [],
                 nature: [],
             });
             const data = await service.photoService.recommend(objParams);
-            if (data.length < objParams.limit) {
+            if (data.length < objParams.limit && objParams.user) {
                 const arrAddTo = await service.photoService.recommend({
-                    exclude: [...data.map((item) => item._id), ...objParams.exclude],
+                    exclude: [...data.map((item) => item._id), ...(objParams.exclude || {})],
                     limit: objParams.limit - data.length,
                     nature: objParams.nature,
                 });

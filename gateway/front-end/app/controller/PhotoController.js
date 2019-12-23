@@ -31,12 +31,10 @@ module.exports = class HandleController extends Controller {
             let objParams = await ctx.validateBody({
                 user: [],
                 exclude: [],
-                limit: [ 'nonempty', (v) => v < 20 ],
+                limit: [ 'nonempty', (v) => v <= 20 && v > 0 ],
             });
-            const { id } = ctx.state.token;
-            let isSame = id === objParams.user;
             const data = await service.transformService.curl('api/v1/photo/recommend', {
-                data: Object.assign(objParams, isSame ? {} : { nature: 'PUBLIC' }),
+                data: Object.assign(objParams, { nature: 'PUBLIC' }),
             });
             ctx.respSuccess(data);
         } catch (err) {
