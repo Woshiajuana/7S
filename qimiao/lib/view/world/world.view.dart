@@ -47,20 +47,27 @@ class _WorldViewState extends State<WorldView> {
                     new WowLoadView(
                       status: _arrRecommend == null,
                       child: new RefreshIndicator(
-                        child: new WowLoadView(
-                          child: new ListView(
-                            children: <Widget>[
-                              _widgetVideoGroup(),
-                              new SizedBox(height: 10.0),
-                            ],
+                        child:new GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
+                            // 左右间隔
+                            crossAxisSpacing: 5,
+                            // 上下间隔
+                            mainAxisSpacing: 5,
+                            //宽高比 默认1
+                            childAspectRatio: 3 / 4,
                           ),
+                          itemCount: 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _widgetPhotoItem();
+                          }
                         ),
                         onRefresh: _onRefresh,
                       ),
                     ),
                     new ListView(
                       children: <Widget>[
-                        _widgetVideoGroup(),
+                        _widgetPhotoItem(),
                         new SizedBox(height: 10.0),
                       ],
                     ),
@@ -185,174 +192,156 @@ class _WorldViewState extends State<WorldView> {
   }
 
   // 视频内容
-  Widget _widgetVideoGroup () {
-
-    Widget _widgetVideoItem () {
-      double width = (MediaQuery.of(context).size.width - 30) / 2;
-      return new Container(
-        width: width,
-        margin: const EdgeInsets.only(top: 10.0),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: new BorderRadius.circular(6.0),
-          boxShadow: [
-            new BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                offset: Offset(0.0, 0.0), //阴影xy轴偏移量
-                blurRadius: 1.0, //阴影模糊程度
-                spreadRadius: 1.0 //阴影扩散程度
-            )
-          ],
-        ),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              width: width,
-              height: width * 0.6,
-              child: new Stack(
-                children: <Widget>[
-                  new Container(
-                    child: new ClipRRect(
-                      borderRadius: BorderRadius.circular(6.0),
-                      child: new Image.asset(
-                        Application.util.getImgPath('guide1.png'),
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    decoration: new BoxDecoration(
-                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                      borderRadius: new BorderRadius.circular(6.0),
-                    ),
-                  ),
-                  new Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: new Container(
-                      height: 30.0,
-                      decoration: new BoxDecoration(
-                        gradient: new LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0x00000000),
-                            Color(0x90000000),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    padding: const EdgeInsets.only(bottom: 5.0, left: 10.0),
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Row(
-                          children: <Widget>[
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xffdddddd),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new SizedBox(width: 16.0),
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xffdddddd),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Expanded(child: new Container(), flex: 1),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            new SizedBox(height: 5.0),
-            new Container(
-              height: 34.0,
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: new Text(
-                '你打扫第几啊宋迪你你打扫第几啊宋迪你迪迪',
-                style: new TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 12.0,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            new SizedBox(height: 3.0),
-            new Container(
-              padding: const EdgeInsets.only(left: 10.0, right: 5.0),
-              child: new Row(
-                children: <Widget>[
-                  new Expanded(
-                    child: new Text(
-                      '我是阿倦啊',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: new TextStyle(
-                        fontSize: 12.0,
-                        color: Color(0xff999999),
-                      ),
-                    ),
-                    flex: 1,
-                  ),
-                  new Container(
-                    height: 20.0,
-                    width: 20.0,
-                    child: new FlatButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => _handleOperate(),
-                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            new SizedBox(height: 8.0),
-          ],
-        ),
-      );
-    }
+  Widget _widgetPhotoItem () {
     return new Container(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      child: new Wrap(
-        spacing: 10.0, // gap between adjacent chips
-        runSpacing: 10.0,
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          new BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            offset: Offset(0.0, 0.0), //阴影xy轴偏移量
+            blurRadius: 1.0, //阴影模糊程度
+            spreadRadius: 1.0 //阴影扩散程度
+          )
+        ],
+      ),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
-          _widgetVideoItem(),
+          new Container(
+            width: double.infinity,
+            height: 150.0,
+            child: new Stack(
+              children: <Widget>[
+                new Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: new CachedNetworkImage(
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                    imageUrl: '',
+                    placeholder: (context, url) => new Image.asset(
+                      Application.util.getImgPath('mine_head_bg.png'),
+                      fit: BoxFit.cover,
+                    ),
+                    errorWidget: (context, url, error) => new Image.asset(
+                      Application.util.getImgPath('mine_head_bg.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                new Container(
+                  decoration: new BoxDecoration(
+                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                  ),
+                ),
+                new Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: new Container(
+                    height: 30.0,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0x00000000),
+                          Color(0x90000000),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                new Container(
+                  padding: const EdgeInsets.only(bottom: 5.0, left: 10.0),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Row(
+                        children: <Widget>[
+                          new Row(
+                            children: <Widget>[
+                              new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
+                              new SizedBox(width: 2.0),
+                              new Text(
+                                '100',
+                                style: new TextStyle(
+                                  color: Color(0xffdddddd),
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          new SizedBox(width: 16.0),
+                          new Row(
+                            children: <Widget>[
+                              new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
+                              new SizedBox(width: 2.0),
+                              new Text(
+                                '100',
+                                style: new TextStyle(
+                                  color: Color(0xffdddddd),
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          new Expanded(child: new Container(), flex: 1),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new SizedBox(height: 5.0),
+          new Container(
+            height: 34.0,
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: new Text(
+              '你打扫第几啊宋迪你你打扫第几啊宋迪你迪迪',
+              style: new TextStyle(
+                color: Color(0xff333333),
+                fontSize: 12.0,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          new SizedBox(height: 3.0),
+          new Container(
+            padding: const EdgeInsets.only(left: 10.0, right: 5.0),
+            child: new Row(
+              children: <Widget>[
+                new Expanded(
+                  child: new Text(
+                    '我是阿倦啊',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: new TextStyle(
+                      fontSize: 12.0,
+                      color: Color(0xff999999),
+                    ),
+                  ),
+                  flex: 1,
+                ),
+                new Container(
+                  height: 20.0,
+                  width: 20.0,
+                  child: new FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      onPressed: () => _handleOperate(),
+                      child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new SizedBox(height: 8.0),
         ],
       ),
     );
@@ -398,7 +387,8 @@ class _WorldViewState extends State<WorldView> {
           'limit': 20,
         }, useLoading: false);
         setState(() {
-          _arrRecommend.addAll(data.map((item) => PhotoJsonModel.fromJson(item)).toList());
+          List<PhotoJsonModel> d = data.map((item) => PhotoJsonModel.fromJson(item)).toList();
+          _arrRecommend == null ? _arrRecommend = d : _arrRecommend.addAll(d);
         });
       } catch (err) {
         Application.util.modal.toast(err);

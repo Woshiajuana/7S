@@ -129,16 +129,18 @@ class _MineViewState extends State<MineView> {
         children: <Widget>[
           new Container(
             height: 310.0,
-            child:new CachedNetworkImage(
+            child: new CachedNetworkImage(
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
               imageUrl: model?.user?.avatar ?? '',
               placeholder: (context, url) => new Image.asset(
                 Application.util.getImgPath('mine_head_bg.png'),
+                fit: BoxFit.cover,
               ),
               errorWidget: (context, url, error) => new Image.asset(
                 Application.util.getImgPath('mine_head_bg.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
