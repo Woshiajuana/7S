@@ -156,12 +156,13 @@ module.exports = class HandleServer extends Service {
         //     },
         // });
         // filter.push({ $unwind: '$user.avatar' });
-        filter.push({ $project : { 'user.avatar' : 0 }  });
+        // filter.push({ $project : { 'user.avatar' : 0 }  });
         if (limit) {
             filter.push({
                 $sample: { size: +limit }
             })
         }
+        console.log('limit=====>>>>>>', limit);
         return await ctx.model.PhotoModel.aggregate(filter);
     }
 };

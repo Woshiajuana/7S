@@ -198,7 +198,7 @@ class _WorldViewState extends State<WorldView> {
     String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     int len = _arrRecommend?.length ?? 0;
     return new Container(
-//      margin: EdgeInsets.only(top: index < 2 ? 5.0 : 0, bottom: (index + 2) >= len ? 5.0 : 0),
+      margin: EdgeInsets.only(top: index < 2 ? 5.0 : 0, bottom: (index + (len%2 == 0 ? 2 : 1)) >= len ? 5.0 : 0),
       decoration: new BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -301,6 +301,13 @@ class _WorldViewState extends State<WorldView> {
               ],
             ),
           ),
+          new FlatButton(
+            onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel.id }),
+            child: new Container(
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
         ],
       ),
     );
@@ -313,30 +320,6 @@ class _WorldViewState extends State<WorldView> {
     });
   }
 
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-          ],
-        );
-      },
-    );
-  }
-
   // 获取推荐内容
   void _reqPhotoRecommend () async {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
@@ -347,7 +330,7 @@ class _WorldViewState extends State<WorldView> {
         }, useLoading: false);
         setState(() {
           List<PhotoJsonModel> d = data.map((item) => PhotoJsonModel.fromJson(item)).toList();
-          _arrRecommend == null ? _arrRecommend = d : _arrRecommend.addAll(d);
+          _arrRecommend == null ? _arrRecommend = d : _arrRecommend.insertAll(0, d);
         });
       } catch (err) {
         Application.util.modal.toast(err);

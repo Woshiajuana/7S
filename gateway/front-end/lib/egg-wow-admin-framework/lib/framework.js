@@ -45,6 +45,7 @@ class CurlService extends egg.Service {
             method: 'POST',
             dataType: 'json',
             contentType: 'json',
+            timeout: 30 * 1000,
         }, this.options, options);
         let {
             baseUrl,

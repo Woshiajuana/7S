@@ -421,30 +421,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     );
   }
 
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-          ],
-        );
-      },
-    );
-  }
-
   // 获取照片详情
   void _reqPhotoInfo ({ String id }) async {
     String strId = id;
