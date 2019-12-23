@@ -57,7 +57,7 @@ class _WorldViewState extends State<WorldView> {
                             //宽高比 默认1
                             childAspectRatio: 3 / 4,
                           ),
-                          itemCount: 10,
+                          itemCount: _arrRecommend?.length ?? 0,
                           itemBuilder: (BuildContext context, int index) {
                             return _widgetPhotoItem(index);
                           }
@@ -67,7 +67,7 @@ class _WorldViewState extends State<WorldView> {
                     ),
                     new ListView(
                       children: <Widget>[
-                        _widgetPhotoItem(1),
+//                        _widgetPhotoItem(1),
                         new SizedBox(height: 10.0),
                       ],
                     ),
@@ -191,14 +191,14 @@ class _WorldViewState extends State<WorldView> {
     );
   }
 
-  // 视频内容
+  // 内容
   Widget _widgetPhotoItem (int index) {
     PhotoJsonModel photoJsonModel = _arrRecommend[index];
     FileJsonModel fileJsonModel = photoJsonModel.photo;
     String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
     int len = _arrRecommend?.length ?? 0;
     return new Container(
-      margin: EdgeInsets.only(top: index < 2 ? 5.0 : 0, bottom: (index + 2) >= len ? 5.0 : 0),
+//      margin: EdgeInsets.only(top: index < 2 ? 5.0 : 0, bottom: (index + 2) >= len ? 5.0 : 0),
       decoration: new BoxDecoration(
         color: Colors.white,
         boxShadow: [
