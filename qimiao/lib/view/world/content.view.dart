@@ -30,7 +30,7 @@ class _WorldContentViewState extends State<WorldContentView> {
   @override
   Widget build(BuildContext context) {
     return new WowLoadView(
-      status: _arrRecommend == null,
+      data: _arrRecommend,
       child: new WowScrollerInfo(
         onLoad: _reqPhotoRecommend,
         builder: (BuildContext context, double shrinkOffset, int alpha) {

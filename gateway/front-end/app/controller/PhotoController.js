@@ -53,6 +53,7 @@ module.exports = class HandleController extends Controller {
                     users: arrUser,
                     exclude,
                     limit,
+                    useAppend: !useFollowing,
                 }, { nature: 'PUBLIC' }),
             });
             ctx.respSuccess(data);

@@ -23,6 +23,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [exclude] 排除
      * @apiParam  {String} [limit] 限制
      * @apiParam  {String} [user] 用户
+     * @apiParam  {Boolean} [useAppend] 是否追加
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/photo/recommend
      */
@@ -34,11 +35,12 @@ module.exports = class HandleController extends Controller {
                 limit: [ 'nonempty' ],
                 users: [],
                 nature: [],
+                useAppend: [],
             });
             const data = await service.photoService.recommend(objParams);
-            if (data.length < objParams.limit && objParams.users && objParams.users.length) {
+            if (data.length < objParams.limit && objParams.useAppend) {
                 const arrAddTo = await service.photoService.recommend({
-                    exclude: [...data.map((item) => item._id), ...(objParams.exclude || {})],
+                    exclude: [...data.map((item) => item._id), ...(objParams.exclude || [])],
                     limit: objParams.limit - data.length,
                     nature: objParams.nature,
                 });
