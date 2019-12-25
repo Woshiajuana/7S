@@ -47,9 +47,15 @@ class _SearchViewState extends State<SearchView> {
           // 默认推荐 历史搜索等
           _widgetRecommendSection(),
           // 预览
-          _widgetPreviewSection(),
+          new Offstage(
+            offstage: false,
+            child: _widgetPreviewSection(),
+          ),
           // 结果
-          _widgetResultSection(),
+          new Offstage(
+            offstage: false,
+            child: _widgetResultSection(),
+          ),
         ],
       ),
     );
@@ -122,14 +128,15 @@ class _SearchViewState extends State<SearchView> {
             ),
           ),
           new Container(
-            width: 70.0,
+            width: 50.0,
             child: new FlatButton(
+              padding: const EdgeInsets.all(0),
               onPressed: () => Navigator.of(context).pop(),
               child: new Text(
                 '取消',
                 style: new TextStyle(
                   color: Colors.white,
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   fontWeight: FontWeight.w400,
                 ),
               ),

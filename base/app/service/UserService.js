@@ -54,8 +54,6 @@ module.exports = class HandleServer extends Service {
     async list (data) {
         const { ctx, app } = this;
         let { numIndex, numSize, keyword } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (keyword) {
             filter.$or.push({ email: { $regex: keyword, $options: '$i' } });
@@ -64,18 +62,27 @@ module.exports = class HandleServer extends Service {
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.UserModel.count(filter);
-        const list = await ctx.model.UserModel
-            .find(filter)
-            .sort('-created_at')
-            .skip((numIndex - 1) * numSize)
-            .limit(numSize)
-            .populate()
-            .lean();
-        return {
-            list,
-            total,
-            numIndex,
-            numSize,
+        if (numSize && numIndex) {
+            const list = await ctx.model.UserModel
+                .find(filter)
+                .sort('-created_at')
+                .skip((numIndex - 1) * numSize)
+                .limit(numSize)
+                .populate()
+                .lean();
+            return {
+                list,
+                total,
+                numIndex,
+                numSize,
+            }
+        } else {
+            return await ctx.model.UserModel
+                .find(filter)
+                .sort('-created_at')
+                .populate()
+                .lean();
         }
+
     }
 };

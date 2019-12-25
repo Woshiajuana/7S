@@ -228,9 +228,10 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Icon(Icons.add, size: 18.0, color: Colors.white),
+                  new Icon(isFollower ? Icons.menu :Icons.add, size: 16.0, color: Colors.white),
+                  new SizedBox(width: 3.0),
                   new Text(
-                    isFollower ? '已关注' : '关注',
+                    isFollower ? '关注' : '关注',
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,

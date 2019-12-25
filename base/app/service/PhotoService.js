@@ -76,31 +76,28 @@ module.exports = class HandleServer extends Service {
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.PhotoModel.count(filter);
-
-        let list;
         if (numIndex && numSize) {
-            numIndex = +numIndex;
-            numSize = +numSize;
-            list = await ctx.model.PhotoModel
+            const list = await ctx.model.PhotoModel
                 .find(filter, { user: 0 })
                 .sort('-created_at')
                 .skip((numIndex - 1) * numSize)
                 .limit(numSize)
                 .populate([{ path: 'photo', select: 'base path filename'}])
                 .lean();
+            return {
+                list,
+                total,
+                numIndex,
+                numSize,
+            }
         } else {
-            list = await ctx.model.PhotoModel
+            return await ctx.model.PhotoModel
                 .find(filter, { user: 0 })
                 .sort('-created_at')
                 .populate([{ path: 'photo', select: 'base path filename'}])
                 .lean();
         }
-        return {
-            list,
-            total,
-            numIndex,
-            numSize,
-        }
+
     }
 
     // 推荐
