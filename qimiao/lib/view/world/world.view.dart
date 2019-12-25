@@ -46,23 +46,28 @@ class _WorldViewState extends State<WorldView> {
                   children: <Widget>[
                     new WowLoadView(
                       status: _arrRecommend == null,
-                      child: new RefreshIndicator(
-                        child: new GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
-                            // 左右间隔
-                            crossAxisSpacing: 5,
-                            // 上下间隔
-                            mainAxisSpacing: 5,
-                            //宽高比 默认1
-                            childAspectRatio: 3 / 4,
-                          ),
-                          itemCount: _arrRecommend?.length ?? 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _widgetPhotoItem(index);
-                          }
-                        ),
-                        onRefresh: _onRefresh,
+                      child: new WowScrollerInfo(
+                        onLoad: _reqPhotoRecommend,
+                        builder: (BuildContext context, double shrinkOffset, int alpha) {
+                          return new RefreshIndicator(
+                            child: new GridView.builder(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
+                                  // 左右间隔
+                                  crossAxisSpacing: 5,
+                                  // 上下间隔
+                                  mainAxisSpacing: 5,
+                                  //宽高比 默认1
+                                  childAspectRatio: 3 / 4,
+                                ),
+                                itemCount: _arrRecommend?.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _widgetPhotoItem(index);
+                                }
+                            ),
+                            onRefresh: _onRefresh,
+                          );
+                        },
                       ),
                     ),
                     new ListView(
@@ -320,8 +325,11 @@ class _WorldViewState extends State<WorldView> {
     });
   }
 
+
   // 获取推荐内容
-  void _reqPhotoRecommend () async {
+  void _reqPhotoRecommend ({
+    Function callback,
+  }) async {
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoRecommend;
@@ -330,10 +338,12 @@ class _WorldViewState extends State<WorldView> {
         }, useLoading: false);
         setState(() {
           List<PhotoJsonModel> d = data.map((item) => PhotoJsonModel.fromJson(item)).toList();
-          _arrRecommend == null ? _arrRecommend = d : _arrRecommend.insertAll(0, d);
+          _arrRecommend == null ? _arrRecommend = d : callback == null ? _arrRecommend.insertAll(0, d) : _arrRecommend.addAll(d);
         });
       } catch (err) {
         Application.util.modal.toast(err);
+      } finally {
+        if (callback != null) callback();
       }
     });
   }
