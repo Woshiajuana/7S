@@ -45,6 +45,12 @@ class _SearchViewState extends State<SearchView> {
           icon: new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
           hintText: '搜索你想要的吧...',
           value: _strKeyword,
+          onSubmitted: (value) {
+            setState(() {
+              _strShowView = 'result';
+            });
+            this._handleSearchPreview();
+          },
           onChanged: (value) {
             setState(() {
               _strKeyword = value;
@@ -58,7 +64,10 @@ class _SearchViewState extends State<SearchView> {
           },
           onClear: () {
             _keywordController.clear();
-            setState(() => _strKeyword = '');
+            setState(() {
+              _strKeyword = '';
+              _strShowView = '';
+            });
           },
         ),
       ),
@@ -91,6 +100,7 @@ class _SearchViewState extends State<SearchView> {
     bool useEye = false,
     dynamic onChanged,
     dynamic onClear,
+    dynamic onSubmitted,
   }) {
     return new Container(
       height: 56,
@@ -121,6 +131,8 @@ class _SearchViewState extends State<SearchView> {
                     child: new TextField(
                       controller: controller,
                       obscureText: isObscure,
+                      onSubmitted: onSubmitted,
+                      autofocus: true,
                       style: new TextStyle(
                         color: Color(0xff999999),
                         fontSize: 13.0,
@@ -246,7 +258,10 @@ class _SearchViewState extends State<SearchView> {
 
   // 检索关键字
   Widget _widgetPreviewSection () {
-    Widget _widgetPreviewItem (text) {
+    Widget _widgetPreviewItem ({
+      String text,
+      dynamic onPressed,
+    }) {
       return new Container(
         height: 44.0,
         decoration: new BoxDecoration(
@@ -259,18 +274,21 @@ class _SearchViewState extends State<SearchView> {
           ),
         ),
         child: new FlatButton(
-          onPressed: () => {},
+          onPressed: onPressed,
           child: new Row(
             children: <Widget>[
-              new Text(
-                text,
-                style: new TextStyle(
-                  color: Color(0xff666666),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w400,
+              new Expanded(
+                child: new Text(
+                  text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: new TextStyle(
+                    color: Color(0xff666666),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              new Expanded(child: new Container(), flex: 1),
+                flex: 1),
               new Icon(Icons.arrow_forward_ios, size: 18.0, color: Color(0xff999999)),
             ],
           ),
@@ -279,10 +297,16 @@ class _SearchViewState extends State<SearchView> {
     }
     List<Widget> arrWidget = [];
     if (_arrUserData != null) {
-      arrWidget.addAll(_arrUserData.map((UserJsonModel item) => _widgetPreviewItem('用户：${item?.nickname}')).toList());
+      arrWidget.addAll(_arrUserData.map((UserJsonModel item) => _widgetPreviewItem(
+        text: '用户：${item?.nickname}',
+        onPressed: () => Application.router.push(context, 'friendInfo', params: { 'id': item?.id }),
+      )).toList());
     }
     if (_arrPhotoData != null) {
-      arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel item) => _widgetPreviewItem('作品：${item?.title}')).toList());
+      arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel item) => _widgetPreviewItem(
+        text: '作品：${item?.title}',
+        onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': item.id }),
+      )).toList());
     }
     return new Container(
       color: Color.fromRGBO(0, 0, 0, 0.3),
@@ -313,7 +337,6 @@ class _SearchViewState extends State<SearchView> {
               flex: 1,
               child: new Container(
                 height: 60.0,
-//              padding: const EdgeInsets.only(),
                 child: new FlatButton(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
                   onPressed: () => Application.router.push(context, 'friendInfo'),
@@ -563,8 +586,8 @@ class _SearchViewState extends State<SearchView> {
           'keyword': _strKeyword,
         }, useLoading: false);
         setState(() {
-          _arrUserData = data['arrUser'].map((item) => UserJsonModel.fromJson(item)).toList();
-          _arrPhotoData = data['arrPhoto'].map((item) => PhotoJsonModel.fromJson(item)).toList();
+          _arrUserData = List<UserJsonModel>.from(data['arrUser'].map((item) => UserJsonModel.fromJson(item)).toList());
+          _arrPhotoData = List<PhotoJsonModel>.from(data['arrPhoto'].map((item) => PhotoJsonModel.fromJson(item)).toList());
         });
       } catch (err) {
         Application.util.modal.toast(err);
