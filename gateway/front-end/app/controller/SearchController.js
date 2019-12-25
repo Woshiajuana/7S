@@ -6,7 +6,7 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/search/preview', controller.preview)
+        app.router.mount('/api/v1/app/search/preview', middleware.tokenMiddleware(), controller.preview)
         ;
     }
 
@@ -37,6 +37,7 @@ module.exports = class HandleController extends Controller {
             });
             ctx.respSuccess({
                 arrUser,
+                arrPhoto,
             });
         } catch (err) {
             ctx.respError(err);

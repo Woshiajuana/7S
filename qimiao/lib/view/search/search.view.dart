@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
 
 class SearchView extends StatefulWidget {
   @override
@@ -13,11 +14,17 @@ class _SearchViewState extends State<SearchView> {
   String _strKeyword;
   TextEditingController _keywordController;
 
+  List<UserJsonModel> _arrUserData;
+  List<PhotoJsonModel> _arrPhotoData;
+
+  String _strShowView = '';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _keywordController = TextEditingController(text: '');
+    _strKeyword = '';
+    _keywordController = TextEditingController(text: _strKeyword);
   }
 
   @override
@@ -38,8 +45,21 @@ class _SearchViewState extends State<SearchView> {
           icon: new Icon(Icons.search, size: 18.0, color: Color(0xff999999)),
           hintText: '搜索你想要的吧...',
           value: _strKeyword,
-          onChanged: (value) => setState(() => _strKeyword = value),
-          onClear: () { _keywordController.clear(); setState(() => _strKeyword = ''); },
+          onChanged: (value) {
+            setState(() {
+              _strKeyword = value;
+              if (_strKeyword == '') {
+                _strShowView = '';
+              } else {
+                _strShowView = 'preview';
+                this._handleSearchPreview();
+              }
+            });
+          },
+          onClear: () {
+            _keywordController.clear();
+            setState(() => _strKeyword = '');
+          },
         ),
       ),
       body: new Stack(
@@ -48,12 +68,12 @@ class _SearchViewState extends State<SearchView> {
           _widgetRecommendSection(),
           // 预览
           new Offstage(
-            offstage: false,
+            offstage: !(_strShowView == 'preview'),
             child: _widgetPreviewSection(),
           ),
           // 结果
           new Offstage(
-            offstage: false,
+            offstage: !(_strShowView == 'result'),
             child: _widgetResultSection(),
           ),
         ],
@@ -226,7 +246,7 @@ class _SearchViewState extends State<SearchView> {
 
   // 检索关键字
   Widget _widgetPreviewSection () {
-    Widget _widgetPreviewItem () {
+    Widget _widgetPreviewItem (text) {
       return new Container(
         height: 44.0,
         decoration: new BoxDecoration(
@@ -243,7 +263,7 @@ class _SearchViewState extends State<SearchView> {
           child: new Row(
             children: <Widget>[
               new Text(
-                '西安司机的撒东',
+                text,
                 style: new TextStyle(
                   color: Color(0xff666666),
                   fontSize: 14.0,
@@ -257,15 +277,17 @@ class _SearchViewState extends State<SearchView> {
         ),
       );
     }
+    List<Widget> arrWidget = [];
+    if (_arrUserData != null) {
+      arrWidget.addAll(_arrUserData.map((UserJsonModel item) => _widgetPreviewItem('用户：${item?.nickname}')).toList());
+    }
+    if (_arrPhotoData != null) {
+      arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel item) => _widgetPreviewItem('作品：${item?.title}')).toList());
+    }
     return new Container(
       color: Color.fromRGBO(0, 0, 0, 0.3),
       child: new ListView(
-        children: <Widget>[
-          _widgetPreviewItem(),
-          _widgetPreviewItem(),
-          _widgetPreviewItem(),
-          _widgetPreviewItem(),
-        ],
+        children: arrWidget,
       ),
     );
   }
@@ -531,4 +553,23 @@ class _SearchViewState extends State<SearchView> {
       },
     );
   }
+
+  // 搜索预览
+  void _handleSearchPreview () async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqSearchPreview;
+        var data = await Application.util.http.post(strUrl, params: {
+          'keyword': _strKeyword,
+        }, useLoading: false);
+        setState(() {
+          _arrUserData = data['arrUser'].map((item) => UserJsonModel.fromJson(item)).toList();
+          _arrPhotoData = data['arrPhoto'].map((item) => PhotoJsonModel.fromJson(item)).toList();
+        });
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+    });
+  }
+
 }

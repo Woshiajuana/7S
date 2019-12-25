@@ -17,7 +17,6 @@ class WowLoadView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print('xxxx=> data $data');
     // TODO: implement build
     return new Stack(
       children: <Widget>[

@@ -110,4 +110,9 @@ class Api {
     return 'v1/app/follower/list';
   }
 
+  // 搜索预览
+  String get reqSearchPreview {
+    return 'v1/app/search/preview';
+  }
+
 }
