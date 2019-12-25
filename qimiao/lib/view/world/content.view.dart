@@ -17,7 +17,7 @@ class WorldContentView extends StatefulWidget {
   _WorldContentViewState createState() => _WorldContentViewState();
 }
 
-class _WorldContentViewState extends State<WorldContentView> {
+class _WorldContentViewState extends State<WorldContentView>  with AutomaticKeepAliveClientMixin {
 
   List<PhotoJsonModel> _arrRecommend;
 
@@ -28,7 +28,12 @@ class _WorldContentViewState extends State<WorldContentView> {
   }
 
   @override
+  bool get wantKeepAlive => true; // 要点2
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // 要点3
+
     return new WowLoadView(
       data: _arrRecommend,
       child: new WowScrollerInfo(

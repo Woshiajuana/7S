@@ -10,10 +10,15 @@ class WorldView extends StatefulWidget {
   _WorldViewState createState() => _WorldViewState();
 }
 
-class _WorldViewState extends State<WorldView> {
+class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true; // 要点2
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // 要点3
+
     return new Scaffold(
       backgroundColor: Application.config.style.mainColor,
       body: new SafeArea(
