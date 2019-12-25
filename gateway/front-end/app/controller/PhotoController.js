@@ -48,14 +48,19 @@ module.exports = class HandleController extends Controller {
                 arrUser = arrUser.map((item) => item.following._id);
             }
             if (user) arrUser = [ user ];
-            const data = await service.transformService.curl('api/v1/photo/recommend', {
-                data: Object.assign({
-                    users: arrUser,
-                    exclude,
-                    limit,
-                    useAppend: !useFollowing,
-                }, { nature: 'PUBLIC' }),
-            });
+            let data;
+            if (useFollowing && !arrUser.length) {
+                data = [];
+            } else {
+                data = await service.transformService.curl('api/v1/photo/recommend', {
+                    data: Object.assign({
+                        users: arrUser,
+                        exclude,
+                        limit,
+                        useAppend: !useFollowing,
+                    }, { nature: 'PUBLIC' }),
+                });
+            }
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
