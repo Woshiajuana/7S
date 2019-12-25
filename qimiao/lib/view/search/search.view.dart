@@ -46,6 +46,7 @@ class _SearchViewState extends State<SearchView> {
           hintText: '搜索你想要的吧...',
           value: _strKeyword,
           onSubmitted: (value) {
+            if (value == '' || value == null) return null;
             setState(() {
               _strShowView = 'result';
             });
@@ -132,6 +133,7 @@ class _SearchViewState extends State<SearchView> {
                       controller: controller,
                       obscureText: isObscure,
                       onSubmitted: onSubmitted,
+                      textInputAction: TextInputAction.search,
                       autofocus: true,
                       style: new TextStyle(
                         color: Color(0xff999999),
@@ -320,7 +322,7 @@ class _SearchViewState extends State<SearchView> {
   Widget _widgetResultSection () {
 
     // 用户
-    Widget _widgetUserCell() {
+    Widget _widgetUserCell(UserJsonModel userJsonModel) {
       return new Container(
         decoration: new BoxDecoration(
           color: Colors.white,
@@ -339,7 +341,7 @@ class _SearchViewState extends State<SearchView> {
                 height: 60.0,
                 child: new FlatButton(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
-                  onPressed: () => Application.router.push(context, 'friendInfo'),
+                  onPressed: () => Application.router.push(context, 'friendInfo', params: { 'id': userJsonModel?.id }),
                   child: new Row(
                     children: <Widget>[
                       new Container(
@@ -347,11 +349,17 @@ class _SearchViewState extends State<SearchView> {
                         height: 36.0,
                         child: new ClipRRect(
                           borderRadius: BorderRadius.circular(36.0),
-                          child: new Image.asset(
-                            Application.util.getImgPath('guide1.png'),
-                            fit: BoxFit.fill,
+                          child: new CachedNetworkImage(
                             width: double.infinity,
                             height: double.infinity,
+                            fit: BoxFit.cover,
+                            imageUrl: userJsonModel?.avatar ?? '',
+                            placeholder: (context, url) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
+                            errorWidget: (context, url, error) => new Image.asset(
+                              Application.util.getImgPath('guide1.png'),
+                            ),
                           ),
                         ),
                       ),
@@ -361,7 +369,7 @@ class _SearchViewState extends State<SearchView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           new Text(
-                            '我是阿倦啊',
+                            userJsonModel?.nickname ?? '',
                             style: new TextStyle(
                               color: Color(0xff333333),
                               fontWeight: FontWeight.w400,
@@ -369,7 +377,7 @@ class _SearchViewState extends State<SearchView> {
                             ),
                           ),
                           new Text(
-                            '粉丝：1000',
+                            '粉丝：${userJsonModel?.numFollower ?? 0}',
                             style: new TextStyle(
                               color: Color(0xff999999),
                               fontWeight: FontWeight.w400,
@@ -383,172 +391,137 @@ class _SearchViewState extends State<SearchView> {
                 ),
               ),
             ),
-            new SizedBox(width: 16.0),
+          ],
+        ),
+      );
+    }
+    Widget _widgetPhotoCell (PhotoJsonModel photoJsonModel) {
+      FileJsonModel fileJsonModel = photoJsonModel.photo;
+      String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+      return new Container(
+        child: new Column(
+          children: <Widget>[
             new Container(
-              width: 60.0,
-              height: 26.0,
               decoration: new BoxDecoration(
-                color: Application.config.style.mainColor,
-                borderRadius: new BorderRadius.circular(2.0),
+                color: Colors.white,
+                border: new Border(
+                  top: new BorderSide(
+                    color: Color(0xffdddddd),
+                    width: 0.5,
+                  ),
+                ),
               ),
               child: new FlatButton(
-                onPressed: () => {},
-                padding: const EdgeInsets.all(0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                padding: const EdgeInsets.all(10.0),
+                onPressed: () => Application.router.push(context, 'photoDetails', params: { 'id': photoJsonModel?.id }),
+                child:  new Row(
                   children: <Widget>[
-                    new Icon(Icons.add, size: 18.0, color: Colors.white),
-                    new Text(
-                      '关注',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.0,
+                    new Container(
+                      width: 120.0,
+                      height: 77.0,
+                      child: new Stack(
+                        children: <Widget>[
+                          new ClipRRect(
+                            borderRadius: BorderRadius.circular(6.0),
+                            child: new CachedNetworkImage(
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              imageUrl: imageUrl ?? '',
+                              placeholder: (context, url) => new Image.asset(
+                                Application.util.getImgPath('guide1.png'),
+                              ),
+                              errorWidget: (context, url, error) => new Image.asset(
+                                Application.util.getImgPath('guide1.png'),
+                              ),
+                            ),
+                          ),
+                          new Container(
+                            decoration: new BoxDecoration(
+                              color: Color.fromRGBO(0, 0, 0, 0.3),
+                              borderRadius: new BorderRadius.circular(6.0),
+                            ),
+                          ),
+                          new Container(
+                            decoration: new BoxDecoration(
+                              color: Color.fromRGBO(0, 0, 0, 0.3),
+                              borderRadius: new BorderRadius.circular(6.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    new SizedBox(width: 10.0),
+                    new Expanded(
+                      flex: 1,
+                      child: new Container(
+                        height: 77.0,
+                        child: new Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            new Text(
+                              photoJsonModel?.title ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Color(0xff333333),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            new Expanded(flex: 1, child: new Container()),
+                            new Text(
+                              photoJsonModel?.user?.nickname ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: new TextStyle(
+                                fontSize: 12.0,
+                                color: Color(0xff999999),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            new SizedBox(height: 4.0),
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                new Row(
+                                  children: <Widget>[
+                                    new Icon(Icons.remove_red_eye, size: 14.0, color: Color(0xff999999)),
+                                    new SizedBox(width: 2.0),
+                                    new Text(
+                                      photoJsonModel?.volume?.toString() ?? '0',
+                                      style: new TextStyle(
+                                        color: Color(0xff999999),
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            new SizedBox(width: 16.0),
           ],
         ),
       );
     }
+    List<Widget> arrWidget = _arrUserData.map((UserJsonModel userJsonModel) => _widgetUserCell(userJsonModel) ).toList();
+    if (_arrUserData != null && _arrUserData.length != 0) {
+      arrWidget.add(new SizedBox(height: 10.0));
+    }
+    arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
     return new Container(
       color: Application.config.style.backgroundColor,
       child: new ListView(
-        children: <Widget>[
-          _widgetUserCell(),
-          new SizedBox(height: 10.0),
-          _widgetResultCell(),
-        ],
-      ),
-    );
-  }
-
-  // 推荐
-  Widget _widgetResultCell () {
-    return new Column(
-      children: <Widget>[
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-        _widgetVideoCellItem(),
-      ],
-    );
-  }
-
-  Widget _widgetVideoCellItem () {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          new Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              border: new Border(
-                top: new BorderSide(
-                  color: Color(0xffdddddd),
-                  width: 0.5,
-                ),
-                bottom: new BorderSide(
-                  color: Color(0xffdddddd),
-                  width: 0.5,
-                ),
-              ),
-            ),
-            child: new Row(
-              children: <Widget>[
-                new Container(
-                  width: 120.0,
-                  height: 77.0,
-                  child: new Stack(
-                    children: <Widget>[
-                      new ClipRRect(
-                        borderRadius: BorderRadius.circular(6.0),
-                        child: new Image.asset(
-                          Application.util.getImgPath('guide1.png'),
-                          fit: BoxFit.fill,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                      new Container(
-                        decoration: new BoxDecoration(
-                          color: Color.fromRGBO(0, 0, 0, 0.3),
-                          borderRadius: new BorderRadius.circular(6.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                new SizedBox(width: 10.0),
-                new Expanded(
-                  flex: 1,
-                  child: new Container(
-                    height: 77.0,
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Text(
-                          '初始预售普吉岛扫地机阿三破搭配师激动啊上坡',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: new TextStyle(
-                            fontSize: 14.0,
-                            color: Color(0xff333333),
-                          ),
-                        ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.live_tv, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Row(
-                              children: <Widget>[
-                                new Icon(Icons.thumb_up, size: 14.0, color: Color(0xff999999)),
-                                new SizedBox(width: 2.0),
-                                new Text(
-                                  '100',
-                                  style: new TextStyle(
-                                    color: Color(0xff999999),
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            new Container(
-                              height: 20.0,
-                              width: 20.0,
-                              child: new FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(),
-                                  child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        children: arrWidget,
       ),
     );
   }
