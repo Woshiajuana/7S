@@ -28,13 +28,32 @@ module.exports = class HandleController extends Controller {
     async recommend () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                user,
+                exclude,
+                limit,
+                useFollowing,
+            } = await ctx.validateBody({
                 user: [],
                 exclude: [],
                 limit: [ 'nonempty', (v) => v <= 20 && v > 0 ],
+                useFollowing: [],
             });
+            const { id } = ctx.state.token;
+            let arrUser = [];
+            if (useFollowing) {
+                arrUser = await service.transformService.curl('api/v1/following/list', {
+                    data: { user: id },
+                });
+                arrUser = arrUser.map((item) => item.following._id);
+            }
+            if (user) arrUser = [ user ];
             const data = await service.transformService.curl('api/v1/photo/recommend', {
-                data: Object.assign(objParams, { nature: 'PUBLIC' }),
+                data: Object.assign({
+                    users: arrUser,
+                    exclude,
+                    limit,
+                }, { nature: 'PUBLIC' }),
             });
             ctx.respSuccess(data);
         } catch (err) {

@@ -106,12 +106,12 @@ module.exports = class HandleServer extends Service {
     // 推荐
     async recommend (data) {
         const { ctx, app } = this;
-        const { exclude, limit, user, nature } = data;
+        const { exclude, limit, users, nature } = data;
         const filter = [];
-        if (user) {
+        if (users && users.length) {
             filter.push({
                 $match: {
-                    user: app.mongoose.Types.ObjectId(user),
+                    user: { $in: users.map((id) => app.mongoose.Types.ObjectId(id)) },
                 }
             })
         }
@@ -162,7 +162,6 @@ module.exports = class HandleServer extends Service {
                 $sample: { size: +limit }
             })
         }
-        console.log('limit=====>>>>>>', limit);
         return await ctx.model.PhotoModel.aggregate(filter);
     }
 };

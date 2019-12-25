@@ -36,7 +36,7 @@ class _WorldViewState extends State<WorldView> {
                 child: new TabBarView(
                   children: <Widget>[
                     new WorldContentView(),
-                    new WorldContentView(),
+                    new WorldContentView(useFollowing: true),
                   ],
                 ),
               ),

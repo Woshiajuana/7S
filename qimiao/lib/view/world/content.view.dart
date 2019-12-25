@@ -6,6 +6,13 @@ import 'package:flutter/widgets.dart';
 import 'package:qimiao/model/model.dart';
 
 class WorldContentView extends StatefulWidget {
+
+  WorldContentView({
+    this.useFollowing = false,
+  });
+
+  final bool useFollowing;
+
   @override
   _WorldContentViewState createState() => _WorldContentViewState();
 }
@@ -186,6 +193,7 @@ class _WorldContentViewState extends State<WorldContentView> {
         String strUrl = Application.config.api.reqPhotoRecommend;
         List data = await Application.util.http.post(strUrl, params: {
           'limit': 20,
+          'useFollowing': widget.useFollowing,
         }, useLoading: false);
         setState(() {
           List<PhotoJsonModel> d = data.map((item) => PhotoJsonModel.fromJson(item)).toList();

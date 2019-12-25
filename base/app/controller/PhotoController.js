@@ -32,11 +32,11 @@ module.exports = class HandleController extends Controller {
             const objParams = await ctx.validateBody({
                 exclude: [],
                 limit: [ 'nonempty' ],
-                user: [],
+                users: [],
                 nature: [],
             });
             const data = await service.photoService.recommend(objParams);
-            if (data.length < objParams.limit && objParams.user) {
+            if (data.length < objParams.limit && objParams.users && objParams.users.length) {
                 const arrAddTo = await service.photoService.recommend({
                     exclude: [...data.map((item) => item._id), ...(objParams.exclude || {})],
                     limit: objParams.limit - data.length,

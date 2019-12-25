@@ -43,29 +43,39 @@ module.exports = class HandleServer extends Service {
     async list (data) {
         const { ctx, app } = this;
         let { numIndex, numSize, user } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.FollowingModel.count(filter);
-        const list = await ctx.model.FollowingModel
-            .find(filter)
-            .sort('-created_at')
-            .skip((numIndex - 1) * numSize)
-            .limit(numSize)
-            .populate([
-                { path: 'user', select: { password: 0 } },
-                { path: 'following', select: { password: 0 } },
-            ])
-            .lean();
-        return {
-            list,
-            total,
-            numIndex,
-            numSize,
+        if (numIndex && numSize) {
+            const list = await ctx.model.FollowingModel
+                .find(filter)
+                .sort('-created_at')
+                .skip((numIndex - 1) * numSize)
+                .limit(numSize)
+                .populate([
+                    { path: 'user', select: { password: 0 } },
+                    { path: 'following', select: { password: 0 } },
+                ])
+                .lean();
+            return {
+                list,
+                total,
+                numIndex,
+                numSize,
+            };
+        } else {
+            return await ctx.model.FollowingModel
+                .find(filter)
+                .sort('-created_at')
+                .populate([
+                    { path: 'user', select: { password: 0 } },
+                    { path: 'following', select: { password: 0 } },
+                ])
+                .lean();
         }
+
     }
 };
