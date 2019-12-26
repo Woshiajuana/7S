@@ -18,6 +18,7 @@ class _SearchViewState extends State<SearchView> {
   String _strShowView = '';
   List<String> _arrKeywords = [];
   FocusNode _focusNode;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -424,6 +425,7 @@ class _SearchViewState extends State<SearchView> {
         ),
       );
     }
+    // 照片
     Widget _widgetPhotoCell (PhotoJsonModel photoJsonModel) {
       FileJsonModel fileJsonModel = photoJsonModel.photo;
       String imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
@@ -550,13 +552,38 @@ class _SearchViewState extends State<SearchView> {
     if (_arrPhotoData != null && _arrPhotoData.length != 0) {
       arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
     }
-    if (arrWidget.length == 0) {
+    if (arrWidget.length == 0 && _isLoading == false) {
       arrWidget.add(_widgetNullCell());
     }
     return new Container(
-      color: Application.config.style.backgroundColor,//5de76b48169de6de69e24c54
-      child: new ListView(
-        children: arrWidget,
+      color: Application.config.style.backgroundColor,
+      child: new Stack(
+        children: <Widget>[
+          new Offstage(
+            offstage: !(_isLoading == false),
+            child: new ListView(
+              children: arrWidget,
+            ),
+          ),
+          new Offstage(
+            offstage: !(_isLoading == true),
+            child: new Container(
+              alignment: Alignment.center,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Container(
+                    width: 36.0,
+                    height: 36.0,
+                    child: new CircularProgressIndicator(
+                      strokeWidth: 3.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -595,6 +622,9 @@ class _SearchViewState extends State<SearchView> {
 
   // 搜索预览
   void _handleSearchPreview () async {
+    setState(() {
+      _isLoading = true;
+    });
     await Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqSearchPreview;
@@ -607,6 +637,10 @@ class _SearchViewState extends State<SearchView> {
         });
       } catch (err) {
         Application.util.modal.toast(err);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     });
   }
