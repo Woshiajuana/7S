@@ -513,40 +513,19 @@ class _SearchViewState extends State<SearchView> {
         ),
       );
     }
-    List<Widget> arrWidget = _arrUserData.map((UserJsonModel userJsonModel) => _widgetUserCell(userJsonModel) ).toList();
+    List<Widget> arrWidget = [];
     if (_arrUserData != null && _arrUserData.length != 0) {
+      arrWidget = _arrUserData.map((UserJsonModel userJsonModel) => _widgetUserCell(userJsonModel) ).toList();
       arrWidget.add(new SizedBox(height: 10.0));
     }
-    arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
+    if (_arrPhotoData != null && _arrPhotoData.length != 0) {
+      arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
+    }
     return new Container(
       color: Application.config.style.backgroundColor,
       child: new ListView(
         children: arrWidget,
       ),
-    );
-  }
-
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                print('相册1');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-          ],
-        );
-      },
     );
   }
 
