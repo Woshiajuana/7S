@@ -72,7 +72,6 @@ class _WowScrollListViewState extends State<WowScrollListView> {
     int count,
     int total,
   }) {
-    print('total => $total');
     return new Center(
       child: new Padding(
         padding: const EdgeInsets.all(20.0),

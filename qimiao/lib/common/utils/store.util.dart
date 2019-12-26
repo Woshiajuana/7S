@@ -36,8 +36,10 @@ class Store {
     if (_sharedPreferences == null) {
       await _init();
     }
-    if (value is Map) {
+    try {
       value = json.encode(value);
+    } catch (err) {
+
     }
     await  _sharedPreferences.setString(key, value);
   }

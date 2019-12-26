@@ -94,7 +94,10 @@ module.exports = class HandleServer extends Service {
             return await ctx.model.PhotoModel
                 .find(filter, { user: 0 })
                 .sort('-created_at')
-                .populate([{ path: 'photo', select: 'base path filename'}])
+                .populate([
+                    { path: 'photo', select: 'base path filename'},
+                    { path: 'user', select: { password: 0 } },
+                ])
                 .lean();
         }
 
@@ -153,7 +156,7 @@ module.exports = class HandleServer extends Service {
         //     },
         // });
         // filter.push({ $unwind: '$user.avatar' });
-        // filter.push({ $project : { 'user.avatar' : 0 }  });
+        filter.push({ $project : { 'user.password' : 0 }  });
         if (limit) {
             filter.push({
                 $sample: { size: +limit }

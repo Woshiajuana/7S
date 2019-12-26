@@ -17,12 +17,14 @@ class _SearchViewState extends State<SearchView> {
   List<PhotoJsonModel> _arrPhotoData;
   String _strShowView = '';
   List<String> _arrKeywords = [];
+  FocusNode _focusNode;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     this._getKeywordsHistory();
+    _focusNode = new FocusNode();
     _strKeyword = '';
     _keywordController = TextEditingController(text: _strKeyword);
   }
@@ -131,6 +133,7 @@ class _SearchViewState extends State<SearchView> {
                   new Expanded(
                     flex: 1,
                     child: new TextField(
+                      focusNode: _focusNode,
                       controller: controller,
                       obscureText: isObscure,
                       onSubmitted: onSubmitted,
@@ -186,22 +189,23 @@ class _SearchViewState extends State<SearchView> {
   Widget _widgetRecommendSection () {
 
     Widget _widgetKeywordItem (String text) {
-      return new Container(
-        decoration: new BoxDecoration(
-          color: Color(0xffeeeeee),
-          borderRadius: new BorderRadius.circular(2.0),
-        ),
-        margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 5.0),
-        child: new InkWell(
-          onTap: () {
-            setState(() {
-              _strKeyword = text;
-              _keywordController.text = _strKeyword;
-              _strShowView = 'result';
-              this._handleSearchPreview();
-            });
-          },
+      return new InkWell(
+        onTap: () {
+          setState(() {
+            _strKeyword = text;
+            _keywordController.text = _strKeyword;
+            _focusNode.unfocus();
+            _strShowView = 'result';
+            this._handleSearchPreview();
+          });
+        },
+        child: new Container(
+          decoration: new BoxDecoration(
+            color: Color(0xffeeeeee),
+            borderRadius: new BorderRadius.circular(2.0),
+          ),
+          margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 5.0),
           child: new Text(
             text,
             style: new TextStyle(
@@ -216,7 +220,7 @@ class _SearchViewState extends State<SearchView> {
     //
     Widget _widgetKeywordCell () {
       return _arrKeywords.length == 0 ? new Container() : new Container(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -232,7 +236,7 @@ class _SearchViewState extends State<SearchView> {
                     ),
                   ),
                   new InkWell(
-                    onTap: () => {},
+                    onTap: () => _handleClearHistory(),
                     child: new Icon(Icons.delete, size: 18.0, color: Color(0xff999999)),
                   ),
                 ],
@@ -249,10 +253,11 @@ class _SearchViewState extends State<SearchView> {
 
     return new Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 16.0, right: 16.0),
       child: new ListView(
         children: <Widget>[
+          new SizedBox(height: 10.0),
           _widgetKeywordCell(),
+          new SizedBox(height: 10.0),
         ],
       ),
     );
@@ -321,6 +326,30 @@ class _SearchViewState extends State<SearchView> {
   // 结果
   Widget _widgetResultSection () {
 
+    // 暂无数据
+    Widget _widgetNullCell () {
+      return new Container(
+        alignment: Alignment.center,
+        child: new Column(
+          children: <Widget>[
+            new SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+            new Image.asset(
+              Application.util.getImgPath('null_bg.png'),
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+            new SizedBox(height: 20.0),
+            new Text(
+              '哦豁...暂无数据',
+              style: new TextStyle(
+                color: Color(0xff999999),
+                fontSize: 14.0,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     // 用户
     Widget _widgetUserCell(UserJsonModel userJsonModel) {
       return new Container(
@@ -521,6 +550,9 @@ class _SearchViewState extends State<SearchView> {
     if (_arrPhotoData != null && _arrPhotoData.length != 0) {
       arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
     }
+    if (arrWidget.length == 0) {
+      arrWidget.add(_widgetNullCell());
+    }
     return new Container(
       color: Application.config.style.backgroundColor,//5de76b48169de6de69e24c54
       child: new ListView(
@@ -529,10 +561,28 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
+  void _handleClearHistory () async {
+    var result = await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new ConfirmDialog(
+          content: '确定要清除搜索历史吗？',
+        );
+      },
+    );
+    if (result != true) return;
+    try {
+      setState(() { _arrKeywords = []; });
+      await Application.util.store.remove(Application.config.store.searchKeyword);
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
   // 获取搜索历史
   void _getKeywordsHistory () async {
-    var data = List<String>.from(await Application.util.store.get(Application.config.store.searchKeyword));
-    setState(() => _arrKeywords = data ?? []);
+    var data = await Application.util.store.get(Application.config.store.searchKeyword);
+    setState(() => _arrKeywords = List<String>.from(data ?? []));
   }
 
   // 存储搜索历史

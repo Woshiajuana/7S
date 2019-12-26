@@ -142,7 +142,7 @@ class _SettingViewState extends State<SettingView> {
       context: context,
       builder: (BuildContext buildContext) {
         return new ConfirmDialog(
-          content: '您确定要退出此账号吗？',
+          content: '确定要退出此账号吗？',
         );
       },
     );
