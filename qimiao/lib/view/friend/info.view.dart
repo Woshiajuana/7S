@@ -93,6 +93,7 @@ class _FriendInfoViewState extends State<FriendInfoView> {
                     onPressed: () => Application.router.pop(context),
                   ),
                   actions: <Widget>[
+                    StateModel.of(context)?.user?.id == widget?.id ? new Container() :
                     new IconButton(
                       onPressed: () => _doFollowUpdate(),
                       icon: new Icon((_userJsonModel?.follower ?? '') == '' ? Icons.favorite_border : Icons.favorite),

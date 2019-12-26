@@ -13,16 +13,16 @@ class _SearchViewState extends State<SearchView> {
 
   String _strKeyword;
   TextEditingController _keywordController;
-
   List<UserJsonModel> _arrUserData;
   List<PhotoJsonModel> _arrPhotoData;
-
   String _strShowView = '';
+  List<String> _arrKeywords = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    this._getKeywordsHistory();
     _strKeyword = '';
     _keywordController = TextEditingController(text: _strKeyword);
   }
@@ -50,6 +50,7 @@ class _SearchViewState extends State<SearchView> {
             setState(() {
               _strShowView = 'result';
             });
+            this._setKeywordsHistory();
             this._handleSearchPreview();
           },
           onChanged: (value) {
@@ -184,7 +185,7 @@ class _SearchViewState extends State<SearchView> {
   // 推荐
   Widget _widgetRecommendSection () {
 
-    Widget _widgetKeywordItem () {
+    Widget _widgetKeywordItem (String text) {
       return new Container(
         decoration: new BoxDecoration(
           color: Color(0xffeeeeee),
@@ -193,9 +194,16 @@ class _SearchViewState extends State<SearchView> {
         margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
         padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 5.0),
         child: new InkWell(
-          onTap: () => {},
+          onTap: () {
+            setState(() {
+              _strKeyword = text;
+              _keywordController.text = _strKeyword;
+              _strShowView = 'result';
+              this._handleSearchPreview();
+            });
+          },
           child: new Text(
-            '按钮按钮',
+            text,
             style: new TextStyle(
               color: Color(0xff333333),
               fontSize: 14.0,
@@ -207,7 +215,7 @@ class _SearchViewState extends State<SearchView> {
 
     //
     Widget _widgetKeywordCell () {
-      return new Container(
+      return _arrKeywords.length == 0 ? new Container() : new Container(
         padding: const EdgeInsets.only(top: 10.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +225,7 @@ class _SearchViewState extends State<SearchView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   new Text(
-                    '标题',
+                    '搜索历史',
                     style: new TextStyle(
                       fontSize: 12.0,
                       color: Color(0xff333333),
@@ -232,13 +240,7 @@ class _SearchViewState extends State<SearchView> {
             ),
             new SizedBox(height: 12.0),
             new Wrap(
-              children: <Widget>[
-                _widgetKeywordItem(),
-                _widgetKeywordItem(),
-                _widgetKeywordItem(),
-                _widgetKeywordItem(),
-                _widgetKeywordItem(),
-              ],
+              children: _arrKeywords.map((v) => _widgetKeywordItem(v)).toList(),
             ),
           ],
         ),
@@ -250,8 +252,6 @@ class _SearchViewState extends State<SearchView> {
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 16.0, right: 16.0),
       child: new ListView(
         children: <Widget>[
-          _widgetKeywordCell(),
-          _widgetKeywordCell(),
           _widgetKeywordCell(),
         ],
       ),
@@ -522,11 +522,25 @@ class _SearchViewState extends State<SearchView> {
       arrWidget.addAll(_arrPhotoData.map((PhotoJsonModel photoJsonModel) => _widgetPhotoCell(photoJsonModel)).toList());
     }
     return new Container(
-      color: Application.config.style.backgroundColor,
+      color: Application.config.style.backgroundColor,//5de76b48169de6de69e24c54
       child: new ListView(
         children: arrWidget,
       ),
     );
+  }
+
+  // 获取搜索历史
+  void _getKeywordsHistory () async {
+    var data = List<String>.from(await Application.util.store.get(Application.config.store.searchKeyword));
+    setState(() => _arrKeywords = data ?? []);
+  }
+
+  // 存储搜索历史
+  void _setKeywordsHistory () async {
+    _arrKeywords.remove(_strKeyword);
+    _arrKeywords.insert(0, _strKeyword);
+    setState(() {});
+    await Application.util.store.set(Application.config.store.searchKeyword, _arrKeywords);
   }
 
   // 搜索预览

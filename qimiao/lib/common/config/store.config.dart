@@ -15,6 +15,11 @@ class Store {
     return 'ACCESS_TOKEN';
   }
 
+  // 搜索关键字
+  String get searchKeyword {
+    return 'SEARCH_KEYWORD';
+  }
+
   // 用户信息
   String get userJson {
     return 'USER_JSON';

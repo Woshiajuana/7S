@@ -31,6 +31,8 @@ module.exports = class HandleController extends Controller {
                 id: [ 'nonempty' ],
             });
             const { id: user } = ctx.state.token;
+            if (id === user)
+                throw '不能关注自己';
             let objFollowingData = await service.transformService.curl('api/v1/following/info', {
                 data: { user, following: id },
             });
