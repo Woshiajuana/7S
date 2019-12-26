@@ -293,9 +293,14 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         'title': _strTitle,
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
-      PhotoJsonModel photoJsonModel = PhotoJsonModel.fromJson(result);
+      PhotoJsonModel photoJsonModel;
       Application.util.modal.toast('保存成功');
-      if (isAdded) eventBus.fire(MineEvent());
+      if (isAdded) {
+        eventBus.fire(MineEvent());
+        eventBus.fire(PhotoListEvent());
+      } else {
+        photoJsonModel = PhotoJsonModel.fromJson(result);
+      }
       Application.router.pop(context, params: photoJsonModel);
     } catch (err) {
       print(err);

@@ -28,7 +28,12 @@ module.exports = class HandleServer extends Service {
         let filter = { _id: app.mongoose.Types.ObjectId(id) };
         if (user)
             filter.user = app.mongoose.Types.ObjectId(user);
-        return await ctx.model.PhotoModel.update(filter, data);
+        return await ctx.model.PhotoModel.findByIdAndUpdate(filter, data, { new: true })
+            .populate([
+                { path: 'photo', select: 'base path filename'},
+                { path: 'user', select: { password: 0 } },
+            ])
+            .lean();
     }
 
     // 根据 id 查询

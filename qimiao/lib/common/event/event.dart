@@ -1,6 +1,5 @@
 
 import 'package:event_bus/event_bus.dart';
-import 'package:qimiao/model/model.dart';
 
 EventBus eventBus = new EventBus();
 
@@ -11,5 +10,5 @@ class MineEvent {
 
 // 照片列表刷新事件
 class PhotoListEvent {
-  PhotoListEvent(PhotoJsonModel photoJsonModel);
+  PhotoListEvent();
 }

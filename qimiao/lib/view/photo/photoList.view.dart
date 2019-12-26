@@ -25,8 +25,15 @@ class _PhotoListViewState extends State<PhotoListView> {
     super.initState();
     this._reqPhotoList();
     _mineEventSubscription = eventBus.on<PhotoListEvent>().listen((PhotoListEvent data) {
-//      this._reqUserInfo();
+      this._reqPhotoList();
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _mineEventSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -194,7 +201,7 @@ class _PhotoListViewState extends State<PhotoListView> {
                                 width: 30.0,
                                 child: new FlatButton(
                                   padding: const EdgeInsets.all(0),
-                                  onPressed: () => _handleOperate(photoJsonModel),
+                                  onPressed: () => _handleOperate(index),
                                   child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xff999999))
                                 ),
                               ),
@@ -214,7 +221,8 @@ class _PhotoListViewState extends State<PhotoListView> {
   }
 
   // 操作
-  void _handleOperate (PhotoJsonModel photoJsonModel) {
+  void _handleOperate (index) {
+    PhotoJsonModel photoJsonModel = _arrData[index];
     showDialog(
       context: context,
       barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
@@ -225,8 +233,10 @@ class _PhotoListViewState extends State<PhotoListView> {
               'text': '编辑',
               'onPressed': () async {
                 Application.router.pop(context);
-                var data = await Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
-                print('data => $data');
+                PhotoJsonModel data = await Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+                setState(() {
+                  _arrData[index] = data;
+                });
               },
             },
             {
