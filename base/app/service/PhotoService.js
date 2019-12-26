@@ -97,7 +97,7 @@ module.exports = class HandleServer extends Service {
             }
         } else {
             return await ctx.model.PhotoModel
-                .find(filter, { user: 0 })
+                .find(filter)
                 .sort('-created_at')
                 .populate([
                     { path: 'photo', select: 'base path filename'},

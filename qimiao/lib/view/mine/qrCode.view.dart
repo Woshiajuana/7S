@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
+import 'package:qimiao/model/model.dart';
+import 'package:qimiao/widget/widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class MineQrCodeView extends StatefulWidget {
   @override
@@ -50,6 +53,8 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
             border: new Border.all(color: Color(0xffdddddd), width: 0.5),
           ),
           child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _widgetUserSection(),
               _widgetQrCodeSection(),
@@ -63,7 +68,7 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
   // 用户信息
   Widget _widgetUserSection () {
     return new Container(
-      padding: const EdgeInsets.all(16.0),
+      width: 200.0,
       child: new Row(
         children: <Widget>[
           new Container(
@@ -73,12 +78,19 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
               borderRadius: new BorderRadius.circular((41)), // 圆角度
             ),
             child: new ClipOval(
-              child: new FadeInImage.assetNetwork(
-                width: 48.0,
-                height: 48.0,
-                placeholder: Application.config.style.srcGoodsNull,
-                image: 'https://h5-mk.oss-cn-shanghai.aliyuncs.com/qimiao/5de76b48169de6de69e24c54/AVATAR/20191205174002.png',
-                fit: BoxFit.fill,
+              child: new CachedNetworkImage(
+                width: 36.0,
+                height: 36.0,
+                fit: BoxFit.cover,
+                imageUrl: StateModel.of(context)?.user?.avatar ?? '',
+                placeholder: (context, url) => new Image.asset(
+                  Application.util.getImgPath('mine_head_bg.png'),
+                  fit: BoxFit.cover,
+                ),
+                errorWidget: (context, url, error) => new Image.asset(
+                  Application.util.getImgPath('mine_head_bg.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -90,18 +102,20 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  '我是阿倦啊',
+                  StateModel.of(context)?.user?.nickname ?? '',
                   style: new TextStyle(
                     color: Color(0xff666666),
-                    fontSize: 18.0,
+                    fontSize: 14.0,
                   ),
                 ),
                 new SizedBox(height: 3.0),
                 new Text(
-                  '7S-ID:0000001',
+                  StateModel.of(context)?.user?.signature ?? '',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: new TextStyle(
-                    color: Color(0xff666666),
-                    fontSize: 14.0,
+                    color: Color(0xff999999),
+                    fontSize: 12.0,
                   ),
                 ),
               ],
@@ -114,14 +128,19 @@ class _MineQrCodeViewState extends State<MineQrCodeView> {
 
   // 用户二维码
   Widget _widgetQrCodeSection () {
-    return new Expanded(
-      flex: 1,
-      child: new Center(
-        child: new Container(
-          color: Color(0xFF9E9E9E),
-          width: 200.0,
-          height: 200.0,
-        ),
+    return new Container(
+      width: 200.0,
+      color: Color(0xffeeeeee),
+      margin: const EdgeInsets.only(top: 10.0),
+      child: new QrImage(
+        data: '7S_USER_ID:${StateModel.of(context)?.user?.id}',
+        version: QrVersions.auto,
+        size: 200,
+        gapless: false,
+//        embeddedImage: new NetworkImage(),
+//        embeddedImageStyle: QrEmbeddedImageStyle(
+//          size: Size(50, 50),
+//        ),
       ),
     );
   }
