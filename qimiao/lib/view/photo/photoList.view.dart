@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
@@ -16,12 +17,16 @@ class _PhotoListViewState extends State<PhotoListView> {
   List<PhotoJsonModel> _arrData;
   int _numIndex = 1;
   int _numSize = 10;
+  StreamSubscription _mineEventSubscription;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     this._reqPhotoList();
+    _mineEventSubscription = eventBus.on<PhotoListEvent>().listen((PhotoListEvent data) {
+//      this._reqUserInfo();
+    });
   }
 
   @override
@@ -218,9 +223,10 @@ class _PhotoListViewState extends State<PhotoListView> {
           arrOptions: [
             {
               'text': '编辑',
-              'onPressed': () {
+              'onPressed': () async {
                 Application.router.pop(context);
-                Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+                var data = await Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+                print('data => $data');
               },
             },
             {

@@ -74,9 +74,9 @@ module.exports = class HandleController extends Controller {
                 nature: [ 'nonempty' ],
             });
             ctx.logger.info(`创建照片：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.photoService.create(objParams);
+            const data = await service.photoService.create(objParams);
             ctx.logger.info(`创建照片：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
@@ -108,9 +108,9 @@ module.exports = class HandleController extends Controller {
                 nature: [],
             });
             ctx.logger.info(`更新照片信息：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.photoService.update(objParams);
+            const data = await service.photoService.update(objParams);
             ctx.logger.info(`更新照片信息：返回结果=> 成功 `);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

@@ -123,10 +123,10 @@ module.exports = class HandleController extends Controller {
                 nature: [ 'nonempty', (v) => [ 'PRIVACY', 'PUBLIC' ].indexOf(v) > -1 ],
             });
             const { id: user } = ctx.state.token;
-            await service.transformService.curl('api/v1/photo/create', {
+            const data = await service.transformService.curl('api/v1/photo/create', {
                 data: { user, ...objParams },
             });
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
@@ -217,10 +217,10 @@ module.exports = class HandleController extends Controller {
                 nature: [ 'nonempty', (v) => [ 'PRIVACY', 'PUBLIC' ].indexOf(v) > -1 ],
             });
             const { id: user } = ctx.state.token;
-            await service.transformService.curl('api/v1/photo/update', {
+            const data = await service.transformService.curl('api/v1/photo/update', {
                 data: { user, ...objParams },
             });
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

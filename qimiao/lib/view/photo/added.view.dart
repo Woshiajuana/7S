@@ -287,16 +287,18 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         data = await Application.util.http.post(strUrl, params: formData);
       }
       strUrl = isAdded ? Application.config.api.doPhotoCreate : Application.config.api.doPhotoUpdate;
-      await Application.util.http.post(strUrl, params: {
+      var result = await Application.util.http.post(strUrl, params: {
         'id': widget.data?.id ?? '',
         'photo': isAdded ? data['file'] : widget.data.photo.id,
         'title': _strTitle,
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
+      PhotoJsonModel photoJsonModel = PhotoJsonModel.fromJson(result);
       Application.util.modal.toast('保存成功');
       if (isAdded) eventBus.fire(MineEvent());
-      Application.router.pop(context);
+      Application.router.pop(context, params: photoJsonModel);
     } catch (err) {
+      print(err);
       Application.util.modal.toast(err);
     }
   }

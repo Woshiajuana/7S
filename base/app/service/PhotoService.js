@@ -17,7 +17,7 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.PhotoModel.create(data);
+        return await ctx.model.PhotoModel.create(data);
     }
 
     // 更新
@@ -28,7 +28,7 @@ module.exports = class HandleServer extends Service {
         let filter = { _id: app.mongoose.Types.ObjectId(id) };
         if (user)
             filter.user = app.mongoose.Types.ObjectId(user);
-        await ctx.model.PhotoModel.update(filter, data);
+        return await ctx.model.PhotoModel.update(filter, data);
     }
 
     // 根据 id 查询
