@@ -284,8 +284,12 @@ class Router {
     return navigatorRouter(context, config[routeName]['handle'](params));
   }
 
-  replace (BuildContext context, String routeName, { params }) {
-    return Navigator.pushReplacementNamed(context, routeName, arguments: params);
+  replace (BuildContext context, String routeName, { params, animation: false }) {
+    if (animation) {
+      return Navigator.pushReplacement(context, config[routeName]['handle'](params));
+    } else {
+      return Navigator.pushReplacementNamed(context, routeName, arguments: { 'result': '123' });
+    }
   }
 
   pop (BuildContext context, { params }) {

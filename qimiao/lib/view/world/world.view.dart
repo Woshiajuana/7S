@@ -4,8 +4,6 @@ import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qimiao/view/world/content.view.dart';
-//import 'package:barcode_scan/barcode_scan.dart';
-//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -97,7 +95,7 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
               height: 40.0,
               margin: const EdgeInsets.only(left: 5.0, right: 5.0),
               child: new FlatButton(
-                onPressed: () => scan(),
+                onPressed: () => Application.router.push(context, 'wordQrScan'),
                 padding: const EdgeInsets.all(8.0),
                 child: new Image.asset(
                   Application.util.getImgPath('scan-icon.png'),
@@ -163,43 +161,6 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
         ),
       ),
     );
-  }
-
-
-  String barcode;
-
-  Future scan() async {
-    Application.router.push(context, 'wordQrScan');
-//    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', '取消', true, null);
-//    try {
-//      String barcode = await BarcodeScanner.scan();
-//      setState(() => this.barcode = barcode);
-//    } on Exception catch (e) {
-//      if (e == BarcodeScanner.CameraAccessDenied) {
-//        setState(() {
-//          this.barcode = 'The user did not grant the camera permission!';
-//        });
-//      } else {
-//        setState(() => this.barcode = 'Unknown error: $e');
-//      }
-//    } on FormatException {
-//      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
-//    } catch (e) {
-//      setState(() => this.barcode = 'Unknown error: $e');
-//    } finally {
-//      print('到这里了 => $barcode');
-//    }
-  }
-
-  Future _handleScan() async {
-//    print('到这里了到这里了');
-//    String barcode = await BarcodeScanner.scan();
-//    try {
-//      String barcode = await BarcodeScanner.scan();
-      print('xxxxxxxxx => $barcode');
-//    } catch (e) {
-//      print(e);
-//    }
   }
 
 }

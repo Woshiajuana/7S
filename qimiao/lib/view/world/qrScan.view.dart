@@ -76,6 +76,7 @@ class _WorldQrScanViewState extends State<WorldQrScanView> {
 //         if (!scanData.startsWith('7S_USER_ID:')) throw '';
        });
      } catch (err) {
+       print('1111111111111111');
        Application.util.modal.toast(err);
      }
   }

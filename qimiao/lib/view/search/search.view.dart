@@ -192,13 +192,14 @@ class _SearchViewState extends State<SearchView> {
     Widget _widgetKeywordItem (String text) {
       return new InkWell(
         onTap: () {
-          this._handleSearchPreview();
-          setState(() {
-            _strKeyword = text;
-            _keywordController.text = _strKeyword;
-            _focusNode.unfocus();
-            _strShowView = 'result';
-          });
+          Application.router.replace(context, 'wordQrScanResult', params: { 'result': text }, animation: true);
+//          this._handleSearchPreview();
+//          setState(() {
+//            _strKeyword = text;
+//            _keywordController.text = _strKeyword;
+//            _focusNode.unfocus();
+//            _strShowView = 'result';
+//          });
         },
         child: new Container(
           decoration: new BoxDecoration(
