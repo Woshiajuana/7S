@@ -6,6 +6,7 @@ import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
 
+
 class FreezeFrameView extends StatefulWidget {
   @override
   _FreezeFrameViewState createState() => _FreezeFrameViewState();
@@ -15,19 +16,13 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
 
   DateTime _dateTime;
   List<PhotoJsonModel> _arrPhotoData;
-
-
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
 //    this._reqPhotoList();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -52,13 +47,13 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
       body: new ListView(
         children: <Widget>[
           // 日历
-//          _widgetCalendarSection(),
+          _widgetCalendarSection(),
           // 标题
-//          _widgetTitleSection(),
+          _widgetTitleSection(),
           // 视频
-//          _widgetVideoSection(),
+          _widgetVideoSection(),
           // 照片
-//          _widgetPhotoSection(),
+          _widgetPhotoSection(),
         ],
       ),
     );
