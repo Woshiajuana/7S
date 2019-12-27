@@ -209,13 +209,13 @@ class _SplashViewState extends State<SplashView> {
     String firstTimeKey = Application.config.store.firstTime;
     var firstTime = await Application.util.store.get(firstTimeKey);
     setState(() {
-      _status = firstTime == null ? 1 : 0;
       if (firstTime == null) {
         _status = 1;
         Application.util.store.set(firstTimeKey, 'true');
       } else {
-        _status = 2;
-        _countDown();
+        _status = 0;
+        this._handleJudgeTo();
+//        _countDown();
       }
     });
   }
