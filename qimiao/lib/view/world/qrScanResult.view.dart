@@ -28,11 +28,14 @@ class _WorldQRScanResultViewState extends State<WorldQRScanResultView> {
           ),
         ),
       ),
-      body: new Text(
-        widget.result ?? '',
-        style: new TextStyle(
-          color: Color(0xff333333),
-          fontSize: 14.0,
+      body: new Container(
+        padding: const EdgeInsets.all(10.0),
+        child: new Text(
+          widget.result ?? '',
+          style: new TextStyle(
+            color: Color(0xff333333),
+            fontSize: 16.0,
+          ),
         ),
       ),
     );

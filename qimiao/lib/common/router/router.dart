@@ -286,7 +286,7 @@ class Router {
 
   replace (BuildContext context, String routeName, { params, animation: false }) {
     if (animation) {
-      return Navigator.pushReplacement(context, config[routeName]['handle'](params));
+      return Navigator.pushReplacement(context, new CupertinoPageRoute(builder: (context) => config[routeName]['handle'](params)));
     } else {
       return Navigator.pushReplacementNamed(context, routeName, arguments: { 'result': '123' });
     }
