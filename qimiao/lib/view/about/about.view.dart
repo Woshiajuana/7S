@@ -19,6 +19,16 @@ class _AboutViewState extends State<AboutView> {
           ),
         ),
       ),
+      body: new Container(
+        padding: const EdgeInsets.all(16.0),
+        child: new Text(
+          '一个 Flutter 搭起来的 APP...',
+          style: new TextStyle(
+            color: Color(0xff666666),
+            fontSize: 14.0,
+          ),
+        ),
+      ),
     );
   }
 }

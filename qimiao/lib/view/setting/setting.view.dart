@@ -41,11 +41,11 @@ class _SettingViewState extends State<SettingView> {
         'text': '修改密码',
         'routeName': 'passwordChange',
       },
-      {
-        'useMargin': false,
-        'text': '登录设备管理',
-        'routeName': 'device',
-      },
+//      {
+//        'useMargin': false,
+//        'text': '登录设备管理',
+//        'routeName': 'device',
+//      },
       {
         'useMargin': true,
         'text': '关于我们',
