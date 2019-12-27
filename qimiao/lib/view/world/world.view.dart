@@ -4,6 +4,7 @@ import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qimiao/view/world/content.view.dart';
+//import 'package:barcode_scan/barcode_scan.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -93,8 +94,9 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
             new Container(
               width: 40.0,
               height: 40.0,
+              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: new FlatButton(
-                onPressed: () => {},
+                onPressed: () => scan(),
                 padding: const EdgeInsets.all(8.0),
                 child: new Image.asset(
                   Application.util.getImgPath('scan-icon.png'),
@@ -160,6 +162,41 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
         ),
       ),
     );
+  }
+
+
+  String barcode;
+
+  Future scan() async {
+//    try {
+//      String barcode = await BarcodeScanner.scan();
+//      setState(() => this.barcode = barcode);
+//    } on Exception catch (e) {
+//      if (e == BarcodeScanner.CameraAccessDenied) {
+//        setState(() {
+//          this.barcode = 'The user did not grant the camera permission!';
+//        });
+//      } else {
+//        setState(() => this.barcode = 'Unknown error: $e');
+//      }
+//    } on FormatException {
+//      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+//    } catch (e) {
+//      setState(() => this.barcode = 'Unknown error: $e');
+//    } finally {
+//      print('到这里了 => $barcode');
+//    }
+  }
+
+  Future _handleScan() async {
+//    print('到这里了到这里了');
+//    String barcode = await BarcodeScanner.scan();
+//    try {
+//      String barcode = await BarcodeScanner.scan();
+      print('xxxxxxxxx => $barcode');
+//    } catch (e) {
+//      print(e);
+//    }
   }
 
 }
