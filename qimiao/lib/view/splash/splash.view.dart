@@ -224,7 +224,7 @@ class _SplashViewState extends State<SplashView> {
   void _handleJudgeTo () async {
     var userInfoJson = await Application.util.store.get(Application.config.store.userJson);
     if (userInfoJson == null) {
-      return Application.router.replace(context, 'login');
+      return Application.router.root(context, 'login');
     }
     UserJsonModel userJsonModel = UserJsonModel.fromJson(userInfoJson);
     StateModel.of(context).setUserJsonModel(userJsonModel);

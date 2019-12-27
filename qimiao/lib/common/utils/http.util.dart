@@ -92,12 +92,12 @@ class Http {
     ResponseJsonModel responseJsonModel = ResponseJsonModel.fromJson(response?.data);
     if (['F40000', 'F40001', 'F40002', 'F40003'].indexOf(responseJsonModel.code) > -1) {
       await Application.util.store.remove(Application.config.store.userJson);
-      Application.router.replace(Application.context, 'login');
+      Application.router.root(Application.context, 'login');
       throw responseJsonModel.msg;
     }
     if (['F40004'].indexOf(responseJsonModel.code) > -1) {
       await Application.util.store.remove(Application.config.store.userJson);
-      Application.router.replace(Application.context, 'login');
+      Application.router.root(Application.context, 'login');
       await showDialog(
         context: Application.context,
         builder: (BuildContext buildContext) {

@@ -280,7 +280,7 @@ class Router {
     return _routes;
   }
 
-  push (BuildContext context, routeName, {params}) {
+  push (BuildContext context, routeName, { params }) {
     return navigatorRouter(context, config[routeName]['handle'](params));
   }
 
@@ -288,8 +288,20 @@ class Router {
     return Navigator.pushReplacementNamed(context, routeName, arguments: params);
   }
 
-  pop (BuildContext context, {params}) {
+  pop (BuildContext context, { params }) {
     return Navigator.of(context).pop(params);
+  }
+
+  root (BuildContext context, routeName, { params }) {
+    return Navigator.of(context).pushAndRemoveUntil(
+      //跳转
+      new MaterialPageRoute(builder: (context) => config[routeName]['handle'](params)),
+      //清除其他路由
+      (route) {
+        print('路由路由路由 $route');
+        return route == null;
+      },
+    );
   }
 
   // 修改路由动画

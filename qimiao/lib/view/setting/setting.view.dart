@@ -153,7 +153,7 @@ class _SettingViewState extends State<SettingView> {
     } catch (err) {
 
     } finally {
-      Application.router.replace(context, 'login');
+      Application.router.root(context, 'login');
     }
   }
 
