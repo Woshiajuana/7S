@@ -67,16 +67,26 @@ class _WorldQrScanViewState extends State<WorldQrScanView> {
   }
 
   // 扫码
-  void _handleQRViewCreated (QRViewController controller) {
+  void _handleQRViewCreated (QRViewController controller) async {
      try {
        _qrViewController = controller;
-       _qrViewController.scannedDataStream.listen((scanData) {
+       _qrViewController.scannedDataStream.listen((scanData) async {
          _qrViewController.pauseCamera();
-         Application.router.replace(context, 'wordQrScanResult', params: { 'result': scanData });
-//         if (!scanData.startsWith('7S_USER_ID:')) throw '';
+         if (!scanData.startsWith('7S_USER_ID:')) {
+           Application.router.replace(context, 'wordQrScanResult', params: { 'result': scanData }, animation: true);
+         } else {
+           String id = scanData.substring(11);
+           String strUrl = Application.config.api.reqUserInfo;
+           try {
+             var data = await Application.util.http.post(strUrl, params: { 'id': id });
+             if (data == null) throw '';
+             Application.router.push(context, 'friendInfo', params: { 'id': id });
+           } catch (e) {
+             Application.router.replace(context, 'wordQrScanResult', params: { 'result': scanData }, animation: true);
+           }
+         }
        });
      } catch (err) {
-       print('1111111111111111');
        Application.util.modal.toast(err);
      }
   }

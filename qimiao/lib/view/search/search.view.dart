@@ -170,7 +170,10 @@ class _SearchViewState extends State<SearchView> {
             width: 50.0,
             child: new FlatButton(
               padding: const EdgeInsets.all(0),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                _focusNode.unfocus();
+                Navigator.of(context).pop();
+              },
               child: new Text(
                 '取消',
                 style: new TextStyle(
@@ -192,14 +195,14 @@ class _SearchViewState extends State<SearchView> {
     Widget _widgetKeywordItem (String text) {
       return new InkWell(
         onTap: () {
-          Application.router.replace(context, 'wordQrScanResult', params: { 'result': text }, animation: true);
-//          this._handleSearchPreview();
-//          setState(() {
-//            _strKeyword = text;
-//            _keywordController.text = _strKeyword;
-//            _focusNode.unfocus();
-//            _strShowView = 'result';
-//          });
+          this._handleSearchPreview();
+          setState(() {
+            _strKeyword = text;
+            _keywordController.text = _strKeyword;
+            _focusNode.unfocus();
+            _strShowView = 'result';
+          });
+          this._setKeywordsHistory();
         },
         child: new Container(
           decoration: new BoxDecoration(
