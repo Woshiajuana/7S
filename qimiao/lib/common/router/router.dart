@@ -281,12 +281,11 @@ class Router {
   }
 
   push (BuildContext context, routeName, {params}) {
-    print(config[routeName]);
     return navigatorRouter(context, config[routeName]['handle'](params));
   }
 
-  replace (BuildContext context, String routeName) {
-    return Navigator.pushReplacementNamed(context, routeName);
+  replace (BuildContext context, String routeName, { params }) {
+    return Navigator.pushReplacementNamed(context, routeName, arguments: params);
   }
 
   pop (BuildContext context, {params}) {

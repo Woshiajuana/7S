@@ -71,7 +71,8 @@ class _WorldQrScanViewState extends State<WorldQrScanView> {
      try {
        _qrViewController = controller;
        _qrViewController.scannedDataStream.listen((scanData) {
-         Application.router.push(context, 'wordQrScanResult', params: { 'result': scanData });
+         _qrViewController.pauseCamera();
+         Application.router.replace(context, 'wordQrScanResult', params: { 'result': scanData });
 //         if (!scanData.startsWith('7S_USER_ID:')) throw '';
        });
      } catch (err) {
