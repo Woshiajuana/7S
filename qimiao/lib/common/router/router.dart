@@ -32,6 +32,8 @@ import 'package:qimiao/view/password/reset.view.dart';
 import 'package:qimiao/view/mine/signature.view.dart';
 import 'package:qimiao/view/friend/info.view.dart';
 import 'package:qimiao/view/search/search.view.dart';
+import 'package:qimiao/view/world/qrScan.view.dart';
+import 'package:qimiao/view/world/qrScanResult.view.dart';
 
 class Router {
 
@@ -44,6 +46,20 @@ class Router {
   Router._internal();
 
   static Map<String, Map<String, dynamic>> config = {
+    'wordQrScan':  {
+      'route': (_) => new WorldQrScanView(),
+      'handle': (params) {
+        return new WorldQrScanView();
+      }
+    },
+    'wordQrScanResult':  {
+      'route': (_) => new WorldQRScanResultView(),
+      'handle': (params) {
+        return new WorldQRScanResultView(
+          result: params['result'],
+        );
+      }
+    },
     '/': {
       'route': (_) => new SplashView(),
       'handle': (params) {

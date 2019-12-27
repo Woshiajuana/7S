@@ -5,6 +5,7 @@ import 'package:qimiao/widget/widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qimiao/view/world/content.view.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
+//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class WorldView extends StatefulWidget {
   @override
@@ -94,7 +95,7 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
             new Container(
               width: 40.0,
               height: 40.0,
-              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0),
               child: new FlatButton(
                 onPressed: () => scan(),
                 padding: const EdgeInsets.all(8.0),
@@ -168,6 +169,8 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
   String barcode;
 
   Future scan() async {
+    Application.router.push(context, 'wordQrScan');
+//    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', '取消', true, null);
 //    try {
 //      String barcode = await BarcodeScanner.scan();
 //      setState(() => this.barcode = barcode);
