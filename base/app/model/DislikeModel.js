@@ -15,9 +15,9 @@ module.exports = app => {
         },
 
         // 不喜欢
-        video: {
+        photo: {
             type: Schema.Types.ObjectId,
-            ref: 'video',
+            ref: 'photo',
             trim: true,
             required: true,
         },
