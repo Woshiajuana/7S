@@ -15,9 +15,9 @@ module.exports = app => {
         },
 
         // 收藏
-        video: {
+        photo: {
             type: Schema.Types.ObjectId,
-            ref: 'video',
+            ref: 'photo',
             trim: true,
             required: true,
         },
