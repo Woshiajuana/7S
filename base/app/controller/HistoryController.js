@@ -19,7 +19,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 创建观看历史
      * @apiGroup 观看历史
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [video] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/history/create
      */
@@ -45,7 +45,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 更新观看历史
      * @apiGroup 观看历史
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [video] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/history/info
      */
@@ -71,7 +71,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 删除观看历史
      * @apiGroup 观看历史
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [video] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/history/del
      */
@@ -99,7 +99,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [video] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/history/list
      */

@@ -19,7 +19,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 创建收藏
      * @apiGroup 收藏
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/collect/create
      */
@@ -28,7 +28,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建收藏：请求参数=> ${JSON.stringify(objParams)} `);
             await service.collectService.create(objParams);
@@ -45,7 +45,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 更新收藏
      * @apiGroup 收藏
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/collect/info
      */
@@ -54,7 +54,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                photo: [ 'nonempty' ],
             });
             ctx.logger.info(`查询收藏信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.collectService.findOne(objParams);
@@ -71,7 +71,7 @@ module.exports = class HandleController extends Controller {
      * @apiDescription 删除收藏
      * @apiGroup 收藏
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/collect/del
      */
@@ -80,7 +80,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                video: [ 'nonempty' ],
+                photo: [ 'nonempty' ],
             });
             ctx.logger.info(`删除收藏信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.collectService.del(objParams);
@@ -99,7 +99,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [video] 视频
+     * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/collect/list
      */
@@ -110,7 +110,7 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
                 user: [ ],
-                video: [ ],
+                photo: [ ],
             });
             const data = await service.collectService.list(objParams);
             ctx.respSuccess(data);
