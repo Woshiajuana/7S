@@ -29,7 +29,10 @@ module.exports = class HandleController extends Controller {
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
             });
-            const data = await service.historyService.list(objParams);
+            const { id } = ctx.state.token;
+            const data = await service.transformService.curl('api/v1/history/list', {
+                data: { ...objParams, user: id },
+            });
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
