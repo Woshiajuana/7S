@@ -9,11 +9,14 @@ typedef DayBuilder(BuildContext context, DateTime day, bool isSelected);
 
 class WowCalendar extends StatefulWidget {
 
-  final DateTime initSelectedDate;
+  final DateTime selectedDate;
   final Function dayBuilder;
+  final Function onSelected;
+
   WowCalendar({
-    this.initSelectedDate,
+    this.selectedDate,
     this.dayBuilder,
+    this.onSelected,
   });
 
   @override
@@ -37,7 +40,7 @@ class _WowCalendarState extends State<WowCalendar> {
 
   void init () {
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
-    _selectedDate = widget?.initSelectedDate ?? new DateTime.now();
+    _selectedDate = widget?.selectedDate ?? new DateTime.now();
     _arrMonthsDays = Utils.daysInMonth(_selectedDate);
     _strSelectedMonth = new DateFormat('yyyy/MM').format(_selectedDate);
   }
@@ -62,38 +65,22 @@ class _WowCalendarState extends State<WowCalendar> {
     List<Widget> arrDayWidgets = [];
     List<DateTime> calendarDays = _arrMonthsDays;
 
-    // 周几
-    Widget _widgetDayItem ({
-      bool isDayOfWeek = false,
-      String strWeek,
-      DateTime day,
-    }) {
-      String text = isDayOfWeek
-          ? strWeek
-          : new DateFormat('dd').format(day);
-      ;
-      bool isSelected = isDayOfWeek ? false : Utils.isSameDay(_selectedDate, day) ;
-      return new Container(
-        alignment: Alignment.center,
-        child: isDayOfWeek || widget.dayBuilder == null ? new Text(
-          text,
-          style: new TextStyle(
-            color: isSelected ? Theme.of(context).accentColor : Color(0xff333333),
-          ),
-        ) : widget.dayBuilder(context, day, isSelected),
-      );
-    }
-
-    arrDayWidgets.addAll(_arrWeeksTitleDays.map((week) => _widgetDayItem(
+    arrDayWidgets.addAll(_arrWeeksTitleDays.map((week) => new WowCalendarItem(
       isDayOfWeek: true,
-      strWeek: week,
+      dayOfWeek: week,
     )).toList());
 
-    arrDayWidgets.addAll(calendarDays.map((DateTime day) => _widgetDayItem(
-      day: day,
-    )).toList());
+    arrDayWidgets.addAll(calendarDays.map((DateTime day) {
+      bool isSelected = Utils.isSameDay(_selectedDate, day) ;
+      return new WowCalendarItem(
+        onDateSelected: () => _handleSelected(day),
+        child: this.widget.dayBuilder == null ? null : this.widget.dayBuilder(context, day, isSelected),
+        date: day,
+      );
+    }).toList());
 
     return new Container(
+      color: Colors.white,
       margin: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: new GridView.count(
         shrinkWrap: true,
@@ -106,6 +93,98 @@ class _WowCalendarState extends State<WowCalendar> {
 
   }
 
+  void _handleSelected (DateTime day) {
+    print('day => ${day}');
+    setState(() {
+      _selectedDate = day;
+
+    });
+
+  }
 
 }
 
+class WowCalendarItem extends StatelessWidget {
+
+  final VoidCallback onDateSelected;
+  final DateTime date;
+  final String dayOfWeek;
+  final bool isDayOfWeek;
+  final bool isSelected;
+  final TextStyle dayOfWeekStyles;
+  final TextStyle dateStyles;
+  final Widget child;
+
+  WowCalendarItem({
+    this.onDateSelected,
+    this.date,
+    this.child,
+    this.dateStyles,
+    this.dayOfWeek,
+    this.dayOfWeekStyles,
+    this.isDayOfWeek: false,
+    this.isSelected: false,
+  });
+
+  Widget renderDateOrDayOfWeek(BuildContext context) {
+    if (isDayOfWeek) {
+      return new InkWell(
+        child: new Container(
+          alignment: Alignment.center,
+          child: new Text(
+            dayOfWeek,
+            style: dayOfWeekStyles,
+          ),
+        ),
+      );
+    } else {
+      return new InkWell(
+        onTap: onDateSelected,
+        child: new Container(
+          decoration: isSelected
+              ? new BoxDecoration(
+            shape: BoxShape.circle,
+            color: Theme.of(context).primaryColor,
+          )
+              : new BoxDecoration(),
+          alignment: Alignment.center,
+          child: new Text(
+            Utils.formatDay(date).toString(),
+            style: isSelected ? new TextStyle(color: Colors.white) : dateStyles,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (child != null) {
+      return new InkWell(
+        child: child,
+        onTap: onDateSelected,
+      );
+    }
+    return new Container(
+      decoration: new BoxDecoration(
+        color: Colors.white,
+      ),
+      child: renderDateOrDayOfWeek(context),
+    );
+  }
+
+}
+
+
+class WowCalendarController {
+
+  WowCalendarController({
+    this.selectedDate,
+  });
+
+  final DateTime selectedDate;
+
+
+
+}
