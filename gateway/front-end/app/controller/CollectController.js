@@ -30,7 +30,6 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建收藏：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.collectService.create(objParams);
             ctx.logger.info(`创建收藏：返回结果=> 成功`);
             ctx.respSuccess();
         } catch (err) {
@@ -56,7 +55,32 @@ module.exports = class HandleController extends Controller {
                 numSize: [ 'nonempty' ],
             });
             const { id } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/history/list', {
+            const data = await service.transformService.curl('api/v1/collect/list', {
+                data: { ...objParams, user: id },
+            });
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/app/collect/del 删除收藏
+     * @apiDescription 删除收藏
+     * @apiGroup 收藏
+     * @apiParam  {String} [id] id
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/app/collect/del
+     */
+    async del () {
+        const { ctx, service, app } = this;
+        try {
+            const objParams = await ctx.validateBody({
+                id: [ 'nonempty' ],
+            });
+            const { id } = ctx.state.token;
+            const data = await service.transformService.curl('api/v1/collect/del', {
                 data: { ...objParams, user: id },
             });
             ctx.respSuccess(data);
