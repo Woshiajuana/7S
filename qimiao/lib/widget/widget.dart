@@ -13,3 +13,4 @@ export 'wowAppBar.widget.dart';
 export 'wowLoadView.widget.dart';
 export 'wowScrollListView.widget.dart';
 export 'package:cached_network_image/cached_network_image.dart';
+export 'wow_flutter/wow_flutter.dart';

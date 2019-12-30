@@ -14,22 +14,36 @@ class FreezeFrameView extends StatefulWidget {
   _FreezeFrameViewState createState() => _FreezeFrameViewState();
 }
 
-class _FreezeFrameViewState extends State<FreezeFrameView> {
+class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderStateMixin {
 
   DateTime _dateTime;
   List<PhotoJsonModel> _arrPhotoData;
+
+  AnimationController _loginButtonController;
+  var animationStatus = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
+    _loginButtonController = new AnimationController(
+        duration: new Duration(milliseconds: 3000), vsync: this);
 //    this._reqPhotoList();
   }
 
   @override
   void dispose() {
+    _loginButtonController.dispose();
     super.dispose();
+  }
+
+  Future<Null> _playAnimation() async {
+    try {
+      print('11111');
+      await _loginButtonController.forward();
+      await _loginButtonController.reverse();
+    } on TickerCanceled {}
   }
 
   @override
@@ -78,6 +92,25 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
                 ),
               );
             },
+          ),
+          new Container(
+            alignment: Alignment.center,
+            child: animationStatus == 0
+                ? new Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
+              child: new InkWell(
+                  onTap: () {
+                    setState(() {
+                      animationStatus = 1;
+                    });
+                    _playAnimation();
+                  },
+                  child: new WowButton()
+              ),
+            )
+                : new StaggerAnimation(
+                buttonController:
+                _loginButtonController.view),
           ),
           // 日历
 //          _widgetCalendarSection(),
