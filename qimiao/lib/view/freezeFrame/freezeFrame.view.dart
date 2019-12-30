@@ -40,9 +40,9 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
   Future<Null> _playAnimation() async {
     try {
-      print('11111');
+      print('动画开始执行 外');
       await _loginButtonController.forward();
-      await _loginButtonController.reverse();
+//      await _loginButtonController.reverse();
     } on TickerCanceled {}
   }
 
@@ -68,31 +68,31 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       body: new ListView(
         children: <Widget>[
           // 日历
-          new WowCalendar(
-            onSelected: (DateTime day, List<DateTime> arrDay) {
-              setState(() {
-                _dateTime = day;
-              });
-            },
-            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-              bool isAfter = day.isAfter(new DateTime.now());
-              return new Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.all(5.0),
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
-                ),
-                child: new Text(
-                  Utils.formatDay(day).toString(),
-                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
-                    color: Color(0xffbbbbbb),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
-          ),
+//          new WowCalendar(
+//            onSelected: (DateTime day, List<DateTime> arrDay) {
+//              setState(() {
+//                _dateTime = day;
+//              });
+//            },
+//            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+//              bool isAfter = day.isAfter(new DateTime.now());
+//              return new Container(
+//                alignment: Alignment.center,
+//                margin: const EdgeInsets.all(5.0),
+//                decoration: new BoxDecoration(
+//                  shape: BoxShape.circle,
+//                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
+//                ),
+//                child: new Text(
+//                  Utils.formatDay(day).toString(),
+//                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+//                    color: Color(0xffbbbbbb),
+//                  ),
+//                  textAlign: TextAlign.center,
+//                ),
+//              );
+//            },
+//          ),
           new Container(
             alignment: Alignment.center,
             child: animationStatus == 0
@@ -111,269 +111,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
                 : new StaggerAnimation(
                 buttonController:
                 _loginButtonController.view),
-          ),
-          // 日历
-//          _widgetCalendarSection(),
-          // 标题
-//          _widgetTitleSection(),
-          // 视频
-//          _widgetVideoSection(),
-          // 照片
-//          _widgetPhotoSection(),
-        ],
-      ),
-    );
-  }
-
-
-  // 标题
-  Widget _widgetTitleSection () {
-    return new Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.all(16.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Text(
-            Utils.apiDayFormat(_dateTime),
-            style: new TextStyle(
-              fontSize: 18.0,
-              color: Color(0xff333333),
-            ),
-          ),
-          new SizedBox(height: 5.0),
-          new Text(
-            '您今日已拍摄一段视频，一张照片了哦...',
-            style: new TextStyle(
-              fontSize: 12.0,
-              color: Color(0xff999999),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 视频
-  Widget _widgetVideoSection () {
-    return new Container(
-      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-      height: 160.0,
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-        boxShadow: [
-          new BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.1),
-            offset: Offset(0.0, 1.0), //阴影xy轴偏移量
-          ),
-        ],
-      ),
-      child: new Stack(
-        children: <Widget>[
-          new Container(
-            child: new ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: new Image.asset(
-                Application.util.getImgPath('guide1.png'),
-                fit: BoxFit.fill,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-          ),
-          new Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, .2),
-              borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-            ),
-            child: new FlatButton(
-              onPressed: () => this._handleAddConfirm(),
-              child: new Icon(Icons.add, size: 40.0, color: Colors.white)
-            ),
-          ),
-          new Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: new Container(
-              height: 60.0,
-              decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-                gradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00000000),
-                    Color(0x90000000),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          new Container(
-            padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 6.0),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Container(
-                      height: 20.0,
-                      width: 20.0,
-                      child: new FlatButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => _handleOperate(),
-                        child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xffdddddd))
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-
-  // 照片
-  Widget _widgetPhotoSection () {
-    return new Container(
-      margin: const EdgeInsets.all(16.0),
-      height: 160.0,
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-        boxShadow: [
-          new BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.1),
-            offset: Offset(0.0, 1.0), //阴影xy轴偏移量
-          ),
-        ],
-      ),
-      child: new Stack(
-        children: <Widget>[
-          new Container(
-            child: new ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: new Image.asset(
-                Application.util.getImgPath('guide1.png'),
-                fit: BoxFit.fill,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-          ),
-          new Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, .2),
-              borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-            ),
-            child: new FlatButton(
-                onPressed: () => {},
-                child: new Icon(Icons.add, size: 40.0, color: Colors.white)
-            ),
-          ),
-          new Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: new Container(
-              height: 60.0,
-              decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(new Radius.circular(6.0)),
-                gradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00000000),
-                    Color(0x90000000),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          new Container(
-            padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 6.0),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.live_tv, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      children: <Widget>[
-                        new Icon(Icons.thumb_up, size: 14.0, color: Color(0xffdddddd)),
-                        new SizedBox(width: 2.0),
-                        new Text(
-                          '100',
-                          style: new TextStyle(
-                            color: Color(0xffdddddd),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    new Container(
-                      height: 20.0,
-                      width: 20.0,
-                      child: new FlatButton(
-                          padding: const EdgeInsets.all(0),
-                          onPressed: () => _handleOperate(),
-                          child: new Icon(Icons.more_vert, size: 18.0, color: Color(0xffdddddd))
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
           ),
         ],
       ),
@@ -475,7 +212,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
         ListJsonModel listJsonModel = ListJsonModel.fromJson(data);
         listJsonModel.list.forEach((item) => _arrPhotoData.add(PhotoJsonModel.fromJson(item)));
       } catch (err) {
-        Application.util.modal.toast(err);
+//        Application.util.modal.toast(err);
       }
     });
   }

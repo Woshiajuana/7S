@@ -53,6 +53,7 @@ class StaggerAnimation extends StatelessWidget {
 
   Future<Null> _playAnimation() async {
     try {
+      print('动画开始执行 内');
       await buttonController.forward();
       await buttonController.reverse();
     } on TickerCanceled {}
@@ -119,7 +120,8 @@ class StaggerAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     buttonController.addListener(() {
       if (buttonController.isCompleted) {
-        Navigator.pushNamed(context, "/home");
+        print('动画执行完成');
+//        Navigator.pushNamed(context, "/home");
       }
     });
     return new AnimatedBuilder(
