@@ -30,6 +30,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
   SwiperController _swiperController;
 
+  List<Widget> _arrWidget = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +47,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
     );
 
     _pageController = new PageController(
-      initialPage: 0
+      initialPage: 1
     );
 
     _swiperController = new SwiperController(
@@ -56,6 +58,13 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       print('监听了= ${ _pageController.initialPage }');
 
     });
+
+    _arrWidget.addAll(['1','2','3'].map((v) => new CalendarView(
+      onInit: () {
+        print('初始化');
+      },
+      page: v,
+    )).toList());
   }
 
   @override
@@ -68,7 +77,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
