@@ -70,17 +70,33 @@ class _WowCalendarState extends State<WowCalendar> {
       dayOfWeek: week,
     )).toList());
 
+    TextStyle configureDateStyle(monthStarted, monthEnded) {
+      TextStyle dateStyles;
+      dateStyles = monthStarted && !monthEnded
+          ? new TextStyle(color: Colors.black)
+          : new TextStyle(color: Colors.black38);
+      return dateStyles;
+    }
+    bool monthStarted = false;
+    bool monthEnded = false;
     arrDayWidgets.addAll(calendarDays.map((DateTime day) {
       bool isSelected = Utils.isSameDay(_selectedDate, day) ;
+      if (monthStarted && day.day == 01) {
+        monthEnded = true;
+      }
+      if (Utils.isFirstDayOfMonth(day)) {
+        monthStarted = true;
+      }
       return new WowCalendarItem(
         onDateSelected: () => _handleSelected(day),
         child: this.widget.dayBuilder == null ? null : this.widget.dayBuilder(context, day, isSelected),
         date: day,
+        isSelected: isSelected,
+        dateStyles: configureDateStyle(monthStarted, monthEnded),
       );
     }).toList());
 
     return new Container(
-      color: Colors.white,
       margin: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: new GridView.count(
         shrinkWrap: true,
@@ -94,12 +110,14 @@ class _WowCalendarState extends State<WowCalendar> {
   }
 
   void _handleSelected (DateTime day) {
-    print('day => ${day}');
     setState(() {
       _selectedDate = day;
-
+      _arrMonthsDays = Utils.daysInMonth(day);
+//      _strSelectedMonth = new DateFormat('yyyy/MM').format(_selectedDate);
     });
-
+    if (widget.onSelected != null) {
+      widget.onSelected(day);
+    }
   }
 
 }
@@ -167,9 +185,6 @@ class WowCalendarItem extends StatelessWidget {
       );
     }
     return new Container(
-      decoration: new BoxDecoration(
-        color: Colors.white,
-      ),
       child: renderDateOrDayOfWeek(context),
     );
   }
