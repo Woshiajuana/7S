@@ -56,20 +56,6 @@ class _WowCalendarState extends State<WowCalendar> {
     );
   }
 
-  // 标题
-  Widget _widgetTitleSection () {
-    return new Container(
-      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: new Text(
-        _strSelectedMonth,
-        style: new TextStyle(
-          color: Theme.of(context).accentColor,
-          fontSize: 18.0,
-        ),
-      ),
-    );
-  }
-
   // day
   Widget _widgetDaysSection () {
 
