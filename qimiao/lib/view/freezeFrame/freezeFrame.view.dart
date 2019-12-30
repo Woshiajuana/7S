@@ -52,6 +52,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
       body: new ListView(
         children: <Widget>[
           // 日历
+          new WowCalendar(),
+          // 日历
 //          _widgetCalendarSection(),
           // 标题
 //          _widgetTitleSection(),
@@ -319,50 +321,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
     );
   }
 
-  // 日历
-  Widget _widgetCalendarSection () {
-    int _millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
-    return new Container(
-      decoration: new BoxDecoration(
-        border: new Border(
-          bottom: new BorderSide(
-            color: Color(0xffdddddd),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: new WowCalendar(
-//        isExpandable: true,
-        onSelectedRangeChange: (x) {
-          print('onSelectedRangeChange=>$x');
-        },
-        onDateSelected: (d) => setState(() => _dateTime = d),
-        dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-          return new Container(
-            child: new Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                new Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: new BoxDecoration(
-                    color: isSelected ? Application.config.style.mainColor :  _millisecondsSinceEpoch < day.millisecondsSinceEpoch ? Colors.transparent : Color(0xffdddddd) ,
-                    borderRadius: new BorderRadius.all(new Radius.circular(40.0)),
-                  ),
-                ),
-                new Text(
-                  day?.day?.toString()??'',
-                  style: new TextStyle(
-                    color: isSelected ? Colors.white :  _millisecondsSinceEpoch < day.millisecondsSinceEpoch ? Color(0xff999999) : Colors.white
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   void _handleHelp () {
     showDialog(
