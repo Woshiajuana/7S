@@ -172,4 +172,8 @@ class WowCalendarController {
 
   final DateTime selectedDate;
 
+  void resetDay () {
+
+  }
+
 }
