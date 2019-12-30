@@ -15,7 +15,7 @@ class WowCalendar extends StatefulWidget {
 
   WowCalendar({
     this.selectedDate,
-    this.dayBuilder,
+    @required this.dayBuilder,
     this.onSelected,
   });
 
@@ -29,33 +29,24 @@ class _WowCalendarState extends State<WowCalendar> {
   DateTime _selectedDate;
   List<DateTime> _arrMonthsDays;
   List<String> _arrWeeksTitleDays;
-  String _strSelectedMonth;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    this.init();
-  }
-
-  void init () {
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
     _selectedDate = widget?.selectedDate ?? new DateTime.now();
     _arrMonthsDays = Utils.daysInMonth(_selectedDate);
-    _strSelectedMonth = new DateFormat('yyyy/MM').format(_selectedDate);
+    if (widget.onSelected != null) {
+      widget.onSelected(context, _selectedDate, true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    this.init();
     // TODO: implement build
     return new Container(
-      child: new Column(
-        children: <Widget>[
-//          _widgetTitleSection(),
-          _widgetDaysSection(),
-        ],
-      ),
+      child: _widgetDaysSection(),
     );
   }
 
@@ -70,29 +61,13 @@ class _WowCalendarState extends State<WowCalendar> {
       dayOfWeek: week,
     )).toList());
 
-    TextStyle configureDateStyle(monthStarted, monthEnded) {
-      TextStyle dateStyles;
-      dateStyles = monthStarted && !monthEnded
-          ? new TextStyle(color: Colors.black)
-          : new TextStyle(color: Colors.black38);
-      return dateStyles;
-    }
-    bool monthStarted = false;
-    bool monthEnded = false;
     arrDayWidgets.addAll(calendarDays.map((DateTime day) {
       bool isSelected = Utils.isSameDay(_selectedDate, day) ;
-      if (monthStarted && day.day == 01) {
-        monthEnded = true;
-      }
-      if (Utils.isFirstDayOfMonth(day)) {
-        monthStarted = true;
-      }
       return new WowCalendarItem(
         onDateSelected: () => _handleSelected(day),
-        child: this.widget.dayBuilder == null ? null : this.widget.dayBuilder(context, day, isSelected),
+        child: this.widget.dayBuilder(context, day, isSelected),
         date: day,
         isSelected: isSelected,
-        dateStyles: configureDateStyle(monthStarted, monthEnded),
       );
     }).toList());
 
@@ -110,10 +85,11 @@ class _WowCalendarState extends State<WowCalendar> {
   }
 
   void _handleSelected (DateTime day) {
+    if (day.isAfter(new DateTime.now()))
+      return null;
     setState(() {
       _selectedDate = day;
       _arrMonthsDays = Utils.daysInMonth(day);
-//      _strSelectedMonth = new DateFormat('yyyy/MM').format(_selectedDate);
     });
     if (widget.onSelected != null) {
       widget.onSelected(day);
@@ -199,7 +175,5 @@ class WowCalendarController {
   });
 
   final DateTime selectedDate;
-
-
 
 }

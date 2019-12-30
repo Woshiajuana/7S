@@ -28,15 +28,10 @@ class Utils {
   /// The list of days in a given month
   static List<DateTime> daysInMonth(DateTime month) {
     var first = firstDayOfMonth(month);
-    print('first => $first');
     var daysBefore = first.weekday;
-    print('daysBefore => $daysBefore');
     var firstToDisplay = first.subtract(new Duration(days: daysBefore));
-    print('firstToDisplay => $firstToDisplay');
     var last = Utils.lastDayOfMonth(month);
-    print('last => $last');
     var daysAfter = 7 - last.weekday;
-    print('daysAfter => $daysAfter');
     // If the last day is sunday (7) the entire week must be rendered
     if (daysAfter == 0) {
       daysAfter = 7;

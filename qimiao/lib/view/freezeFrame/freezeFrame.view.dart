@@ -52,7 +52,26 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
       body: new ListView(
         children: <Widget>[
           // 日历
-          new WowCalendar(),
+          new WowCalendar(
+            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+              bool isAfter = day.isAfter(new DateTime.now());
+              return new Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(5.0),
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
+                ),
+                child: new Text(
+                  Utils.formatDay(day).toString(),
+                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+                    color: Color(0xffbbbbbb),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
+          ),
           // 日历
 //          _widgetCalendarSection(),
           // 标题
