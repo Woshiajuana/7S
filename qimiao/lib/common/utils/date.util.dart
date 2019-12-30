@@ -29,16 +29,11 @@ class DateUtil {
   static List<DateTime> daysInMonth(DateTime month) {
     var first = firstDayOfMonth(month);
     var daysBefore = first.weekday % 7;
-    print('daysBefore => $daysBefore');
     var firstToDisplay = first.subtract(new Duration(days: daysBefore));
-
     var last = lastDayOfMonth(month);
     var time = int.parse(DateFormat('dd').format(last));
-    print('time => $time');
     var daysAfter = 43 - time - daysBefore;
     var lastToDisplay = last.add(new Duration(days: daysAfter));
-    print('firstToDisplay => $firstToDisplay');
-    print('lastToDisplay => $lastToDisplay');
     return daysInRange(firstToDisplay, lastToDisplay).toList();
   }
 
