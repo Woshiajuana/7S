@@ -10,9 +10,10 @@ typedef DayBuilder(BuildContext context, DateTime day, bool isSelected);
 class WowCalendar extends StatefulWidget {
 
   final DateTime initSelectedDate;
-
+  final Function dayBuilder;
   WowCalendar({
-      this.initSelectedDate,
+    this.initSelectedDate,
+    this.dayBuilder,
   });
 
   @override
@@ -92,11 +93,13 @@ class _WowCalendarState extends State<WowCalendar> {
     Widget _widgetDayItem ({
       String strWeek,
       DateTime dateTime,
+
     }) {
       String text = strWeek == null
           ? new DateFormat('dd').format(dateTime)
           : strWeek;
       return new Container(
+        alignment: Alignment.center,
         child: new Text(
           text,
         ),
@@ -114,7 +117,7 @@ class _WowCalendarState extends State<WowCalendar> {
     return new GridView.count(
       shrinkWrap: true,
       crossAxisCount: 7,
-        physics: const NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: new EdgeInsets.only(bottom: 0.0),
       children: arrDayWidgets,
     );
