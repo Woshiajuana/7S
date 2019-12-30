@@ -1,8 +1,8 @@
-library utils;
 
 import "package:intl/intl.dart";
 
-class Utils {
+class DateUtil {
+
   static final DateFormat _monthFormat = new DateFormat("MMMM yyyy");
   static final DateFormat _dayFormat = new DateFormat("dd");
   static final DateFormat _firstDayFormat = new DateFormat("MMM dd");
@@ -28,15 +28,17 @@ class Utils {
   /// The list of days in a given month
   static List<DateTime> daysInMonth(DateTime month) {
     var first = firstDayOfMonth(month);
-    var daysBefore = first.weekday;
+    var daysBefore = first.weekday % 7;
+    print('daysBefore => $daysBefore');
     var firstToDisplay = first.subtract(new Duration(days: daysBefore));
-    var last = Utils.lastDayOfMonth(month);
-    var daysAfter = 7 - last.weekday;
-    // If the last day is sunday (7) the entire week must be rendered
-    if (daysAfter == 0) {
-      daysAfter = 7;
-    }
+
+    var last = lastDayOfMonth(month);
+    var time = int.parse(DateFormat('dd').format(last));
+    print('time => $time');
+    var daysAfter = 43 - time - daysBefore;
     var lastToDisplay = last.add(new Duration(days: daysAfter));
+    print('firstToDisplay => $firstToDisplay');
+    print('lastToDisplay => $lastToDisplay');
     return daysInRange(firstToDisplay, lastToDisplay).toList();
   }
 

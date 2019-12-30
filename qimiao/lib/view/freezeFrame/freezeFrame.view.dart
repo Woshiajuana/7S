@@ -5,6 +5,7 @@ import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
+import "package:intl/intl.dart";
 
 class FreezeFrameView extends StatefulWidget {
   @override
@@ -15,7 +16,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
 
   DateTime _dateTime;
   List<PhotoJsonModel> _arrPhotoData;
-
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         title: new Text(
-          '定格',
+          DateFormat('yyyy/MM').format(_dateTime),
           style: new TextStyle(
             fontSize: 18.0,
           ),
@@ -53,6 +53,11 @@ class _FreezeFrameViewState extends State<FreezeFrameView> {
         children: <Widget>[
           // 日历
           new WowCalendar(
+            onSelected: (DateTime day, List<DateTime> arrDay) {
+              setState(() {
+                _dateTime = day;
+              });
+            },
             dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
               bool isAfter = day.isAfter(new DateTime.now());
               return new Container(

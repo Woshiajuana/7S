@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
-//import 'package:date_utils/date_utils.dart';
-import 'package:qimiao/common/utils/date_utils.dart';
+import 'package:qimiao/common/utils/date.util.dart';
 import "package:intl/intl.dart";
 
 typedef DayBuilder(BuildContext context, DateTime day, bool isSelected);
@@ -25,7 +24,6 @@ class WowCalendar extends StatefulWidget {
 
 class _WowCalendarState extends State<WowCalendar> {
 
-  final calendarUtils = new Utils();
   DateTime _selectedDate;
   List<DateTime> _arrMonthsDays;
   List<String> _arrWeeksTitleDays;
@@ -36,14 +34,12 @@ class _WowCalendarState extends State<WowCalendar> {
     super.initState();
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
     _selectedDate = widget?.selectedDate ?? new DateTime.now();
-    _arrMonthsDays = Utils.daysInMonth(_selectedDate);
-    if (widget.onSelected != null) {
-      widget.onSelected(context, _selectedDate, true);
-    }
+    _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
   }
 
   @override
   Widget build(BuildContext context) {
+    _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
     // TODO: implement build
     return new Container(
       child: _widgetDaysSection(),
@@ -62,7 +58,7 @@ class _WowCalendarState extends State<WowCalendar> {
     )).toList());
 
     arrDayWidgets.addAll(calendarDays.map((DateTime day) {
-      bool isSelected = Utils.isSameDay(_selectedDate, day) ;
+      bool isSelected = DateUtil.isSameDay(_selectedDate, day) ;
       return new WowCalendarItem(
         onDateSelected: () => _handleSelected(day),
         child: this.widget.dayBuilder(context, day, isSelected),
@@ -89,10 +85,10 @@ class _WowCalendarState extends State<WowCalendar> {
       return null;
     setState(() {
       _selectedDate = day;
-      _arrMonthsDays = Utils.daysInMonth(day);
+      _arrMonthsDays = DateUtil.daysInMonth(day);
     });
     if (widget.onSelected != null) {
-      widget.onSelected(day);
+      widget.onSelected(_selectedDate, _arrMonthsDays);
     }
   }
 
@@ -143,7 +139,7 @@ class WowCalendarItem extends StatelessWidget {
               : new BoxDecoration(),
           alignment: Alignment.center,
           child: new Text(
-            Utils.formatDay(date).toString(),
+            DateUtil.formatDay(date).toString(),
             style: isSelected ? new TextStyle(color: Colors.white) : dateStyles,
             textAlign: TextAlign.center,
           ),
