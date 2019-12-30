@@ -34,8 +34,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 //    this._reqPhotoList();
 
     _buttonController = new AnimationController(
+      duration: new Duration(milliseconds: 3000),
       vsync: this,
-      duration: new Duration(microseconds: 10000),
     );
   }
 
@@ -67,31 +67,31 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       body: new ListView(
         children: <Widget>[
           // 日历
-//          new WowCalendar(
-//            onSelected: (DateTime day, List<DateTime> arrDay) {
-//              setState(() {
-//                _dateTime = day;
-//              });
-//            },
-//            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-//              bool isAfter = day.isAfter(new DateTime.now());
-//              return new Container(
-//                alignment: Alignment.center,
-//                margin: const EdgeInsets.all(5.0),
-//                decoration: new BoxDecoration(
-//                  shape: BoxShape.circle,
-//                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
-//                ),
-//                child: new Text(
-//                  Utils.formatDay(day).toString(),
-//                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
-//                    color: Color(0xffbbbbbb),
-//                  ),
-//                  textAlign: TextAlign.center,
-//                ),
-//              );
-//            },
-//          ),
+          new WowCalendar(
+            onSelected: (DateTime day, List<DateTime> arrDay) {
+              setState(() {
+                _dateTime = day;
+              });
+            },
+            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+              bool isAfter = day.isAfter(new DateTime.now());
+              return new Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(5.0),
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
+                ),
+                child: new Text(
+                  Utils.formatDay(day).toString(),
+                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+                    color: Color(0xffbbbbbb),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
+          ),
           new Container(
             alignment: Alignment.center,
             child: new StaggerAnimation(
