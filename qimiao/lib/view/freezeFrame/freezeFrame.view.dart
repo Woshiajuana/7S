@@ -8,6 +8,8 @@ import 'package:qimiao/model/model.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_custom_calendar/flutter_custom_calendar.dart';
+import 'package:flukit/flukit.dart';
+
 
 class FreezeFrameView extends StatefulWidget {
   @override
@@ -24,6 +26,10 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
   AnimationController _buttonController;
 
+  PageController _pageController;
+
+  SwiperController _swiperController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,11 +43,26 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       duration: new Duration(milliseconds: 3000),
       vsync: this,
     );
+
+    _pageController = new PageController(
+      initialPage: 0
+    );
+
+    _swiperController = new SwiperController(
+      initialPage: 3,
+    );
+
+    _pageController.addListener(() {
+      print('监听了= ${ _pageController.initialPage }');
+
+    });
   }
 
   @override
   void dispose() {
     _loginButtonController.dispose();
+    _swiperController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -66,40 +87,31 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       ),
       body: new ListView(
         children: <Widget>[
-          // 日历
-          new WowCalendar(
-            onSelected: (DateTime day, List<DateTime> arrDay) {
-              setState(() {
-                _dateTime = day;
-              });
-            },
-            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-              bool isAfter = day.isAfter(new DateTime.now());
-              return new Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.all(5.0),
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
-                ),
-                child: new Text(
-                  Utils.formatDay(day).toString(),
-                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
-                    color: Color(0xffbbbbbb),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
-          ),
           new Container(
-            alignment: Alignment.center,
-            child: new StaggerAnimation(
-              buttonController: _loginButtonController.view
+            height: 200.0,
+            child: new PageView(
+              controller: _pageController,
+              children: <Widget>[
+                new CalendarView(
+                  onInit: () {
+                    print('初始化');
+                  },
+                  page: '1',
+                ),
+                new CalendarView(
+                  onInit: () {
+                    print('初始化');
+                  },
+                  page: '2',
+                ),
+                new CalendarView(
+                  onInit: () {
+                    print('初始化');
+                  },
+                  page: '3',
+                ),
+              ],
             ),
-          ),
-          new WowButton(
-            controller: _buttonController.view,
           ),
         ],
       ),
@@ -108,14 +120,19 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
   void _handleHelp () {
-    showDialog(
-      context: context,
-      builder: (BuildContext buildContext) {
-        return new AlertToastDialog(
-          content: '视频、图片作品一天只能保存一个哦...',
-        );
-      },
-    );
+    _pageController.animateToPage(2, duration: new Duration(seconds: 1), curve:  new Interval(
+      0.0,
+      0.150,
+    ));
+
+//    showDialog(
+//      context: context,
+//      builder: (BuildContext buildContext) {
+//        return new AlertToastDialog(
+//          content: '视频、图片作品一天只能保存一个哦...',
+//        );
+//      },
+//    );
   }
 
   // 操作
@@ -208,4 +225,38 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
 
+}
+
+
+class CalendarView extends StatefulWidget {
+
+  CalendarView({
+    this.onInit,
+    this.page,
+  });
+
+  final String page;
+  final Function onInit;
+
+  @override
+  _CalendarViewState createState() => _CalendarViewState();
+}
+
+class _CalendarViewState extends State<CalendarView> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.onInit();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: new Text(
+        widget.page,
+      ),
+    );
+  }
 }
