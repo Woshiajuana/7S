@@ -22,6 +22,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
   AnimationController _loginButtonController;
   var animationStatus = 0;
 
+  AnimationController _buttonController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -30,20 +32,17 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
     _loginButtonController = new AnimationController(
         duration: new Duration(milliseconds: 3000), vsync: this);
 //    this._reqPhotoList();
+
+    _buttonController = new AnimationController(
+      vsync: this,
+      duration: new Duration(microseconds: 10000),
+    );
   }
 
   @override
   void dispose() {
     _loginButtonController.dispose();
     super.dispose();
-  }
-
-  Future<Null> _playAnimation() async {
-    try {
-      print('动画开始执行 外');
-      await _loginButtonController.forward();
-//      await _loginButtonController.reverse();
-    } on TickerCanceled {}
   }
 
   @override
@@ -95,22 +94,12 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 //          ),
           new Container(
             alignment: Alignment.center,
-            child: animationStatus == 0
-                ? new Padding(
-              padding: const EdgeInsets.only(bottom: 50.0),
-              child: new InkWell(
-                  onTap: () {
-                    setState(() {
-                      animationStatus = 1;
-                    });
-                    _playAnimation();
-                  },
-                  child: new WowButton()
-              ),
-            )
-                : new StaggerAnimation(
-                buttonController:
-                _loginButtonController.view),
+            child: new StaggerAnimation(
+              buttonController: _loginButtonController.view
+            ),
+          ),
+          new WowButton(
+            controller: _buttonController.view,
           ),
         ],
       ),
