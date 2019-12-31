@@ -17,12 +17,8 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        return await ctx.model.PhotoModel.findOneAndUpdate(data, data, { new: true, upsert: true })
-            .populate([
-                { path: 'photo', select: 'base path filename'},
-                { path: 'user', select: { password: 0 } },
-            ])
-            .lean();
+        let { _id } = await ctx.model.PhotoModel.create(data);
+        return await this.findById(_id);
     }
 
     // 更新
@@ -46,7 +42,10 @@ module.exports = class HandleServer extends Service {
         const { ctx } = this;
         return await ctx.model.PhotoModel
             .findById(id)
-            .populate([{ path: 'photo', select: 'base path filename'}])
+            .populate([
+                { path: 'photo', select: 'base path filename'},
+                { path: 'user', select: { password: 0 } },
+            ])
             .lean();
     }
 

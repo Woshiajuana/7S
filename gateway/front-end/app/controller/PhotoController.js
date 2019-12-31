@@ -2,6 +2,7 @@
 'use strict';
 
 const { Controller } = require('egg');
+const moment = require('moment');
 
 module.exports = class HandleController extends Controller {
 
@@ -124,7 +125,18 @@ module.exports = class HandleController extends Controller {
                 created_at: [ (v) => !v || new Date(v).getTime() < new Date().getTime() ],
             });
             const { id: user } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/photo/create', {
+            let { created_at } = objParams;
+            let startTime = `${moment().format('YYYY-MM-DD')} 00:00:00`;
+            let endTime = `${moment().format('YYYY-MM-DD')} 23:59:59`;
+            if (created_at) {
+                startTime = `${moment(created_at).format('YYYY-MM-DD')} 00:00:00`;
+                endTime = `${moment(created_at).format('YYYY-MM-DD')} 23:59:59`;
+            }
+            let data = await service.transformService.curl('api/v1/photo/list', {
+                data: { user, startTime, endTime },
+            });
+            if (data.length) throw '这天已有作品了哦';
+            data = await service.transformService.curl('api/v1/photo/create', {
                 data: { user, ...objParams },
             });
             ctx.respSuccess(data);

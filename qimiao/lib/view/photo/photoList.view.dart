@@ -234,9 +234,11 @@ class _PhotoListViewState extends State<PhotoListView> {
               'onPressed': () async {
                 Application.router.pop(context);
                 PhotoJsonModel data = await Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
-                setState(() {
-                  _arrData[index] = data;
-                });
+                if (data != null) {
+                  setState(() {
+                    _arrData[index] = data;
+                  });
+                }
               },
             },
             {
