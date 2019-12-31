@@ -33,7 +33,6 @@ class _WowCalendarState extends State<WowCalendar> {
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
     _selectedDate = widget?.selectedDate ?? new DateTime.now();
     _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
-
   }
 
   @override

@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:qimiao/common/application.dart';
+import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -93,6 +93,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
   void _handleHelp () {
+    print('111');
 //    showDialog(
 //      context: context,
 //      builder: (BuildContext buildContext) {
