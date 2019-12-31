@@ -224,7 +224,9 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
           'startTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[0])}',
           'endTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[arrDate.length - 1])}',
         });
-        _arrPhotoData = List<PhotoJsonModel>.from(data.map((item) => PhotoJsonModel.fromJson(item)).toList());
+        setState(() {
+          _arrPhotoData = List<PhotoJsonModel>.from(data.map((item) => PhotoJsonModel.fromJson(item)).toList());
+        });
       } catch (err) {
         Application.util.modal.toast(err);
       }
