@@ -315,7 +315,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
-                        '100',
+                        _photoJsonModel?.thumb?.toString() ?? '0',
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 10.0,
@@ -369,7 +369,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
-                        '100',
+                        _photoJsonModel?.collect?.toString() ?? '0',
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 10.0,
@@ -560,6 +560,23 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
         _photoJsonModel.user.numFollower = (data ?? '') == '' ? _photoJsonModel.user.numFollower - 1 : _photoJsonModel.user.numFollower + 1;
       });
       Application.util.modal.toast((data ?? '') == '' ? '已取消关注' : '关注成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
+  // 收藏取消收藏
+  void _handleCollect () async {
+    try {
+      String strUrl = Application.config.api.doCollectOffOrOn;
+      var data = await Application.util.http.post(strUrl, params: {
+        'id': _photoJsonModel?.id ?? '',
+      });
+//      setState(() {
+//        _photoJsonModel.user.follower = data ?? '';
+//        _photoJsonModel.user.numFollower = (data ?? '') == '' ? _photoJsonModel.user.numFollower - 1 : _photoJsonModel.user.numFollower + 1;
+//      });
+      Application.util.modal.toast((data ?? '') == '' ? '已取消收藏' : '收藏成功');
     } catch (err) {
       Application.util.modal.toast(err);
     }

@@ -135,9 +135,9 @@ class Api {
     return 'v1/app/collect/list';
   }
 
-  // 删除收藏
-  String get doCollectDelete {
-    return 'v1/app/collect/del';
+  // 收藏 or 取消
+  String get doCollectOffOrOn {
+    return 'v1/app/collect/do';
   }
 
 }
