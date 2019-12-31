@@ -31,6 +31,7 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建观看历史：请求参数=> ${JSON.stringify(objParams)} `);
+            await service.historyService.del(objParams);
             await service.historyService.create(objParams);
             ctx.logger.info(`创建观看历史：返回结果=> 成功`);
             ctx.respSuccess();

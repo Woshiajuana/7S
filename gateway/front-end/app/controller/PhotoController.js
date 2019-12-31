@@ -169,13 +169,20 @@ module.exports = class HandleController extends Controller {
             let isSame = !author || author === user;
             if (!isSame && data.nature !== 'PUBLIC')
                 throw '哦豁...不能查看哦';
+            // 创建观看历史
+            await service.transformService.curl('api/v1/history/create', {
+                data: { user, photo: id },
+            });
+            // 更新查看量
             data.volume++;
             await service.transformService.curl('api/v1/photo/update', {
                 data: { id, volume: data.volume },
             });
+            // 获取作者信息
             data.user = await service.transformService.curl('api/v1/user/info', {
                 data: { id: author },
             });
+            // 获取作者跟用户的关系
             if (user !== author) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {
                     data: { user, following: author },

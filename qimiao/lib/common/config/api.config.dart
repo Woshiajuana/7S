@@ -115,4 +115,29 @@ class Api {
     return 'v1/app/search/preview';
   }
 
+  // 历史列表
+  String get reqHistoryList {
+    return 'v1/app/history/list';
+  }
+
+  // 删除历史
+  String get doHistoryDelete {
+    return 'v1/app/history/del';
+  }
+
+  // 点赞 or 取消点赞
+  String get doThumbOffOrOn {
+    return 'v1/app/thumb/do';
+  }
+
+  // 历史列表
+  String get reqCollectList {
+    return 'v1/app/collect/list';
+  }
+
+  // 删除历史
+  String get doCollectDelete {
+    return 'v1/app/collect/del';
+  }
+
 }
