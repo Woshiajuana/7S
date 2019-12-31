@@ -45,6 +45,15 @@ class PhotoJsonModel {
   @JsonKey(name: 'collect')
   int collect;
 
+  @JsonKey(name: 'thumbId')
+  String thumbId;
+
+  @JsonKey(name: 'dislikeId')
+  String dislikeId;
+
+  @JsonKey(name: 'collectId')
+  String collectId;
+
   @JsonKey(name: 'created_at')
   String created_at;
 

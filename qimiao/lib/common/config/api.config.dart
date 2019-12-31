@@ -140,4 +140,9 @@ class Api {
     return 'v1/app/collect/do';
   }
 
+  // 不喜欢 or 取消
+  String get doDislikeOffOrOn {
+    return 'v1/app/dislike/do';
+  }
+
 }

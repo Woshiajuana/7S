@@ -21,7 +21,10 @@ PhotoJsonModel _$PhotoJsonModelFromJson(Map<String, dynamic> json) {
         : UserJsonModel.fromJson(json['user'] as Map<String, dynamic>)
     ..thumb = json['thumb'] as int
     ..dislike = json['dislike'] as int
-    ..collect = json['collect'] as int;
+    ..collect = json['collect'] as int
+    ..thumbId = json['thumbId'] as String
+    ..dislikeId = json['dislikeId'] as String
+    ..collectId = json['collectId'] as String;
 }
 
 Map<String, dynamic> _$PhotoJsonModelToJson(PhotoJsonModel instance) =>
@@ -35,5 +38,8 @@ Map<String, dynamic> _$PhotoJsonModelToJson(PhotoJsonModel instance) =>
       'thumb': instance.thumb,
       'dislike': instance.dislike,
       'collect': instance.collect,
+      'thumbId': instance.thumbId,
+      'dislikeId': instance.dislikeId,
+      'collectId': instance.collectId,
       'created_at': instance.created_at
     };

@@ -250,6 +250,9 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
 
   // 标题
   Widget _widgetInfoSection () {
+    bool isDislike = (_photoJsonModel?.dislikeId ?? '') != '';
+    bool isThumb = (_photoJsonModel?.thumbId ?? '') != '';
+    bool isCollect = (_photoJsonModel?.collectId ?? '') != '';
     return new Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 12.0),
       color: Colors.white,
@@ -304,14 +307,14 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                 height: 50.0,
                 margin: const EdgeInsets.only(right: 20.0),
                 child: new FlatButton(
-                  onPressed: () => {},
+                  onPressed: () => _handleThumb(),
                   padding: const EdgeInsets.all(0),
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       new Icon(
                         Icons.thumb_up,
-                        color: Color(0xff999999),
+                        color: isThumb ? Theme.of(context).accentColor : Color(0xff999999),
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
@@ -331,14 +334,14 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                 height: 50.0,
                 margin: const EdgeInsets.only(right: 20.0),
                 child: new FlatButton(
-                  onPressed: () => {},
+                  onPressed: () => _handleDislike(),
                   padding: const EdgeInsets.all(0),
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       new Icon(
                         Icons.thumb_down,
-                        color: Color(0xff999999),
+                        color: isDislike ? Theme.of(context).accentColor : Color(0xff999999),
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
@@ -358,14 +361,14 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                 height: 50.0,
                 margin: const EdgeInsets.only(right: 20.0),
                 child: new FlatButton(
-                  onPressed: () => {},
+                  onPressed: () => _handleCollect(),
                   padding: const EdgeInsets.all(0),
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       new Icon(
                         Icons.favorite,
-                        color: Color(0xff999999),
+                        color: isCollect ? Theme.of(context).accentColor : Color(0xff999999),
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
@@ -572,14 +575,49 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       var data = await Application.util.http.post(strUrl, params: {
         'id': _photoJsonModel?.id ?? '',
       });
-//      setState(() {
-//        _photoJsonModel.user.follower = data ?? '';
-//        _photoJsonModel.user.numFollower = (data ?? '') == '' ? _photoJsonModel.user.numFollower - 1 : _photoJsonModel.user.numFollower + 1;
-//      });
+      setState(() {
+        _photoJsonModel.collectId = data ?? '';
+        _photoJsonModel.collect = (data ?? '') == '' ? _photoJsonModel.collect - 1 : _photoJsonModel.collect + 1;
+      });
       Application.util.modal.toast((data ?? '') == '' ? '已取消收藏' : '收藏成功');
     } catch (err) {
       Application.util.modal.toast(err);
     }
   }
+
+  // 不喜欢 or 取消不喜欢
+  void _handleDislike () async {
+    try {
+      String strUrl = Application.config.api.doDislikeOffOrOn;
+      var data = await Application.util.http.post(strUrl, params: {
+        'id': _photoJsonModel?.id ?? '',
+      });
+      setState(() {
+        _photoJsonModel.dislikeId = data ?? '';
+        _photoJsonModel.dislike = (data ?? '') == '' ? _photoJsonModel.dislike - 1 : _photoJsonModel.dislike + 1;
+      });
+      Application.util.modal.toast((data ?? '') == '' ? '已取消不喜欢' : '不喜欢成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
+  // 点赞 or 取消点赞
+  void _handleThumb () async {
+    try {
+      String strUrl = Application.config.api.doThumbOffOrOn;
+      var data = await Application.util.http.post(strUrl, params: {
+        'id': _photoJsonModel?.id ?? '',
+      });
+      setState(() {
+        _photoJsonModel.thumbId = data ?? '';
+        _photoJsonModel.thumb = (data ?? '') == '' ? _photoJsonModel.thumb - 1 : _photoJsonModel.thumb + 1;
+      });
+      Application.util.modal.toast((data ?? '') == '' ? '已取消点赞' : '点赞成功');
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
 
 }
