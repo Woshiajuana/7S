@@ -78,6 +78,8 @@ module.exports = class HandleController extends Controller {
             ctx.logger.info(`创建照片：请求参数=> ${JSON.stringify(objParams)} `);
             if (objParams.created_at) {
                 objParams.created_at = new Date(objParams.created_at);
+            } else {
+                delete objParams.created_at;
             }
             const data = await service.photoService.create(objParams);
             ctx.logger.info(`创建照片：返回结果=> 成功`);

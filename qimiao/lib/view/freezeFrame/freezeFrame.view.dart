@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/widget/widget.dart';
 import 'package:date_utils/date_utils.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:intl/intl.dart';
 import 'package:qimiao/common/utils/date.util.dart';
