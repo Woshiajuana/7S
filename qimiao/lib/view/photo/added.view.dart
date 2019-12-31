@@ -289,7 +289,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
       strUrl = isAdded ? Application.config.api.doPhotoCreate : Application.config.api.doPhotoUpdate;
       var result = await Application.util.http.post(strUrl, params: {
         'id': widget.data?.id ?? '',
-        'photo': isAdded ? data['file'] : widget.data.photo.id,
+        'photo': data == null ? widget.data.photo.id : data['file'],
         'title': _strTitle,
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
       });
