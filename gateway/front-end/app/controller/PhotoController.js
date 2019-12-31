@@ -165,7 +165,7 @@ module.exports = class HandleController extends Controller {
             const data = await service.transformService.curl('api/v1/photo/info', {
                 data: { id },
             });
-            const { user: author } = data;
+            const { _id: author } = data.user;
             let isSame = !author || author === user;
             if (!isSame && data.nature !== 'PUBLIC')
                 throw '哦豁...不能查看哦';
@@ -174,7 +174,7 @@ module.exports = class HandleController extends Controller {
                 data: { id, volume: data.volume },
             });
             data.user = await service.transformService.curl('api/v1/user/info', {
-                data: { id: data.user },
+                data: { id: author },
             });
             if (user !== author) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {

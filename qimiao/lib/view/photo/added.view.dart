@@ -289,14 +289,12 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         data = await Application.util.http.post(strUrl, params: formData);
       }
       strUrl = isAdded ? Application.config.api.doPhotoCreate : Application.config.api.doPhotoUpdate;
-
       String createdAt = widget?.createdAt ?? '';
       if (createdAt != '') {
         if (DateUtil.isSameDay(DateTime.parse(createdAt.replaceAll('/', '-')), new DateTime.now())) {
           createdAt = '';
         }
       }
-
       var result = await Application.util.http.post(strUrl, params: {
         'id': widget.data?.id ?? '',
         'photo': data == null ? widget.data.photo.id : data['file'],
@@ -310,7 +308,7 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         eventBus.fire(MineEvent());
         eventBus.fire(PhotoListEvent());
       }
-//      Application.router.pop(context, params: photoJsonModel);
+      Application.router.pop(context, params: photoJsonModel);
     } catch (err) {
       print(err);
       Application.util.modal.toast(err);
