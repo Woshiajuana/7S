@@ -6,8 +6,6 @@ import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:intl/intl.dart';
-import 'package:flukit/flukit.dart';
-
 
 class FreezeFrameView extends StatefulWidget {
   @override
