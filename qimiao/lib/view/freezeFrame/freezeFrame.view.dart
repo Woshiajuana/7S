@@ -6,6 +6,7 @@ import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:intl/intl.dart';
+import 'package:qimiao/common/utils/date.util.dart';
 
 class FreezeFrameView extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
   //这里就是关键的代码，定义一个key
   GlobalKey<WowCalendarState> _childViewKey;
   DateTime _dateTime;
-  List<PhotoJsonModel> _arrPhotoData;
+  List<PhotoJsonModel> _arrPhotoData = [];
 
   @override
   void initState() {
@@ -76,19 +77,49 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
             },
             dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
               bool isAfter = day.isAfter(new DateTime.now());
+              PhotoJsonModel photoJsonModel;
+              String imageUrl;
+              if (_arrPhotoData != null) {
+                _arrPhotoData.forEach((item) {
+                  bool isSameDay = DateUtil.isSameDay(DateTime.parse(item.created_at).toLocal(), day);
+                  if (isSameDay) photoJsonModel = item;
+                });
+                if (photoJsonModel != null) {
+                  FileJsonModel fileJsonModel = photoJsonModel.photo;
+                  imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+                }
+              }
               return new Container(
-                alignment: Alignment.center,
                 margin: const EdgeInsets.all(5.0),
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
                 ),
-                child: new Text(
-                  Utils.formatDay(day).toString(),
-                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
-                    color: Color(0xffbbbbbb),
-                  ),
-                  textAlign: TextAlign.center,
+                child: new Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    imageUrl == null ? new Container() : new CachedNetworkImage(
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                      imageUrl: imageUrl ?? '',
+                      placeholder: (context, url) => new Image.asset(
+                        Application.util.getImgPath('mine_head_bg.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      errorWidget: (context, url, error) => new Image.asset(
+                        Application.util.getImgPath('mine_head_bg.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    new Text(
+                      Utils.formatDay(day).toString(),
+                      style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+                        color: Color(0xffbbbbbb),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               );
             },
@@ -192,8 +223,8 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
         var data = await Application.util.http.post(strUrl, params: {
           'startTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[0])}',
           'endTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[arrDate.length - 1])}',
-        }, useLoading: false);
-        data.forEach((item) => _arrPhotoData.add(PhotoJsonModel.fromJson(item)));
+        });
+        _arrPhotoData = List<PhotoJsonModel>.from(data.map((item) => PhotoJsonModel.fromJson(item)).toList());
       } catch (err) {
         Application.util.modal.toast(err);
       }
