@@ -8,6 +8,7 @@ module.exports = class HandleServer extends Service {
     // 数量
     async count (data) {
         let { user, photo } = data;
+        let filter = {};
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
         }
@@ -36,10 +37,14 @@ module.exports = class HandleServer extends Service {
     // 删除
     async del ({ user, photo }) {
         const { ctx, app } = this;
-        await ctx.model.HistoryModel.remove({
-            user: app.mongoose.Types.ObjectId(user),
-            photo: app.mongoose.Types.ObjectId(photo),
-        });
+        let filter = {};
+        if (user) {
+            filter.user = app.mongoose.Types.ObjectId(user);
+        }
+        if (photo) {
+            filter.photo = app.mongoose.Types.ObjectId(photo);
+        }
+        await ctx.model.HistoryModel.remove(filter);
     }
 
     // 列表

@@ -7,7 +7,7 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/history/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/history/del', middleware.tokenMiddleware(), controller.del)
+            .mount('/api/v1/app/history/clear', middleware.tokenMiddleware(), controller.clear)
         ;
     }
 
@@ -40,22 +40,18 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/history/del 删除观看历史列表
+     * @api {get} /api/v1/app/history/clear 清除观看历史列表
      * @apiDescription 删除观看历史列表
      * @apiGroup APP基础
-     * @apiParam  {String} [id] id
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/history/del
+     * @apiSampleRequest /api/v1/app/history/clear
      */
-    async del () {
+    async clear () {
         const { ctx, service, app } = this;
         try {
-            const objParams = await ctx.validateBody({
-                id: [ 'nonempty' ],
-            });
             const { id: user } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/history/del', {
-                data: { ...objParams, user },
+            const data = await service.transformService.curl('api/v1/history/clear', {
+                data: { user },
             });
             ctx.respSuccess(data);
         } catch (err) {

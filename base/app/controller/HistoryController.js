@@ -7,9 +7,8 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/history/create', controller.create)
-            .mount('/api/v1/history/info', controller.info)
             .mount('/api/v1/history/list', controller.list)
-            .mount('/api/v1/history/del', controller.del)
+            .mount('/api/v1/history/clear', controller.clear)
         ;
     }
 
@@ -42,46 +41,18 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/history/info 查询观看历史
-     * @apiDescription 更新观看历史
-     * @apiGroup 观看历史
-     * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [photo] 照片
-     * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/history/info
-     */
-    async info () {
-        const { ctx, service, app } = this;
-        try {
-            let objParams = await ctx.validateBody({
-                user: [ 'nonempty' ],
-                photo: [ 'nonempty' ],
-            });
-            ctx.logger.info(`查询观看历史信息：请求参数=> ${JSON.stringify(objParams)} `);
-            const data = await service.historyService.findOne(objParams);
-            ctx.logger.info(`查询观看历史信息：返回结果=> ${JSON.stringify(data)} `);
-            ctx.respSuccess(data);
-        } catch (err) {
-            ctx.respError(err);
-        }
-    }
-
-    /**
-     * @apiVersion 1.0.0
-     * @api {get} /api/v1/history/del 删除观看历史
+     * @api {get} /api/v1/history/clear 删除观看历史
      * @apiDescription 删除观看历史
      * @apiGroup 观看历史
      * @apiParam  {String} [user] 用户 id
-     * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/history/del
+     * @apiSampleRequest /api/v1/history/clear
      */
-    async del () {
+    async clear () {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
                 user: [ 'nonempty' ],
-                photo: [ 'nonempty' ],
             });
             ctx.logger.info(`删除观看历史信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.historyService.del(objParams);
