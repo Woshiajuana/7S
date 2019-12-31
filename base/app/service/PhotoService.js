@@ -17,7 +17,12 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        return await ctx.model.PhotoModel.create(data);
+        return await ctx.model.PhotoModel.findOneAndUpdate(data, data, { new: true, upsert: true })
+            .populate([
+                { path: 'photo', select: 'base path filename'},
+                { path: 'user', select: { password: 0 } },
+            ])
+            .lean();
     }
 
     // 更新

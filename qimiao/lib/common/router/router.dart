@@ -135,6 +135,7 @@ class Router {
         return new PhotoAddView(
           title: params['title'],
           data: params['data'],
+          createdAt: params['createdAt'],
         );
       }
     },

@@ -12,9 +12,11 @@ class PhotoAddView extends StatefulWidget {
   PhotoAddView({
     this.title = '',
     this.data,
+    this.createdAt = '',
   });
 
   final String title;
+  final String createdAt;
   final PhotoJsonModel data;
 
   @override
@@ -292,14 +294,13 @@ class _PhotoAddViewState extends State<PhotoAddView> {
         'photo': data == null ? widget.data.photo.id : data['file'],
         'title': _strTitle,
         'nature': _isNature ? 'PUBLIC' : 'PRIVACY',
+        'created_at': isAdded ? widget?.createdAt ?? '' : '',
       });
-      PhotoJsonModel photoJsonModel;
+      PhotoJsonModel photoJsonModel = PhotoJsonModel.fromJson(result);
       Application.util.modal.toast('保存成功');
       if (isAdded) {
         eventBus.fire(MineEvent());
         eventBus.fire(PhotoListEvent());
-      } else {
-        photoJsonModel = PhotoJsonModel.fromJson(result);
       }
       Application.router.pop(context, params: photoJsonModel);
     } catch (err) {

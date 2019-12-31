@@ -48,12 +48,12 @@ class _PhotoListViewState extends State<PhotoListView> {
             fontSize: 18.0,
           ),
         ),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.add, color: Colors.white),
-            onPressed: () => Application.router.push(context, 'photoAdded', params: { 'title': '新增照片' }),
-          ),
-        ],
+//        actions: <Widget>[
+//          new IconButton(
+//            icon: new Icon(Icons.add, color: Colors.white),
+//            onPressed: () => Application.router.push(context, 'photoAdded', params: { 'title': '新增照片' }),
+//          ),
+//        ],
       ),
       body: new WowLoadView(
         data: _arrData,

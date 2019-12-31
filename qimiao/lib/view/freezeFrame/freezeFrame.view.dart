@@ -160,6 +160,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
         imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
       }
     }
+    String strDate = DateFormat('yyyy/MM/dd').format(_dateTime);
     return new Container(
       margin: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
       child: new Column(
@@ -170,7 +171,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
               new Icon(Icons.access_time, size: 20.0),
               new SizedBox(width: 8.0),
               new Text(
-                DateFormat('yyyy MM/dd').format(_dateTime),
+                strDate,
                 style: new TextStyle(
                     color: Color(0xff333333),
                     fontSize: 18.0,
@@ -237,10 +238,18 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
                         child: new IconButton(
                           icon: new Icon(Icons.camera_enhance, color: Colors.white),
                           onPressed: () async {
-                            PhotoJsonModel data = await Application.router.push(context, 'photoAdded', params: { 'title': '编辑作品', 'data': photoJsonModel });
+                            PhotoJsonModel data = await Application.router.push(context, 'photoAdded', params: {
+                              'title': photoJsonModel == null ? '新增照片-${strDate}' : '编辑照片-${strDate}',
+                              'data': photoJsonModel,
+                              'createdAt': strDate,
+                            });
                             if (data != null) {
                               setState(() {
-                                _arrPhotoData[_arrPhotoData.indexOf(photoJsonModel)] = data;
+                                if (photoJsonModel != null) {
+                                  _arrPhotoData[_arrPhotoData.indexOf(photoJsonModel)] = data;
+                                } else {
+                                  _arrPhotoData.add(data);
+                                }
                               });
                             }
                           },
@@ -286,81 +295,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       context: context,
       builder: (BuildContext buildContext) {
         return new AlertToastDialog(
-          content: '视频、图片作品一天只能保存一个哦...',
-        );
-      },
-    );
-  }
-
-  // 操作
-  void _handleOperate () {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '分享',
-              'onPressed': () {
-                Navigator.of(context).pop();
-                Application.router.push(context, 'videoDetails');
-              },
-            },
-            {
-              'text': '举报',
-              'onPressed': () => print('拍照'),
-            },
-            {
-              'text': '编辑',
-              'onPressed': () {
-                Navigator.of(context).pop();
-                Application.router.push(context, 'freezeFrameDetails');
-              },
-            },
-          ],
-        );
-      },
-    );
-  }
-
-  // 操作
-  void _handleAddConfirm () async {
-    showDialog(
-      context: context,
-      barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
-      builder: (BuildContext context) {
-        return new ActionSheetDialog(
-          arrOptions: [
-            {
-              'text': '从相册中获取',
-              'onPressed': () async {
-                var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-                print('相册返回：' + image.toString());
-              },
-            },
-            {
-              'text': '直接拍照',
-              'onPressed': () async {
-                var image = await ImagePicker.pickImage(source: ImageSource.camera);
-                print('拍照返回：' + image.toString());
-              },
-            },
-            {
-              'text': '拍摄视频',
-              'onPressed': () async {
-                var image = await ImagePicker.pickVideo(source: ImageSource.camera);
-                print('拍摄视频：' + image.toString());
-              },
-            },
-            {
-              'text': '选取视频',
-              'onPressed': () async {
-                var image = await ImagePicker.pickVideo(source: ImageSource.gallery);
-                print('选取视频：' + image.toString());
-              },
-            },
-          ],
+          content: '照片作品一天只能保存一个哦...',
         );
       },
     );
@@ -383,7 +318,5 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       }
     });
   }
-
-
 
 }

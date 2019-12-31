@@ -61,6 +61,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [photo] 照片文件 id
      * @apiParam  {String} [title] 照片标题 id
      * @apiParam  {String} [nature] 照片性质
+     * @apiParam  {String} [created_at] 创建时间
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/photo/create
      */
@@ -72,8 +73,12 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
                 title: [ 'nonempty' ],
                 nature: [ 'nonempty' ],
+                created_at: [],
             });
             ctx.logger.info(`创建照片：请求参数=> ${JSON.stringify(objParams)} `);
+            if (objParams.created_at) {
+                objParams.created_at = new Date(objParams.created_at);
+            }
             const data = await service.photoService.create(objParams);
             ctx.logger.info(`创建照片：返回结果=> 成功`);
             ctx.respSuccess(data);

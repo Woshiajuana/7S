@@ -121,6 +121,7 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
                 title: [ 'nonempty' ],
                 nature: [ 'nonempty', (v) => [ 'PRIVACY', 'PUBLIC' ].indexOf(v) > -1 ],
+                created_at: [ (v) => !v || new Date(v).getTime() < new Date().getTime() ],
             });
             const { id: user } = ctx.state.token;
             const data = await service.transformService.curl('api/v1/photo/create', {
