@@ -14,6 +14,8 @@ class FreezeFrameView extends StatefulWidget {
 
 class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderStateMixin {
 
+  //这里就是关键的代码，定义一个key
+  GlobalKey<WowCalendarState> _childViewKey;
   DateTime _dateTime;
   List<PhotoJsonModel> _arrPhotoData;
 
@@ -22,6 +24,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
+    _childViewKey = new GlobalKey<WowCalendarState>();
   }
 
   @override
@@ -38,7 +41,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
           children: <Widget>[
             new IconButton(
               icon: new Icon(Icons.arrow_back_ios, size: 18.0, color: Colors.white),
-              onPressed: () => _handleHelp(),
+              onPressed: () => _childViewKey.currentState.previousMonth(),
             ),
             new Text(
               DateFormat('yyyy/MM').format(_dateTime),
@@ -48,7 +51,7 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
             ),
             new IconButton(
               icon: new Icon(Icons.arrow_forward_ios, size: 18.0, color: Colors.white),
-              onPressed: () => _handleHelp(),
+              onPressed: () => _childViewKey.currentState.nextMonth(),
             ),
           ],
         ),
@@ -62,10 +65,14 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       body: new ListView(
         children: <Widget>[
           new WowCalendar(
+            key: _childViewKey,
             onSelected: (DateTime day, List<DateTime> arrDay) {
-              setState(() {
-                _dateTime = day;
-              });
+              if (day != null) {
+                setState(() {
+                  _dateTime = day;
+                });
+              }
+              this._reqPhotoList(arrDay);
             },
             dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
               bool isAfter = day.isAfter(new DateTime.now());
@@ -93,15 +100,14 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
   void _handleHelp () {
-    print('111');
-//    showDialog(
-//      context: context,
-//      builder: (BuildContext buildContext) {
-//        return new AlertToastDialog(
-//          content: '视频、图片作品一天只能保存一个哦...',
-//        );
-//      },
-//    );
+    showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return new AlertToastDialog(
+          content: '视频、图片作品一天只能保存一个哦...',
+        );
+      },
+    );
   }
 
   // 操作
@@ -179,15 +185,17 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
   }
 
   // 请求
-  void _reqPhotoList () async {
+  void _reqPhotoList (List<DateTime> arrDate) async {
     Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {
         String strUrl = Application.config.api.reqPhotoList;
-        var data = await Application.util.http.post(strUrl, useLoading: false);
-        ListJsonModel listJsonModel = ListJsonModel.fromJson(data);
-        listJsonModel.list.forEach((item) => _arrPhotoData.add(PhotoJsonModel.fromJson(item)));
+        var data = await Application.util.http.post(strUrl, params: {
+          'startTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[0])}',
+          'endTime': '${DateFormat('yyyy-MM-dd HH:mm:ss').format(arrDate[arrDate.length - 1])}',
+        }, useLoading: false);
+        data.forEach((item) => _arrPhotoData.add(PhotoJsonModel.fromJson(item)));
       } catch (err) {
-//        Application.util.modal.toast(err);
+        Application.util.modal.toast(err);
       }
     });
   }

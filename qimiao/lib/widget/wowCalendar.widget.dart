@@ -11,16 +11,17 @@ class WowCalendar extends StatefulWidget {
   final Function onSelected;
 
   WowCalendar({
+    Key key,
     this.selectedDate,
     @required this.dayBuilder,
     this.onSelected,
-  });
+  }) : super(key: key);
 
   @override
-  _WowCalendarState createState() => _WowCalendarState();
+  WowCalendarState createState() => WowCalendarState();
 }
 
-class _WowCalendarState extends State<WowCalendar> {
+class WowCalendarState extends State<WowCalendar> {
 
   DateTime _selectedDate;
   List<DateTime> _arrMonthsDays;
@@ -33,6 +34,9 @@ class _WowCalendarState extends State<WowCalendar> {
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
     _selectedDate = widget?.selectedDate ?? new DateTime.now();
     _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
+    if (widget.onSelected != null) {
+      widget.onSelected(null, _arrMonthsDays);
+    }
   }
 
   @override
