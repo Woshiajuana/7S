@@ -11,7 +11,10 @@ class MineView extends StatefulWidget {
   _MineViewState createState() => _MineViewState();
 }
 
-class _MineViewState extends State<MineView> {
+class _MineViewState extends State<MineView> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true; // 要点2
 
   StreamSubscription _mineEventSubscription;
   ScrollController _controller;
@@ -40,6 +43,8 @@ class _MineViewState extends State<MineView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // 要点3
+
     return new ScopedModelDescendant<StateModel>(
       builder: (context, child, model) {
         return new Scaffold(

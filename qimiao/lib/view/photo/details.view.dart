@@ -286,7 +286,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                   new Icon(Icons.av_timer, size: 14.0, color: Color(0xffbbbbbb)),
                   new SizedBox(width: 2.0),
                   new Text(
-                    new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(_photoJsonModel.created_at).toLocal()),
+                    new DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(_photoJsonModel?.created_at ?? '').toLocal()),
                     style: new TextStyle(
                       color: Color(0xffbbbbbb),
                       fontSize: 12.0,
