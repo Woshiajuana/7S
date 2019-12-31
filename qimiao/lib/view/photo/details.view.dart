@@ -556,7 +556,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     try {
       String strUrl = Application.config.api.doFollowUpdate;
       var data = await Application.util.http.post(strUrl, params: {
-        'id': userJsonModel?.id ?? '',
+        'photo': userJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.user.follower = data ?? '';
@@ -573,7 +573,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     try {
       String strUrl = Application.config.api.doCollectOffOrOn;
       var data = await Application.util.http.post(strUrl, params: {
-        'id': _photoJsonModel?.id ?? '',
+        'photo': _photoJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.collectId = data ?? '';
@@ -590,7 +590,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     try {
       String strUrl = Application.config.api.doDislikeOffOrOn;
       var data = await Application.util.http.post(strUrl, params: {
-        'id': _photoJsonModel?.id ?? '',
+        'photo': _photoJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.dislikeId = data ?? '';

@@ -7,6 +7,7 @@ module.exports = class HandleServer extends Service {
 
     // 数量
     async count (data) {
+        const { ctx, app } = this;
         let { user, photo } = data;
         let filter = {};
         if (user) {
@@ -26,7 +27,7 @@ module.exports = class HandleServer extends Service {
 
     // 根据 id 查询
     async findOne (data) {
-        const { ctx } = this;
+        const { ctx, app } = this;
         let { user, photo } = data;
         return await ctx.model.HistoryModel.findOne({
             user: app.mongoose.Types.ObjectId(user),
