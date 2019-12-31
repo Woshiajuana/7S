@@ -8,7 +8,6 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/app/collect/do', middleware.tokenMiddleware(), controller.do)
             .mount('/api/v1/app/collect/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/collect/del', middleware.tokenMiddleware(), controller.del)
         ;
     }
 
@@ -78,32 +77,5 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
-
-    /**
-     * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/collect/del 删除收藏
-     * @apiDescription 删除收藏
-     * @apiGroup 收藏
-     * @apiParam  {String} [id] id
-     * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/collect/del
-     */
-    async del () {
-        const { ctx, service, app } = this;
-        try {
-            const objParams = await ctx.validateBody({
-                id: [ 'nonempty' ],
-            });
-            const { id } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/collect/del', {
-                data: { ...objParams, user: id },
-            });
-            ctx.respSuccess(data);
-        } catch (err) {
-            ctx.respError(err);
-        }
-    }
-
-
 
 };
