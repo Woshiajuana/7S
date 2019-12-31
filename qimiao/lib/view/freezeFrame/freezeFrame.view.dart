@@ -6,8 +6,6 @@ import 'package:date_utils/date_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qimiao/model/model.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter_custom_calendar/flutter_custom_calendar.dart';
 import 'package:flukit/flukit.dart';
 
 
@@ -21,57 +19,15 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
   DateTime _dateTime;
   List<PhotoJsonModel> _arrPhotoData;
 
-  AnimationController _loginButtonController;
-  var animationStatus = 0;
-
-  AnimationController _buttonController;
-
-  PageController _pageController;
-
-  SwiperController _swiperController;
-
-  List<Widget> _arrWidget = [];
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _dateTime = DateTime.now();
-    _loginButtonController = new AnimationController(
-        duration: new Duration(milliseconds: 3000), vsync: this);
-//    this._reqPhotoList();
-
-    _buttonController = new AnimationController(
-      duration: new Duration(milliseconds: 3000),
-      vsync: this,
-    );
-
-    _pageController = new PageController(
-      initialPage: 1
-    );
-
-    _swiperController = new SwiperController(
-      initialPage: 3,
-    );
-
-    _pageController.addListener(() {
-      print('监听了= ${ _pageController.initialPage }');
-
-    });
-
-    _arrWidget.addAll(['1','2','3'].map((v) => new CalendarView(
-      onInit: () {
-        print('初始化');
-      },
-      page: v,
-    )).toList());
   }
 
   @override
   void dispose() {
-    _loginButtonController.dispose();
-    _swiperController.dispose();
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -95,31 +51,30 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
       ),
       body: new ListView(
         children: <Widget>[
-          new Container(
-            height: 200.0,
-            child: new PageView(
-              controller: _pageController,
-              children: <Widget>[
-                new CalendarView(
-                  onInit: () {
-                    print('初始化');
-                  },
-                  page: '1',
+          new WowCalendar(
+            onSelected: (DateTime day, List<DateTime> arrDay) {
+              setState(() {
+                _dateTime = day;
+              });
+            },
+            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
+              bool isAfter = day.isAfter(new DateTime.now());
+              return new Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(5.0),
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
                 ),
-                new CalendarView(
-                  onInit: () {
-                    print('初始化');
-                  },
-                  page: '2',
+                child: new Text(
+                  Utils.formatDay(day).toString(),
+                  style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+                    color: Color(0xffbbbbbb),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                new CalendarView(
-                  onInit: () {
-                    print('初始化');
-                  },
-                  page: '3',
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -128,11 +83,6 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
   void _handleHelp () {
-    _pageController.animateToPage(2, duration: new Duration(seconds: 1), curve:  new Interval(
-      0.0,
-      0.150,
-    ));
-
 //    showDialog(
 //      context: context,
 //      builder: (BuildContext buildContext) {
@@ -233,38 +183,4 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
 
 
 
-}
-
-
-class CalendarView extends StatefulWidget {
-
-  CalendarView({
-    this.onInit,
-    this.page,
-  });
-
-  final String page;
-  final Function onInit;
-
-  @override
-  _CalendarViewState createState() => _CalendarViewState();
-}
-
-class _CalendarViewState extends State<CalendarView> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.onInit();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: new Text(
-        widget.page,
-      ),
-    );
-  }
 }
