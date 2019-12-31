@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 import 'package:qimiao/common/utils/date.util.dart';
-import "package:intl/intl.dart";
 
 typedef DayBuilder(BuildContext context, DateTime day, bool isSelected);
 
@@ -35,6 +33,7 @@ class _WowCalendarState extends State<WowCalendar> {
     _arrWeeksTitleDays = [ '日', '一', '二', '三', '四', '五', '六' ];
     _selectedDate = widget?.selectedDate ?? new DateTime.now();
     _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
+
   }
 
   @override
@@ -86,6 +85,28 @@ class _WowCalendarState extends State<WowCalendar> {
     setState(() {
       _selectedDate = day;
       _arrMonthsDays = DateUtil.daysInMonth(day);
+    });
+    if (widget.onSelected != null) {
+      widget.onSelected(_selectedDate, _arrMonthsDays);
+    }
+  }
+
+  // 下一个月
+  void nextMonth () {
+    setState(() {
+      _selectedDate = DateUtil.nextMonth(_selectedDate);
+      _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
+    });
+    if (widget.onSelected != null) {
+      widget.onSelected(_selectedDate, _arrMonthsDays);
+    }
+  }
+
+  // 上一个月
+  void previousMonth () {
+    setState(() {
+      _selectedDate = DateUtil.previousMonth(_selectedDate);
+      _arrMonthsDays = DateUtil.daysInMonth(_selectedDate);
     });
     if (widget.onSelected != null) {
       widget.onSelected(_selectedDate, _arrMonthsDays);
@@ -159,21 +180,6 @@ class WowCalendarItem extends StatelessWidget {
     return new Container(
       child: renderDateOrDayOfWeek(context),
     );
-  }
-
-}
-
-
-class WowCalendarController {
-
-  WowCalendarController({
-    this.selectedDate,
-  });
-
-  final DateTime selectedDate;
-
-  void resetDay () {
-
   }
 
 }

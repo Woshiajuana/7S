@@ -12,3 +12,8 @@ class MineEvent {
 class PhotoListEvent {
   PhotoListEvent();
 }
+
+// table 上下页
+class WowCalendar {
+  WowCalendar(bool isNext);
+}

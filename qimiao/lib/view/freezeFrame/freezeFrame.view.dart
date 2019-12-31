@@ -34,11 +34,23 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
     return new Scaffold(
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
-        title: new Text(
-          DateFormat('yyyy/MM').format(_dateTime),
-          style: new TextStyle(
-            fontSize: 18.0,
-          ),
+        title: new Row(
+          children: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.arrow_back_ios, size: 18.0, color: Colors.white),
+              onPressed: () => _handleHelp(),
+            ),
+            new Text(
+              DateFormat('yyyy/MM').format(_dateTime),
+              style: new TextStyle(
+                fontSize: 18.0,
+              ),
+            ),
+            new IconButton(
+              icon: new Icon(Icons.arrow_forward_ios, size: 18.0, color: Colors.white),
+              onPressed: () => _handleHelp(),
+            ),
+          ],
         ),
         actions: <Widget>[
           new IconButton(
