@@ -75,54 +75,64 @@ class _FreezeFrameViewState extends State<FreezeFrameView> with TickerProviderSt
               }
               this._reqPhotoList(arrDay);
             },
-            dayBuilder: (BuildContext context, DateTime day, bool isSelected) {
-              bool isAfter = day.isAfter(new DateTime.now());
-              PhotoJsonModel photoJsonModel;
-              String imageUrl;
-              if (_arrPhotoData != null) {
-                _arrPhotoData.forEach((item) {
-                  bool isSameDay = DateUtil.isSameDay(DateTime.parse(item.created_at).toLocal(), day);
-                  if (isSameDay) photoJsonModel = item;
-                });
-                if (photoJsonModel != null) {
-                  FileJsonModel fileJsonModel = photoJsonModel.photo;
-                  imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
-                }
-              }
-              return new Container(
-                margin: const EdgeInsets.all(5.0),
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
-                ),
-                child: new Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    imageUrl == null ? new Container() : new CachedNetworkImage(
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                      imageUrl: imageUrl ?? '',
-                      placeholder: (context, url) => new Image.asset(
-                        Application.util.getImgPath('mine_head_bg.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      errorWidget: (context, url, error) => new Image.asset(
-                        Application.util.getImgPath('mine_head_bg.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    new Text(
-                      Utils.formatDay(day).toString(),
-                      style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
-                        color: Color(0xffbbbbbb),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              );
-            },
+            dayBuilder: _handleDayBuilder,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _handleDayBuilder (BuildContext context, DateTime day, bool isSelected) {
+    bool isAfter = day.isAfter(new DateTime.now());
+    PhotoJsonModel photoJsonModel;
+    String imageUrl;
+    if (_arrPhotoData != null) {
+      _arrPhotoData.forEach((item) {
+        bool isSameDay = DateUtil.isSameDay(DateTime.parse(item.created_at).toLocal(), day);
+        if (isSameDay) photoJsonModel = item;
+      });
+      if (photoJsonModel != null) {
+        FileJsonModel fileJsonModel = photoJsonModel.photo;
+        imageUrl = '${fileJsonModel.base}${fileJsonModel.path}${fileJsonModel.filename}';
+      }
+    }
+    return new Container(
+      margin: const EdgeInsets.all(5.0),
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        color: isAfter ? Colors.transparent : isSelected ? Theme.of(context).primaryColor : Color(0xffbbbbbb),
+      ),
+      child: new Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          imageUrl == null ? new Container() : new ClipOval(
+            child: new CachedNetworkImage(
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              imageUrl: imageUrl ?? '',
+              placeholder: (context, url) => new Image.asset(
+                Application.util.getImgPath('mine_head_bg.png'),
+                fit: BoxFit.cover,
+              ),
+              errorWidget: (context, url, error) => new Image.asset(
+                Application.util.getImgPath('mine_head_bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          imageUrl == null ? new Container() : new Container(
+            decoration: new BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromRGBO(0, 0, 0, 0.5),
+            ),
+          ),
+          new Text(
+            Utils.formatDay(day).toString(),
+            style: !isAfter || isSelected ? new TextStyle(color: Colors.white) : new TextStyle(
+              color: Color(0xffbbbbbb),
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
