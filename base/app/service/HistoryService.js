@@ -52,8 +52,6 @@ module.exports = class HandleServer extends Service {
     async list (data) {
         const { ctx, app } = this;
         let { numIndex, numSize, photo, user } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);

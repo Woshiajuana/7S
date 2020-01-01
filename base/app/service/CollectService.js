@@ -52,8 +52,6 @@ module.exports = class HandleServer extends Service {
     async list (data) {
         const { ctx, app } = this;
         let { numIndex, numSize, photo, user } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
         let filter = { $or: [] }; // 多字段匹配
         if (user) {
             filter.user = app.mongoose.Types.ObjectId(user);
@@ -68,7 +66,17 @@ module.exports = class HandleServer extends Service {
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
             .limit(numSize)
-            .populate()
+            .populate([
+                { path: 'user', select: { password: 0 } },
+                {
+                    path: 'photo',
+                    select: { password: 0 },
+                    populate: [
+                        { path: 'photo', select: 'base path filename'},
+                        { path: 'user', select: { password: 0 } },
+                    ],
+                },
+            ])
             .lean();
         return {
             list,
