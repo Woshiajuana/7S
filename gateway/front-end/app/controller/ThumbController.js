@@ -6,32 +6,45 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/thumb/create', middleware.tokenMiddleware(), controller.create)
+        app.router.mount('/api/v1/app/thumb/do', middleware.tokenMiddleware(), controller.do)
             .mount('/api/v1/app/thumb/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/thumb/del', middleware.tokenMiddleware(), controller.del)
         ;
     }
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/thumb/create 创建点赞
-     * @apiDescription 创建点赞
+     * @api {get} /api/v1/thumb/do 点赞 or 取消
+     * @apiDescription 点赞 or 取消
      * @apiGroup 点赞
-     * @apiParam  {String} [user] 用户 id
      * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/thumb/create
+     * @apiSampleRequest /api/v1/thumb/do
      */
-    async create () {
+    async do () {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                user: [ 'nonempty' ],
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建点赞：请求参数=> ${JSON.stringify(objParams)} `);
+            const { id: user } = ctx.state.token;
+            let data = await service.transformService.curl('api/v1/thumb/info', {
+                data: { ...objParams, user },
+            });
+            if (data) {
+                // 取消
+                await service.transformService.curl('api/v1/thumb/del', {
+                    data: { ...objParams, user },
+                });
+                data = '';
+            } else {
+                // 创建
+                data = await service.transformService.curl('api/v1/thumb/create', {
+                    data: { ...objParams, user },
+                });
+            }
             ctx.logger.info(`创建点赞：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data ? data._id : '');
         } catch (err) {
             ctx.respError(err);
         }
@@ -63,32 +76,5 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
-
-    /**
-     * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/thumb/del 删除点赞
-     * @apiDescription 删除点赞
-     * @apiGroup 点赞
-     * @apiParam  {String} [id] id
-     * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/thumb/del
-     */
-    async del () {
-        const { ctx, service, app } = this;
-        try {
-            const objParams = await ctx.validateBody({
-                id: [ 'nonempty' ],
-            });
-            const { id } = ctx.state.token;
-            const data = await service.transformService.curl('api/v1/thumb/del', {
-                data: { ...objParams, user: id },
-            });
-            ctx.respSuccess(data);
-        } catch (err) {
-            ctx.respError(err);
-        }
-    }
-
-
 
 };

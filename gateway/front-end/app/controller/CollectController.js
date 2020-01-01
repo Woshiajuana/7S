@@ -14,9 +14,8 @@ module.exports = class HandleController extends Controller {
     /**
      * @apiVersion 1.0.0
      * @api {get} /api/v1/collect/do 收藏 or 取消
-     * @apiDescription 创建收藏
+     * @apiDescription 收藏 or 取消
      * @apiGroup 收藏
-     * @apiParam  {String} [user] 用户 id
      * @apiParam  {String} [photo] 照片
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/collect/do
