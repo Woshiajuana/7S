@@ -142,6 +142,11 @@ module.exports = class HandleController extends Controller {
             });
             ctx.logger.info(`查询照片信息：请求参数=> ${id} `);
             const data = await service.photoService.findById(id);
+            // 查询点赞数
+            const numThumb = await service.thumbService.count({ photo: id });
+            // 查询收藏数
+            const numCollect = await service.collectService.count({ photo: id });
+            Object.assign(data, { numThumb, numCollect });
             ctx.logger.info(`查询照片信息：返回结果=> ${JSON.stringify(data)} `);
             ctx.respSuccess(data);
         } catch (err) {

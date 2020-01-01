@@ -162,6 +162,7 @@ module.exports = class HandleController extends Controller {
                 id: [ 'nonempty' ],
             });
             const { id: user } = ctx.state.token;
+            // 获取视频信息
             const data = await service.transformService.curl('api/v1/photo/info', {
                 data: { id },
             });

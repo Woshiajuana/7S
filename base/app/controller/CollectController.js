@@ -13,6 +13,8 @@ module.exports = class HandleController extends Controller {
         ;
     }
 
+
+
     /**
      * @apiVersion 1.0.0
      * @api {get} /api/v1/collect/create 创建收藏
