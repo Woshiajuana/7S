@@ -77,5 +77,5 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
-    
+
 };
