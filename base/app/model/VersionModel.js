@@ -48,14 +48,7 @@ module.exports = app => {
         },
 
         // 下载地址
-        android: {
-            type: String,
-            trim: true,
-            default: '',
-        },
-
-        // iOS:
-        ios: {
+        address: {
             type: String,
             trim: true,
             default: '',

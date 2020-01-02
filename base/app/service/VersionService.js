@@ -37,6 +37,16 @@ module.exports = class HandleServer extends Service {
         return await ctx.model.VersionModel.findById(id).lean();
     }
 
+    // 根据条件查询
+    async findOne (data) {
+        const { ctx, app } = this;
+        if (data.id) {
+            data._id = app.mongoose.Types.ObjectId(data.id);
+            delete data.id;
+        }
+        return await ctx.model.VersionModel.findOne(data).lean();
+    }
+
     // 删除
     async del ({ id, user }) {
         const { ctx, app } = this;

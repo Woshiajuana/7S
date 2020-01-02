@@ -10,6 +10,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/version/info', controller.info)
             .mount('/api/v1/version/list', controller.list)
             .mount('/api/v1/version/del', controller.del)
+            .mount('/api/v1/version/check', controller.check)
         ;
     }
 
@@ -129,5 +130,42 @@ module.exports = class HandleController extends Controller {
             ctx.respError(err);
         }
     }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/version/check 检测版本
+     * @apiDescription 检测版本
+     * @apiGroup 版本
+     * @apiParam  {String} [platform] 平台
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/version/check
+     */
+    async check () {
+        const { ctx, service, app } = this;
+        try {
+            let {
+                platform,
+            } = await ctx.validateBody({
+                platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
+            });
+            ctx.logger.info(`检测版本信息：请求参数=> ${platform} `);
+            // 查询最小版本
+            const objMin = await service.versionService.findOne({
+                platform,
+                min: true,
+            });
+            // 查询最新版本
+            const data = await service.versionService.findOne({
+                platform,
+                max: true,
+            });
+            data.minVersion = objMin ? objMin.version : '';
+            ctx.logger.info(`检测版本信息：返回结果=> 成功 `);
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
 
 };
