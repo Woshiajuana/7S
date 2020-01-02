@@ -8,3 +8,4 @@ export 'list.json.model.dart';
 export 'photo.json.model.dart';
 export 'file.json.model.dart';
 export 'history.json.model.dart';
+export 'collect.json.model.dart';

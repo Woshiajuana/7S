@@ -32,7 +32,7 @@ class _HistoryListViewState extends State<HistoryListView> {
       appBar: new AppBar(
         elevation: 0,
         title: new Text(
-          '浏览历史',
+          '历史',
           style: new TextStyle(
             fontSize: 18.0,
           ),
