@@ -25,8 +25,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [remark] 备注
      * @apiParam  {String} [min] 最低
      * @apiParam  {String} [max] 最高
-     * @apiParam  {String} [android] 下载地址
-     * @apiParam  {String} [ios] 下载地址
+     * @apiParam  {String} [address] 下载地址
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/version/create
      */
@@ -40,8 +39,7 @@ module.exports = class HandleController extends Controller {
                 remark: [ 'nonempty' ],
                 min: [ 'nonempty' ],
                 max: [ 'nonempty' ],
-                android: [ 'nonempty' ],
-                ios: [ 'nonempty' ],
+                address: [ 'nonempty' ],
             });
             ctx.logger.info(`创建版本：请求参数=> ${JSON.stringify(objParams)} `);
             await service.versionService.create(objParams);
