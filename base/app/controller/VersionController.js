@@ -157,7 +157,9 @@ module.exports = class HandleController extends Controller {
                 platform,
                 max: true,
             });
-            data.minVersion = objMin ? objMin.version : '';
+            if (data) {
+                data.minVersion = objMin ? objMin.version : '';
+            }
             ctx.logger.info(`检测版本信息：返回结果=> 成功 `);
             ctx.respSuccess(data);
         } catch (err) {
