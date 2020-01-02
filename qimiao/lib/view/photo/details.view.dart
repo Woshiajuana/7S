@@ -594,7 +594,6 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       });
       setState(() {
         _photoJsonModel.dislikeId = data ?? '';
-        _photoJsonModel.dislike = (data ?? '') == '' ? _photoJsonModel.dislike - 1 : _photoJsonModel.dislike + 1;
       });
       Application.util.modal.toast((data ?? '') == '' ? '已取消不喜欢' : '不喜欢成功');
     } catch (err) {

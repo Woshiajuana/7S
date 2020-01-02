@@ -24,7 +24,6 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                user: [ 'nonempty' ],
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建不喜欢：请求参数=> ${JSON.stringify(objParams)} `);
@@ -45,7 +44,7 @@ module.exports = class HandleController extends Controller {
                 });
             }
             ctx.logger.info(`创建不喜欢：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data ? data._id : '');
         } catch (err) {
             ctx.respError(err);
         }
