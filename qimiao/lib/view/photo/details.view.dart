@@ -318,7 +318,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
-                        _photoJsonModel?.thumb?.toString() ?? '0',
+                        _photoJsonModel?.numThumb?.toString() ?? '0',
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 10.0,
@@ -372,7 +372,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
                       ),
                       new SizedBox(height: 3.0),
                       new Text(
-                        _photoJsonModel?.collect?.toString() ?? '0',
+                        _photoJsonModel?.numCollect?.toString() ?? '0',
                         style: new TextStyle(
                           color: Color(0xff999999),
                           fontSize: 10.0,
@@ -577,7 +577,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
       });
       setState(() {
         _photoJsonModel.collectId = data ?? '';
-        _photoJsonModel.collect = (data ?? '') == '' ? _photoJsonModel.collect - 1 : _photoJsonModel.collect + 1;
+        _photoJsonModel.numCollect = (data ?? '') == '' ? _photoJsonModel.numCollect - 1 : _photoJsonModel.numCollect + 1;
       });
       Application.util.modal.toast((data ?? '') == '' ? '已取消收藏' : '收藏成功');
     } catch (err) {
@@ -607,11 +607,11 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     try {
       String strUrl = Application.config.api.doThumbOffOrOn;
       var data = await Application.util.http.post(strUrl, params: {
-        'id': _photoJsonModel?.id ?? '',
+        'photo': _photoJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.thumbId = data ?? '';
-        _photoJsonModel.thumb = (data ?? '') == '' ? _photoJsonModel.thumb - 1 : _photoJsonModel.thumb + 1;
+        _photoJsonModel.numThumb = (data ?? '') == '' ? _photoJsonModel.numThumb - 1 : _photoJsonModel.numThumb + 1;
       });
       Application.util.modal.toast((data ?? '') == '' ? '已取消点赞' : '点赞成功');
     } catch (err) {

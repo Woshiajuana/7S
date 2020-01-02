@@ -36,14 +36,14 @@ class PhotoJsonModel {
   @JsonKey(name: 'nature')
   String nature;
 
-  @JsonKey(name: 'thumb')
-  int thumb;
+  @JsonKey(name: 'numThumb')
+  int numThumb;
 
   @JsonKey(name: 'dislike')
   int dislike;
 
-  @JsonKey(name: 'collect')
-  int collect;
+  @JsonKey(name: 'numCollect')
+  int numCollect;
 
   @JsonKey(name: 'thumbId')
   String thumbId;

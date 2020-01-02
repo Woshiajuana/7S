@@ -6,7 +6,7 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/dislike/do', middleware.tokenMiddleware(), controller.create)
+        app.router.mount('/api/v1/app/dislike/do', middleware.tokenMiddleware(), controller.do)
             .mount('/api/v1/app/dislike/list', middleware.tokenMiddleware(), controller.list)
         ;
     }
