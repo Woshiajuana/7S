@@ -556,7 +556,7 @@ class _PhotoDetailsViewState extends State<PhotoDetailsView> {
     try {
       String strUrl = Application.config.api.doFollowUpdate;
       var data = await Application.util.http.post(strUrl, params: {
-        'photo': userJsonModel?.id ?? '',
+        'id': userJsonModel?.id ?? '',
       });
       setState(() {
         _photoJsonModel.user.follower = data ?? '';

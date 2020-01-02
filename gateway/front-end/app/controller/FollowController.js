@@ -31,6 +31,7 @@ module.exports = class HandleController extends Controller {
                 id: [ 'nonempty' ],
             });
             const { id: user } = ctx.state.token;
+            const { nickname, email } = ctx.state.token.user;
             if (id === user)
                 throw '不能关注自己';
             let objFollowingData = await service.transformService.curl('api/v1/following/info', {
@@ -58,6 +59,18 @@ module.exports = class HandleController extends Controller {
                 objFollowingData = '';
                 objFollowerData = '';
             }
+            // 通知作者用户已有人关注 or 取消关注
+            await service.transformService.curl('api/v1/notice/create', {
+                data: {
+                    user: id,
+                    title: objFollowerData ? `用户 ${nickname || email} 关注了您` : `用户 ${nickname || email} 取消了关注`,
+                    content: objFollowerData ? `恭喜您，用户 ${nickname || email} 关注了您，您又新增了一位粉丝哦。`
+                        : `哦豁...用户 ${nickname || email} 取消了关注。` ,
+                    type: 'TEXT',
+                    nature: 'PRIVATE',
+                    push: true,
+                },
+            });
             ctx.respSuccess(objFollowingData ? objFollowingData._id : '');
         } catch (err) {
             ctx.respError(err);
