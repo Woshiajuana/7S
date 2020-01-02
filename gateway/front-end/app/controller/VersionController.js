@@ -25,13 +25,14 @@ module.exports = class HandleController extends Controller {
         const { ctx, service } = this;
         try {
             let objParams = await ctx.validateBody({
-                email: [ 'nonempty' ],
-                template: [ 'nonempty' ],
+                platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
             });
             ctx.logger.info(`发送验证码：请求参数=> ${JSON.stringify(objParams)}`);
-            await service.emailService.sendCaptcha(objParams);
+            const data = await service.transformService.curl('api/v1/version/check', {
+                data: objParams,
+            });
             ctx.logger.info(`发送验证码：请求返回=> 发送成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
