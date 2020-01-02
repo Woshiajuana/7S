@@ -33,9 +33,9 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建收藏：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.collectService.create(objParams);
+            const data = await service.collectService.create(objParams);
             ctx.logger.info(`创建收藏：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

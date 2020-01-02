@@ -22,7 +22,7 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.ThumbModel.create(data);
+        return await ctx.model.ThumbModel.create(data);
     }
 
     // 根据 id 查询

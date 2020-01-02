@@ -31,9 +31,9 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
             });
             ctx.logger.info(`创建不喜欢：请求参数=> ${JSON.stringify(objParams)} `);
-            await service.dislikeService.create(objParams);
+            const data = await service.dislikeService.create(objParams);
             ctx.logger.info(`创建不喜欢：返回结果=> 成功`);
-            ctx.respSuccess();
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

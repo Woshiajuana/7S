@@ -8,7 +8,7 @@ module.exports = class HandleServer extends Service {
     // 创建
     async create (data) {
         const { ctx } = this;
-        await ctx.model.DislikeModel.create(data);
+        return await ctx.model.DislikeModel.create(data);
     }
 
 
