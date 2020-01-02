@@ -34,7 +34,7 @@ module.exports = class HandleController extends Controller {
         try {
             let objParams = await ctx.validateBody({
                 version: [ 'nonempty' ],
-                platform: [ 'nonempty' ],
+                platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
                 content: [ 'nonempty' ],
                 remark: [ 'nonempty' ],
                 min: [ 'nonempty' ],

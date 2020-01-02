@@ -52,7 +52,6 @@ module.exports = class HandleServer extends Service {
         const { ctx, app } = this;
         await ctx.model.VersionModel.remove({
             _id: app.mongoose.Types.ObjectId(id),
-            user: app.mongoose.Types.ObjectId(user),
         });
     }
 
