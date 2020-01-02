@@ -9,7 +9,7 @@ class FriendFollowerView extends StatefulWidget {
   _FriendFollowerViewState createState() => _FriendFollowerViewState();
 }
 
-class _FriendFollowerViewState extends State<FriendFollowerView> {
+class _FriendFollowerViewState extends State<FriendFollowerView> with AutomaticKeepAliveClientMixin {
 
   ListJsonModel _listJsonModel;
   List<UserJsonModel> _arrData;
@@ -24,7 +24,12 @@ class _FriendFollowerViewState extends State<FriendFollowerView> {
   }
 
   @override
+  bool get wantKeepAlive => true; // 要点2
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // 要点3
+
     return new WowLoadView(
       data: _arrData,
       child: new WowScrollListView(

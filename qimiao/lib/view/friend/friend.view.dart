@@ -4,8 +4,14 @@ import 'package:qimiao/common/application.dart';
 import 'package:qimiao/view/friend/follower.view.dart';
 import 'package:qimiao/view/friend/following.view.dart';
 
-
 class FriendView extends StatefulWidget {
+
+  FriendView({
+    this.index = 0,
+  });
+
+  final int index;
+
   @override
   _FriendViewState createState() => _FriendViewState();
 }
@@ -22,7 +28,7 @@ class _FriendViewState extends State<FriendView> with SingleTickerProviderStateM
 
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2);
+    _tabController = new TabController(vsync: this, length: 2, initialIndex: widget?.index ?? 0);
   }
 
   @override

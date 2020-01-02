@@ -156,7 +156,9 @@ class Router {
     'friend': {
       'route': (_) => new FriendView(),
       'handle': (params) {
-        return new FriendView();
+        return new FriendView(
+          index: params['index'],
+        );
       }
     },
     'friendInfo': {
@@ -282,7 +284,7 @@ class Router {
   }
 
   push (BuildContext context, routeName, { params }) {
-    return navigatorRouter(context, config[routeName]['handle'](params));
+    return navigatorRouter(context, config[routeName]['handle'](params ?? {}));
   }
 
   replace (BuildContext context, String routeName, { params, animation: false }) {
@@ -300,7 +302,7 @@ class Router {
   root (BuildContext context, routeName, { params }) {
     return Navigator.of(context).pushAndRemoveUntil(
       //跳转
-      new MaterialPageRoute(builder: (context) => config[routeName]['handle'](params)),
+      new MaterialPageRoute(builder: (context) => config[routeName]['handle'](params ?? {})),
       //清除其他路由
       (route) {
         print('路由路由路由 $route');

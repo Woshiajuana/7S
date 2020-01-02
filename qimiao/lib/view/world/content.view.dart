@@ -17,7 +17,7 @@ class WorldContentView extends StatefulWidget {
   _WorldContentViewState createState() => _WorldContentViewState();
 }
 
-class _WorldContentViewState extends State<WorldContentView>  with AutomaticKeepAliveClientMixin {
+class _WorldContentViewState extends State<WorldContentView> with AutomaticKeepAliveClientMixin {
 
   List<PhotoJsonModel> _arrRecommend;
 

@@ -289,7 +289,7 @@ class _MineViewState extends State<MineView> with AutomaticKeepAliveClientMixin 
           _widgetBaseInfoItem(
             labelText: '粉丝',
             valueText: model?.user?.numFollower?.toString() ?? '0',
-            onPressed: () => Application.router.push(context, 'friend'),
+            onPressed: () => Application.router.push(context, 'friend', params: { 'index': 1 }),
           ),
           _widgetBaseInfoItem(
             labelText: '关注',
