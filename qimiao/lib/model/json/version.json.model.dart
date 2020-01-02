@@ -46,7 +46,7 @@ class VersionJsonModel {
   String minVersion;
 
   @JsonKey(name: 'content')
-  List content;
+  List<String> content;
 
   @JsonKey(name: 'created_at')
   String created_at;

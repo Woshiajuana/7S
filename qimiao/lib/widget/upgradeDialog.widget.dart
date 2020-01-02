@@ -1,14 +1,21 @@
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UpgradeDialog extends StatefulWidget {
 
   const UpgradeDialog({
     Key key,
     this.arrContent,
+    this.url,
+    this.isForce = false,
   }) : super(key: key);
 
   final List<String> arrContent;
+  final bool isForce;
+  final String url;
 
   @override
   _UpgradeDialogState createState() => new _UpgradeDialogState();
@@ -37,7 +44,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
               ),
             ),
           ),
-          _widgetCloseSection(),
+          (widget.isForce ?? false) ? new Container() : _widgetCloseSection(),
         ],
       ),
     );
@@ -181,11 +188,22 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
   }
 
   void _handleUpdate () async {
+    if ((widget.url ?? '') == '') return null;
+    if (Platform.isIOS || !widget.url.endsWith('.apk')) {
+      try {
+        await canLaunch(widget.url);
+        await launch(widget.url);
+      } catch (err) {
+        Application.util.modal.toast(err);
+      }
+    } else {
+      // 下载 APK
 
-    setState(() {
-      _isUpdate = true;
-    });
+    }
 
+//    setState(() {
+//      _isUpdate = true;
+//    });
   }
 
 }

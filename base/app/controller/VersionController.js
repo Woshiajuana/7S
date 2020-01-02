@@ -43,7 +43,7 @@ module.exports = class HandleController extends Controller {
             });
             ctx.logger.info(`创建版本：请求参数=> ${JSON.stringify(objParams)} `);
             let { min, max, platform, version } = objParams;
-            let data = service.versionService.count({ platform, version });
+            let data = await service.versionService.count({ platform, version });
             if (data) throw '该版本已存在哦';
             if (min) {
                 await service.versionService.update({ min: true }, { min: false });
@@ -162,12 +162,14 @@ module.exports = class HandleController extends Controller {
                 min: true,
             });
             // 查询最新版本
-            const data = await service.versionService.findOne({
+            let data = await service.versionService.findOne({
                 platform,
                 max: true,
             });
             if (data) {
                 data.minVersion = objMin ? objMin.version : '';
+            } else {
+                data = objMin;
             }
             ctx.logger.info(`检测版本信息：返回结果=> 成功 `);
             ctx.respSuccess(data);

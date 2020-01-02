@@ -145,14 +145,14 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
       try {
         String strUrl = Application.config.api.reqVersionCheck;
         var data = await Application.util.http.post(strUrl, params: {
-          'platform': Platform.isIOS ? 'iOS' : 'andorid'
+          'platform': Platform.isIOS ? 'iOS' : 'android'
         }, useLoading: false);
-        VersionJsonModel versionJsonModel = VersionJsonModel.fromJson(data);
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String version = packageInfo.version;
-        bool isForceUpdate = false;
-        bool isUpdate = false;
-        if (versionJsonModel != null) {
+        if (data != null) {
+          VersionJsonModel versionJsonModel = VersionJsonModel.fromJson(data);
+          PackageInfo packageInfo = await PackageInfo.fromPlatform();
+          String version = packageInfo.version;
+          bool isForceUpdate = false;
+          bool isUpdate = false;
           String maxVersion = versionJsonModel.version ?? '';
           String minVersion = versionJsonModel.minVersion ?? '';
           if (maxVersion != '') {
@@ -163,11 +163,13 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
           }
 
           if (isForceUpdate || isUpdate) {
-            var result = await showDialog(
+            await showDialog(
               context: context,
               builder: (BuildContext buildContext) {
                 return new WillPopScope(
                     child: new UpgradeDialog(
+                      url: versionJsonModel.address,
+                      isForce: isForceUpdate,
                       arrContent: versionJsonModel.content,
                     ),
                     onWillPop: () async {
@@ -176,15 +178,6 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
                 );
               },
             );
-            if (result != true) return;
-            try {
-
-            } catch (err) {
-
-            } finally {
-
-            }
-
           }
         }
       } catch (err) {

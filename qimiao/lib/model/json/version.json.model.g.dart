@@ -15,7 +15,7 @@ VersionJsonModel _$VersionJsonModelFromJson(Map<String, dynamic> json) {
       json['min'] as bool,
       json['max'] as bool,
       json['address'] as String,
-      json['content'] as List,
+      (json['content'] as List)?.map((e) => e as String)?.toList(),
       json['minVersion'] as String,
       json['created_at'] as String);
 }
