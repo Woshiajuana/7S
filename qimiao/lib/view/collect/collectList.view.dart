@@ -233,29 +233,6 @@ class _CollectListViewState extends State<CollectListView> {
     );
   }
 
-  // 操作
-  void _handleClear () async {
-    var result = await showDialog(
-      context: context,
-      builder: (BuildContext buildContext) {
-        return new ConfirmDialog(
-          content: '确定要清空浏览历史？',
-        );
-      },
-    );
-    if (result != true) return;
-    try {
-      String strUrl = Application.config.api.doHistoryClear;
-      await Application.util.http.post(strUrl);
-      setState(() {
-        _arrData = [];
-      });
-      Application.util.modal.toast('清除成功');
-    } catch (err) {
-      Application.util.modal.toast(err);
-    }
-  }
-
   // 刷新
   void _handleRefresh() async {
     _numIndex = 1;

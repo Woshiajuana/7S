@@ -457,32 +457,6 @@ class _FriendInfoViewState extends State<FriendInfoView> {
     await this._reqPhotoList();
   }
 
-  // 删除
-  void _doPhotoDelete (PhotoJsonModel photoJsonModel) async {
-    Application.router.pop(context);
-    var result = await showDialog(
-      context: context,
-      builder: (BuildContext buildContext) {
-        return new ConfirmDialog(
-          content: '确定要删除该张照片么？',
-        );
-      },
-    );
-    if (result != true) return;
-    try {
-      String strUrl = Application.config.api.doPhotoDelete;
-      Map mapParams = { 'id': photoJsonModel.id };
-      await Application.util.http.post(strUrl, params: mapParams);
-      setState(() {
-        _listJsonModel.total--;
-        _arrData.remove(photoJsonModel);
-      });
-      Application.util.modal.toast('删除成功');
-    } catch (err) {
-      Application.util.modal.toast(err);
-    }
-  }
-
   void _reqUserInfo () async {
     Future.delayed(Duration(milliseconds: 0)).then((e) async{
       try {

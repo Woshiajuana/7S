@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qimiao/view/freezeFrame/freezeFrame.view.dart';
 import 'package:qimiao/common/common.dart';
 import 'package:qimiao/model/model.dart';
+import 'package:qimiao/widget/widget.dart';
 import 'package:package_info/package_info.dart';
 
 class AppView extends StatefulWidget {
@@ -160,11 +161,31 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
           if (minVersion != '') {
             isForceUpdate = _compareVersion(minVersion, version);
           }
-        }
-        if (isForceUpdate) {
 
-        } else if (isUpdate) {
+          if (isForceUpdate || isUpdate) {
+            var result = await showDialog(
+              context: context,
+              builder: (BuildContext buildContext) {
+                return new WillPopScope(
+                    child: new UpgradeDialog(
+                      arrContent: versionJsonModel.content,
+                    ),
+                    onWillPop: () async {
+                      return Future.value(false);
+                    }
+                );
+              },
+            );
+            if (result != true) return;
+            try {
 
+            } catch (err) {
+
+            } finally {
+
+            }
+
+          }
         }
       } catch (err) {
         print(err);

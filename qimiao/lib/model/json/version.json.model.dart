@@ -16,6 +16,7 @@ class VersionJsonModel {
     this.min,
     this.max,
     this.address,
+    this.content,
     this.minVersion,
     this.created_at,
   );
@@ -43,6 +44,9 @@ class VersionJsonModel {
 
   @JsonKey(name: 'minVersion')
   String minVersion;
+
+  @JsonKey(name: 'content')
+  List content;
 
   @JsonKey(name: 'created_at')
   String created_at;
