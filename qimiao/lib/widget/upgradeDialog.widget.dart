@@ -3,7 +3,10 @@ import 'package:qimiao/common/application.dart';
 
 class UpgradeDialog extends StatefulWidget {
 
-  const UpgradeDialog({Key key, this.arrContent}) : super(key: key);
+  const UpgradeDialog({
+    Key key,
+    this.arrContent,
+  }) : super(key: key);
 
   final List<String> arrContent;
 

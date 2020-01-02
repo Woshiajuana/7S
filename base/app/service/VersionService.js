@@ -8,10 +8,7 @@ module.exports = class HandleServer extends Service {
     // 数量
     async count (data) {
         const { ctx } = this;
-        const { user } = data;
-        return await ctx.model.VersionModel.count({
-            user: app.mongoose.Types.ObjectId(user),
-        });
+        return await ctx.model.VersionModel.count(data);
     }
 
     // 创建
@@ -21,14 +18,13 @@ module.exports = class HandleServer extends Service {
     }
 
     // 更新
-    async update (data) {
+    async update (filter, data) {
         const { ctx, app } = this;
-        const { id, user } = data;
-        delete data.id;
-        await ctx.model.VersionModel.update({
-            _id: app.mongoose.Types.ObjectId(id),
-            user: app.mongoose.Types.ObjectId(user),
-        }, data);
+        if (filter.id) {
+            filter._id = app.mongoose.Types.ObjectId(data.id);
+            delete filter.id;
+        }
+        await ctx.model.VersionModel.update(filter, data);
     }
 
     // 根据 id 查询

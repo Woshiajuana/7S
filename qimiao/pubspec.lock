@@ -230,15 +230,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.8"
-  flutter_custom_calendar:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: ecd90edbc4002f8587823c8d44ddfa7ac1795eed
-      url: "https://github.com/LXD312569496/flutter_custom_calendar.git"
-    source: git
-    version: "0.0.1"
   flutter_redux:
     dependency: "direct main"
     description:
@@ -419,6 +410,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.0"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0+12"
   package_resolver:
     dependency: transitive
     description:
@@ -454,13 +452,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.0"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.2.0"
   pub_semver:
     dependency: transitive
     description:
@@ -538,13 +529,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.3"
-  simple_gesture_detector:
-    dependency: transitive
-    description:
-      name: simple_gesture_detector
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -606,13 +590,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0+1"
-  table_calendar:
-    dependency: "direct main"
-    description:
-      name: table_calendar
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.2.1"
   term_glyph:
     dependency: transitive
     description:

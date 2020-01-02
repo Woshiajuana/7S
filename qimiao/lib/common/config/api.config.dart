@@ -145,4 +145,9 @@ class Api {
     return 'v1/app/dislike/do';
   }
 
+  // 版本更新
+  String get reqVersionCheck {
+    return 'v1/app/version/check';
+  }
+
 }

@@ -1,13 +1,15 @@
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:qimiao/view/world/world.view.dart';
 import 'package:qimiao/view/mine/mine.view.dart';
-import 'package:qimiao/common/application.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qimiao/view/freezeFrame/freezeFrame.view.dart';
-
+import 'package:qimiao/common/common.dart';
+import 'package:qimiao/model/model.dart';
+import 'package:package_info/package_info.dart';
 
 class AppView extends StatefulWidget {
 
@@ -48,6 +50,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
       initialPage: 0,
     );
     Application.context = context;
+    this._reqVersionCheck();
   }
 
   // 组件即将销毁时调用
@@ -62,6 +65,7 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
   // 生命周期方法构建Widget时调用
   @override
   Widget build(BuildContext context) {
+    this._reqVersionCheck();
     return new WillPopScope(
       onWillPop: _onBackPressed,
       child: new Scaffold(
@@ -133,6 +137,48 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
 
   static Future<void> pop() async {
     await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+
+  void _reqVersionCheck () async {
+    await Future.delayed(Duration(milliseconds: 0)).then((e) async{
+      try {
+        String strUrl = Application.config.api.reqVersionCheck;
+        var data = await Application.util.http.post(strUrl, params: {
+          'platform': Platform.isIOS ? 'iOS' : 'andorid'
+        }, useLoading: false);
+        VersionJsonModel versionJsonModel = VersionJsonModel.fromJson(data);
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String version = packageInfo.version;
+        bool isForceUpdate = false;
+        bool isUpdate = false;
+        if (versionJsonModel != null) {
+          String maxVersion = versionJsonModel.version ?? '';
+          String minVersion = versionJsonModel.minVersion ?? '';
+          if (maxVersion != '') {
+            isUpdate = _compareVersion(maxVersion, version);
+          }
+          if (minVersion != '') {
+            isForceUpdate = _compareVersion(minVersion, version);
+          }
+        }
+        if (isForceUpdate) {
+
+        } else if (isUpdate) {
+
+        }
+      } catch (err) {
+        print(err);
+//        Application.util.modal.toast(err);
+      }
+    });
+  }
+
+  bool _compareVersion (String v1, String v2) {
+    List<String> arrV1 = v1.split('.');
+    List<String> arrV2 = v2.split('.');
+    return int.parse(arrV1[0]) > int.parse(arrV2[0])
+    || int.parse(arrV1[1]) > int.parse(arrV2[1])
+    || int.parse(arrV1[2]) > int.parse(arrV2[2]);
   }
 
 }

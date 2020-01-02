@@ -42,6 +42,15 @@ module.exports = class HandleController extends Controller {
                 address: [ 'nonempty' ],
             });
             ctx.logger.info(`创建版本：请求参数=> ${JSON.stringify(objParams)} `);
+            let { min, max, platform, version } = objParams;
+            let data = service.versionService.count({ platform, version });
+            if (data) throw '该版本已存在哦';
+            if (min) {
+                await service.versionService.update({ min: true }, { min: false });
+            }
+            if (max) {
+                await service.versionService.update({ max: true }, { max: false });
+            }
             await service.versionService.create(objParams);
             ctx.logger.info(`创建版本：返回结果=> 成功`);
             ctx.respSuccess();

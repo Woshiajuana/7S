@@ -9,3 +9,4 @@ export 'photo.json.model.dart';
 export 'file.json.model.dart';
 export 'history.json.model.dart';
 export 'collect.json.model.dart';
+export 'version.json.model.dart';
