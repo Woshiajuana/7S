@@ -37,12 +37,6 @@ class _CollectListViewState extends State<CollectListView> {
             fontSize: 18.0,
           ),
         ),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.delete_outline),
-            onPressed: () => _handleClear(),
-          ),
-        ],
       ),
       body: new WowLoadView(
         data: _arrData,
@@ -52,8 +46,61 @@ class _CollectListViewState extends State<CollectListView> {
             data: _arrData,
             total: _listJsonModel?.total ?? 0,
             itemBuilder: (content, index) {
-              return _widgetPhotoCellItem(index);
-            }
+              return new Dismissible(
+                key: Key(UniqueKey().toString()),
+                child: _widgetPhotoCellItem(index),
+                background: new Container(
+                  alignment: Alignment.center,
+                  color: Color(0xffbbbbbb),
+                  // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                  child: new ListTile(
+                    leading: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                secondaryBackground: Container(
+                  alignment: Alignment.center,
+                  color: Color(0xffbbbbbb),
+                  // 这里使用 ListTile 因为可以快速设置左右两端的Icon
+                  child: ListTile(
+                    trailing: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                confirmDismiss: (direction) async {
+                  var isDismiss = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return new ConfirmDialog(
+                          content: '确定要取消该视频的收藏？',
+                        );
+                      });
+                  if (isDismiss == true) {
+                    try {
+                      String strUrl = Application.config.api.doCollectOffOrOn;
+                      await Application.util.http.post(strUrl, params: {
+                        'photo': _arrData[index]?.id ?? '',
+                      });
+                      Application.util.modal.toast('取消成功');
+                    } catch (err) {
+                      isDismiss = false;
+                      Application.util.modal.toast(err);
+                    }
+                  }
+                  return isDismiss == true;
+                },
+                onDismissed: (direction){
+                  // 删除后刷新列表，以达到真正的删除
+                  setState(() {
+                    _arrData.removeAt(index);
+                  });
+                },
+              );
+            },
         ),
       ),
     );
@@ -200,7 +247,9 @@ class _CollectListViewState extends State<CollectListView> {
     try {
       String strUrl = Application.config.api.doHistoryClear;
       await Application.util.http.post(strUrl);
-      this._reqHistoryList();
+      setState(() {
+        _arrData = [];
+      });
       Application.util.modal.toast('清除成功');
     } catch (err) {
       Application.util.modal.toast(err);

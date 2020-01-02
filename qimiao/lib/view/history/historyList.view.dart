@@ -200,7 +200,9 @@ class _HistoryListViewState extends State<HistoryListView> {
     try {
       String strUrl = Application.config.api.doHistoryClear;
       await Application.util.http.post(strUrl);
-      this._reqHistoryList();
+      setState(() {
+        _arrData = [];
+      });
       Application.util.modal.toast('清除成功');
     } catch (err) {
       Application.util.modal.toast(err);
