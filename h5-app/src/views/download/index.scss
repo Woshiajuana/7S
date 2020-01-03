@@ -6,37 +6,61 @@ body{
 }
 
 .header{
-    padding: j(20) j(20) 0;
+    padding: j(10) j(10) 0;
 }
 .logo{
-    width: j(86);
-    height: j(20);
+    width: auto;
+    height: j(50);
 }
 
 .container{
     @extend %df;
     @extend %fdc;
     @extend %aic;
-    padding-top: j(46);
+    padding-top: j(20);
 }
 .banner{
+    @extend %df;
+    @extend %aic;
+    @extend %jcc;
+    @extend %pr;
     width: j(260);
     height: j(260);
+    background-color: #ec8b62;
+    border-radius: 50%;
+    img{
+        width: auto;
+        height: j(200);
+    }
+    &:after{
+        @extend %pa;
+        @extend %r0;
+        @include tfr(30deg);
+        content: '';
+        bottom: j(-80);
+        width: 0;
+        height: 0;
+        border-width: 130px;
+        border-style: solid;
+        border-color: transparent #fff #fff transparent;
+    }
 }
 .prompt{
+    @extend %pr;
     @extend %fwn;
     font-size: j(17);
     color: #34495E;
     line-height: j(24);
 }
 .button{
+    @extend %pr;
     @extend %df;
     @extend %aic;
     @extend %jcc;
     margin-top: j(70);
     width: j(263);
     height: j(45);
-    background-color: #029BDD;
+    background-color: #ec642f;
     border-radius: j(8);
 }
 .button-text{
