@@ -1,0 +1,217 @@
+
+@import "./define";
+
+body{
+    @extend %oh;
+    @extend %h100;
+    background-color: #fff;
+    //min-height: j(480);
+    //overflow-x: hidden;
+}
+
+.app{
+    @extend %df;
+    @extend %fdc;
+    @extend %h100;
+    //@extend %aic;
+    >div{
+        //@extend %w100;
+    }
+}
+.null{
+    @extend %df1;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #DEDEDE;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #DEDEDE;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #DEDEDE;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #DEDEDE;
+}
+
+.header{
+    padding: j(24) j(20) 0;
+}
+.return-btn{
+    @extend %db;
+    height: j(22);
+    width: j(36);
+    background: url("~assets/images/css/backInpage_icon2x.png") no-repeat;
+    background-size: contain;
+}
+.common-null{
+    @extend %db;
+    height: j(22);
+}
+.title{
+    @extend %fwn;
+    font-size: j(30);
+    color: #333;
+    margin-top: j(10);
+    line-height: j(42);
+}
+.container{
+    padding: 0 j(20);
+}
+.prompt-wrap{
+    height: j(50);
+    line-height: j(25);
+}
+.prompt{
+    @extend %fwn;
+    font-size: j(18);
+    color: #999;
+}
+.prompt-sub{
+    @extend %fwn;
+    font-size: j(14);
+    color: #999;
+}
+.input-wrap{
+    @extend %pr;
+    @extend %df;
+    @extend %aic;
+    margin-top: j(9);
+    height: j(42);
+    border-bottom: 1px solid #DEDEDE;
+}
+.input-box{
+    @extend %df1;
+    @extend %pr;
+}
+.input{
+    @extend %w100;
+    border: none;
+    background-color: transparent;
+    font-size: j(18);
+    color: #333;
+    height: j(42);
+    line-height: j(42);
+}
+.input-clear{
+    @extend %dn;
+    height: j(42);
+    width: j(42);
+    background: url("~assets/images/css/delete_icon2x.png") no-repeat center;
+    background-size: j(16) j(16);
+}
+.input-eye{
+    height: j(42);
+    width: j(42);
+    background: url("~assets/images/css/passwordvis_b_icon2x.png") no-repeat center;
+    background-size: j(22) j(15);
+    &.off{
+        background: url("~assets/images/css/passwordinvs_b_icon2x.png") no-repeat center;
+        background-size: j(22) j(19);
+    }
+}
+.tips{
+    font-size: j(14);
+    color: #999;
+    margin-top: j(16);
+    line-height: j(20);
+}
+.operation-wrap{
+    @extend %df;
+    @extend %aic;
+    @extend %jcs;
+    margin-top: j(30);
+}
+.code{
+    @extend %tar;
+    width: j(100);
+    font-size: j(16);
+    span{
+        color: #DEDEDE;
+    }
+    .active {
+        color: #001dff;
+    }
+}
+.select,
+.link{
+    @extend %df1;
+    font-size: j(16);
+    span{
+        color: #999;
+    }
+    .active,
+    a{
+        color: #001dff;
+    }
+}
+.select{
+    @extend %df;
+    font-size: j(14);
+    line-height: j(20);
+    i{
+        background-color: #FFFFFF;
+        border: 1px solid #DEDEDE;
+    }
+    &.active{
+        .icon{
+            border: 1px solid #029BDD;
+            div{
+                @extend %db;
+            }
+        }
+    }
+}
+.select-con{
+    @extend %df1;
+}
+.icon{
+    margin-right: j(4);
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    border: 1px solid #DEDEDE;
+    div{
+        @extend %dn;
+        width: 10px;
+        height: 10px;
+        margin: 2px;
+        border-radius: 10px;
+        background-color: #029BDD;
+        //background-color: #ff34d0;
+    }
+}
+.button{
+    @extend %df;
+    @extend %aic;
+    @extend %jcc;
+    width: j(140);
+    height: j(56);
+    background-image: linear-gradient(-167deg, #52DDFF 0%, #029BDD 100%);
+    border-radius: j(28);
+    opacity: 1;
+    &.disabled{
+        cursor: default;
+        opacity: 0.5;
+    }
+}
+.button-text{
+    @extend %db;
+    font-size: j(16);
+    color: #fff;
+}
+
+.footer{
+    //@extend %pa;
+    //@extend %l0;
+    //@extend %r0;
+    //bottom: j(40);
+    padding-bottom: 40px;
+}
+.logo{
+    @extend %ma;
+    @extend %db;
+    width: j(104);
+    height: j(24);
+}

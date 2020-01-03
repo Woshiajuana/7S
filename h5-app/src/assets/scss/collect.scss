@@ -1,0 +1,33 @@
+@import "./define";
+
+body{
+    background-color: #fff;
+    min-height: j(480);
+    overflow-x: hidden;
+}
+
+.footer{
+    @extend %pf;
+    @extend %bsb;
+    @extend %b0;
+    @extend %r0;
+    @extend %l0;
+    @extend %df;
+    @extend %aic;
+    @extend %jcc;
+    height: j(40);
+    background-color: #fff;
+    border-top: 1px solid #DEDEDE;
+    span,i{
+        @extend %db;
+        font-size: j(12);
+        color: #999;
+    }
+}
+.logo{
+    width: j(63);
+    height: j(14);
+    background: url("~assets/images/css/make_inline_logo.png") no-repeat;
+    background-size: contain;
+    margin: 0 j(4);
+}
