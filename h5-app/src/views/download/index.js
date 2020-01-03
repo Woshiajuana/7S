@@ -21,7 +21,7 @@ const DownloadController = {
             return Toast.msg('很抱歉暂时还未发布苹果版本');
         if (this.isWeChat && this.isQq)
             return Toast.msg('请使用系统浏览器打开本页面进行下载');
-        window.location.href = '';
+        window.location.href = `${window.location.protocol}//${window.location.hostname}:40003/app/7S/app-release.apk`;
     },
 };
 
