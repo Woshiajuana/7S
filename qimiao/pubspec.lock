@@ -230,13 +230,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.8"
-  flutter_redux:
-    dependency: "direct main"
-    description:
-      name: flutter_redux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.5.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -501,13 +494,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.3"
-  redux:
-    dependency: transitive
-    description:
-      name: redux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.0.0"
   scoped_model:
     dependency: "direct main"
     description:
@@ -653,13 +639,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.8"
-  video_player:
-    dependency: "direct main"
-    description:
-      name: video_player
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.9.0"
   watcher:
     dependency: transitive
     description:

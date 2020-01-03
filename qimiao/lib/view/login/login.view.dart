@@ -25,8 +25,8 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _strAccount = '979703986@qq.com';
-    _strPassword = '1';
+    _strAccount = '';
+    _strPassword = '';
     _accountController = TextEditingController(text: _strAccount);
     _passController = TextEditingController(text: _strPassword);
     _captchaController = TextEditingController(text: '');
