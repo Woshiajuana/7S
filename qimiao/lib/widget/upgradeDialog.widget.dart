@@ -1,5 +1,4 @@
 
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -189,17 +188,17 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
   void _handleUpdate () async {
     if ((widget.url ?? '') == '') return null;
-    if (Platform.isIOS || !widget.url.endsWith('.apk')) {
+//    if (Platform.isIOS || !widget.url.endsWith('.apk')) {
       try {
         await canLaunch(widget.url);
         await launch(widget.url);
       } catch (err) {
         Application.util.modal.toast(err);
       }
-    } else {
+//    } else {
       // 下载 APK
 
-    }
+//    }
 
 //    setState(() {
 //      _isUpdate = true;

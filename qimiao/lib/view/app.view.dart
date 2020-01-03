@@ -66,7 +66,6 @@ class _AppViewState extends State<AppView> with SingleTickerProviderStateMixin {
   // 生命周期方法构建Widget时调用
   @override
   Widget build(BuildContext context) {
-    this._reqVersionCheck();
     return new WillPopScope(
       onWillPop: _onBackPressed,
       child: new Scaffold(
