@@ -24,4 +24,5 @@ const DownloadController = {
         window.location.href = '';
     },
 };
+
 DownloadController.init();
