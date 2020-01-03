@@ -10,7 +10,7 @@ let { wow, app } = window.wowRuntime.init({
     // API配置
     httpRequest: {
         baseURL: `${window.location.protocol}//${window.location.hostname}:9003/`,
-        timeout: 3000,
+        timeout: 60 * 1000,
     },
     // app 常量配置
     appConst: {
