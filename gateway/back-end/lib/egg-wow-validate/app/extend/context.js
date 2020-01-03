@@ -7,4 +7,7 @@ module.exports = {
     async validateQuery(expect, config) {
         return await this.app.validate.check(this.request.query, expect, config);
     },
+    async validateFiles(expect, config) {
+        return await this.app.validate.check(this.request.files || [], expect, config);
+    },
 };

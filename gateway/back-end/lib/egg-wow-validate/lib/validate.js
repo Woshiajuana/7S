@@ -13,17 +13,17 @@ class Validate {
         this.regular = Object.assign({ nonempty }, validator, this.config.regular);
         this._log('start register');
     }
-    initResult() {
-        this.sucResult = {};
+    initResult(expect) {
+        this.sucResult = Object.prototype.toString.call(expect) === '[object Array]' ? [] : {};
         this.errResult = [];
     }
     async check(source, expect, config = {}) {
-        this.initResult();
         let { mode, errPrompt, trim } = Object.assign({}, this.config, config);
         delete config.regular;
         if (typeof expect === 'function') {
             expect = expect(this.regular);
         }
+        this.initResult(expect);
         try {
             let isValidate = true;
             forEach(expect, (uses, key) => {

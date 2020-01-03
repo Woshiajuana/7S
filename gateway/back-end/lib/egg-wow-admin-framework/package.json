@@ -47,6 +47,8 @@
     ],
     "eslintIgnore": [
         "coverage",
+        "lib",
+        "test",
         "dist"
     ],
     "license": "MIT"

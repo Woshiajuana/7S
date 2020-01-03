@@ -18,10 +18,10 @@ class Agent extends egg.Agent {
 
 class CurlService extends egg.Service {
 
-    constructor(ctx, name) {
-        super(ctx, name);
-        this.strName = name || this.constructor.name;
-        this.options = Object.assign({}, ctx.app.config.curl[this.strName] || {});
+    constructor(ctx, options = {}) {
+        super(ctx);
+        this.strName = options.name || this.constructor.name;
+        this.options = Object.assign({}, ctx.app.config.curl[this.strName] || {}, options);
     }
 
     async afterRequest (response) {
@@ -44,6 +44,8 @@ class CurlService extends egg.Service {
         options = Object.assign({
             method: 'POST',
             dataType: 'json',
+            contentType: 'json',
+            timeout: 30 * 1000,
         }, this.options, options);
         let {
             baseUrl,
@@ -56,8 +58,8 @@ class CurlService extends egg.Service {
         if (response.status >= 300 || response.status < 200) {
             this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求失败结果:${JSON.stringify(response)}`);
         }
-        response = await this.afterRequest(response);
         this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求成功结果:${JSON.stringify(response)}`);
+        response = await this.afterRequest(response);
         return response;
     }
 }
