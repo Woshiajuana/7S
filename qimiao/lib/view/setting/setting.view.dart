@@ -1,7 +1,10 @@
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/application.dart';
 import 'package:qimiao/widget/widget.dart';
+import 'package:qimiao/model/model.dart';
+import 'package:package_info/package_info.dart';
 
 class SettingView extends StatefulWidget {
   @override
@@ -54,6 +57,7 @@ class _SettingViewState extends State<SettingView> {
       {
         'useMargin': false,
         'text': '检测更新',
+        'onPressed': _handleCheckVersion,
       },
       {
         'useMargin': true,
@@ -104,7 +108,12 @@ class _SettingViewState extends State<SettingView> {
     return new Column(
       children: _arrMenu.map((item) {
         return _widgetMenuItem(
-          onPressed: () => Application.router.push(context, item['routeName'], params: item['params']),
+          onPressed: () {
+            if (item['routeName'] != null)
+              Application.router.push(context, item['routeName'], params: item['params']);
+            else if  (item['onPressed'] != null)
+              item['onPressed']();
+          },
           text: item['text'],
           useMargin: item['useMargin'],
         );
@@ -155,6 +164,59 @@ class _SettingViewState extends State<SettingView> {
     } finally {
       Application.router.root(context, 'login');
     }
+  }
+
+  void _handleCheckVersion () async {
+    try {
+      String strUrl = Application.config.api.reqVersionCheck;
+      var data = await Application.util.http.post(strUrl, params: {
+        'platform': Platform.isIOS ? 'iOS' : 'android'
+      });
+      if (data != null) {
+        VersionJsonModel versionJsonModel = VersionJsonModel.fromJson(data);
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String version = packageInfo.version;
+        bool isForceUpdate = false;
+        bool isUpdate = false;
+        String maxVersion = versionJsonModel.version ?? '';
+        String minVersion = versionJsonModel.minVersion ?? '';
+        if (maxVersion != '') {
+          isUpdate = _compareVersion(maxVersion, version);
+        }
+        if (minVersion != '') {
+          isForceUpdate = _compareVersion(minVersion, version);
+        }
+        if (isForceUpdate || isUpdate) {
+          await showDialog(
+            context: context,
+            builder: (BuildContext buildContext) {
+              return new WillPopScope(
+                  child: new UpgradeDialog(
+                    url: versionJsonModel.address,
+                    isForce: isForceUpdate,
+                    arrContent: versionJsonModel.content,
+                  ),
+                  onWillPop: () async {
+                    return Future.value(false);
+                  }
+              );
+            },
+          );
+        }
+      } else {
+        Application.util.modal.toast('已是最新版本');
+      }
+    } catch (err) {
+      Application.util.modal.toast(err);
+    }
+  }
+
+  bool _compareVersion (String v1, String v2) {
+    List<String> arrV1 = v1.split('.');
+    List<String> arrV2 = v2.split('.');
+    return int.parse(arrV1[0]) > int.parse(arrV2[0])
+        || int.parse(arrV1[1]) > int.parse(arrV2[1])
+        || int.parse(arrV1[2]) > int.parse(arrV2[2]);
   }
 
 }
