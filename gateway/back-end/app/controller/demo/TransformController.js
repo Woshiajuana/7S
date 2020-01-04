@@ -8,6 +8,8 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount(
             { name: '7S后台管理', path: '/boss/*' },
+            middleware.tokenMiddleware(),
+            middleware.authMiddleware(),
             controller.transform,
         );
     }

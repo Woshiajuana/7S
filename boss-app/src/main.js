@@ -14,6 +14,17 @@ let { wow, app } = window.wowRuntime.init({
     },
     // app 常量配置
     appConst: {
+        // 会员列表
+        REQ_MEMBER_LIST: 'boss/api/v1/user/list',
+
+        // 照片列表
+        REQ_PHOTO_LIST: 'boss/api/v1/photo/list',
+
+        // 文件列表
+        REQ_FILE_LIST: 'boss/api/v1/file/list',
+
+        // 通知列表
+        REQ_NOTICE_LIST: 'boss/api/v1/notice/list',
 
     },
     // 路由配置
