@@ -7,7 +7,7 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount(
-            { name: 'DEMO 分发路由', path: '/api/demo/*' },
+            { name: '7S后台管理', path: '/boss/*' },
             controller.transform,
         );
     }
