@@ -24,9 +24,11 @@ module.exports = class HandleController extends Controller {
     async send () {
         const { ctx, service } = this;
         try {
-            let objParams = await ctx.validateBody({
-                email: [ 'nonempty' ],
-                template: [ 'nonempty' ],
+            let objParams = await ctx.validateBody((regular) => {
+                return {
+                    email: [ 'nonempty', regular.isEmail ],
+                    template: [ 'nonempty' ],
+                }
             });
             ctx.logger.info(`发送验证码：请求参数=> ${JSON.stringify(objParams)}`);
             await service.emailService.sendCaptcha(objParams);
