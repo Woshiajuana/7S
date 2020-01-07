@@ -4,6 +4,8 @@
 
 const path = require('path');
 
+console.log(11111, 'config')
+
 module.exports = appInfo => {
 
     const config = exports = {};

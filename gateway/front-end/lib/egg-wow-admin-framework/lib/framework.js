@@ -56,9 +56,10 @@ class CurlService extends egg.Service {
         this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求参数:${JSON.stringify(data)}`);
         let response = await this.ctx.curl(url, options);
         if (response.status >= 300 || response.status < 200) {
-            this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求失败结果:${JSON.stringify(response)}`);
+            this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求失败【${response.status}】结果: ${JSON.stringify(response)}`);
+        } else {
+            this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求成功【${response.status}】结果: ${JSON.stringify(response.data)}`);
         }
-        this.logger.info(`[${this.strName}] => 调用服务:${url} 方式:${method} 请求成功结果:${JSON.stringify(response)}`);
         response = await this.afterRequest(response);
         return response;
     }
