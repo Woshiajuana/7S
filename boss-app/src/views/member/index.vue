@@ -72,9 +72,9 @@
                     ...this.objQuery,
                     ...options,
                 }).then((res) => {
-                    let { arrData = [], numTotal } = res || {};
-                    this.arrTable = arrData;
-                    this.objQuery.numTotal = numTotal;
+                    let { list = [], total } = res || {};
+                    this.arrTable = list;
+                    this.objQuery.numTotal = total;
                 }).toast().finally(() => {
                     typeof callback === 'function' && callback();
                     this.objQuery.isLoading = false;

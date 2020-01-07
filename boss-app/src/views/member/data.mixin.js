@@ -6,6 +6,7 @@ const data = () => {
             numIndex: 1,
             numSize: 10,
             numTotal: 0,
+            isLoading: false,
         },
         objFilterForm: {
             user: {
