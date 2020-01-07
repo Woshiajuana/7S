@@ -28,13 +28,12 @@ module.exports = class HandleController extends Controller {
             const {
                 params,
                 method = '',
-                query = '',
-                body = '',
+                request,
             } = ctx;
             const strTargetUrl = params[0] || '';
             const data = await service.demo.transformService.curl(strTargetUrl,  {
                 method,
-                data: method === 'get' ? query : body,
+                data: method === 'get' ? request.query : request.body,
             });
             ctx.respSuccess(data);
         } catch (err) {
