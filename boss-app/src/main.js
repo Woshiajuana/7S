@@ -30,6 +30,20 @@ let { wow, app } = window.wowRuntime.init({
     // 路由配置
     routerConfig: {
         importViews: [ views ],
+        constantRoutes: [
+            {
+                path: '/',
+                // component: Layout,
+                component: () => import('@views/dashboard'),
+                redirect: '/dashboard',
+                // children: [{
+                //     path: 'dashboard',
+                //     name: 'Dashboard',
+                //     component: () => import('@views/dashboard'),
+                //     meta: { title: 'Dashboard', icon: 'dashboard' }
+                // }],
+            },
+        ],
     },
     // 组件配置
     component: {
