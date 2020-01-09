@@ -53,7 +53,7 @@ module.exports = class HandleController extends Controller {
                 api_routes: [ ],
                 menu_routes: [ ],
             });
-            const data = await service.userGroupService.create(objParams);
+            const data = await service.base.userGroupService.create(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -79,7 +79,7 @@ module.exports = class HandleController extends Controller {
                 numSize: [],
                 name: [],
             });
-            const data = await service.userGroupService.list(objParams);
+            const data = await service.base.userGroupService.list(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -103,7 +103,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            await service.userGroupService.del(id);
+            await service.base.userGroupService.del(id);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -133,7 +133,7 @@ module.exports = class HandleController extends Controller {
                 api_routes: [ ],
                 menu_routes: [ ],
             });
-            await service.userGroupService.update(objParams);
+            await service.base.userGroupService.update(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);

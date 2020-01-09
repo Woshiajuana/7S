@@ -37,7 +37,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            await service.oplogService.del(id);
+            await service.base.oplogService.del(id);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -65,7 +65,7 @@ module.exports = class HandleController extends Controller {
                 user: [ ],
                 api: [ ],
             });
-            const data = await service.oplogService.list(objParams);
+            const data = await service.base.oplogService.list(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

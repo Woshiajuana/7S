@@ -61,7 +61,7 @@ module.exports = class HandleController extends Controller {
                 params: [ ],
                 father: [ ],
             });
-            await service.menuRouteService.create(objParams);
+            await service.base.menuRouteService.create(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -85,7 +85,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            await service.menuRouteService.del(id);
+            await service.base.menuRouteService.del(id);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -106,6 +106,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [icon] icon
      * @apiParam  {String} [params] 参数
      * @apiParam  {String} [father] 父菜单
+     * @apiParam  {String} [hidden] 父菜单
      * @apiSuccess (成功) {Object} data
      * @apiSampleRequest /api/v1/menu-route/update
      */
@@ -118,12 +119,13 @@ module.exports = class HandleController extends Controller {
                 path: [ 'nonempty' ],
                 sort: [ 'nonempty' ],
                 component: [ 'nonempty' ],
+                hidden: [ 'nonempty' ],
                 redirect: [ ],
                 icon: [ ],
                 params: [ ],
                 father: [ ],
             });
-            await service.menuRouteService.update(objParams);
+            await service.base.menuRouteService.update(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -149,7 +151,7 @@ module.exports = class HandleController extends Controller {
                 numSize: [ ],
                 keyword: [ ],
             });
-            const data = await service.menuRouteService.list(objParams);
+            const data = await service.base.menuRouteService.list(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);

@@ -27,4 +27,13 @@ module.exports = class HandleServer extends Service {
         return await ctx.model.AppInfoModel.create(data);
     }
 
+    // 更新
+    async update (data, type) {
+        const { ctx, app, logger } = this;
+        const { id } = data;
+        delete data.id;
+        return await ctx.model.AppInfoModel.findByIdAndUpdate({ _id: app.mongoose.Types.ObjectId(id) }, data, { new: true })
+            .lean();
+    }
+
 };

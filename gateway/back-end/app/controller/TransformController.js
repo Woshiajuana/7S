@@ -7,9 +7,7 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount(
-            { name: '7S后台管理', path: '/boss/*' },
-            middleware.tokenMiddleware(),
-            middleware.authMiddleware(),
+            { name: 'DEMO 分发路由', path: '/api/demo/*' },
             controller.transform,
         );
     }
@@ -28,12 +26,13 @@ module.exports = class HandleController extends Controller {
             const {
                 params,
                 method = '',
-                request,
+                query = '',
+                body = '',
             } = ctx;
             const strTargetUrl = params[0] || '';
-            const data = await service.demo.transformService.curl(strTargetUrl,  {
+            const data = await service.transformService.curl(strTargetUrl,  {
                 method,
-                data: method === 'get' ? request.query : request.body,
+                data: method === 'get' ? query : body,
             });
             ctx.respSuccess(data);
         } catch (err) {

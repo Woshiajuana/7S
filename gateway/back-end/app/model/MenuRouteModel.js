@@ -71,6 +71,12 @@ module.exports = app => {
             default: 'CREATE',
         },
 
+        // 是否隐藏
+        hidden: {
+            type: Boolean,
+            default: false,
+        },
+
         // 创建时间
         created_at: {
             type: Date,

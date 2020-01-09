@@ -106,18 +106,15 @@ module.exports = class HandleServer extends Service {
     }
 
     // 列表
-    async list ({ numIndex, numSize, keyword, method }) {
+    async list ({ numIndex, numSize, keyword }) {
         const { ctx } = this;
+        let filter = { $or: [] }; // 多字段匹配
+        if (keyword) {
+            filter.$or.push({ path: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ title: { $regex: keyword, $options: '$i' } });
+        }
+        if (!filter.$or.length) delete filter.$or;
         if (numIndex && numSize) {
-            let filter = { $or: [] }; // 多字段匹配
-            if (keyword) {
-                filter.$or.push({ path: { $regex: keyword, $options: '$i' } });
-                filter.$or.push({ name: { $regex: keyword, $options: '$i' } });
-            }
-            if (method) {
-                filter.$or.push({ method: { $regex: method, $options: '$i' } });
-            }
-            if (!filter.$or.length) delete filter.$or;
             const numTotal = await ctx.model.MenuRouteModel.count(filter);
             const arrData = await ctx.model.MenuRouteModel
                 .find(filter)
@@ -132,9 +129,8 @@ module.exports = class HandleServer extends Service {
                 numSize,
             }
         } else {
-            const arrData = await ctx.model.MenuRouteModel
-                .find().sort('-sort').lean();
-            return arrData;
+            return await ctx.model.MenuRouteModel
+                .find(filter).sort('-sort').lean()
         }
     }
 

@@ -10,6 +10,12 @@ module.exports = class HandleController extends Controller {
             { name: '查询应用基础信息', path: '/api/v1/app/info', usePush: false },
             controller.info
         ).mount(
+            { name: '修改应用基础信息', path: '/api/v1/app/change' },
+            middleware.tokenMiddleware(),
+            middleware.authMiddleware(),
+            middleware.oplogMiddleware(),
+            controller.change
+        ).mount(
             { name: '初始化应用信息', path: '/api/v1/app/init', usePush: false },
             controller.init
         );
@@ -26,10 +32,42 @@ module.exports = class HandleController extends Controller {
     async info () {
         const { ctx, service, app } = this;
         try {
-            const objApp = await service.appInfoService.find();
+            const objApp = await service.base.appInfoService.find();
             ctx.respSuccess(objApp);
         } catch (e) {
             ctx.respError(e);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/app/change 修改应用基础信息
+     * @apiDescription 修改应用基础信息
+     * @apiGroup APP基础
+     * @apiParam  {String} [id] id
+     * @apiParam  {String} [name] 管理台名称
+     * @apiParam  {String} [logo] 管理台LOGO
+     * @apiParam  {String} [bg] 背景图
+     * @apiParam  {String} [color] 覆盖色
+     * @apiParam  {String} [ownership] 所有权
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/app/change
+     */
+    async change () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                id: [ 'nonempty' ],
+                name: [ 'nonempty' ],
+                logo: [ ],
+                bg: [ ],
+                color: [ ],
+                ownership: [ 'nonempty' ],
+            });
+            const data = await service.base.appInfoService.update(objParams);
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
         }
     }
 
@@ -78,9 +116,9 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
             });
             // 判断 APP 是否已初始化
-            await service.appInfoService.count();
+            await service.base.appInfoService.count();
             // 初始化 APP
-            await service.appInfoService.init({
+            await service.base.appInfoService.init({
                 name,
                 logo,
                 bg,
@@ -88,13 +126,13 @@ module.exports = class HandleController extends Controller {
                 ownership,
             });
             // 初始化超级管理员用户组
-            const objAdminGroup = await service.userGroupService.create({
+            const objAdminGroup = await service.base.userGroupService.create({
                 name: '超级管理组',
                 remark: '初始化的超级管理组',
                 is_root_group: true,
             });
             // 初始化超级管理员用户
-            await service.userInfoService.create({
+            await service.base.userInfoService.create({
                 nickname,
                 password,
                 avatar,
@@ -104,9 +142,9 @@ module.exports = class HandleController extends Controller {
                 group: objAdminGroup._id,
             });
             // 初始化菜单
-            await service.menuRouteService.init();
+            await service.base.menuRouteService.init();
             // 初始化 API
-            await service.apiRouteService.init();
+            await service.base.apiRouteService.init();
             ctx.respSuccess();
         } catch (e) {
             ctx.respError(e);

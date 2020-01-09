@@ -44,6 +44,12 @@ module.exports = class HandleController extends Controller {
             middleware.oplogMiddleware(),
             controller.update,
         ).mount(
+            { name: '修改管理员个人信息', path: '/api/v1/user-info/change' },
+            middleware.tokenMiddleware(),
+            middleware.authMiddleware(),
+            middleware.oplogMiddleware(),
+            controller.change,
+        ).mount(
             { name: '删除管理员用户', path: '/api/v1/user-info/delete' },
             middleware.tokenMiddleware(),
             middleware.authMiddleware(),
@@ -77,7 +83,7 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
                 group: [ 'nonempty' ],
             });
-            await service.userInfoService.create(objParams);
+            await service.base.userInfoService.create(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -101,7 +107,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            await service.userInfoService.del(id);
+            await service.base.userInfoService.del(id);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -135,8 +141,36 @@ module.exports = class HandleController extends Controller {
                 email: [ 'nonempty' ],
                 group: [ 'nonempty' ],
             });
-            await service.userInfoService.update(objParams);
+            await service.base.userInfoService.update(objParams);
             ctx.respSuccess();
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/user-info/change 修改管理员用户
+     * @apiDescription 修改管理员用户
+     * @apiGroup APP基础
+     * @apiParam  {String} [nickname] 昵称
+     * @apiParam  {String} [password] 密码
+     * @apiParam  {String} [avatar] 头像
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/user-info/change
+     */
+    async change () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                nickname: [ 'nonempty' ],
+                password: [ 'nonempty' ],
+                avatar: [ 'nonempty' ],
+            });
+            const { id } = ctx.state.token;
+            objParams.id = id;
+            const data = await service.base.userInfoService.update(objParams, true);
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }
@@ -163,10 +197,10 @@ module.exports = class HandleController extends Controller {
                 password: [ 'nonempty' ],
                 // captcha: [],
             });
-            let objUser = await service.userInfoService.auth({ account, password });
-            objUser = await service.userInfoService.token(objUser);
+            let objUser = await service.base.userInfoService.auth({ account, password });
+            objUser = await service.base.userInfoService.token(objUser);
             if (objUser.group.is_root_group) {
-                objUser.group.menu_routes = await service.menuRouteService.list({});
+                objUser.group.menu_routes = await service.base.menuRouteService.list({});
             }
             ctx.respSuccess(objUser);
         } catch (err) {
@@ -185,7 +219,7 @@ module.exports = class HandleController extends Controller {
     async logout () {
         const { ctx, service, app } = this;
         try {
-            await service.userInfoService.logout();
+            await service.base.userInfoService.logout();
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -213,7 +247,7 @@ module.exports = class HandleController extends Controller {
                 keyword: [],
                 group: [],
             });
-            const data = await service.userInfoService.list(objParams);
+            const data = await service.base.userInfoService.list(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
@@ -237,7 +271,7 @@ module.exports = class HandleController extends Controller {
                 lock: [ 'nonempty' ],
                 id: [ 'nonempty' ],
             });
-            await service.userInfoService.unlock(objParams);
+            await service.base.userInfoService.unlock(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -261,7 +295,7 @@ module.exports = class HandleController extends Controller {
                 disabled: [ 'nonempty' ],
                 id: [ 'nonempty' ],
             });
-            await service.userInfoService.disableEnable(objParams);
+            await service.base.userInfoService.disableEnable(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);

@@ -49,7 +49,7 @@ module.exports = class HandleController extends Controller {
     async init () {
         const { ctx, service, app } = this;
         try {
-            await service.apiRouteService.init();
+            await service.base.apiRouteService.init();
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -75,7 +75,7 @@ module.exports = class HandleController extends Controller {
                 path: [ 'nonempty' ],
                 method: [ 'nonempty' ],
             });
-            await service.apiRouteService.create(objParams);
+            await service.base.apiRouteService.create(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -99,7 +99,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            await service.apiRouteService.del(id);
+            await service.base.apiRouteService.del(id);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -127,7 +127,7 @@ module.exports = class HandleController extends Controller {
                 path: [ 'nonempty' ],
                 method: [ 'nonempty' ],
             });
-            await service.apiRouteService.update(objParams);
+            await service.base.apiRouteService.update(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);
@@ -155,7 +155,7 @@ module.exports = class HandleController extends Controller {
                 keyword: [ ],
                 method: [ ],
             });
-            const data = await service.apiRouteService.list(objParams);
+            const data = await service.base.apiRouteService.list(objParams);
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
