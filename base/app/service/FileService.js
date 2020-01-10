@@ -66,7 +66,9 @@ module.exports = class HandleServer extends Service {
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
             .limit(numSize)
-            .populate()
+            .populate([
+                { path: 'user', select: { password: 0 } },
+            ])
             .lean();
         return {
             list,

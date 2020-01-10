@@ -1,34 +1,37 @@
 
 const data = () => {
+
+    // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
+    const arrType = [
+        { label: '头像', value: 'AVATAR' },
+        { label: '照片', value: 'PHOTO' },
+    ];
+    let objType = {};
+    arrType.forEach(({ label, value }) => objType[value] = label);
     return {
         arrTable: [],
         objQuery: {
             numIndex: 1,
             numSize: 10,
             numTotal: 0,
+            isLoading: false,
         },
+        objType,
         objFilterForm: {
-            user: {
+            keyword: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作员',
+                placeholder: '邮箱/昵称',
                 style: 'width: 200px; margin-right: 5px;',
-                mode: 'select',
-                valueKey: '_id',
-                labelKey: 'nickname',
-                options: [],
-                event: 'selectPlatform',
+                mode: 'input',
             },
-            api: {
+            type: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作接口',
+                placeholder: '邮箱/昵称',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'select',
-                valueKey: '_id',
-                labelKey: 'name',
-                options: [],
-                event: 'selectPlatform',
+                options: arrType,
             },
         },
         arrFilterButton: [

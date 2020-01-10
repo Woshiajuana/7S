@@ -4,7 +4,6 @@
             :filter-form="objFilterForm"
             :filter-button="arrFilterButton"
             @filter="reqTableDataList"
-            @init="handleInit"
         ></filter-view>
         <table-view
             @refresh="reqTableDataList"
@@ -90,17 +89,6 @@
                     typeof callback === 'function' && callback();
                     this.objQuery.isLoading = false;
                 });
-            },
-            handleInit () {
-                this.$confirm(`确定刷新初始化获取最新API ?`, '温馨提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$curl(this.$appConst.DO_INIT_API_ROUTE).then(() => {
-                    }).null().finally(() => this.reqTableDataList());
-                }).null();
-
             },
         },
     }
