@@ -2,6 +2,11 @@
 const data = () => {
     return {
         arrTable: [],
+        objSex: {
+            0: '保密',
+            1: '男',
+            2: '女',
+        },
         objQuery: {
             numIndex: 1,
             numSize: 10,
@@ -9,27 +14,12 @@ const data = () => {
             isLoading: false,
         },
         objFilterForm: {
-            user: {
+            keyword: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作员',
+                placeholder: '邮箱/昵称',
                 style: 'width: 200px; margin-right: 5px;',
-                mode: 'select',
-                valueKey: '_id',
-                labelKey: 'nickname',
-                options: [],
-                event: 'selectPlatform',
-            },
-            api: {
-                value: '',
-                label: '',
-                placeholder: '请选择操作接口',
-                style: 'width: 200px; margin-right: 5px;',
-                mode: 'select',
-                valueKey: '_id',
-                labelKey: 'name',
-                options: [],
-                event: 'selectPlatform',
+                mode: 'input',
             },
         },
         arrFilterButton: [

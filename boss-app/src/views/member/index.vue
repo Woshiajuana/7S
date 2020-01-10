@@ -17,34 +17,45 @@
                         label-position="left"
                         inline
                         class="demo-table-expand">
-                        <el-form-item label="名称">
-                            <span>{{ props.row.name }}</span>
+                        <el-form-item label="邮箱">
+                            <span>{{ props.row.email }}</span>
                         </el-form-item>
-                        <el-form-item label="路径">
-                            <span>{{ props.row.path }}</span>
+                        <el-form-item label="昵称">
+                            <span>{{ props.row.nickname }}</span>
                         </el-form-item>
-                        <el-form-item label="请求方式">
-                            <span>{{ props.row.method }}</span>
+                        <el-form-item label="头像">
+                            <img v-if="props.row.avatar" :src="props.row.avatar"  class="avatar"/>
+                            <span v-else>无</span>
                         </el-form-item>
-                        <el-form-item label="日期">
-                            <span>{{ props.row.created_at | filterDate}}</span>
+                        <el-form-item label="性别">
+                            <span>{{ objSex[props.row.sex] }}</span>
+                        </el-form-item>
+                        <el-form-item label="签名">
+                            <span>{{ props.row.signature }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="name"
-                label="名称">
+                prop="email"
+                label="邮箱">
+            </el-table-column>
+            <el-table-column
+                prop="nickname"
+                label="昵称">
             </el-table-column>
             <el-table-column
                 prop="path"
-                label="路径">
+                label="性别">
+                <template slot-scope="scope">
+                    <span>{{ objSex[scope.row.sex] }}</span>
+                </template>
             </el-table-column>
             <el-table-column
                 prop="created_at"
-                label="创建日期">
+                label="注册日期">
                 <template slot-scope="scope">
-                    <span>{{scope.row.created_at | filterDate}}</span>
+                    <span>{{ scope.row.created_at | filterDate }}</span>
                 </template>
             </el-table-column>
         </table-view>
@@ -95,3 +106,9 @@
     }
 </script>
 
+<style lang="scss">
+    .avatar{
+        width: 20px;
+        height: 20px;
+    }
+</style>
