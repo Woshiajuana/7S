@@ -25,8 +25,11 @@
                         <el-form-item label="原文件">
                             <span>{{ props.row.source }}</span>
                         </el-form-item>
+                        <el-form-item label="服务器">
+                            <span>{{ props.row.base }}</span>
+                        </el-form-item>
                         <el-form-item label="路径">
-                            <span>{{ props.row.base + props.row.path + props.row.filename }}</span>
+                            <span>{{ props.row.path }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
@@ -56,12 +59,32 @@
                     <span>{{ scope.row.created_at | filterDate }}</span>
                 </template>
             </el-table-column>
+            <el-table-column
+                label="操作"
+                width="130">
+                <template slot-scope="scope">
+                    <el-button
+                        :disabled="scope.row.source === 'INIT'"
+                        type="text"
+                        size="mini"
+                        @click="handleDialogDisplay({ data: scope.row })"
+                    >预览</el-button>
+                </template>
+            </el-table-column>
         </table-view>
+        <!--    新增    -->
+        <details-drawer
+            @refresh="reqTableDataList"
+            :display.sync="objDialog.is"
+            :data="objDialog"
+        ></details-drawer>
     </div>
 </template>
 
 <script>
+    import DialogMixin                          from '@/mixins/dialog'
     import FilterMixin                          from '@/mixins/filter'
+    import DetailsDrawer                        from './details-drawer'
     import DataMixin                            from './data.mixin'
 
     export default {
@@ -69,6 +92,7 @@
         mixins: [
             DataMixin,
             FilterMixin,
+            DialogMixin,
         ],
         created () {
             this.reqTableDataList();
@@ -90,12 +114,9 @@
                 });
             },
         },
+        components: {
+            DetailsDrawer,
+        },
     }
 </script>
 
-<style lang="scss">
-    .avatar{
-        width: 20px;
-        height: 20px;
-    }
-</style>

@@ -10,32 +10,11 @@ const data = () => {
 };
 
 const methods = {
-    handleDialogAdd () {
+    handleDialogDisplay (options = { type: 'add', data: '', }, key = 'objDialog') {
         if (this.beforeDialogShow) {
-            this.beforeDialogShow().then(() => {
-                this.objDialog.is = true;
-                this.objDialog.type = 'add';
-                this.objDialog.data = '';
-            })
-        } else {
-            this.objDialog.is = true;
-            this.objDialog.type = 'add';
-            this.objDialog.data = '';
+            return this.beforeDialogShow().then(() => this[key] = { ...this[key], is: true, ...(options || {}) })
         }
-
-    },
-    handleDialogEdit (item) {
-        if (this.beforeDialogShow) {
-            this.beforeDialogShow().then(() => {
-                this.objDialog.is = true;
-                this.objDialog.type = 'edit';
-                this.objDialog.data = item;
-            })
-        } else {
-            this.objDialog.is = true;
-            this.objDialog.type = 'edit';
-            this.objDialog.data = item;
-        }
+        this[key] = { ...this[key], is: true, ...(options || {}) };
     },
 };
 

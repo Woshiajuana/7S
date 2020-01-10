@@ -21,14 +21,14 @@ const data = () => {
             keyword: {
                 value: '',
                 label: '',
-                placeholder: '邮箱/昵称',
+                placeholder: '用户/文件名',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'input',
             },
             type: {
                 value: '',
                 label: '',
-                placeholder: '邮箱/昵称',
+                placeholder: '文件类型',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'select',
                 options: arrType,
