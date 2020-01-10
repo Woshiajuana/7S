@@ -126,7 +126,7 @@ module.exports = class HandleController extends Controller {
             let arrUser = [];
             if (keyword) {
                 arrUser = await service.userService.list({ keyword });
-                arrUser.map((item) => item._id);
+                arrUser = arrUser.map((item) => item._id);
             }
             const data = await service.fileService.list({ ...objParams, arrUser });
             ctx.respSuccess(data);

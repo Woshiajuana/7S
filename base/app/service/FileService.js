@@ -56,7 +56,7 @@ module.exports = class HandleServer extends Service {
         }
         if (arrUser.length) {
             filter.$or.push({
-                user: { $in: arrUser.map((id) => app.mongoose.Types.ObjectId(id)) },
+                user: { $in: arrUser.map((_id) => app.mongoose.Types.ObjectId(_id)) },
             });
         }
         if (keyword) {

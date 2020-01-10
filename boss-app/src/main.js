@@ -26,6 +26,9 @@ let { wow, app } = window.wowRuntime.init({
         // 通知列表
         REQ_NOTICE_LIST: 'boss/api/v1/notice/list',
 
+        // 版本列表
+        REQ_VERSION_LIST: 'boss/api/v1/version/list',
+
     },
     // 路由配置
     routerConfig: {
