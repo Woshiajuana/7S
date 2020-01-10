@@ -30,6 +30,10 @@
                 </template>
             </el-table-column>
             <el-table-column
+                prop="version"
+                label="版本">
+            </el-table-column>
+            <el-table-column
                 prop="platform"
                 label="平台">
                 <template slot-scope="scope">
@@ -37,18 +41,14 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="version"
-                label="版本">
-            </el-table-column>
-            <el-table-column
-                prop="filename"
+                prop="max"
                 label="最新版本">
                 <template slot-scope="scope">
                     <span :class="[ scope.row.max && 'color' ]">{{ scope.row.max ? '是' : '否' }}</span>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="filename"
+                prop="min"
                 label="强更版本">
                 <template slot-scope="scope">
                     <span :class="[ scope.row.min && 'color' ]">{{ scope.row.min ? '是' : '否' }}</span>

@@ -1,14 +1,14 @@
 
 <template>
     <el-drawer
-            class="drawer-view"
-            :title="data.type === 'add' ? '新增版本' : '编辑版本'"
-            :before-close="handleClose"
-            :visible.sync="display"
-            direction="rtl"
-            size="50%"
-            custom-class="demo-drawer"
-            ref="drawer">
+        class="drawer-view"
+        :title="data.type === 'add' ? '新增版本' : '编辑版本'"
+        :before-close="handleClose"
+        :visible.sync="display"
+        direction="rtl"
+        size="50%"
+        custom-class="demo-drawer"
+        ref="drawer">
         <div class="demo-drawer__content">
             <el-form
                 :model="ruleForm"
@@ -16,8 +16,29 @@
                 ref="ruleForm"
                 label-width="60px"
                 class="demo-ruleForm">
-                <el-form-item label="名称" prop="name">
-                    <el-input v-model.trim="ruleForm.name" clearable placeholder="请输入名称" maxlength="20"></el-input>
+                <el-form-item label="版本号" prop="version">
+                    <el-input v-model.trim="ruleForm.version" clearable placeholder="请填写版本号" maxlength="20"></el-input>
+                </el-form-item>
+                <el-form-item label="版本号" prop="content">
+                    <el-tag
+                        :key="tag"
+                        v-for="tag in content"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)">
+                        {{tag}}
+                    </el-tag>
+                    <el-input
+                        class="input-new-tag"
+                        v-if="inputVisible"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                    >
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
                     <el-input type="textarea" placeholder="请输入备注" clearable v-model.trim="ruleForm.remark" maxlength="100"></el-input>
@@ -37,12 +58,32 @@
             return {
                 loading: false,
                 ruleForm: {
-                    name: '',
+                    version: '',
+                    platform: '',
+                    address: '',
+                    content: [],
+                    max: '',
+                    min: '',
                     remark: '',
                 },
                 rules: {
-                    name: [
-                        { required: true, message: '请输入用户组名称', trigger: 'blur' },
+                    version: [
+                        { required: true, message: '请填写版本号', trigger: 'blur' },
+                    ],
+                    platform: [
+                        { required: true, message: '请选择平台', trigger: 'blur' },
+                    ],
+                    address: [
+                        { required: true, message: '请填写更新地址', trigger: 'blur' },
+                    ],
+                    max: [
+                        { required: true, message: '请选择最大版本', trigger: 'blur' },
+                    ],
+                    min: [
+                        { required: true, message: '请选择最小版本', trigger: 'blur' },
+                    ],
+                    content: [
+                        { required: true, message: '请填写更新内容', trigger: 'blur' },
                     ],
                     remark: [
                         { required: true, message: '请填写备注', trigger: 'blur' }
