@@ -120,8 +120,15 @@ module.exports = class HandleController extends Controller {
                 numSize: [ 'nonempty' ],
                 user: [],
                 keyword: [],
+                type: [ (v) => !v || [ 'AVATAR', 'PHOTO' ].indexOf(v) > -1 ],
             });
-            const data = await service.fileService.list(objParams);
+            const { keyword } = objParams;
+            let arrUser = [];
+            if (keyword) {
+                arrUser = await service.userService.list({ keyword });
+                arrUser.map((item) => item._id);
+            }
+            const data = await service.fileService.list({ ...objParams, arrUser });
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
