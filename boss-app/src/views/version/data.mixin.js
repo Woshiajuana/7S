@@ -1,13 +1,14 @@
 
 const data = () => {
 
-    // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
-    const arrType = [
-        { label: '头像', value: 'AVATAR' },
-        { label: '照片', value: 'PHOTO' },
+    const arrPlatform = [
+        { label: '安卓', value: 'android' },
+        { label: 'iOS', value: 'iOS' },
     ];
-    let objType = {};
-    arrType.forEach(({ label, value }) => objType[value] = label);
+
+    let objPlatform = {};
+    arrPlatform.forEach(({ label, value }) => objPlatform[value] = label);
+
     return {
         arrTable: [],
         objQuery: {
@@ -16,22 +17,22 @@ const data = () => {
             numTotal: 0,
             isLoading: false,
         },
-        objType,
+        objPlatform,
         objFilterForm: {
             keyword: {
                 value: '',
                 label: '',
-                placeholder: '用户/文件名',
+                placeholder: '版本号/备注',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'input',
             },
             type: {
                 value: '',
                 label: '',
-                placeholder: '文件类型',
+                placeholder: '平台',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'select',
-                options: arrType,
+                options: arrPlatform,
             },
         },
         arrFilterButton: [
@@ -42,6 +43,12 @@ const data = () => {
                 icon: 'el-icon-search',
                 event: 'filter',
             },
+            {
+                text: '新增',
+                type: 'primary',
+                icon: 'el-icon-plus',
+                event: 'add',
+            }
         ],
     };
 };

@@ -4,6 +4,7 @@
             :filter-form="objFilterForm"
             :filter-button="arrFilterButton"
             @filter="reqTableDataList"
+            @add="handleDialogDisplay()"
         ></filter-view>
         <table-view
             @refresh="reqTableDataList"
@@ -16,45 +17,46 @@
                         label-position="left"
                         inline
                         class="demo-table-expand">
-                        <el-form-item label="上传ip">
-                            <span>{{ props.row.ip }}</span>
+                        <el-form-item label="内容">
+                            <span>{{ props.row.content.join(';') }}</span>
                         </el-form-item>
-                        <el-form-item label="设备">
-                            <span>{{ props.row.device }}</span>
+                        <el-form-item label="下载地址">
+                            <span>{{ props.row.address }}</span>
                         </el-form-item>
-                        <el-form-item label="原文件">
-                            <span>{{ props.row.source }}</span>
-                        </el-form-item>
-                        <el-form-item label="服务器">
-                            <span>{{ props.row.base }}</span>
-                        </el-form-item>
-                        <el-form-item label="路径">
-                            <span>{{ props.row.path }}</span>
+                        <el-form-item label="备注">
+                            <span>{{ props.row.remark }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="user"
-                label="用户">
+                prop="platform"
+                label="平台">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.user.nickname || scope.row.user.email }}</span>
+                    <span>{{ objPlatform[scope.row.platform] }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="version"
+                label="版本">
+            </el-table-column>
+            <el-table-column
+                prop="filename"
+                label="最新版本">
+                <template slot-scope="scope">
+                    <span :class="[ scope.row.max && 'color' ]">{{ scope.row.max ? '是' : '否' }}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 prop="filename"
-                label="文件名">
-            </el-table-column>
-            <el-table-column
-                prop="type"
-                label="类型">
+                label="强更版本">
                 <template slot-scope="scope">
-                    <span>{{ objType[scope.row.type] }}</span>
+                    <span :class="[ scope.row.min && 'color' ]">{{ scope.row.min ? '是' : '否' }}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 prop="created_at"
-                label="上传日期">
+                label="创建日期">
                 <template slot-scope="scope">
                     <span>{{ scope.row.created_at | filterDate }}</span>
                 </template>
@@ -68,7 +70,7 @@
                         type="text"
                         size="mini"
                         @click="handleDialogDisplay({ data: scope.row })"
-                    >预览</el-button>
+                    >编辑</el-button>
                 </template>
             </el-table-column>
         </table-view>
@@ -120,3 +122,8 @@
     }
 </script>
 
+<style>
+    .color{
+        color: red;
+    }
+</style>
