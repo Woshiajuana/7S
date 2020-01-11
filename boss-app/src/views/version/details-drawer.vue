@@ -162,3 +162,26 @@
         },
     };
 </script>
+
+<style lang="scss">
+    .keywords-item .el-form-item__content {
+        margin-top: -8px !important;
+        line-height: 1.2;
+    }
+    .el-tag {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+    .button-new-tag {
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 10px;
+    }
+    .input-new-tag {
+        width: 90px;
+        margin-top: 10px;
+        vertical-align: bottom;
+    }
+</style>
