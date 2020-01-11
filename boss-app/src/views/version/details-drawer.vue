@@ -25,13 +25,13 @@
                         <el-radio label="iOS" value="iOS"></el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="内容" prop="content">
+                <el-form-item label="内容" class="keywords-item" prop="content">
                     <el-tag
-                        :key="tag"
-                        v-for="tag in content"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)">
+                            :key="tag"
+                            v-for="tag in ruleForm.content"
+                            closable
+                            :disable-transitions="false"
+                            @close="handleTagClose(tag)">
                         {{tag}}
                     </el-tag>
                     <el-input
@@ -41,10 +41,9 @@
                         ref="saveTagInput"
                         size="small"
                         @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                    >
+                        @blur="handleInputConfirm">
                     </el-input>
-                    <el-button class="button-new-tag" v-else size="small" @click="showInput">+ New Tag</el-button>
+                    <el-button class="button-new-tag" v-else size="small" @click="showInput">+ New Keyword</el-button>
                 </el-form-item>
                 <el-form-item label="最新">
                     <el-switch v-model="ruleForm.max"></el-switch>
@@ -72,6 +71,8 @@
         data () {
             return {
                 loading: false,
+                inputVisible: false,
+                inputValue: '',
                 ruleForm: {
                     version: '',
                     platform: '',
@@ -116,6 +117,23 @@
             data: { default: '' },
         },
         methods: {
+            handleTagClose (tag) {
+                this.ruleForm.content.splice(this.ruleForm.content.indexOf(tag), 1);
+            },
+            showInput () {
+                this.inputVisible = true;
+                this.$nextTick( _ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleInputConfirm () {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.ruleForm.content.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
             handleClose () {
                 this.$emit('update:display', false);
                 this.$refs.ruleForm.resetFields();
