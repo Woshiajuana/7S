@@ -1,10 +1,8 @@
 <template>
     <div class="view-wrap">
         <div class="view-inner">
-<!--            <img class="view-logo" :src="objAppInfo.logo || objDefAppInfo.logo" alt="logo"/>-->
             <div class="view-title">
                 <h2>欢迎111123123131131231231231212</h2>
-<!--                <h3>使用{{objAppInfo.name || objDefAppInfo.name}}</h3>-->
             </div>
         </div>
     </div>
