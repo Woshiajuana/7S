@@ -19,7 +19,13 @@
                 <el-form-item label="版本号" prop="version">
                     <el-input v-model.trim="ruleForm.version" clearable placeholder="请填写版本号" maxlength="20"></el-input>
                 </el-form-item>
-                <el-form-item label="版本号" prop="content">
+                <el-form-item label="平台">
+                    <el-radio-group v-model="ruleForm.platform">
+                        <el-radio label="安卓" value="android"></el-radio>
+                        <el-radio label="iOS" value="iOS"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="内容" prop="content">
                     <el-tag
                         :key="tag"
                         v-for="tag in content"
@@ -38,7 +44,16 @@
                         @blur="handleInputConfirm"
                     >
                     </el-input>
-                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+                    <el-button class="button-new-tag" v-else size="small" @click="showInput">+ New Tag</el-button>
+                </el-form-item>
+                <el-form-item label="最新">
+                    <el-switch v-model="ruleForm.max"></el-switch>
+                </el-form-item>
+                <el-form-item label="强更">
+                    <el-switch v-model="ruleForm.min"></el-switch>
+                </el-form-item>
+                <el-form-item label="下载地址" prop="address">
+                    <el-input v-model.trim="ruleForm.address" clearable placeholder="请填写下载地址"></el-input>
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
                     <el-input type="textarea" placeholder="请输入备注" clearable v-model.trim="ruleForm.remark" maxlength="100"></el-input>
