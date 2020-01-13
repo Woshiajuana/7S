@@ -20,6 +20,10 @@ module.exports = class HandleServer extends Service {
     // 更新
     async update (filter, data) {
         const { ctx, app } = this;
+        if (!data) {
+            data = {...filter};
+            delete data._id;
+        }
         if (filter.id) {
             filter._id = app.mongoose.Types.ObjectId(data.id);
             delete filter.id;

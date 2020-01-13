@@ -34,7 +34,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                version: [ 'nonempty', /^\d+\.\d+\.\d+$/ ],
+                version: [ 'nonempty', (v) => /^\d+\.\d+\.\d+$/.test(v) ],
                 platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
                 content: [ 'nonempty' ],
                 remark: [ 'nonempty' ],
@@ -80,7 +80,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                version: [ 'nonempty', /^\d+\.\d+\.\d+$/ ],
+                version: [ 'nonempty', (v) => /^\d+\.\d+\.\d+$/.test(v) ],
                 platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
                 id: [ 'nonempty' ],
                 content: [ 'nonempty' ],
@@ -91,8 +91,7 @@ module.exports = class HandleController extends Controller {
             });
             let { min, max, platform, version, id } = objParams;
             let data = await service.versionService.findOne({ platform, version });
-            console.log('data => ',data);
-            if (data && data._id !== id) throw '该版本已存在哦';
+            if (data && data._id.toString() !== id) throw '该版本已存在哦';
             if (min) {
                 await service.versionService.update({ min: true, platform }, { min: false });
             }
