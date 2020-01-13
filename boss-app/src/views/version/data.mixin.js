@@ -26,7 +26,7 @@ const data = () => {
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'input',
             },
-            type: {
+            platform: {
                 value: '',
                 label: '',
                 placeholder: '平台',

@@ -56,15 +56,15 @@ module.exports = class HandleServer extends Service {
     // 列表
     async list (data) {
         const { ctx, app } = this;
-        let { numIndex, numSize, keyword, user } = data;
-        numIndex = +numIndex;
-        numSize = +numSize;
+        let { numIndex, numSize, keyword, platform } = data;
         let filter = { $or: [] }; // 多字段匹配
-        if (user) {
-            filter.user = app.mongoose.Types.ObjectId(user);
+        if (platform) {
+            filter.platform = platform;
         }
         if (keyword) {
-            filter.$or.push({ filename: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ version: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ remark: { $regex: keyword, $options: '$i' } });
+            filter.$or.push({ content:  { $elemMatch: { $regex: keyword, $options: '$i' } } });
         }
         if (!filter.$or.length) delete filter.$or;
         const total = await ctx.model.VersionModel.count(filter);
@@ -73,7 +73,6 @@ module.exports = class HandleServer extends Service {
             .sort('-created_at')
             .skip((numIndex - 1) * numSize)
             .limit(numSize)
-            .populate()
             .lean();
         return {
             list,

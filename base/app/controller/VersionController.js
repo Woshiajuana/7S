@@ -174,7 +174,7 @@ module.exports = class HandleController extends Controller {
             const objParams = await ctx.validateBody({
                 numIndex: [ 'nonempty' ],
                 numSize: [ 'nonempty' ],
-                version: [],
+                keyword: [],
                 platform: [],
             });
             const data = await service.versionService.list(objParams);
