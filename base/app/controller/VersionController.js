@@ -7,6 +7,7 @@ module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/version/create', controller.create)
+            .mount('/api/v1/version/update', controller.update)
             .mount('/api/v1/version/info', controller.info)
             .mount('/api/v1/version/list', controller.list)
             .mount('/api/v1/version/del', controller.del)
@@ -33,7 +34,7 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let objParams = await ctx.validateBody({
-                version: [ 'nonempty' ],
+                version: [ 'nonempty', /^\d+\.\d+\.\d+$/ ],
                 platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
                 content: [ 'nonempty' ],
                 remark: [ 'nonempty' ],
@@ -46,13 +47,59 @@ module.exports = class HandleController extends Controller {
             let data = await service.versionService.count({ platform, version });
             if (data) throw '该版本已存在哦';
             if (min) {
-                await service.versionService.update({ min: true }, { min: false });
+                await service.versionService.update({ min: true, platform }, { min: false });
             }
             if (max) {
-                await service.versionService.update({ max: true }, { max: false });
+                await service.versionService.update({ max: true, platform }, { max: false });
             }
             await service.versionService.create(objParams);
             ctx.logger.info(`创建版本：返回结果=> 成功`);
+            ctx.respSuccess();
+        } catch (err) {
+            ctx.respError(err);
+        }
+    }
+
+    /**
+     * @apiVersion 1.0.0
+     * @api {get} /api/v1/version/update 编辑版本
+     * @apiDescription 编辑版本
+     * @apiGroup 版本
+     * @apiParam  {String} [id] id
+     * @apiParam  {String} [version] 版本
+     * @apiParam  {String} [platform] 平台[ android, iOS ]
+     * @apiParam  {String} [content] 内容
+     * @apiParam  {String} [remark] 备注
+     * @apiParam  {String} [min] 最低
+     * @apiParam  {String} [max] 最高
+     * @apiParam  {String} [address] 下载地址
+     * @apiSuccess (成功) {Object} data
+     * @apiSampleRequest /api/v1/version/update
+     */
+    async update () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                version: [ 'nonempty', /^\d+\.\d+\.\d+$/ ],
+                platform: [ 'nonempty', (v) => ['android', 'iOS'].indexOf(v) > -1 ],
+                id: [ 'nonempty' ],
+                content: [ 'nonempty' ],
+                remark: [ 'nonempty' ],
+                min: [ 'nonempty' ],
+                max: [ 'nonempty' ],
+                address: [ 'nonempty' ],
+            });
+            let { min, max, platform, version, id } = objParams;
+            let data = await service.versionService.findOne({ platform, version });
+            console.log('data => ',data);
+            if (data && data._id !== id) throw '该版本已存在哦';
+            if (min) {
+                await service.versionService.update({ min: true, platform }, { min: false });
+            }
+            if (max) {
+                await service.versionService.update({ max: true, platform }, { max: false });
+            }
+            await service.versionService.update(objParams);
             ctx.respSuccess();
         } catch (err) {
             ctx.respError(err);

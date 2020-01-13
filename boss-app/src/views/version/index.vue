@@ -69,7 +69,7 @@
                         :disabled="scope.row.source === 'INIT'"
                         type="text"
                         size="mini"
-                        @click="handleDialogDisplay({ data: scope.row })"
+                        @click="handleDialogDisplay({ type: 'edit', data: scope.row })"
                     >编辑</el-button>
                 </template>
             </el-table-column>

@@ -14,24 +14,18 @@
                 :model="ruleForm"
                 :rules="rules"
                 ref="ruleForm"
-                label-width="60px"
+                label-width="100px"
                 class="demo-ruleForm">
                 <el-form-item label="版本号" prop="version">
                     <el-input v-model.trim="ruleForm.version" clearable placeholder="请填写版本号" maxlength="20"></el-input>
                 </el-form-item>
-                <el-form-item label="平台">
-                    <el-radio-group v-model="ruleForm.platform">
-                        <el-radio label="安卓" value="android"></el-radio>
-                        <el-radio label="iOS" value="iOS"></el-radio>
-                    </el-radio-group>
-                </el-form-item>
                 <el-form-item label="内容" class="keywords-item" prop="content">
                     <el-tag
-                            :key="tag"
-                            v-for="tag in ruleForm.content"
-                            closable
-                            :disable-transitions="false"
-                            @close="handleTagClose(tag)">
+                        :key="tag"
+                        v-for="tag in ruleForm.content"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleTagClose(tag)">
                         {{tag}}
                     </el-tag>
                     <el-input
@@ -45,10 +39,16 @@
                     </el-input>
                     <el-button class="button-new-tag" v-else size="small" @click="showInput">+ New Keyword</el-button>
                 </el-form-item>
-                <el-form-item label="最新">
+                <el-form-item label="平台" prop="platform">
+                    <el-radio-group v-model="ruleForm.platform">
+                        <el-radio label="android">安卓</el-radio>
+                        <el-radio label="iOS">iOS</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="最新" prop="max">
                     <el-switch v-model="ruleForm.max"></el-switch>
                 </el-form-item>
-                <el-form-item label="强更">
+                <el-form-item label="强更" prop="min">
                     <el-switch v-model="ruleForm.min"></el-switch>
                 </el-form-item>
                 <el-form-item label="下载地址" prop="address">
@@ -75,11 +75,11 @@
                 inputValue: '',
                 ruleForm: {
                     version: '',
-                    platform: '',
+                    platform: 'android',
                     address: '',
                     content: [],
-                    max: '',
-                    min: '',
+                    max: false,
+                    min: false,
                     remark: '',
                 },
                 rules: {
@@ -144,8 +144,8 @@
                     this.loading = true;
                     let { type, data } = this.data;
                     this.$curl(type === 'add'
-                        ? this.$appConst._DO_CREATE_USER_GROUP
-                        : this.$appConst._DO_UPDATE_USER_GROUP, this.ruleForm).then((res) => {
+                        ? this.$appConst.DO_VERSION_CREATE
+                        : this.$appConst.DO_VERSION_UPDATE, this.ruleForm).then((res) => {
                         this.$modal.toast(type === 'add' ? '新增成功' : '编辑成功', 'success');
                         this.$emit('refresh');
                         this.handleClose();
@@ -170,7 +170,7 @@
     }
     .el-tag {
         margin-right: 10px;
-        margin-top: 10px;
+        margin-top: 8px;
     }
     .button-new-tag {
         height: 32px;

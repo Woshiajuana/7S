@@ -29,6 +29,12 @@ let { wow, app } = window.wowRuntime.init({
         // 版本列表
         REQ_VERSION_LIST: 'boss/api/v1/version/list',
 
+        // 版本创建
+        DO_VERSION_CREATE: 'boss/api/v1/version/create',
+
+        // 版本更新
+        DO_VERSION_UPDATE: 'boss/api/v1/version/update',
+
     },
     // 路由配置
     routerConfig: {
