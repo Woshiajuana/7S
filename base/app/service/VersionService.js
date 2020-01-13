@@ -24,11 +24,9 @@ module.exports = class HandleServer extends Service {
             data = {...filter};
             delete data._id;
         }
-        if (filter.id) {
-            filter._id = app.mongoose.Types.ObjectId(data.id);
-            delete filter.id;
-        }
-        await ctx.model.VersionModel.update(filter, data);
+        await ctx.model.VersionModel.update(filter.id ? {
+            _id: app.mongoose.Types.ObjectId(data.id)
+        } : filter, data);
     }
 
     // 根据 id 查询
