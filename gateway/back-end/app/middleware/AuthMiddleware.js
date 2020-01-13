@@ -55,5 +55,13 @@ module.exports = () => {
 };
 
 function checkApiRoutes (path, method, routes) {
-    return routes.filter((item) => item.path === path && item.method === method).length > 0;
+    return routes.filter((item) => {
+        if (item.path === path && item.method === method) {
+            return true;
+        } else if (item.path[item.path.length - 1] === '*') {
+            return path.indexOf(item.path.replace('*', '')) === 0;
+        } else {
+            return false;
+        }
+    }).length > 0;
 }
