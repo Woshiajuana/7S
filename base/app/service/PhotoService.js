@@ -87,11 +87,14 @@ module.exports = class HandleServer extends Service {
         const total = await ctx.model.PhotoModel.count(filter);
         if (numIndex && numSize) {
             const list = await ctx.model.PhotoModel
-                .find(filter, { user: 0 })
+                .find(filter)
                 .sort('-created_at')
                 .skip((numIndex - 1) * numSize)
                 .limit(numSize)
-                .populate([{ path: 'photo', select: 'base path filename'}])
+                .populate([
+                    { path: 'photo', select: 'base path filename'},
+                    { path: 'user', select: { password: 0 } },
+                ])
                 .lean();
             return {
                 list,

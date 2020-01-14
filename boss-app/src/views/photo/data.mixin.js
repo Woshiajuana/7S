@@ -8,28 +8,28 @@ const data = () => {
             numTotal: 0,
             isLoading: false,
         },
+        objNature: {
+            'PUBLIC': '公开',
+            'PRIVACY': '私有',
+        },
         objFilterForm: {
-            user: {
+            keyword: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作员',
+                placeholder: '标题/用户',
                 style: 'width: 200px; margin-right: 5px;',
-                mode: 'select',
-                valueKey: '_id',
-                labelKey: 'nickname',
-                options: [],
-                event: 'selectPlatform',
+                mode: 'input',
             },
-            api: {
+            nature: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作接口',
+                placeholder: '性质',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'select',
-                valueKey: '_id',
-                labelKey: 'name',
-                options: [],
-                event: 'selectPlatform',
+                options: [
+                    { label: '公开', value: 'PUBLIC' },
+                    { label: '私有', value: 'PRIVACY' },
+                ],
             },
         },
         arrFilterButton: [
