@@ -103,7 +103,7 @@
             reqTableDataList (callback) {
                 let options = this.$verify.input(this.objFilterForm);
                 this.objQuery.isLoading = true;
-                this.$curl(this.$appConst.REQ_VERSION_LIST, {
+                this.$curl(this.$appConst.REQ_NOTICE_LIST, {
                     ...this.objQuery,
                     ...options,
                 }).then((res) => {

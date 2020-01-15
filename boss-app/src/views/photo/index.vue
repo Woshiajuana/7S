@@ -9,31 +9,31 @@
             @refresh="reqTableDataList"
             :table-query="objQuery"
             :table-data="arrTable">
-            <el-table-column type="expand">
-                <template slot-scope="props">
-                    <el-form
-                        size="mini"
-                        label-position="left"
-                        inline
-                        class="demo-table-expand">
-                        <el-form-item label="上传ip">
-                            <span>{{ props.row.ip }}</span>
-                        </el-form-item>
-                        <el-form-item label="设备">
-                            <span>{{ props.row.device }}</span>
-                        </el-form-item>
-                        <el-form-item label="原文件">
-                            <span>{{ props.row.source }}</span>
-                        </el-form-item>
-                        <el-form-item label="服务器">
-                            <span>{{ props.row.base }}</span>
-                        </el-form-item>
-                        <el-form-item label="路径">
-                            <span>{{ props.row.path }}</span>
-                        </el-form-item>
-                    </el-form>
-                </template>
-            </el-table-column>
+<!--            <el-table-column type="expand">-->
+<!--                <template slot-scope="props">-->
+<!--                    <el-form-->
+<!--                        size="mini"-->
+<!--                        label-position="left"-->
+<!--                        inline-->
+<!--                        class="demo-table-expand">-->
+<!--                        <el-form-item label="上传ip">-->
+<!--                            <span>{{ props.row.ip }}</span>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="设备">-->
+<!--                            <span>{{ props.row.device }}</span>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="原文件">-->
+<!--                            <span>{{ props.row.source }}</span>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="服务器">-->
+<!--                            <span>{{ props.row.base }}</span>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="路径">-->
+<!--                            <span>{{ props.row.path }}</span>-->
+<!--                        </el-form-item>-->
+<!--                    </el-form>-->
+<!--                </template>-->
+<!--            </el-table-column>-->
             <el-table-column
                 prop="title"
                 label="标题">
