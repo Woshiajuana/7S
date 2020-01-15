@@ -1,34 +1,38 @@
 
 const data = () => {
+
+    const arrPlatform = [
+        { label: '安卓', value: 'android' },
+        { label: 'iOS', value: 'iOS' },
+    ];
+
+    let objPlatform = {};
+    arrPlatform.forEach(({ label, value }) => objPlatform[value] = label);
+
     return {
         arrTable: [],
         objQuery: {
             numIndex: 1,
             numSize: 10,
             numTotal: 0,
+            isLoading: false,
         },
+        objPlatform,
         objFilterForm: {
-            user: {
+            keyword: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作员',
+                placeholder: '版本号/备注',
                 style: 'width: 200px; margin-right: 5px;',
-                mode: 'select',
-                valueKey: '_id',
-                labelKey: 'nickname',
-                options: [],
-                event: 'selectPlatform',
+                mode: 'input',
             },
-            api: {
+            platform: {
                 value: '',
                 label: '',
-                placeholder: '请选择操作接口',
+                placeholder: '平台',
                 style: 'width: 200px; margin-right: 5px;',
                 mode: 'select',
-                valueKey: '_id',
-                labelKey: 'name',
-                options: [],
-                event: 'selectPlatform',
+                options: arrPlatform,
             },
         },
         arrFilterButton: [
@@ -39,6 +43,12 @@ const data = () => {
                 icon: 'el-icon-search',
                 event: 'filter',
             },
+            {
+                text: '新增',
+                type: 'primary',
+                icon: 'el-icon-plus',
+                event: 'add',
+            }
         ],
     };
 };
