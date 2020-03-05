@@ -32,6 +32,8 @@ module.exports = class HandleController extends Controller {
         try {
             let {
                 code,
+                encryptedData,
+                iv,
             } = await ctx.validateBody({
                 code: [ 'nonempty' ],
                 iv: [ 'nonempty' ],
@@ -57,6 +59,14 @@ module.exports = class HandleController extends Controller {
                     grant_type: 'authorization_code',
                 },
             });
+
+            const data = await service.userService.decryptData({
+                appId: 'wxc571b8a3f4169f60',
+                sessionKey: session_key,
+                encryptedData,
+                iv,
+            });
+            console.log('dsad => ', data);
             // d2fe0262a7f752e3035baaf89c82723c
             //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
             // let {
@@ -113,6 +123,7 @@ module.exports = class HandleController extends Controller {
             // await ctx.kickOutUserById(_id);
             ctx.respSuccess(data);
         } catch (err) {
+            console.log(err)
             ctx.respError(err);
         }
     }

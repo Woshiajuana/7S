@@ -2,7 +2,7 @@ var WXBizDataCrypt = require('./WXBizDataCrypt')
 
 var appId = 'wx4f4bc4dec97d474b'
 var sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
-var encryptedData = 
+var encryptedData =
 	'CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM'+
 	'QmRzooG2xrDcvSnxIMXFufNstNGTyaGS'+
 	'9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+'+
@@ -22,11 +22,11 @@ var encryptedData =
 	'Db/XcxxmK01EpqOyuxINew=='
 var iv = 'r7BXXKkLb8qrSNn05n0qiA=='
 
-var pc = new WXBizDataCrypt(appId, sessionKey)
-
-var data = pc.decryptData(encryptedData , iv)
-
-console.log('解密后 data: ', data)
+// var pc = new WXBizDataCrypt(appId, sessionKey)
+//
+// var data = pc.decryptData(encryptedData , iv)
+//
+// console.log('解密后 data: ', data)
 // 解密后的数据为
 //
 // data = {
