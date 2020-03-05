@@ -1,0 +1,60 @@
+{
+    "name": "qimiao-gateway-front-service",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "egg": {
+        "declarations": true
+    },
+    "dependencies": {
+        "apidoc": "^0.17.7",
+        "captchapng": "0.0.1",
+        "egg": "^2.15.1",
+        "egg-cors": "^2.2.0",
+        "egg-mongoose": "^3.2.0",
+        "egg-oss": "^2.0.0",
+        "egg-redis": "^2.4.0",
+        "egg-scripts": "^2.11.0",
+        "egg-wow-admin-framework": "0.0.7",
+        "egg-wow-jwt": "0.0.2",
+        "egg-wow-response": "0.0.1",
+        "egg-wow-token": "0.0.2",
+        "egg-wow-validate": "0.0.1",
+        "ftp": "^0.3.10",
+        "moment": "^2.24.0",
+        "ms": "^2.1.2",
+        "nodemailer": "^4.0.1",
+        "svg-captcha": "^1.4.0"
+    },
+    "devDependencies": {
+        "autod": "^3.0.1",
+        "autod-egg": "^1.1.0",
+        "egg-bin": "^4.11.0",
+        "egg-ci": "^1.11.0"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "scripts": {
+        "start": "egg-scripts start --daemon --title=qimiao-gateway-front-service --framework=../lib/egg-wow-admin-framework",
+        "stop": "egg-scripts stop --title=qimiao-gateway-front-service",
+        "dev": "npm run apidoc && egg-bin dev --framework=../lib/egg-wow-admin-framework",
+        "debug": "egg-bin debug",
+        "test": "npm run lint -- --fix && npm run test-local",
+        "test-local": "egg-bin test",
+        "cov": "egg-bin cov",
+        "lint": "eslint .",
+        "ci": "npm run lint && npm run cov",
+        "apidoc": "apidoc -i app/controller -o app/public/apidoc/",
+        "autod": "autod"
+    },
+    "ci": {
+        "version": "10"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": "ajuan",
+    "license": "MIT"
+}
