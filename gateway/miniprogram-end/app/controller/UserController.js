@@ -30,18 +30,35 @@ module.exports = class HandleController extends Controller {
     async login () {
         const { ctx, service, app } = this;
         try {
-            let objParams = await ctx.validateBody({
+            let {
+                code,
+            } = await ctx.validateBody({
                 code: [ 'nonempty' ],
                 iv: [ 'nonempty' ],
                 encryptedData: [ 'nonempty' ],
                 avatarUrl: [ 'nonempty' ],
-                city: [ 'nonempty' ],
-                country: [ 'nonempty' ],
-                gender: [ 'nonempty' ],
-                language: [ 'nonempty' ],
                 nickName: [ 'nonempty' ],
-                province: [ 'nonempty' ],
+                city: [ ],
+                country: [ ],
+                gender: [ ],
+                language: [ ],
+                province: [ ],
             });
+
+            const {
+                openid,
+                session_key,
+            } = await service.wxTransformService.curl('sns/jscode2session', {
+                method: 'GET',
+                data: {
+                    appid: 'wxc571b8a3f4169f60',
+                    secret: 'd2fe0262a7f752e3035baaf89c82723c',
+                    js_code: code,
+                    grant_type: 'authorization_code',
+                },
+            });
+            // d2fe0262a7f752e3035baaf89c82723c
+            //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
             // let {
             //     redis,
             //     config,
@@ -94,7 +111,7 @@ module.exports = class HandleController extends Controller {
             // const { accessToken } = await ctx.generateToken({ id: _id, user: objUser });
             // objUser.accessToken = accessToken;
             // await ctx.kickOutUserById(_id);
-            ctx.respSuccess(objParams);
+            ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
         }

@@ -94,10 +94,14 @@ module.exports = appInfo => {
 
     // add curl
     config.curl = {
-        TransFormService: {
+        TransformService: {
             name: '转发 DEMO 服务器示例',
             baseUrl: 'http://127.0.0.1:10002/',
-        }
+        },
+        WxTransformService: {
+            name: '微信',
+            baseUrl: 'https://api.weixin.qq.com/',
+        },
     };
 
     // normal oss bucket

@@ -3,22 +3,30 @@
 
 const { CurlService } = require('egg');
 
-module.exports = class TransFormService extends CurlService {
+module.exports = class WxTransformService extends CurlService {
 
     constructor (ctx) {
         super(ctx);
     }
 
     async afterRequest (response) {
-        let {
+        const {
             status,
             statusMessage,
             data,
         } = response;
-        const strErrMsg = data.msg || data.message || statusMessage;
-        if (status >= 300 || status < 200 || data.code !== 'S00000')
-            throw `[${status}]：${strErrMsg}`;
-        return response.data ? response.data.data : response;
+        const {
+            errcode,
+            errmsg,
+        } = data || {};
+        const objErrMsg = {
+            '-1': '系统繁忙，请稍候再试',
+            '40029': 'CODE无效',
+            '45011': '请求频繁，请稍后再试',
+        };
+        if (status >= 300 || status < 200 || errcode !== 0)
+            throw `[${status}]：${objErrMsg[errcode] || errmsg || statusMessage}`;
+        return data ? data : response;
     }
 
     async beforeRequest (options) {
