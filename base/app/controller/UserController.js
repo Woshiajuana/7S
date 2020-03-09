@@ -11,7 +11,34 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/user/info', controller.info)
             .mount('/api/v1/user/one', controller.one)
             .mount('/api/v1/user/list', controller.list)
+            .mount('/api/v1/user/wx/login', controller.wxLogin)
         ;
+    }
+
+    // 微信登录 没有注册的初始化账号注册
+    async wxLogin () {
+        const { ctx, service, app } = this;
+        try {
+            let objParams = await ctx.validateBody({
+                openId: [ 'nonempty' ],
+                unionId: [ ],
+                nickName: [ ],
+                avatarUrl: [ ],
+            });
+            let {
+                openId,
+            } = objParams;
+            ctx.logger.info(`微信用户登录：请求参数=> ${JSON.stringify(objParams)} `);
+            let data = await service.userService.findOne({ openId });
+            if (!data) {
+                ctx.logger.info(`微信创建用户：请求参数=> ${JSON.stringify(objParams)} `);
+                // 注册
+                data = await service.userService.create(objParams);
+            }
+            ctx.respSuccess(data);
+        } catch (err) {
+            ctx.respError(err);
+        }
     }
 
     /**

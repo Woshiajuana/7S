@@ -3,7 +3,7 @@
 
 const { CurlService } = require('egg');
 
-module.exports = class TransFormService extends CurlService {
+module.exports = class TransformService extends CurlService {
 
     constructor (ctx) {
         super(ctx);

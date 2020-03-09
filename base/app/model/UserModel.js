@@ -6,19 +6,46 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const postSchema = new Schema({
 
+        // openId
+        openId: {
+            type: String,
+            trim: true,
+            default: '',
+        },
+
+        // unionId
+        unionId: {
+            type: String,
+            trim: true,
+            default: '',
+        },
+
+        // nickName
+        nickName: {
+            type: String,
+            trim: true,
+            maxlength: 20,
+            default: '',
+        },
+
+        // avatarUrl
+        avatarUrl: {
+            type: String,
+            trim: true,
+            default: '',
+        },
+
         // 邮箱
         email: {
             type: String,
             trim: true,
             maxlength: 50,
-            required: true,
         },
 
         // 密码
         password: {
             type: String,
             maxlength: 32,
-            required: true,
         },
 
         // 预留字段

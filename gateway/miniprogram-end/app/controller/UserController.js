@@ -46,9 +46,7 @@ module.exports = class HandleController extends Controller {
                 language: [ ],
                 province: [ ],
             });
-
             const {
-                openid,
                 session_key,
             } = await service.wxTransformService.curl('sns/jscode2session', {
                 method: 'GET',
@@ -59,71 +57,18 @@ module.exports = class HandleController extends Controller {
                     grant_type: 'authorization_code',
                 },
             });
-
             const data = await service.userService.decryptData({
                 appId: 'wxc571b8a3f4169f60',
                 sessionKey: session_key,
                 encryptedData,
                 iv,
             });
-            console.log('dsad => ', data);
-            // d2fe0262a7f752e3035baaf89c82723c
-            //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
-            // let {
-            //     redis,
-            //     config,
-            // } = app;
-            // let {
-            //     maxTimes,
-            // } = config.auth;
-            // let {
-            //     account,
-            //     password,
-            //     captcha,
-            // } = await ctx.validateBody({
-            //     account: [ 'nonempty' ],
-            //     password: [ 'nonempty' ],
-            //     captcha: [ ],
-            // });
-            // // 首先判断密码验证次数
-            // let numTimes = +(await redis.get(`${account} auth password times`) || 0);
-            // if (numTimes >= maxTimes) {
-            //     if (!(await service.captchaService.validate(account, captcha))) {
-            //         throw { code: 'F50001', data: await service.captchaService.generate(account), msg: '图形验证码错误' }
-            //     }
-            //     await redis.del(`${account} auth password times`);
-            // }
-            // ctx.logger.info(`用户登录，查询是否有该用户：请求参数=> ${account}`);
-            // let objUser = await service.transformService.curl('api/v1/user/one', {
-            //     data: { email: account },
-            // });
-            // if (!objUser) {
-            //     ctx.logger.info(`用户登录，查询是否有该用户：返回结果=> 无该账号`);
-            //     throw '账号不存在';
-            // }
-            // let { _id, password: pwd, disabled, lock } = objUser;
-            // if (disabled) {
-            //     ctx.logger.info(`用户登录，账号已禁用：用户账号=> ${account}`);
-            //     throw '账号已禁用';
-            // }
-            // if (lock) {
-            //     ctx.logger.info(`用户登录，账号已锁定：用户账号=> ${account}`);
-            //     throw '账号已锁定';
-            // }
-            // if (password !== pwd) {
-            //     ctx.logger.info(`用户登录，密码错误：用户账号=> ${account}`);
-            //     await redis.set(`${account} auth password times`, ++numTimes);
-            //     throw numTimes >= maxTimes
-            //         ? { code: 'F50001', data: await service.captchaService.generate(account), msg: captcha ? '密码输入错误' : '密码错误次数过多，请输入图形验证码' }
-            //         : '密码输入错误';
-            // }
-            // delete objUser.password;
-            // const { accessToken } = await ctx.generateToken({ id: _id, user: objUser });
-            // objUser.accessToken = accessToken;
-            // await ctx.kickOutUserById(_id);
-            ctx.respSuccess(data);
+            let objUser = await service.transformService.curl('api/v1/user/wx/login', { data });
+            const { accessToken } = await ctx.generateToken({ id: objUser._id, user: objUser });
+            objUser.accessToken = accessToken;
+            await ctx.kickOutUserById(objUser._id);
+            ctx.respSuccess(objUser);
         } catch (err) {
-            console.log(err)
             ctx.respError(err);
         }
     }
