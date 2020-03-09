@@ -15,6 +15,9 @@ exports.token = {
         const deviceUUID = request.headers['device-uuid'] || '';
         const userAgent = ctx.get('user-agent') || '';
         const ipAddress = ips && ips.length ? ips.join('-') : ip || '';
+        console.log('ipAddress => ', ipAddress);
+        console.log('userAgent => ', userAgent);
+        console.log('deviceUUID => ', deviceUUID);
         return `${ipAddress}:${userAgent}:${deviceUUID}`;
     }
 };

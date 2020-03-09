@@ -8,29 +8,31 @@ const moment = require('moment');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/file/upload', middleware.tokenMiddleware(), controller.upload)
+        app.router.mount('/api/v1/wx/file/upload', middleware.tokenMiddleware(), controller.upload)
         ;
     }
 
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/app/file/upload 上传文件
+     * @api {get} /api/wx/file/upload 上传文件
      * @apiDescription  File 文件模块
      * @apiGroup  文件
      * @apiParam  {String} [type] 类型
      * @apiParam  {String} [file] 文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/app/file/upload
+     * @apiSampleRequest /api/wx/file/upload
      */
     async upload () {
         const { ctx, service, app } = this;
         try {
+            console.log(1)
             let [
                 file,
             ] = await ctx.validateFiles([
                 [ 'nonempty' ]
             ]);
+            console.log('file => ', file);
             let {
                 ip,
                 userAgent = {},
@@ -48,6 +50,7 @@ module.exports = class HandleController extends Controller {
                 // 类型 [ AVATAR: 头像, VIDEO: 视频,  PHOTO: 照片, COVER: 封面 ]
                 type: [ 'nonempty', (v) => ['AVATAR', 'VIDEO', 'PHOTO', 'COVER'].indexOf(v) > -1 ],
             });
+            console.log(2)
             let { filepath, filename } = file;
             let strPath = `${rootDir}/${id}/${type}/`;
             let strName = `${moment().format('YYYYMMDDHHmmss')}.${filename.substring(filename.lastIndexOf('.')+1)}`;
@@ -58,6 +61,7 @@ module.exports = class HandleController extends Controller {
             } finally {
                 await fs.unlink(filepath);
             }
+            console.log(3)
             const {
                 _id
             } = await service.transformService.curl('api/v1/file/create', {
@@ -77,6 +81,7 @@ module.exports = class HandleController extends Controller {
                 file: _id,
             });
         } catch (err) {
+            console.log(err);
             ctx.respError(err);
         }
     }

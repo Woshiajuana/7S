@@ -41,6 +41,7 @@ module.exports = class HandleServer extends Service {
         if (id) objUser = await ctx.model.UserModel.findById(id).lean();
         else if (email) objUser = await ctx.model.UserModel.findOne({ email }).lean();
         else if (uid) objUser = await ctx.model.UserModel.findOne({ uid }).lean();
+        else objUser = await ctx.model.UserModel.findOne(data).lean();
         return objUser;
     }
 

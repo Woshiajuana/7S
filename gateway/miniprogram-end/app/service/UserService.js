@@ -5,11 +5,8 @@ const { Service } = require('egg');
 const crypto = require('crypto');
 
 module.exports = class UserService extends Service {
-
-
     // 解密UnionID
     async decryptData (options) {
-        console.log('到这了a')
         let {
             appId,
             sessionKey,
@@ -21,7 +18,6 @@ module.exports = class UserService extends Service {
         encryptedData = new Buffer(encryptedData, 'base64');
         iv = new Buffer(iv, 'base64');
         let decoded = '';
-        console.log('到这了b')
         try {
             // 解密
             let decipher = crypto.createDecipheriv('aes-128-cbc', sessionKey, iv);
@@ -36,8 +32,6 @@ module.exports = class UserService extends Service {
         if (decoded.watermark.appid !== appId) {
             throw new Error('Illegal Buffer')
         }
-        console.log('到这了c')
         return decoded
     }
-
 };

@@ -34,7 +34,7 @@ module.exports = (options = {}) => {
             if (!token.judgeClient()) {
                 logger.info(`accessToken: 【${accessToken}】 对应的环境发生变化.`);
                 await ctx.destructionTokenByAccessToken(accessToken);
-                throw { code: 'F40004', msg: message || 'token无效，请重新登录' };
+                throw { code: 'F40004', msg: 'token无效，请重新登录' };
             }
             ctx.state.token = token;
             await next();
