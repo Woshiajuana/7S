@@ -57,6 +57,13 @@ module.exports = appInfo => {
     config.token = {
         secret: 'wowadminajuan',
         maxAge: '100m',
+        getClientInfo (ctx) {
+            const { request, ips = [], ip = '' } = ctx;
+            const deviceUUID = request.headers['device-uuid'] || '';
+            const userAgent = ctx.get('user-agent') || '';
+            const ipAddress = ips && ips.length ? ips.join('-') : ip || '';
+            return `${ipAddress}:${deviceUUID}`;
+        }
     };
 
     // add security
