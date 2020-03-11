@@ -30,6 +30,14 @@ module.exports = app => {
             required: true,
         },
 
+        //  描述
+        desc: {
+            type: String,
+            maxlength: 500,
+            trim: '',
+            required: true,
+        },
+
         // 观看量
         volume: {
             type: Number,

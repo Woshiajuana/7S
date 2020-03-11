@@ -73,6 +73,7 @@ module.exports = class HandleController extends Controller {
                 photo: [ 'nonempty' ],
                 title: [ 'nonempty' ],
                 nature: [ 'nonempty' ],
+                desc: [ 'nonempty' ],
                 created_at: [],
             });
             ctx.logger.info(`创建照片：请求参数=> ${JSON.stringify(objParams)} `);
@@ -113,6 +114,7 @@ module.exports = class HandleController extends Controller {
                 title: [],
                 volume: [],
                 nature: [],
+                desc: [],
             });
             ctx.logger.info(`更新照片信息：请求参数=> ${JSON.stringify(objParams)} `);
             const data = await service.photoService.update(objParams);

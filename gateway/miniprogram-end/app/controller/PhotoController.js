@@ -7,24 +7,24 @@ const moment = require('moment');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/photo/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/photo/create', middleware.tokenMiddleware(), controller.create)
-            .mount('/api/v1/app/photo/del', middleware.tokenMiddleware(), controller.del)
-            .mount('/api/v1/app/photo/update', middleware.tokenMiddleware(), controller.update)
-            .mount('/api/v1/app/photo/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/app/photo/recommend', middleware.tokenMiddleware(), controller.recommend)
+        app.router.mount('/api/v1/wx/photo/list', middleware.tokenMiddleware(), controller.list)
+            .mount('/api/v1/wx/photo/create', middleware.tokenMiddleware(), controller.create)
+            .mount('/api/v1/wx/photo/del', middleware.tokenMiddleware(), controller.del)
+            .mount('/api/v1/wx/photo/update', middleware.tokenMiddleware(), controller.update)
+            .mount('/api/v1/wx/photo/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/wx/photo/recommend', middleware.tokenMiddleware(), controller.recommend)
         ;
     }
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/recommend 照片推荐列表
+     * @api {get} /api/v1/wx/photo/recommend 照片推荐列表
      * @apiDescription  照片模块
      * @apiGroup  文件
      * @apiParam  {String} [user] 用户 id
      * @apiParam  {String} [limit] 用户 限制
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/recommend
+     * @apiSampleRequest /api/v1/wx/photo/recommend
      */
     async recommend () {
         const { ctx, service, app } = this;
@@ -71,7 +71,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/list 照片列表
+     * @api {get} /api/v1/wx/photo/list 照片列表
      * @apiDescription  照片模块
      * @apiGroup  文件
      * @apiParam  {String} [numIndex] 照片文件 页码
@@ -79,7 +79,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [startTime] 照片文件 开始时间
      * @apiParam  {String} [endTime] 照片文件 截止时间
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/list
+     * @apiSampleRequest /api/v1/wx/photo/list
      */
     async list () {
         const { ctx, service, app } = this;
@@ -106,14 +106,14 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/create 照片上传
+     * @api {get} /api/v1/wx/photo/create 照片上传
      * @apiDescription  照片上传
      * @apiGroup  照片
      * @apiParam  {String} [photo] 照片文件 id
      * @apiParam  {String} [title] 照片标题
      * @apiParam  {String} [nature] 照片性质
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/create
+     * @apiSampleRequest /api/v1/wx/photo/create
      */
     async create () {
         const { ctx, service, app } = this;
@@ -121,6 +121,7 @@ module.exports = class HandleController extends Controller {
             let objParams = await ctx.validateBody({
                 photo: [ 'nonempty' ],
                 title: [ 'nonempty' ],
+                desc: [ 'nonempty' ],
                 nature: [ 'nonempty', (v) => [ 'PRIVACY', 'PUBLIC' ].indexOf(v) > -1 ],
                 created_at: [ (v) => !v || new Date(v).getTime() < new Date().getTime() ],
             });
@@ -147,11 +148,11 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/info 照片详情
+     * @api {get} /api/v1/wx/photo/info 照片详情
      * @apiDescription  照片模块
      * @apiGroup  文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/info
+     * @apiSampleRequest /api/v1/wx/photo/info
      */
     async info () {
         const { ctx, service, app } = this;
@@ -219,11 +220,11 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/del 照片删除
+     * @api {get} /api/v1/wx/photo/del 照片删除
      * @apiDescription  照片模块
      * @apiGroup  文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/del
+     * @apiSampleRequest /api/v1/wx/photo/del
      */
     async del () {
         const { ctx, service, app } = this;
@@ -243,11 +244,11 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/photo/update 照片更新
+     * @api {get} /api/v1/wx/photo/update 照片更新
      * @apiDescription  照片模块
      * @apiGroup  文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/photo/update
+     * @apiSampleRequest /api/v1/wx/photo/update
      */
     async update () {
         const { ctx, service, app } = this;
