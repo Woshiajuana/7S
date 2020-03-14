@@ -7,8 +7,8 @@ const moment = require('moment');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/collect/do', middleware.tokenMiddleware(), controller.do)
-            .mount('/api/v1/app/collect/list', middleware.tokenMiddleware(), controller.list)
+        app.router.mount('/api/v1/wx/collect/do', middleware.tokenMiddleware(), controller.do)
+            .mount('/api/v1/wx/collect/list', middleware.tokenMiddleware(), controller.list)
         ;
     }
 
@@ -70,13 +70,13 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/collect/list 查询收藏
+     * @api {get} /api/v1/wx/collect/list 查询收藏
      * @apiDescription 更新收藏
      * @apiGroup 收藏
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/collect/list
+     * @apiSampleRequest /api/v1/wx/collect/list
      */
     async list () {
         const { ctx, service, app } = this;

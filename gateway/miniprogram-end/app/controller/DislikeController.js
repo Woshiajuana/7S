@@ -6,8 +6,8 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/dislike/do', middleware.tokenMiddleware(), controller.do)
-            .mount('/api/v1/app/dislike/list', middleware.tokenMiddleware(), controller.list)
+        app.router.mount('/api/v1/wx/dislike/do', middleware.tokenMiddleware(), controller.do)
+            .mount('/api/v1/wx/dislike/list', middleware.tokenMiddleware(), controller.list)
         ;
     }
 
@@ -52,13 +52,13 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/dislike/list 查询不喜欢
+     * @api {get} /api/v1/wx/dislike/list 查询不喜欢
      * @apiDescription 更新不喜欢
      * @apiGroup 不喜欢
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/dislike/list
+     * @apiSampleRequest /api/v1/wx/dislike/list
      */
     async list () {
         const { ctx, service, app } = this;

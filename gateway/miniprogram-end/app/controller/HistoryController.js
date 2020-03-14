@@ -6,20 +6,20 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/history/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/history/clear', middleware.tokenMiddleware(), controller.clear)
+        app.router.mount('/api/v1/wx/history/list', middleware.tokenMiddleware(), controller.list)
+            .mount('/api/v1/wx/history/clear', middleware.tokenMiddleware(), controller.clear)
         ;
     }
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/history/list 查询观看历史列表
+     * @api {get} /api/v1/wx/history/list 查询观看历史列表
      * @apiDescription 查询观看历史列表
      * @apiGroup APP基础
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 大小
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/history/list
+     * @apiSampleRequest /api/v1/wx/history/list
      */
     async list () {
         const { ctx, service, app } = this;
@@ -40,11 +40,11 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/history/clear 清除观看历史列表
+     * @api {get} /api/v1/wx/history/clear 清除观看历史列表
      * @apiDescription 删除观看历史列表
      * @apiGroup APP基础
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/history/clear
+     * @apiSampleRequest /api/v1/wx/history/clear
      */
     async clear () {
         const { ctx, service, app } = this;

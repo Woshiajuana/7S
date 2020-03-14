@@ -6,23 +6,23 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/notice/list', middleware.tokenMiddleware(), controller.list)
-            .mount('/api/v1/app/notice/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/app/notice/create', controller.create)
+        app.router.mount('/api/v1/wx/notice/list', middleware.tokenMiddleware(), controller.list)
+            .mount('/api/v1/wx/notice/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/wx/notice/create', controller.create)
         ;
     }
 
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/notice/list 消息列表
+     * @api {get} /api/v1/wx/notice/list 消息列表
      * @apiDescription  通讯消息模块
      * @apiGroup  文件
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 每页数量
      * @apiParam  {String} [nature]  性质
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/notice/list
+     * @apiSampleRequest /api/v1/wx/notice/list
      */
     async list () {
         const { ctx, service, app } = this;
@@ -48,7 +48,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/notice/create 消息创建
+     * @api {get} /api/v1/wx/notice/create 消息创建
      * @apiDescription  通讯消息模块
      * @apiGroup  文件
      * @apiParam  {String} [user] 用户 id
@@ -58,7 +58,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [content] 消息内容
      * @apiParam  {String} [push]  推送状态
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/notice/create
+     * @apiSampleRequest /api/v1/wx/notice/create
      */
     async create () {
         const { ctx, service, app } = this;
@@ -80,12 +80,12 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/notice/info 消息详情
+     * @api {get} /api/v1/wx/notice/info 消息详情
      * @apiDescription  通讯消息模块
      * @apiParam  {String} [id] 消息 id
      * @apiGroup  文件
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/notice/info
+     * @apiSampleRequest /api/v1/wx/notice/info
      */
     async info () {
         const { ctx, service, app } = this;

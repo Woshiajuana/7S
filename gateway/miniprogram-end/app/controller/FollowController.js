@@ -6,21 +6,21 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/app/follow/update', middleware.tokenMiddleware(), controller.update)
-            .mount('/api/v1/app/follower/list', middleware.tokenMiddleware(), controller.followerList)
-            .mount('/api/v1/app/following/list', middleware.tokenMiddleware(), controller.followingList)
+        app.router.mount('/api/v1/wx/follow/update', middleware.tokenMiddleware(), controller.update)
+            .mount('/api/v1/wx/follower/list', middleware.tokenMiddleware(), controller.followerList)
+            .mount('/api/v1/wx/following/list', middleware.tokenMiddleware(), controller.followingList)
         ;
     }
 
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/follow/update 关注 or 取消关注
+     * @api {get} /api/v1/wx/follow/update 关注 or 取消关注
      * @apiDescription  关注模块
      * @apiGroup  关注
      * @apiParam  {String} [following]  用户 id
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/follow/update
+     * @apiSampleRequest /api/v1/wx/follow/update
      */
     async update () {
         const { ctx, service, app } = this;
@@ -79,14 +79,14 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/follower/list 粉丝列表
+     * @api {get} /api/v1/wx/follower/list 粉丝列表
      * @apiDescription  关注模块
      * @apiGroup  关注
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 每页数量
      * @apiParam  {String} [following]  用户 id
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/follower/list
+     * @apiSampleRequest /api/v1/wx/follower/list
      */
     async followerList () {
         const { ctx, service, app } = this;
@@ -110,13 +110,13 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/following/list  关注列表
+     * @api {get} /api/v1/wx/following/list  关注列表
      * @apiDescription  关注模块
      * @apiGroup  关注
      * @apiParam  {String} [numIndex] 页数
      * @apiParam  {String} [numSize] 每页数量
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/following/list
+     * @apiSampleRequest /api/v1/wx/following/list
      */
     async followingList () {
         const { ctx, service, app } = this;
