@@ -12,7 +12,7 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/wx/photo/del', middleware.tokenMiddleware(), controller.del)
             .mount('/api/v1/wx/photo/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/wx/photo/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/wx/photo/recommend', middleware.tokenMiddleware(), controller.recommend)
+            .mount('/api/v1/wx/photo/recommend', controller.recommend)
         ;
     }
 
@@ -30,38 +30,22 @@ module.exports = class HandleController extends Controller {
         const { ctx, service, app } = this;
         try {
             let {
-                user,
                 exclude,
                 limit,
-                useFollowing,
             } = await ctx.validateBody({
                 user: [],
                 exclude: [],
                 limit: [ 'nonempty', (v) => v <= 20 && v > 0 ],
                 useFollowing: [],
             });
-            const { id } = ctx.state.token;
-            let arrUser = [];
-            if (useFollowing) {
-                arrUser = await service.transformService.curl('api/v1/following/list', {
-                    data: { user: id },
-                });
-                arrUser = arrUser.map((item) => item.following._id);
-            }
-            if (user) arrUser = [ user ];
-            let data;
-            if (useFollowing && !arrUser.length) {
-                data = [];
-            } else {
-                data = await service.transformService.curl('api/v1/photo/recommend', {
-                    data: Object.assign({
-                        users: arrUser,
-                        exclude,
-                        limit,
-                        useAppend: !useFollowing,
-                    }, { nature: 'PUBLIC' }),
-                });
-            }
+            const data = await service.transformService.curl('api/v1/photo/recommend', {
+                data: Object.assign({
+                    users: [],
+                    exclude,
+                    limit,
+                    useAppend: true,
+                }, { nature: 'PUBLIC' }),
+            });
             ctx.respSuccess(data);
         } catch (err) {
             ctx.respError(err);
