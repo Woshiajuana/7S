@@ -11,8 +11,8 @@ module.exports = class HandleController extends Controller {
             .mount('/api/v1/wx/photo/create', middleware.tokenMiddleware(), controller.create)
             .mount('/api/v1/wx/photo/del', middleware.tokenMiddleware(), controller.del)
             .mount('/api/v1/wx/photo/update', middleware.tokenMiddleware(), controller.update)
-            .mount('/api/v1/wx/photo/info', middleware.tokenMiddleware(), controller.info)
-            .mount('/api/v1/wx/photo/recommend', controller.recommend)
+            .mount('/api/v1/wx/photo/info', middleware.tokenMiddleware({ mode: 'lazy' }), controller.info)
+            .mount('/api/v1/wx/photo/recommend', middleware.tokenMiddleware({ mode: 'lazy' }), controller.recommend)
         ;
     }
 
@@ -146,7 +146,7 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [ 'nonempty' ],
             });
-            const { id: user } = ctx.state.token;
+            const { id: user } = ctx.state.token || {};
             // 获取视频信息
             const data = await service.transformService.curl('api/v1/photo/info', {
                 data: { id },

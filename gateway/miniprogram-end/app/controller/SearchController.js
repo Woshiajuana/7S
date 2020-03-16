@@ -23,22 +23,15 @@ module.exports = class HandleController extends Controller {
     async preview () {
         const { ctx, service } = this;
         try {
-            let {
-                keyword,
-            } = await ctx.validateBody({
+            const objParams = await ctx.validateBody({
                 keyword: [ 'nonempty' ],
+                numIndex: [ ],
+                numSize: [ ],
             });
-            const { id } = ctx.state.token;
-            let arrUser = await service.transformService.curl('api/v1/user/list', {
-                data: { keyword },
+            const arrPhoto = await service.transformService.curl('api/v1/photo/list', {
+                data: objParams,
             });
-            let arrPhoto = await service.transformService.curl('api/v1/photo/list', {
-                data: { keyword },
-            });
-            ctx.respSuccess({
-                arrUser,
-                arrPhoto,
-            });
+            ctx.respSuccess(arrPhoto);
         } catch (err) {
             ctx.respError(err);
         }
