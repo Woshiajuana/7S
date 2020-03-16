@@ -56,7 +56,7 @@ module.exports = appInfo => {
     // add token
     config.token = {
         secret: 'wowadminajuan',
-        maxAge: '100m',
+        maxAge: '10080m',
         getClientInfo (ctx) {
             const { request, ips = [], ip = '' } = ctx;
             const deviceUUID = request.headers['device-uuid'] || '';
