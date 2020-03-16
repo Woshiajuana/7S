@@ -8,7 +8,7 @@ module.exports = class HandleController extends Controller {
     static route (app, middleware, controller) {
         app.router.mount('/api/v1/wx/user/login', controller.login)
             .mount('/api/v1/wx/user/register', controller.register)
-            .mount('/api/v1/wx/user/info', middleware.tokenMiddleware(), controller.info)
+            .mount('/api/v1/wx/user/info', middleware.tokenMiddleware({ mode: 'lazy' }), controller.info)
             .mount('/api/v1/wx/user/update', middleware.tokenMiddleware(), controller.update)
             .mount('/api/v1/wx/user/change/password', middleware.tokenMiddleware(), controller.changePassword)
             .mount('/api/v1/wx/user/reset/password', controller.resetPassword)
@@ -133,15 +133,14 @@ module.exports = class HandleController extends Controller {
             } = await ctx.validateBody({
                 id: [],
             });
-
-            const { id: user } = ctx.state.token;
+            const { id: user } = ctx.state.token || {};
             let isSame = !id || id === user;
             ctx.logger.info(`用户信息：请求参数=> ${id || user}`);
             const data = await service.transformService.curl('api/v1/user/info', {
                 data: Object.assign({ id: id || user }, isSame ? {} : { nature: 'PUBLIC' }),
             });
             // 当查询不是自己下信息是需要查询下是否有关注信息
-            if (!isSame) {
+            if (!isSame && user) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {
                     data: { user, following: id },
                 });

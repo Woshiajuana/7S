@@ -7,7 +7,7 @@ const moment = require('moment');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/wx/photo/list', middleware.tokenMiddleware(), controller.list)
+        app.router.mount('/api/v1/wx/photo/list', middleware.tokenMiddleware({ mode: 'lazy' }), controller.list)
             .mount('/api/v1/wx/photo/create', middleware.tokenMiddleware(), controller.create)
             .mount('/api/v1/wx/photo/del', middleware.tokenMiddleware(), controller.del)
             .mount('/api/v1/wx/photo/update', middleware.tokenMiddleware(), controller.update)
@@ -75,7 +75,7 @@ module.exports = class HandleController extends Controller {
                 endTime: [],
                 user: [],
             });
-            const { id } = ctx.state.token;
+            const { id } = ctx.state.token || {};
             let { user } = objParams;
             let isSame = !user || id === user;
             const data = await service.transformService.curl('api/v1/photo/list', {
@@ -155,31 +155,33 @@ module.exports = class HandleController extends Controller {
             let isSame = !author || author === user;
             if (!isSame && data.nature !== 'PUBLIC')
                 throw '哦豁...不能查看哦';
-            // 获取用户是否对该视频进行点赞
-            const objThumb = await service.transformService.curl('api/v1/thumb/info', {
-                data: { photo: id, user },
-            });
-            if (objThumb) {
-                data.thumbId = objThumb._id;
+            if (user) {
+                // 获取用户是否对该视频进行点赞
+                const objThumb = await service.transformService.curl('api/v1/thumb/info', {
+                    data: { photo: id, user },
+                });
+                if (objThumb) {
+                    data.thumbId = objThumb._id;
+                }
+                // 获取用户是否对该视频不喜欢
+                const objDislike = await service.transformService.curl('api/v1/dislike/info', {
+                    data: { photo: id, user },
+                });
+                if (objDislike) {
+                    data.dislikeId = objDislike._id;
+                }
+                // 获取用户是否对该视频进行了收藏
+                const objCollect= await service.transformService.curl('api/v1/collect/info', {
+                    data: { photo: id, user },
+                });
+                if (objCollect) {
+                    data.collectId = objCollect._id;
+                }
+                // 创建观看历史
+                await service.transformService.curl('api/v1/history/create', {
+                    data: { user, photo: id },
+                });
             }
-            // 获取用户是否对该视频不喜欢
-            const objDislike = await service.transformService.curl('api/v1/dislike/info', {
-                data: { photo: id, user },
-            });
-            if (objDislike) {
-                data.dislikeId = objDislike._id;
-            }
-            // 获取用户是否对该视频进行了收藏
-            const objCollect= await service.transformService.curl('api/v1/collect/info', {
-                data: { photo: id, user },
-            });
-            if (objCollect) {
-                data.collectId = objCollect._id;
-            }
-            // 创建观看历史
-            await service.transformService.curl('api/v1/history/create', {
-                data: { user, photo: id },
-            });
             // 更新查看量
             data.volume++;
             await service.transformService.curl('api/v1/photo/update', {
@@ -190,7 +192,7 @@ module.exports = class HandleController extends Controller {
                 data: { id: author },
             });
             // 获取作者跟用户的关系
-            if (user !== author) {
+            if (user && user !== author) {
                 const objFollow = await service.transformService.curl('api/v1/following/info', {
                     data: { user, following: author },
                 });
