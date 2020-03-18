@@ -6,7 +6,7 @@ const { Controller } = require('egg');
 module.exports = class HandleController extends Controller {
 
     static route (app, middleware, controller) {
-        app.router.mount('/api/v1/wx/search/preview', middleware.tokenMiddleware(), controller.preview)
+        app.router.mount('/api/v1/wx/search/preview', middleware.tokenMiddleware({ mode: 'lazy' }), controller.preview)
         ;
     }
 
