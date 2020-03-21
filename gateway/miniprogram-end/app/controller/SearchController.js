@@ -18,7 +18,7 @@ module.exports = class HandleController extends Controller {
      * @apiParam  {String} [password]  新密码
      * @apiParam  {String} [oldPassword] 旧密码
      * @apiSuccess (成功) {Object} data
-     * @apiSampleRequest /api/v1/app/user/change/password
+     * @apiSampleRequest /api/v1/wx/user/change/password
      * */
     async preview () {
         const { ctx, service } = this;
