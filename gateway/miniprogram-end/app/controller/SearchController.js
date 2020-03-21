@@ -12,7 +12,7 @@ module.exports = class HandleController extends Controller {
 
     /**
      * @apiVersion 1.0.0
-     * @api {get} /api/v1/app/user/change/password 用户修改密码
+     * @api {get} /api/v1/wx/user/change/password 用户修改密码
      * @apiDescription  User 用户模块
      * @apiGroup 用户
      * @apiParam  {String} [password]  新密码
