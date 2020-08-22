@@ -6,7 +6,6 @@ function createClient(config, app) {
     return {
         put: (input, output) => new Promise((resolve, reject) => {
             const client = new Client();
-            client.connect(config);
             client.on('ready', () => {
                 let path = output.substr(0, output.lastIndexOf('/'));
                 client.get(path, (err) => {
@@ -25,6 +24,11 @@ function createClient(config, app) {
                     }
                 })
             });
+            client.on('error', (err) => {
+                console.log(err);
+                client.end();
+            });
+            client.connect(config);
         }),
     };
 }
