@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:qimiao/common/config/config.dart';
-import 'package:qimiao/common/router/router.dart';
+import 'package:qimiao/common/router/router.dart' as RouterPlus;
 import 'package:qimiao/common/utils/util.dart';
 import 'package:qimiao/common/services/service.dart';
 
@@ -14,8 +14,8 @@ class Application {
   }
 
   // 获取路由
-  static Router get router {
-    return new Router();
+  static RouterPlus.Router get router {
+    return new RouterPlus.Router();
   }
 
   // 获取工具

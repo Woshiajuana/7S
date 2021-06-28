@@ -41,7 +41,7 @@ class _PasswordChangeViewState extends State<PasswordChangeView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,

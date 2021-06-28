@@ -116,7 +116,7 @@ class _WorldViewState extends State<WorldView> with AutomaticKeepAliveClientMixi
   Widget _widgetTabSection (BuildContext context) {
     return new SliverOverlapAbsorber(
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-      child: new SliverPersistentHeader(
+      sliver: new SliverPersistentHeader(
         pinned: true,
         floating: true,
         delegate: new StickyWidgetDelegate(

@@ -51,7 +51,7 @@ class _PasswordResetViewState extends State<PasswordResetView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       backgroundColor: Application.config.style.backgroundColor,
       appBar: new AppBar(
         elevation: 0,
